@@ -1,5 +1,7 @@
 # Default values that applies to all MySQL Servers
 [mysqld]
+sequoiadb_use_partition=OFF
+default_storage_engine = SequoiaDB
 open-files-limit=           1024
 local-infile
 character-set-server=      latin1
