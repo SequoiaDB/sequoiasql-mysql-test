@@ -112,14 +112,12 @@ select d from t1 having d like "%HE%LLO%";
 select t from t1 order by t;
 select c from t1 order by c;
 #Bug #SEQUOIADBMAINSTREAM-3590
-#select b from t1 order by b;
+select b from t1 order by b;
 select d from t1 order by d;
 select distinct t from t1;
-#Bug #SEQUOIADBMAINSTREAM-3590
-#select distinct b from t1;
-#Bug #SEQUOIADBMAINSTREAM-3590
-#select distinct t from t1 order by t;
-#select distinct b from t1 order by b;
+select distinct b from t1;
+select distinct t from t1 order by t;
+select distinct b from t1 order by b;
 select t from t1 group by t;
 # Bug of SequoiaDB, when update set=null, will cause wrong results: SEQUOIADBMAINSTREAM-3611
 select b from t1 group by b;
@@ -138,10 +136,9 @@ select c from t1 group by c;
 select d from t1 group by d;
 set big_tables=0;
 #Bug #SEQUOIADBMAINSTREAM-3590
-#select distinct * from t1;
+select distinct * from t1;
 select t,count(*) from t1 group by t;
-#Bug #SEQUOIADBMAINSTREAM-3590
-#select b,count(*) from t1 group by b;
+select b,count(*) from t1 group by b;
 select c,count(*) from t1 group by c;
 select d,count(*) from t1 group by d;
 drop table t1;
