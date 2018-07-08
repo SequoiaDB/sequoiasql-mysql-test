@@ -620,3 +620,22 @@ End of 5.1 tests
 # Bug #18127749: OPTIMIZER SHOULD THROW AN ERROR WHEN USER USES
 #                COMPARISION OPERATORS ON GIS DATA
 #
+CREATE TABLE t1(a tinyblob, b mediumblob, c longblob);
+INSERT INTO t1 VALUES (repeat('a', 256), null, null);
+ERROR 22001: Data too long for column 'a' at row 1
+INSERT INTO t1 VALUES (null, repeat('a', 16777216), null);
+ERROR HY000: Result of repeat() was larger than max_allowed_packet (4194304) - truncated
+INSERT INTO t1 VALUES (null, null, repeat('a', 16777216));
+ERROR HY000: Result of repeat() was larger than max_allowed_packet (4194304) - truncated
+INSERT INTO t1 VALUES ('A', 'B', 'C');
+SELECT * FROM t1;
+a	b	c
+A	B	C
+UPDATE t1 SET a = NULL, b = NULL, c = NULL;
+SELECT * FROM t1;
+a	b	c
+NULL	NULL	NULL
+DELETE FROM t1 WHERE a IS NULL;
+SELECT * FROM t1;
+a	b	c
+DROP TABLE t1;

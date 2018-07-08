@@ -1,7 +1,9 @@
 # The include statement below is a temp one for tests that are yet to
 #be ported to run with SequoiaDB,
 # (#Case #13096: Check insert/update/delete/query of DataType Blob)
-# (#Case #13095: Check insert/update/delete/query of DataType Text)
+# (#Case #15443: Check insert/update/delete/query of DataType TinyBlob)
+# (#Case #15444: Check insert/update/delete/query of DataType MediumBlob)
+# (#Case #15445: Check insert/update/delete/query of DataType LongBlob)
 # (#Case #14763: check update with index)
 # (#Case #15438: Check update )
 
@@ -861,5 +863,21 @@ SET sql_mode = default;
 #SELECT ( SELECT ( b <> 1 ) FROM t2) <> ALL(SELECT 1681007452 FROM t1) FROM t1;
 #DROP TABLE t1,t2;
 #set sql_mode=default;
+
+# supply some tests for type of tinyblob, mediumblob, longblob
+CREATE TABLE t1(a tinyblob, b mediumblob, c longblob);
+--error 1406
+INSERT INTO t1 VALUES (repeat('a', 256), null, null);
+--error 1301
+INSERT INTO t1 VALUES (null, repeat('a', 16777216), null);
+--error 1301
+INSERT INTO t1 VALUES (null, null, repeat('a', 16777216));
+INSERT INTO t1 VALUES ('A', 'B', 'C');
+SELECT * FROM t1;
+UPDATE t1 SET a = NULL, b = NULL, c = NULL;
+SELECT * FROM t1;
+DELETE FROM t1 WHERE a IS NULL;
+SELECT * FROM t1;
+DROP TABLE t1;
 
 --source include/uninstall_sequoiadb.inc

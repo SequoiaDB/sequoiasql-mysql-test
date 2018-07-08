@@ -481,6 +481,9 @@ insert into t1 values (1),(2),(3);
 select 1 IN (SELECT * from t1);
 1 IN (SELECT * from t1)
 1
+select 10 IN (SELECT * from t1);
+10 IN (SELECT * from t1)
+0
 select NULL IN (SELECT * from t1);
 NULL IN (SELECT * from t1)
 NULL
@@ -491,9 +494,18 @@ select 1 IN (SELECT * from t1);
 select 3 IN (SELECT * from t1);
 3 IN (SELECT * from t1)
 1
+select 10 IN (SELECT * from t1);
+10 IN (SELECT * from t1)
+NULL
 select 1 > ALL (SELECT * from t1);
 1 > ALL (SELECT * from t1)
 0
+select 10 > ALL (SELECT * from t1);
+10 > ALL (SELECT * from t1)
+NULL
+select 1 > ANY (SELECT * from t1);
+1 > ANY (SELECT * from t1)
+NULL
 select 10 > ANY (SELECT * from t1);
 10 > ANY (SELECT * from t1)
 1
@@ -503,6 +515,9 @@ insert into t1 values ('A'),('BC'),('DEF');
 select 'A' IN (SELECT * from t1);
 'A' IN (SELECT * from t1)
 1
+select 'XYZS' IN (SELECT * from t1);
+'XYZS' IN (SELECT * from t1)
+0
 select NULL IN (SELECT * from t1);
 NULL IN (SELECT * from t1)
 NULL
@@ -513,9 +528,18 @@ select 'A' IN (SELECT * from t1);
 select 'DEF' IN (SELECT * from t1);
 'DEF' IN (SELECT * from t1)
 1
+select 'XYZS' IN (SELECT * from t1);
+'XYZS' IN (SELECT * from t1)
+NULL
 select 'A' > ALL (SELECT * from t1);
 'A' > ALL (SELECT * from t1)
 0
+select 'XYZS' > ALL (SELECT * from t1);
+'XYZS' > ALL (SELECT * from t1)
+NULL
+select 'A' > ANY (SELECT * from t1);
+'A' > ANY (SELECT * from t1)
+NULL
 select 'XYZS' > ANY (SELECT * from t1);
 'XYZS' > ANY (SELECT * from t1)
 1
@@ -525,6 +549,9 @@ insert into t1 values (1.5),(2.5),(3.5);
 select 1.5 IN (SELECT * from t1);
 1.5 IN (SELECT * from t1)
 1
+select 10.5 IN (SELECT * from t1);
+10.5 IN (SELECT * from t1)
+0
 select NULL IN (SELECT * from t1);
 NULL IN (SELECT * from t1)
 NULL
@@ -2996,11 +3023,47 @@ SELECT s1, s2 FROM t1 WHERE s2 IN (SELECT s1 FROM t1);
 s1	s2
 SELECT s1, s2 FROM t1 WHERE (s2, 10) IN (SELECT s1, 10 FROM t1);
 s1	s2
+SELECT s1, s2 FROM t1 WHERE s2 IN (SELECT s1 FROM t1);
+s1	s2
+SELECT s1, s2 FROM t1 WHERE (s2, 10) IN (SELECT s1, 10 FROM t1);
+s1	s2
 TRUNCATE t1;
 INSERT INTO t1 VALUES (0x41,0x41);
 SELECT * FROM t1 WHERE s1 = (SELECT s2 FROM t1);
 s1	s2
 DROP TABLE t1;
+CREATE TABLE t1 (a1 VARBINARY(2) NOT NULL DEFAULT '0');
+CREATE TABLE t2 (a2 BINARY(2) default '0');
+CREATE TABLE t3 (a3 BINARY(2) default '0');
+INSERT INTO t1 VALUES (1),(2),(3),(4);
+INSERT INTO t2 VALUES (1),(2),(3);
+INSERT INTO t3 VALUES (1),(2),(3);
+SELECT LEFT(t2.a2, 1) FROM t2,t3 WHERE t3.a3=t2.a2;
+LEFT(t2.a2, 1)
+1
+2
+3
+SELECT t1.a1, t1.a1 in (SELECT t2.a2 FROM t2,t3 WHERE t3.a3=t2.a2) FROM t1;
+a1	t1.a1 in (SELECT t2.a2 FROM t2,t3 WHERE t3.a3=t2.a2)
+1	0
+2	0
+3	0
+4	0
+DROP TABLE t1,t2,t3;
+CREATE TABLE t1 (a1 BINARY(3) , b1 VARBINARY(3));
+CREATE TABLE t2 (a2 VARBINARY(3));
+CREATE TABLE t3 (a3 VARBINARY(3));
+INSERT INTO t1 VALUES (1,10), (2,20), (3,30), (4,40);
+INSERT INTO t2 VALUES (2), (3), (4), (5);
+INSERT INTO t3 VALUES (10), (20), (30);
+SELECT LEFT(t1.a1,1) FROM t1,t3 WHERE t1.b1=t3.a3;
+LEFT(t1.a1,1)
+1
+2
+3
+SELECT a2 FROM t2 WHERE t2.a2 IN (SELECT t1.a1 FROM t1,t3 WHERE t1.b1=t3.a3);
+a2
+DROP TABLE t1, t2, t3;
 CREATE TABLE t1(a INT, b INT);
 INSERT INTO t1 VALUES (1,1), (1,2), (2,3), (2,4);
 SELECT a AS out_a, MIN(b) FROM t1
