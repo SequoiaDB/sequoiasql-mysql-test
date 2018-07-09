@@ -104,8 +104,8 @@ KEY (a)
 INSERT INTO t1 VALUES ('gui_A', 'a', 'b', 'str1'),
 ('gui_AB', 'a', 'b', 'str2'), ('gui_ABC', 'a', 'b', 'str3');
 CREATE TABLE t2 (
-a VARCHAR(100) NOT NULL DEFAULT ''
-#  PRIMARY KEY (a)
+a VARCHAR(100) NOT NULL DEFAULT '',
+PRIMARY KEY (a)
 ) DEFAULT CHARSET=latin1;
 INSERT INTO t2 VALUES ('A'), ('AB'), ('ABC');
 SELECT CONCAT('gui_', t2.a), t1.d FROM t2 
