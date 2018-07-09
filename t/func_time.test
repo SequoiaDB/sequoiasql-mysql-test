@@ -197,7 +197,7 @@ drop table t1;
 #
 # Test bug with monthname() and NULL
 #
-# Bug of SequoiaDB, when insert "0000-00-00" will cause wrong results: SEQUOIADBMAINSTREAM-3583
+#Bug #SEQUOIADBMAINSTREAM-3583, when insert "0000-00-00" will cause wrong results
 #create table t1 (id int);
 #create table t2 (id int, date date);
 #insert into t1 values (1);
@@ -221,7 +221,7 @@ drop table t1;
 # Check that functions work identically on 0000-00-00 as a constant and on a
 # column
 #
-# Bug of SequoiaDB, when insert "0000-00-00" will cause wrong results: SEQUOIADBMAINSTREAM-3583
+#Bug #SEQUOIADBMAINSTREAM-3583, when insert "0000-00-00" will cause wrong results
 #create table t1 (d date, dt datetime, t timestamp, c char(10));
 #insert ignore into t1 values ("0000-00-00", "0000-00-00", "0000-00-00", "0000-00-00");
 #select dayofyear("0000-00-00"),dayofyear(d),dayofyear(dt),dayofyear(t),dayofyear(c) from t1;
@@ -479,7 +479,7 @@ select f1 from t1 where f1 between cast("2006-1-1" as date) and cast("2006.1.1" 
 select f1 from t1 where date(f1) between cast("2006-1-1" as date) and cast("2006.1.1" as date);
 select f2 from t1 where f2 between cast("12:1:2" as time) and cast("12:2:2" as time);
 select f2 from t1 where time(f2) between cast("12:1:2" as time) and cast("12:2:2" as time);
-# Bug of SequoiaDB, query with cast(... as datetime) will cause wrong results: SEQUOIADBMAINSTREAM-3592
+#Bug #SEQUOIADBMAINSTREAM-3592, query with cast(... as datetime) will cause wrong results
 #select f3 from t1 where f3 between cast("2006-1-1 12:1:1" as datetime) and cast("2006-1-1 12:1:2" as datetime);
 #select f3 from t1 where timestamp(f3) between cast("2006-1-1 12:1:1" as datetime) and cast("2006-1-1 12:1:2" as datetime);
 select f1 from t1 where cast("2006-1-1" as date) between f1 and f3;

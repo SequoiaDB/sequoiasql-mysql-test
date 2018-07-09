@@ -231,7 +231,7 @@ drop table t1,t2,t3;
 #
 # Bug #8143: deleting '0000-00-00' values using IS NULL
 #
-# Bug of SeuqoiaDB, insert invalid record into Date will cause wrong query result: SEQUOIADBMAINSTREAM-3583
+#Bug #SEQUOIADBMAINSTREAM-3583, insert invalid record into Date will cause wrong query result
 #create table t1(a date not null);
 #insert ignore into t1 values (0);
 #select * from t1 where a is null;
@@ -319,7 +319,7 @@ DROP FUNCTION f1;
 --echo # Bug #49552 : sql_buffer_result cause crash + not found records 
 --echo #   in multitable delete/subquery
 --echo #
-# Bug of SequoiaDB , delete with sub-query will cause wrong query results: SEQUOIADBMAINSTREAM-3641
+#Bug #SEQUOIADBMAINSTREAM-3641, delete with sub-query will cause wrong query results
 CREATE TABLE t1(a INT);
 INSERT INTO t1 VALUES (1),(2),(3);
 SET SESSION SQL_BUFFER_RESULT=1;

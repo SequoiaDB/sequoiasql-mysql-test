@@ -249,7 +249,7 @@ drop table t2;
 create table t1 (c varchar(30) character set utf8mb4, unique(c(10)));
 insert into t1 values ('1'),('2'),('3'),('x'),('y'),('z');
 insert into t1 values ('aaaaaaaaaa');
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
 #--error ER_DUP_ENTRY
 #insert into t1 values ('aaaaaaaaaaa');
 #--error ER_DUP_ENTRY
@@ -274,7 +274,7 @@ create table t1 (c varchar(30) character set utf8mb4, unique(c(10))) engine=sequ
 --enable_warnings
 insert into t1 values ('1'),('2'),('3'),('x'),('y'),('z');
 insert into t1 values ('aaaaaaaaaa');
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
 #--error ER_DUP_ENTRY
 #insert into t1 values ('aaaaaaaaaaa');
 #--error ER_DUP_ENTRY
@@ -297,7 +297,7 @@ create table t1 (c char(3) character set utf8mb4, unique (c(2)));
 insert into t1 values ('1'),('2'),('3'),('4'),('x'),('y'),('z');
 insert into t1 values ('a');
 insert into t1 values ('aa');
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
 #--error ER_DUP_ENTRY
 #insert into t1 values ('aaa');
 insert into t1 values ('b');
@@ -321,7 +321,7 @@ drop table t1;
 # Bug 4521: unique key prefix interacts poorly with utf8mb4
 # SequoiaDB: fixed length keys, case insensitive collation
 #
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
 --disable_warnings
 create table t1 (c char(3) character set utf8mb4, unique (c(2))) engine=sequoiadb;
 --enable_warnings
@@ -351,8 +351,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8mb4
 # Check HEAP+HASH, case insensitive collation
 #
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
-# Bug of SequoiaDB, when char index length is larger than record length, query will return wrong result: SEQUOIADBMAINSTREAM-3568
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
 #create table t1 (
 #c char(10) character set utf8mb4,
 #unique key a using hash (c(1))
@@ -377,8 +377,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8mb4
 # Check HEAP+BTREE, case insensitive collation
 #
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
-# Bug of SequoiaDB, when char index length is larger than record length, query will return wrong result: SEQUOIADBMAINSTREAM-3568
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
 #create table t1 (
 #c char(10) character set utf8mb4,
 #unique key a using btree (c(1))
@@ -403,8 +403,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8mb4
 # Check BDB, case insensitive collation
 #
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
-# Bug of SequoiaDB, when char index length is larger than record length, query will return wrong result: SEQUOIADBMAINSTREAM-3568
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
 #--disable_warnings
 #create table t1 (
 #c char(10) character set utf8mb4,
@@ -430,7 +430,7 @@ drop table t1;
 # Bug 4521: unique key prefix interacts poorly with utf8mb4
 # SequoiaDB: keys with prefix compression, binary collation.
 #
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
 create table t1 (c varchar(30) character set utf8mb4 collate utf8mb4_bin, unique(c(10)));
 insert into t1 values ('1'),('2'),('3'),('x'),('y'),('z');
 insert into t1 values ('aaaaaaaaaa');
@@ -453,7 +453,7 @@ drop table t1;
 # Bug 4521: unique key prefix interacts poorly with utf8mb4
 # SequoiaDB: fixed length keys, binary collation
 #
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
 create table t1 (c char(3) character set utf8mb4 collate utf8mb4_bin, unique (c(2)));
 insert into t1 values ('1'),('2'),('3'),('4'),('x'),('y'),('z');
 insert into t1 values ('a');
@@ -482,8 +482,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8mb4
 # Check HEAP+HASH, binary collation
 #
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
-# Bug of SequoiaDB, when char index length is larger than record length, query will return wrong result: SEQUOIADBMAINSTREAM-3568
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
 #create table t1 (
 #c char(10) character set utf8mb4 collate utf8mb4_bin,
 #unique key a using hash (c(1))
@@ -508,8 +508,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8mb4
 # Check HEAP+BTREE, binary collation
 #
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
-# Bug of SequoiaDB, when char index length is larger than record length, query will return wrong result: SEQUOIADBMAINSTREAM-3568
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
 #create table t1 (
 #c char(10) character set utf8mb4 collate utf8mb4_bin,
 #unique key a using btree (c(1))
@@ -534,8 +534,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8mb4
 # Check BDB, binary collation
 #
-# Bug of SequoiaDB, when create unique index with length, insert duplicate key will succeed: SEQUOIADBMAINSTREAM-3607
-# Bug of SequoiaDB, when char index length is larger than record length, query will return wrong result: SEQUOIADBMAINSTREAM-3568
+#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
 #--disable_warnings
 #create table t1 (
 #c char(10) character set utf8mb4 collate utf8mb4_bin,
@@ -800,7 +800,7 @@ select ifnull(NULL, _utf8mb4'string');
 #
 # Bug#9509 Optimizer: wrong result after AND with comparisons
 #
-# Bug of SequoiaDB, part of characters may cause some wrong query results: SEQUOIADBMAINSTREAM-3633
+#Bug #SEQUOIADBMAINSTREAM-3633, part of characters may cause some wrong query results
 #set names utf8mb4;
 #create table t1 (s1 char(5) character set utf8mb4 collate utf8mb4_lithuanian_ci);
 #insert into t1 values ('I'),('K'),('Y');
@@ -827,7 +827,7 @@ drop table t1;
 # Bug#10253 compound index length and utf8mb4 char set
 # produces invalid query results
 #
-# Bug of SequoiaDB, when varchar record exists space, query will cause wrong results: SEQUOIADBMAINSTREAM-3567
+#Bug #SEQUOIADBMAINSTREAM-3567, when varchar record exists space, query will cause wrong results
 create table t1 (
  id int not null,
  city varchar(20) not null,
@@ -1051,7 +1051,7 @@ select s1 as after_delete_bin from t1 where s1 like 'ペテ%';
 drop table t1;
 
 # additional tests from duplicate bug#20744 MySQL return no result
-# Bug of SequoiaDB, select...like will cause wrong result when exists index: SEQUOIADBMAINSTREAM-3593
+#Bug #SEQUOIADBMAINSTREAM-3593, select...like will cause wrong result when exists index
 #set names utf8mb4;
 #--disable_warnings
 #create table t1 (a varchar(30) not null primary key)
@@ -1116,7 +1116,7 @@ DROP TABLE t1;
 #
 # Bug#16674: LIKE predicate for a utf8mb4 character set column
 #
-# Bug of SequoiaDB, select...like will cause wrong result when exists index: SEQUOIADBMAINSTREAM-3593
+#Bug #SEQUOIADBMAINSTREAM-3593, select...like will cause wrong result when exists index
 #SET NAMES utf8mb4;
 #
 #CREATE TABLE t1 (
@@ -1150,7 +1150,7 @@ DROP TABLE t1;
 #
 #DROP TABLE t1,t2;
 
-# Bug of SequoiaDB, select...like will cause wrong result when exists index: SEQUOIADBMAINSTREAM-3593
+#Bug #SEQUOIADBMAINSTREAM-3593, select...like will cause wrong result when exists index
 #CREATE TABLE t1 (
 #  a char(255) DEFAULT '', 
 #  KEY(a(10))
@@ -1167,7 +1167,7 @@ CREATE TABLE t1 (
 INSERT INTO t1 VALUES ('Käli Käli 2-4');
 INSERT INTO t1 VALUES ('Käli Käli 2-4');
 SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
-# Bug of SequoiaDB, select...like will cause wrong result when exists index: SEQUOIADBMAINSTREAM-3593
+#Bug #SEQUOIADBMAINSTREAM-3593, select...like will cause wrong result when exists index
 #ALTER TABLE t1 ADD KEY (a(10));
 #SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
 DROP TABLE t1;
@@ -1179,7 +1179,7 @@ DROP TABLE t1;
 
 SET NAMES latin2;
 
-# Bug of SequoiaDB, select...like will cause wrong result when exists index: SEQUOIADBMAINSTREAM-3593
+#Bug #SEQUOIADBMAINSTREAM-3593, select...like will cause wrong result when exists index
 #CREATE TABLE t1 (
 #  id int(11) NOT NULL default '0',
 #  tid int(11) NOT NULL default '0',

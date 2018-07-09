@@ -198,9 +198,9 @@ INSERT INTO t1 VALUES(_gb18030 0x9833A533), (_gb18030 0xE2C4), (_gb18030 0xB2A7)
 INSERT INTO t1 VALUES(_gb18030 0x865C), (_gb18030 0xD093), (_gb18030 0xB36A), (_gb18030 0xB143);
 
 SELECT c, HEX(c) FROM t1 ORDER BY c;
-# Bug of SequoiaDB, create index with length on varchar, query will cause wrong results: SEQUOIADBMAINSTREAM-3568
+#Bug #SEQUOIADBMAINSTREAM-3568, create index with length on varchar, query will cause wrong results
 #SELECT c, HEX(c) FROM t1 WHERE c >= 0x8483 and c < 0xE2C4 ORDER BY c;
-# Bug of SequoiaDB, select ... like with index of varchar will cause wrong results: SEQUOIADBMAINSTREAM-3593
+#Bug #SEQUOIADBMAINSTREAM-3593, select ... like with index of varchar will cause wrong results
 #SELECT c, HEX(c) FROM t1 WHERE c LIKE 0xB0FE;
 
 TRUNCATE TABLE t1;

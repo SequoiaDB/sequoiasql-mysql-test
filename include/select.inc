@@ -1639,7 +1639,7 @@ select count(*) from t1;
 #
 
 #select sum(fld1),fld3 from t2 where fld3="Romans" group by fld1 limit 10;
-# Bug of SequoiaDB, query will return wrong result with index of char: SEQUOIADBMAINSTREAM-3568
+#Bug #SEQUOIADBMAINSTREAM-3568, query will return wrong result with index of char
 #select name,count(*) from t3 where name='cloakroom' group by name;
 #select name,count(*) from t3 where name='cloakroom' and price>10 group by name;
 #select count(*) from t3 where name='cloakroom' and price2=823742;

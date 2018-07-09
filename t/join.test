@@ -40,7 +40,7 @@ insert into t1 values (79);
 insert into t1 values (78);
 insert into t1 values (77);
 replace into t1 values (76);
-# Bug of SequoiaDB, insert failed when use replace: SEQUOIADBMAINSTREAM-3573
+#Bug #SEQUOIADBMAINSTREAM-3573, insert failed when use replace
 #replace into t1 values (76);
 insert into t1 values (104);
 insert into t1 values (103);
@@ -153,7 +153,7 @@ DROP TABLE t1, t2;
 #
 # TEST LEFT JOIN with DATE columns
 #
-# Bug of SequoiaDB, insert type of Date '0000-00-00' will cause wrong result when query: SQUOIODBMAINSTREAM-3583
+#Bug #SQUOIODBMAINSTREAM-3583, insert type of Date '0000-00-00' will cause wrong result when query
 #CREATE TABLE t1 (d DATE NOT NULL);
 #CREATE TABLE t2 (d DATE NOT NULL);
 #INSERT INTO t1 (d) VALUES ('2001-08-01'),('0000-00-00');
@@ -166,7 +166,7 @@ DROP TABLE t1, t2;
 #
 # Problem with reference from const tables
 #
-# Bug of SequoiaDB, when query multi tables with primary key, it will return wrong results: SEQUOIADBMAINSTREAM-3603
+#Bug #SEQUOIADBMAINSTREAM-3603, when query multi tables with primary key, it will return wrong results
 CREATE TABLE t1 (
   Document_ID varchar(50) NOT NULL default '',
   Contractor_ID varchar(6) NOT NULL default '',

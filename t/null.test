@@ -71,7 +71,7 @@ drop table t1;
 #
 # Test inserting and updating with NULL
 #
-# Bug of SequoiaDB, query Type of DateTime return wrong results: SEQUOIADBMAINSTREAM-3583
+#Bug #SEQUOIADBMAINSTREAM-3583, query Type of DateTime return wrong results
 #SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
 #CREATE TABLE t1 (a varchar(16) NOT NULL default '', b smallint(6) NOT NULL default 0, c datetime NOT NULL default '0000-00-00 00:00:00', d smallint(6) NOT NULL default 0);
 #INSERT INTO t1 SET a = "", d= "2003-01-14 03:54:55";

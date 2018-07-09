@@ -328,7 +328,7 @@ select * from t1;
 update t1 set b= (select b from t1);
 -- error ER_SUBQUERY_NO_1_ROW
 update t1 set b= (select b from t2);
-# Bug of SequoiaDB, update set=null will not ok: SEQUOIADBMAINSTREAM-3611	
+#Bug #SEQUOIADBMAINSTREAM-3611, update set=null will not ok
 update t1 set b= (select b from t2 where t1.a = t2.a);
 select * from t1;
 drop table t1, t2;
@@ -437,6 +437,7 @@ drop table t2, t1;
 
 #NULL test
 #Bug #SEQUOIADBMAINSTREAM-3585
+#Bug #SEQUOIADBMAINSTREAM-3611, update set=null will not ok
 create table t1 (a int);
 insert into t1 values (1),(2),(3);
 select 1 IN (SELECT * from t1);
@@ -470,7 +471,6 @@ insert into t1 values (1.5),(2.5),(3.5);
 select 1.5 IN (SELECT * from t1);
 select 10.5 IN (SELECT * from t1);
 select NULL IN (SELECT * from t1);
-# Bug of SequoiaDB, update set=null will not ok: SEQUOIADBMAINSTREAM-3611
 update t1 set a=NULL where a=2.5;
 select 1.5 IN (SELECT * from t1);
 select 3.5 IN (SELECT * from t1);
@@ -6347,7 +6347,7 @@ DROP TABLE t1;
 --echo #
 --echo # Bug#19416826 Assert failed in JOIN::make_tmp_tables_info
 --echo #
-# Bug of SequoiaDB, when multi query with index will cause wrong result: SEQUOIADBMAINSTREAM-3574
+#Bug #SEQUOIADBMAINSTREAM-3574, when multi query with index will cause wrong result
 #CREATE TABLE t1 (
 #  pk int NOT NULL,
 #  col_int_nokey int DEFAULT NULL,
