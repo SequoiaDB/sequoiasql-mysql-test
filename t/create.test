@@ -1846,7 +1846,7 @@ DROP DATABASE db_created_with_mkdir_and_an_unrelated_file_in_data_directory;
 DROP DATABASE db_created_with_mkdir_and_an_unrelated_file_in_data_directory;
 
 #
-# max key length is 1024 bytes on engine Sequoiadb, key is primary key, data type is varchar
+# (Case #15395) max key length is 1024 bytes on engine Sequoiadb, key is primary key, data type is varchar
 #
 CREATE TABLE t1 (word varchar(1024) NOT NULL, PRIMARY KEY (word))engine=sequoiadb;
 show create table t1;
@@ -1865,7 +1865,11 @@ drop table t1;
 CREATE TABLE t1 (word varchar(1025) NOT NULL, PRIMARY KEY (word))engine=sequoiadb;
 
 #
-# max key length is 1024 bytes on engine Sequoiadb, data type is text
+# end of (Case #15395),varchar
+#
+
+#
+# (Case #15395) max key length is 1024 bytes on engine Sequoiadb, data type is text
 #
 CREATE TABLE t1 (word text NOT NULL, KEY (word(1024)))engine=sequoiadb;
 show create table t1;
@@ -1896,3 +1900,7 @@ CREATE TABLE t1 (word text NOT NULL, KEY (word(1025)))engine=sequoiadb;
 CREATE TABLE t1 (a char,b varchar(1024),KEY (a,b))engine=sequoiadb;
 
 --source include/uninstall_sequoiadb.inc
+
+#
+#end of (Case #15395,text
+#
