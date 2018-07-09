@@ -1,4 +1,4 @@
-# Supply some verification point of type mediumint for bug SEQUOIADBMAINSTREAM-3563
+
 # (#Case #15412: create index and verify insert/delete/update/select)
 # (#Case #15413: create index and verify where)
 # (#Case #15415: create index and verify sort)
