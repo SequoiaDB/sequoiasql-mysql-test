@@ -1,6 +1,7 @@
 # The include statement below is a temp one for tests that are yet to
 #be ported to run with SequoiaDB,
 # (#Case #13115: Check Function Math)
+# (#Case #14763: Check update)
 
 --source include/have_sequoiadb.inc
 
@@ -615,18 +616,18 @@ UPDATE t1 SET a = ln(0);
 SELECT * FROM t1 ORDER BY a;
 
 # Bug of SequoiaDB, update not take effect: SEQUOIADBMAINSTREAM-3588
-#SET sql_mode='NO_AUTO_CREATE_USER';
-#UPDATE t1 SET a = ln(0);
-#SELECT * FROM t1 ORDER BY a;
+SET sql_mode='NO_AUTO_CREATE_USER';
+UPDATE t1 SET a = ln(0);
+SELECT * FROM t1 ORDER BY a;
 
-#SET sql_mode=default;
-#--error ER_INVALID_ARGUMENT_FOR_LOGARITHM
-#DELETE FROM t1 WHERE a <=> ln(0);
-#SELECT * FROM t1 ORDER BY a;
+SET sql_mode=default;
+--error ER_INVALID_ARGUMENT_FOR_LOGARITHM
+DELETE FROM t1 WHERE a <=> ln(0);
+SELECT * FROM t1 ORDER BY a;
 
-#SET sql_mode='NO_AUTO_CREATE_USER';
-#DELETE FROM t1 WHERE a <=> ln(0);
-#SELECT * FROM t1 ORDER BY a;
+SET sql_mode='NO_AUTO_CREATE_USER';
+DELETE FROM t1 WHERE a <=> ln(0);
+SELECT * FROM t1 ORDER BY a;
 
 DROP TABLE t1;
 SET sql_mode=default;

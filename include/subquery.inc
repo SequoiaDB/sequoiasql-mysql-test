@@ -329,8 +329,8 @@ update t1 set b= (select b from t1);
 -- error ER_SUBQUERY_NO_1_ROW
 update t1 set b= (select b from t2);
 # Bug of SequoiaDB, update set=null will not ok: SEQUOIADBMAINSTREAM-3611	
-#update t1 set b= (select b from t2 where t1.a = t2.a);
-#select * from t1;
+update t1 set b= (select b from t2 where t1.a = t2.a);
+select * from t1;
 drop table t1, t2;
 
 #delete with subselects
@@ -440,47 +440,47 @@ drop table t2, t1;
 create table t1 (a int);
 insert into t1 values (1),(2),(3);
 select 1 IN (SELECT * from t1);
-#select 10 IN (SELECT * from t1);
+select 10 IN (SELECT * from t1);
 select NULL IN (SELECT * from t1);
 update t1 set a=NULL where a=2;
 select 1 IN (SELECT * from t1);
 select 3 IN (SELECT * from t1);
-#select 10 IN (SELECT * from t1);
+select 10 IN (SELECT * from t1);
 select 1 > ALL (SELECT * from t1);
-#select 10 > ALL (SELECT * from t1);
-#select 1 > ANY (SELECT * from t1);
+select 10 > ALL (SELECT * from t1);
+select 1 > ANY (SELECT * from t1);
 select 10 > ANY (SELECT * from t1);
 drop table t1;
 create table t1 (a varchar(20));
 insert into t1 values ('A'),('BC'),('DEF');
 select 'A' IN (SELECT * from t1);
-#select 'XYZS' IN (SELECT * from t1);
+select 'XYZS' IN (SELECT * from t1);
 select NULL IN (SELECT * from t1);
 update t1 set a=NULL where a='BC';
 select 'A' IN (SELECT * from t1);
 select 'DEF' IN (SELECT * from t1);
-#select 'XYZS' IN (SELECT * from t1);
+select 'XYZS' IN (SELECT * from t1);
 select 'A' > ALL (SELECT * from t1);
-#select 'XYZS' > ALL (SELECT * from t1);
-#select 'A' > ANY (SELECT * from t1);
+select 'XYZS' > ALL (SELECT * from t1);
+select 'A' > ANY (SELECT * from t1);
 select 'XYZS' > ANY (SELECT * from t1);
 drop table t1;
 create table t1 (a float);
 insert into t1 values (1.5),(2.5),(3.5);
 select 1.5 IN (SELECT * from t1);
-#select 10.5 IN (SELECT * from t1);
+select 10.5 IN (SELECT * from t1);
 select NULL IN (SELECT * from t1);
 # Bug of SequoiaDB, update set=null will not ok: SEQUOIADBMAINSTREAM-3611
-#update t1 set a=NULL where a=2.5;
-#select 1.5 IN (SELECT * from t1);
-#select 3.5 IN (SELECT * from t1);
-#select 10.5 IN (SELECT * from t1);
-#select 1.5 > ALL (SELECT * from t1);
-#select 10.5 > ALL (SELECT * from t1);
-#select 1.5 > ANY (SELECT * from t1);
-#select 10.5 > ANY (SELECT * from t1);
+update t1 set a=NULL where a=2.5;
+select 1.5 IN (SELECT * from t1);
+select 3.5 IN (SELECT * from t1);
+select 10.5 IN (SELECT * from t1);
+select 1.5 > ALL (SELECT * from t1);
+select 10.5 > ALL (SELECT * from t1);
+select 1.5 > ANY (SELECT * from t1);
+select 10.5 > ANY (SELECT * from t1);
 #explain extended select (select a+1) from t1;
-#select (select a+1) from t1;
+select (select a+1) from t1;
 drop table t1;
 
 #
@@ -781,16 +781,16 @@ drop table t1;
 # uninterruptable update
 #
 #Bug #SEQUOIADBMAINSTREAM-3611
-#create table t1 (a int, b int);
-#create table t2 (a int, b int);
+create table t1 (a int, b int);
+create table t2 (a int, b int);
 
-#insert into t1 values (1,0), (2,0), (3,0);
-#insert into t2 values (1,1), (2,1), (3,1), (2,2);
+insert into t1 values (1,0), (2,0), (3,0);
+insert into t2 values (1,1), (2,1), (3,1), (2,2);
 
-#update ignore t1 set b=(select b from t2 where t1.a=t2.a);
-#select * from t1;
+update ignore t1 set b=(select b from t2 where t1.a=t2.a);
+select * from t1;
 
-#drop table t1, t2;
+drop table t1, t2;
 
 #
 # reduced subselect in ORDER BY & GROUP BY clauses
@@ -3015,11 +3015,12 @@ SELECT s1, s2 FROM t1 WHERE s2 IN (SELECT s1 FROM t1);
 SELECT s1, s2 FROM t1 WHERE (s2, 10) IN (SELECT s1, 10 FROM t1);
 
 #Bug #SEQUOIADBMAINSTREAM-3571
+#NOW SequoiaDB not support index of binary and varbinary
 #CREATE INDEX I1 ON t1 (s1);
 #CREATE INDEX I2 ON t1 (s2);
 
-#SELECT s1, s2 FROM t1 WHERE s2 IN (SELECT s1 FROM t1);
-#SELECT s1, s2 FROM t1 WHERE (s2, 10) IN (SELECT s1, 10 FROM t1);
+SELECT s1, s2 FROM t1 WHERE s2 IN (SELECT s1 FROM t1);
+SELECT s1, s2 FROM t1 WHERE (s2, 10) IN (SELECT s1, 10 FROM t1);
 
 TRUNCATE t1;
 INSERT INTO t1 VALUES (0x41,0x41);
@@ -3028,26 +3029,32 @@ SELECT * FROM t1 WHERE s1 = (SELECT s2 FROM t1);
 DROP TABLE t1;
 
 #Bug #SEQUOIADBMAINSTREAM-3571
+#NOW SequoiaDB not support index of binary and varbinary
 #CREATE TABLE t1 (a1 VARBINARY(2) NOT NULL DEFAULT '0', PRIMARY KEY (a1));
+CREATE TABLE t1 (a1 VARBINARY(2) NOT NULL DEFAULT '0');
 #CREATE TABLE t2 (a2 BINARY(2) default '0', INDEX (a2));
-#CREATE TABLE t3 (a3 BINARY(2) default '0');
-#INSERT INTO t1 VALUES (1),(2),(3),(4);
-#INSERT INTO t2 VALUES (1),(2),(3);
-#INSERT INTO t3 VALUES (1),(2),(3);
-#SELECT LEFT(t2.a2, 1) FROM t2,t3 WHERE t3.a3=t2.a2;
-#SELECT t1.a1, t1.a1 in (SELECT t2.a2 FROM t2,t3 WHERE t3.a3=t2.a2) FROM t1;
-#DROP TABLE t1,t2,t3;
+CREATE TABLE t2 (a2 BINARY(2) default '0');
+CREATE TABLE t3 (a3 BINARY(2) default '0');
+INSERT INTO t1 VALUES (1),(2),(3),(4);
+INSERT INTO t2 VALUES (1),(2),(3);
+INSERT INTO t3 VALUES (1),(2),(3);
+SELECT LEFT(t2.a2, 1) FROM t2,t3 WHERE t3.a3=t2.a2;
+SELECT t1.a1, t1.a1 in (SELECT t2.a2 FROM t2,t3 WHERE t3.a3=t2.a2) FROM t1;
+DROP TABLE t1,t2,t3;
 
 #Bug #SEQUOIADBMAINSTREAM-3571
 #CREATE TABLE t1 (a1 BINARY(3) PRIMARY KEY, b1 VARBINARY(3));
+CREATE TABLE t1 (a1 BINARY(3) , b1 VARBINARY(3));
 #CREATE TABLE t2 (a2 VARBINARY(3) PRIMARY KEY);
+CREATE TABLE t2 (a2 VARBINARY(3));
 #CREATE TABLE t3 (a3 VARBINARY(3) PRIMARY KEY);
-#INSERT INTO t1 VALUES (1,10), (2,20), (3,30), (4,40);
-#INSERT INTO t2 VALUES (2), (3), (4), (5);
-#INSERT INTO t3 VALUES (10), (20), (30);
-#SELECT LEFT(t1.a1,1) FROM t1,t3 WHERE t1.b1=t3.a3;
-#SELECT a2 FROM t2 WHERE t2.a2 IN (SELECT t1.a1 FROM t1,t3 WHERE t1.b1=t3.a3);
-#DROP TABLE t1, t2, t3;
+CREATE TABLE t3 (a3 VARBINARY(3));
+INSERT INTO t1 VALUES (1,10), (2,20), (3,30), (4,40);
+INSERT INTO t2 VALUES (2), (3), (4), (5);
+INSERT INTO t3 VALUES (10), (20), (30);
+SELECT LEFT(t1.a1,1) FROM t1,t3 WHERE t1.b1=t3.a3;
+SELECT a2 FROM t2 WHERE t2.a2 IN (SELECT t1.a1 FROM t1,t3 WHERE t1.b1=t3.a3);
+DROP TABLE t1, t2, t3;
 
 
 #

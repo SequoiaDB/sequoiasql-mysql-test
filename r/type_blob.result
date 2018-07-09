@@ -208,6 +208,14 @@ NULL
 a
 hello
 HELLO MY
+select b from t1 group by b;
+b
+NULL
+
+HELLO
+HELLO MY
+a
+hello
 set big_tables=1;
 select distinct t from t1;
 t
@@ -217,6 +225,14 @@ hello
 HELLO MY
 a
 1
+select distinct b from t1;
+b
+NULL
+
+hello
+HELLO
+HELLO MY
+a
 select distinct t from t1 order by t;
 t
 NULL
@@ -225,6 +241,14 @@ NULL
 a
 hello
 HELLO MY
+select distinct b from t1 order by b;
+b
+NULL
+
+HELLO
+HELLO MY
+a
+hello
 select distinct c from t1;
 c
 NULL
@@ -596,3 +620,22 @@ End of 5.1 tests
 # Bug #18127749: OPTIMIZER SHOULD THROW AN ERROR WHEN USER USES
 #                COMPARISION OPERATORS ON GIS DATA
 #
+CREATE TABLE t1(a tinyblob, b mediumblob, c longblob);
+INSERT INTO t1 VALUES (repeat('a', 256), null, null);
+ERROR 22001: Data too long for column 'a' at row 1
+INSERT INTO t1 VALUES (null, repeat('a', 16777216), null);
+ERROR HY000: Result of repeat() was larger than max_allowed_packet (4194304) - truncated
+INSERT INTO t1 VALUES (null, null, repeat('a', 16777216));
+ERROR HY000: Result of repeat() was larger than max_allowed_packet (4194304) - truncated
+INSERT INTO t1 VALUES ('A', 'B', 'C');
+SELECT * FROM t1;
+a	b	c
+A	B	C
+UPDATE t1 SET a = NULL, b = NULL, c = NULL;
+SELECT * FROM t1;
+a	b	c
+NULL	NULL	NULL
+DELETE FROM t1 WHERE a IS NULL;
+SELECT * FROM t1;
+a	b	c
+DROP TABLE t1;

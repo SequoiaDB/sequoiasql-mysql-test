@@ -80,6 +80,8 @@ DROP TABLE t1;
 --echo #
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
 # Bug of SequoiaDB, binary should not be allowed to create index: SEQUOIADBMAINSTREAM-3571
+# NOW SequoiaDB not support index of binary and varbinary
+#CREATE TABLE t1 (a binary(1), key(a));
 CREATE TABLE t1 (a binary(1));
 --disable_query_log
 let $1=255;
