@@ -1030,7 +1030,7 @@ drop table t1;
 #
 # Bug#8204
 #
-# Bug of SequoiaDB, set `ucs2_german2_ci` and update will fail: SEQUOIADBMAINSTREAM-3633
+#Bug #SEQUOIADBMAINSTREAM-3633, set `ucs2_german2_ci` and update will fail
 #create table t1 as select repeat(' ', 64) as a limit 0;
 #show create table t1;
 #insert into t1 values ("1.1"), ("2.1");

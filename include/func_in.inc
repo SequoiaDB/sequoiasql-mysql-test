@@ -67,7 +67,7 @@ select * from t1 where a in (b);
 select * from t1 where a in (b,c);
 --error 1271
 select * from t1 where 'a' in (a,b,c);
-# Bug of SequoiaDB, not case sensitive: SEQUOIADBMAINSTREAM-3373
+#Bug #SEQUOIADBMAINSTREAM-3373, not case sensitive
 #select * from t1 where 'a' in (a);
 #select * from t1 where a in ('a');
 select * from t1 where 'a' collate latin1_general_ci in (a,b,c);

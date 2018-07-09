@@ -615,7 +615,7 @@ SELECT * FROM t1 ORDER BY a;
 UPDATE t1 SET a = ln(0);
 SELECT * FROM t1 ORDER BY a;
 
-# Bug of SequoiaDB, update not take effect: SEQUOIADBMAINSTREAM-3588
+#Bug #SEQUOIADBMAINSTREAM-3588, update not take effect
 SET sql_mode='NO_AUTO_CREATE_USER';
 UPDATE t1 SET a = ln(0);
 SELECT * FROM t1 ORDER BY a;

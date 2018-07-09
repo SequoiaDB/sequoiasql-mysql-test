@@ -105,7 +105,7 @@ drop table t2;
 #      occurs, but if this happens for the second or subsequent row of a
 #      multiple-row statement, the preceding rows will have been inserted.
 #
-# Bug of SequoiaDB, when insert default '0000-00-00 00:00:00' of date, it will cause wrong query results: SEQUOIADBMAINSTREAM-3583
+#Bug #SEQUOIADBMAINSTREAM-3583, when insert default '0000-00-00 00:00:00' of date, it will cause wrong query results
 #create table bug20691 (i int, d datetime NOT NULL, dn datetime not null default '0000-00-00 00:00:00');
 #insert into bug20691 values (1, DEFAULT, DEFAULT), (1, '1975-07-10 07:10:03', '1978-01-13 14:08:51'), (1, DEFAULT, DEFAULT);
 #insert into bug20691 (i) values (2);
@@ -152,7 +152,7 @@ drop table t1;
 # Bug #39002: crash with
 #             INSERT ... SELECT ... ON DUPLICATE KEY UPDATE col=DEFAULT
 #
-# Bug of SequoiaDB, insert ... on duplicate key update cause error: SEQUOIADBMAINSTREAM-3640
+#Bug #SEQUOIADBMAINSTREAM-3640, insert ... on duplicate key update cause error
 #create table t1 (a int unique);
 #create table t2 (b int default 10);
 #insert into t1 (a) values (1);

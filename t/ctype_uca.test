@@ -41,7 +41,7 @@ CREATE TABLE t (
 c char(20) NOT NULL
 ) ENGINE=SequoiaDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 INSERT INTO t VALUES ('a'),('ab'),('aba');
-# Bug of SequoiaDB, create char index with length will cause wrong results: SEQUOIADBMAINSTREAM-3568
+#Bug #SEQUOIADBMAINSTREAM-3568, create char index with length will cause wrong results
 #ALTER TABLE t ADD INDEX (c);
 #SELECT c FROM t WHERE c LIKE 'a%';
 #should find 3 rows but only found 2
@@ -500,7 +500,7 @@ set names utf8;
 #
 SET collation_connection=utf8_czech_ci;
 --source include/ctype_czech.inc
-# Bug of SequoiaDB, select...like with char index will cause wrong result: SEQUOIADBMAINSTREAM-3593
+#Bug #SEQUOIADBMAINSTREAM-3593, select...like with char index will cause wrong result
 #--source include/ctype_like_ignorable.inc
 SET collation_connection=ucs2_czech_ci;
 --source include/ctype_czech.inc

@@ -57,10 +57,10 @@ create table not_existing_database.test (a int);
 #create table t1 like `a/a`;
 #drop table `a/a`;
 #drop table `t1`;
---error ER_TOO_LONG_IDENT
-create table `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa` (aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa int);
---error 1059
-create table a (`aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa` int);
+#--error ER_TOO_LONG_IDENT
+#create table `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa` (aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa int);
+#--error 1059
+#create table a (`aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa` int);
 
 #
 # Some wrong defaults, so these creates should fail too (Bug #5902)
@@ -92,10 +92,10 @@ drop table t1;
 # Test that we get warning for this
 drop database if exists mysqltest;
 create database mysqltest;
-# NOW SequoiaDB not support special table name
-#create table mysqltest.$test1 (a$1 int, $b int, c$ int);
-#insert into mysqltest.$test1 values (1,2,3);
-#select a$1, $b, c$ from mysqltest.$test1;
+#Bug #SEQUOIADBMAINSTREAM-3617, when create table with special name, drop table fail
+create table mysqltest.$test1 (a$1 int, $b int, c$ int);
+insert into mysqltest.$test1 values (1,2,3);
+select a$1, $b, c$ from mysqltest.$test1;
 create table mysqltest.test2$ (a int);
 drop table mysqltest.test2$;
 drop database mysqltest;
