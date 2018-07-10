@@ -1329,9 +1329,6 @@ cc 	4	4
 cc   	5	3
 cc	2	5
 cc 	3	7
-SELECT name, LENGTH(name), n FROM t2 WHERE name='cc ';
-name	LENGTH(name)	n
-cc 	3	7
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 name	LENGTH(name)	n
 cc	2	5
@@ -1377,9 +1374,6 @@ bb 	3	6
 cc 	4	4
 cc   	5	3
 cc	2	5
-cc 	3	7
-SELECT name, LENGTH(name), n FROM t2 WHERE name='cc ';
-name	LENGTH(name)	n
 cc 	3	7
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 name	LENGTH(name)	n
@@ -1962,20 +1956,7 @@ a	b
 SELECT * FROM t2 LEFT JOIN t1 ON a = b + 1;
 b	a
 2	3
-CREATE FUNCTION f1() RETURNS INT DETERMINISTIC
-BEGIN
-SET @cnt := @cnt + 1;
-RETURN 1;
-END;|
-SET @cnt := 0;
-SELECT * FROM t1 WHERE a = f1();
-a
-1
-SELECT @cnt;
-@cnt
-2
 DROP TABLE t1, t2;
-DROP FUNCTION f1;
 # End of bug#33546
 # 
 # BUG#48052: Valgrind warning - uninitialized value in init_read_record()
