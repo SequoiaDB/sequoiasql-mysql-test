@@ -2014,6 +2014,7 @@ DROP TABLE t1;
 #
 #Sequoiadb not support insert data out of range,but myisam can;
 create table t1 (a int(11) unsigned, b int(11) unsigned);
+#insert into t1 values (1,0), (1,1), (18446744073709551615,0);
 insert into t1 values (1,0), (1,1);
 select a-b  from t1 order by 1;
 select a-b , (a-b < 0)  from t1 order by 1;
