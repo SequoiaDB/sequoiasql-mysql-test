@@ -2012,6 +2012,7 @@ DROP TABLE t1;
 #
 # Bug#7425 inconsistent sort order on unsigned columns result of substraction
 #
+#Sequoiadb not support insert data out of range,but myisam can;
 create table t1 (a int(11) unsigned, b int(11) unsigned);
 insert into t1 values (1,0), (1,1);
 select a-b  from t1 order by 1;
@@ -3344,7 +3345,9 @@ SELECT * FROM t2 ORDER BY name;
 SELECT name, LENGTH(name), n FROM t2 ORDER BY name;
 
 #EXPLAIN SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
-SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
+
+#Bug #SEQUOIADBMAINSTREAM-3567
+#SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%' ORDER BY name;
@@ -3367,7 +3370,9 @@ SELECT * FROM t2 ORDER BY name;
 SELECT name, LENGTH(name), n FROM t2 ORDER BY name;
 
 #EXPLAIN SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
-SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
+
+#Bug #SEQUOIADBMAINSTREAM-3567
+#SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%' ORDER BY name;
@@ -4104,20 +4109,21 @@ SELECT * FROM t2 LEFT JOIN t1 ON a = b + 1;
 #EXPLAIN EXTENDED SELECT * FROM t2 LEFT JOIN t1 ON a = b + 1;
 #EXPLAIN EXTENDED SELECT * FROM t1 WHERE a > UNIX_TIMESTAMP('2009-03-10 00:00:00');
 
-delimiter |;
-CREATE FUNCTION f1() RETURNS INT DETERMINISTIC
-BEGIN
-  SET @cnt := @cnt + 1;
-  RETURN 1;
-END;|
-delimiter ;|
+#Bug #SEQUOIADBMAINSTREAM-3670
+#delimiter |;
+#CREATE FUNCTION f1() RETURNS INT DETERMINISTIC
+#BEGIN
+#  SET @cnt := @cnt + 1;
+#  RETURN 1;
+#END;|
+#delimiter ;|
 
-SET @cnt := 0;
-SELECT * FROM t1 WHERE a = f1();
-SELECT @cnt;
+#SET @cnt := 0;
+#SELECT * FROM t1 WHERE a = f1();
+#SELECT @cnt;
 #EXPLAIN EXTENDED SELECT * FROM t1 WHERE a = f1();
 DROP TABLE t1, t2;
-DROP FUNCTION f1;
+#DROP FUNCTION f1;
 --echo # End of bug#33546
 
 --echo # 

@@ -1512,10 +1512,11 @@ drop table t1, t2;
 #
 # Equal operation under row and empty subquery
 #
-create table t1 (s1 int,s2 int);
-insert into t1 values (20,15);
-select * from t1 where  (('a',null) <=> (select 'a',s2 from t1 where s1 = 0));
-drop table t1;
+#Bug #SEQUOIADBMAINSTREAM-3671
+#create table t1 (s1 int,s2 int);
+#insert into t1 values (20,15);
+#select * from t1 where  (('a',null) <=> (select 'a',s2 from t1 where s1 = 0));
+#drop table t1;
 
 #
 # ALL/ANY with NULL
