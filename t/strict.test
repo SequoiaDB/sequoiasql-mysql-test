@@ -1087,16 +1087,15 @@ INSERT INTO t1 VALUES (DEFAULT);
 --error 1364
 INSERT INTO t1 VALUES (DEFAULT(i));
 
-#Sequoiadb not support alter table add column
-#ALTER TABLE t1 ADD j int;
-#--error 1364
-#INSERT INTO t1 SET j = 1;
-#--error 1364
-#INSERT INTO t1 SET j = 1, i = DEFAULT;
-#--error 1364
-#INSERT INTO t1 SET j = 1, i = DEFAULT(i);
-#--error 1364
-#INSERT INTO t1 VALUES (DEFAULT,1);
+ALTER TABLE t1 ADD j int;
+--error 1364
+INSERT INTO t1 SET j = 1;
+--error 1364
+INSERT INTO t1 SET j = 1, i = DEFAULT;
+--error 1364
+INSERT INTO t1 SET j = 1, i = DEFAULT(i);
+--error 1364
+INSERT INTO t1 VALUES (DEFAULT,1);
 DROP TABLE t1;
 SET @@sql_mode = '';
 CREATE TABLE t1 (i int not null);
@@ -1106,13 +1105,12 @@ INSERT INTO t1 VALUES (DEFAULT);
 --error 1364
 INSERT INTO t1 VALUES (DEFAULT(i));
 
-#Sequoiadb not support alter table add column
-#ALTER TABLE t1 ADD j int;
-#INSERT INTO t1 SET j = 1;
-#INSERT INTO t1 SET j = 1, i = DEFAULT;
-#--error 1364
-#INSERT INTO t1 SET j = 1, i = DEFAULT(i);
-#INSERT INTO t1 VALUES (DEFAULT,1);
+ALTER TABLE t1 ADD j int;
+INSERT INTO t1 SET j = 1;
+INSERT INTO t1 SET j = 1, i = DEFAULT;
+--error 1364
+INSERT INTO t1 SET j = 1, i = DEFAULT(i);
+INSERT INTO t1 VALUES (DEFAULT,1);
 DROP TABLE t1;
 
 #
@@ -1129,12 +1127,11 @@ create table t1(a varbinary(65537));
 # Bug #9881: problem with altering table
 #
 
-#Sequoiadb not support alter table modify column
-#set @@sql_mode='traditional';
-#create table t1(a int, b date not null);                                       
-#alter table t1 modify a bigint unsigned not null;
-#show create table t1;
-#drop table t1;
+set @@sql_mode='traditional';
+create table t1(a int, b date not null);                                       
+alter table t1 modify a bigint unsigned not null;
+show create table t1;
+drop table t1;
 
 #
 # Bug #5906: handle invalid date due to conversion

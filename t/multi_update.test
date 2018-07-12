@@ -468,46 +468,44 @@ drop table t1, t2;
 #
 # Test for Bug#1980.
 #
-# NOW SequoiaDB not support alter fields
-#--disable_warnings
-#create table t1 ( c char(8) not null ) engine=sequoiadb;
-#--enable_warnings
+--disable_warnings
+create table t1 ( c char(8) not null ) engine=Sequoiadb;
+--enable_warnings
 
-#insert into t1 values ('0'),('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9');
-#insert into t1 values ('A'),('B'),('C'),('D'),('E'),('F');
+insert into t1 values ('0'),('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9');
+insert into t1 values ('A'),('B'),('C'),('D'),('E'),('F');
 
 
-#alter table t1 add b char(8) not null;
-#alter table t1 add a char(8) not null;
-#alter table t1 add primary key (a,b,c);
-#update t1 set a=c, b=c;
+alter table t1 add b char(8) not null;
+alter table t1 add a char(8) not null;
+alter table t1 add primary key (a,b,c);
+update t1 set a=c, b=c;
 
-#create table t2 like t1;
-#insert into t2 select * from t1;
+create table t2 like t1;
+insert into t2 select * from t1;
 
-#delete t1,t2 from t2,t1 where t1.a<'B' and t2.b=t1.b;
+delete t1,t2 from t2,t1 where t1.a<'B' and t2.b=t1.b;
 
-#drop table t1,t2;
+drop table t1,t2;
 
-#--disable_warnings
-#create table t1 ( c char(8) not null ) engine=sequoiadb;
-#--enable_warnings
+--disable_warnings
+create table t1 ( c char(8) not null ) engine=Sequoiadb;
+--enable_warnings
 
-#insert into t1 values ('0'),('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9');
-#insert into t1 values ('A'),('B'),('C'),('D'),('E'),('F');
+insert into t1 values ('0'),('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9');
+insert into t1 values ('A'),('B'),('C'),('D'),('E'),('F');
 
-# NOW SequoiaDB not support alter fields
-#alter table t1 add b char(8) not null;
-#alter table t1 add a char(8) not null;
-#alter table t1 add primary key (a,b,c);
-#update t1 set a=c, b=c;
+alter table t1 add b char(8) not null;
+alter table t1 add a char(8) not null;
+alter table t1 add primary key (a,b,c);
+update t1 set a=c, b=c;
 
-#create table t2 like t1;
-#insert into t2 select * from t1;
+create table t2 like t1;
+insert into t2 select * from t1;
 
-#delete t1,t2 from t2,t1 where t1.a<'B' and t2.b=t1.b;
+delete t1,t2 from t2,t1 where t1.a<'B' and t2.b=t1.b;
 
-#drop table t1,t2;
+drop table t1,t2;
 
 #
 # Test alter table and a concurrent multi update
@@ -515,52 +513,51 @@ drop table t1, t2;
 #  this test case forced update to reopen tables).
 #
 
-#Sequoiadb Not Support Alter table ... Add
+#Bug #SEQUOIADBMAINSTREAM-3681
 #create table t1 (a int, b int);
 #insert into t1 values (1, 2), (2, 3), (3, 4);
 #create table t2 (a int);
 #insert into t2 values (10), (20), (30);
 #create view v1 as select a as b, a/10 as a from t2;
-
+#
 #connect (locker,localhost,root,,test);
 #connection locker;
 #lock table t1 write;
-
+#
 #connect (changer,localhost,root,,test);
 #connection changer;
 #send alter table t1 add column c int default 100 after a;
-
+#
 #connect (updater,localhost,root,,test);
 #connection updater;
-# Wait till "alter table t1 ..." of session changer is in work.
-# = There is one session waiting.
+## Wait till "alter table t1 ..." of session changer is in work.
+## = There is one session waiting.
 #let $wait_condition= select count(*)= 1 from information_schema.processlist
 #                     where state= 'Waiting for table metadata lock';
 #--source include/wait_condition.inc
 #send update t1, v1 set t1.b=t1.a+t1.b+v1.b where t1.a=v1.a;
-
+#
 #connection locker;
-# Wait till
-# - "alter table t1 ..." of session changer and
-# - "update t1, v1 ..." of session updater
-# are in work.
-# = There are two session waiting.
+## Wait till
+## - "alter table t1 ..." of session changer and
+## - "update t1, v1 ..." of session updater
+## are in work.
+## = There are two session waiting.
 #let $wait_condition= select count(*)= 2 from information_schema.processlist
 #                     where state= 'Waiting for table metadata lock';
 #--source include/wait_condition.inc
 #unlock tables;
-
-# Now SequoiaDB not support reap
+#
 #connection changer;
 #reap;
-
+#
 #connection updater;
 #reap;
 #select * from t1;
 #select * from t2;
 #drop view v1;
 #drop table t1, t2;
-
+#
 #connection default;
 #disconnect locker;
 #disconnect changer;
@@ -569,20 +566,20 @@ drop table t1, t2;
 #
 # Test multi updates and deletes using primary key and without.
 #
+create table t1 (i1 int, i2 int, i3 int);
+create table t2 (id int, c1 varchar(20), c2 varchar(20));
+insert into t1 values (1,5,10),(3,7,12),(4,5,2),(9,10,15),(2,2,2);
+insert into t2 values (9,"abc","def"),(5,"opq","lmn"),(2,"test t","t test");
+select * from t1 order by i1;
+select * from t2;
+update t1,t2 set t1.i2=15, t2.c2="ppc" where t1.i1=t2.id;
+select * from t1 order by i1;
+select * from t2 order by id;
+delete t1.*,t2.* from t1,t2 where t1.i2=t2.id;
+select * from t1 order by i1;
+select * from t2 order by id;
+drop table t1, t2;
 # NOW SequoiaDB not support auto_increment
-#create table t1 (i1 int, i2 int, i3 int);
-#create table t2 (id int, c1 varchar(20), c2 varchar(20));
-#insert into t1 values (1,5,10),(3,7,12),(4,5,2),(9,10,15),(2,2,2);
-#insert into t2 values (9,"abc","def"),(5,"opq","lmn"),(2,"test t","t test");
-#select * from t1 order by i1;
-#select * from t2;
-#update t1,t2 set t1.i2=15, t2.c2="ppc" where t1.i1=t2.id;
-#select * from t1 order by i1;
-#select * from t2 order by id;
-#delete t1.*,t2.* from t1,t2 where t1.i2=t2.id;
-#select * from t1 order by i1;
-#select * from t2 order by id;
-#drop table t1, t2;
 #create table t1 (i1 int auto_increment not null, i2 int, i3 int, primary key (i1));
 #create table t2 (id int auto_increment not null, c1 varchar(20), c2 varchar(20), primary key(id));
 #insert into t1 values (1,5,10),(3,7,12),(4,5,2),(9,10,15),(2,2,2);
