@@ -333,7 +333,7 @@ drop table x2;
 # substitute_best_equal has made all conditions to refer to PCOL.
 #
 
-#Sequoiadb not support index on datetime,Bug #SEQUOIADBMAINSTREAM-3654
+#Bug #SEQUOIADBMAINSTREAM-3654,Sequoiadb not support index on datetime
 #CREATE TABLE t1 (
 #  a int(11) NOT NULL,
 #  b int(11) NOT NULL,
