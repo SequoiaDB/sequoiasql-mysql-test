@@ -14,7 +14,7 @@ SET SQL_WARNINGS=1;
 #
 # This failed for Elizabeth Mattijsen
 #
-# query char when length of index larger than length of record, it will cause wrong results: SEQUOIADBMAINSTREAM: 3568
+#Bug #SEQUOIADBMAINSTREAM-3568, query char when length of index larger than length of record, it will cause wrong results
 #CREATE TABLE t1 (
 #  ID CHAR(32) NOT NULL,
 #  name CHAR(32) NOT NULL,
@@ -248,7 +248,7 @@ drop table t1;
 #
 # UNIQUE prefix keys and multi-byte charsets
 #
-# insert duplicate key not fail: SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3607, insert duplicate key not fail
 #create table t1 (c varchar(30) character set utf8, t text character set utf8, unique (c(2)), unique (t(3))) engine=sequoiadb;
 #show create table t1;
 #insert t1 values ('cccc', 'tttt'),
@@ -271,12 +271,13 @@ drop table t1;
 #
 # BUG#6151 - sequoiadb index corruption
 #
+#Bug #SEQUOIADBMAINSTREAM-3571, varbinary is variable binary, binary should not be allowed to create index
 DROP TABLE IF EXISTS t1;
 CREATE TABLE t1 (
   c1 int,
   c2 varbinary(240),
   UNIQUE KEY (c1)
-#  KEY (c2) ## varbinary is variable binary, binary should not be allowed to create index: SEQUOIADBMAINSTREAM:3571
+#  KEY (c2) 
 ) ENGINE=SequoiaDB;
 INSERT INTO t1 VALUES (1,'\Z\Z\Z\Z');
 INSERT INTO t1 VALUES (2,'\Z\Z\Z\Z\Z\Z');

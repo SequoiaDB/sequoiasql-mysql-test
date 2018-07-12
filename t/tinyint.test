@@ -1,4 +1,3 @@
-# Supply some verification point of type tinyint for bug SEQUOIADBMAINSTREAM-3563
 # (#Case #15427: create index and verify insert/delete/update/select)
 # (#Case #15428: create index and verify where)
 # (#Case #15429: create index and verify sort)
