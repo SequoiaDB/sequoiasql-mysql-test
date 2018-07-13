@@ -1040,6 +1040,15 @@ INSERT INTO t1 VALUES (DEFAULT);
 ERROR HY000: Field 'i' doesn't have a default value
 INSERT INTO t1 VALUES (DEFAULT(i));
 ERROR HY000: Field 'i' doesn't have a default value
+ALTER TABLE t1 ADD j int;
+INSERT INTO t1 SET j = 1;
+ERROR HY000: Field 'i' doesn't have a default value
+INSERT INTO t1 SET j = 1, i = DEFAULT;
+ERROR HY000: Field 'i' doesn't have a default value
+INSERT INTO t1 SET j = 1, i = DEFAULT(i);
+ERROR HY000: Field 'i' doesn't have a default value
+INSERT INTO t1 VALUES (DEFAULT,1);
+ERROR HY000: Field 'i' doesn't have a default value
 DROP TABLE t1;
 SET @@sql_mode = '';
 Warnings:
@@ -1053,6 +1062,18 @@ Warnings:
 Warning	1364	Field 'i' doesn't have a default value
 INSERT INTO t1 VALUES (DEFAULT(i));
 ERROR HY000: Field 'i' doesn't have a default value
+ALTER TABLE t1 ADD j int;
+INSERT INTO t1 SET j = 1;
+Warnings:
+Warning	1364	Field 'i' doesn't have a default value
+INSERT INTO t1 SET j = 1, i = DEFAULT;
+Warnings:
+Warning	1364	Field 'i' doesn't have a default value
+INSERT INTO t1 SET j = 1, i = DEFAULT(i);
+ERROR HY000: Field 'i' doesn't have a default value
+INSERT INTO t1 VALUES (DEFAULT,1);
+Warnings:
+Warning	1364	Field 'i' doesn't have a default value
 DROP TABLE t1;
 set @@sql_mode='traditional';
 Warnings:
@@ -1061,6 +1082,16 @@ create table t1(a varchar(65537));
 ERROR 42000: Column length too big for column 'a' (max = 65535); use BLOB or TEXT instead
 create table t1(a varbinary(65537));
 ERROR 42000: Column length too big for column 'a' (max = 65535); use BLOB or TEXT instead
+set @@sql_mode='traditional';
+create table t1(a int, b date not null);
+alter table t1 modify a bigint unsigned not null;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `a` bigint(20) unsigned NOT NULL,
+  `b` date NOT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+drop table t1;
 set @@sql_mode='traditional';
 create table t1 (d date);
 insert into t1 values ('2000-10-00');
