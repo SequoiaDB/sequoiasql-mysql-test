@@ -2157,3 +2157,4 @@ HAVING avg(distinct 1) ORDER BY max(a)
 DROP TABLE t1,t2;
 # End of test BUG#18766378
 set optimizer_switch=default
+set optimizer_switch=default;

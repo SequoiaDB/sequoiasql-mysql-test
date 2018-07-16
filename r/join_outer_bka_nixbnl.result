@@ -2079,3 +2079,4 @@ adslot	ionumber1	ionumber2	ioattribute
 2	NULL	NULL	NULL
 3	01602	01602	BOB
 DROP TABLE t1, t2, t3;
+set optimizer_switch=default;
