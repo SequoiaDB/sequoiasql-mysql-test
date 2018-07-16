@@ -6187,3 +6187,4 @@ WHERE t3.b=1));
 a	b
 DROP TABLE t;
 set optimizer_switch=default;
+set optimizer_switch=default;
