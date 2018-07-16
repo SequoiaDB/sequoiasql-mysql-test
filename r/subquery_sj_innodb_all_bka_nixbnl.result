@@ -147,3 +147,4 @@ AND i = 2;
 i
 DROP TABLE t1, t2;
 set optimizer_switch=default;
+set optimizer_switch=default;
