@@ -1168,6 +1168,7 @@ RELEASE_LOCK('B26162')
 1
 rl_contender	id
 rl_contender	2
+rl_contender	5
 DROP TRIGGER t1_test;
 DROP TABLE t1,t2;
 SET SESSION LOW_PRIORITY_UPDATES=DEFAULT;

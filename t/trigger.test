@@ -1788,7 +1788,7 @@ CONNECTION wl_acquirer;
 SET SESSION LOW_PRIORITY_UPDATES=1;
 SET GLOBAL LOW_PRIORITY_UPDATES=1;
 #need to wait for rl_acquirer to lock on the B26162 lock 
-sleep 2;
+sleep 5;
 --send
 INSERT INTO t1 VALUES (5);
 
@@ -1800,7 +1800,7 @@ SELECT 'rl_contender', id FROM t2 WHERE id > 1;
 
 CONNECTION rl_holder;
 #need to wait for wl_acquirer and rl_contender to lock on t2 
-sleep 2;
+sleep 5;
 SELECT RELEASE_LOCK('B26162');
 
 CONNECTION rl_acquirer;
