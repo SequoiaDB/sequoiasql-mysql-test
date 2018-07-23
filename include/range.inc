@@ -1111,10 +1111,10 @@ INSERT INTO t3 SELECT * FROM t3 WHERE a = 10;
 # With one exception, they are independent of Problem#2.
 #
 #Bug #SEQUOIADBMAINSTREAM-3632
-#SELECT * FROM t1 WHERE
-#3 <= a AND a < 5 OR 
-#5 < a AND b = 3 OR
-#3 <= a;
+SELECT * FROM t1 WHERE
+3 <= a AND a < 5 OR 
+5 < a AND b = 3 OR
+3 <= a;
 
 #EXPLAIN
 #SELECT * FROM t1 WHERE
@@ -1135,10 +1135,10 @@ SELECT * FROM t1 WHERE
 #3 <= a;
 
 #Bug #SEQUOIADBMAINSTREAM-3632
-#SELECT * FROM t1 WHERE
-#3 <= a AND a <= 5 OR 
-#5 <= a AND b = 3 OR
-#3 <= a;
+SELECT * FROM t1 WHERE
+3 <= a AND a <= 5 OR 
+5 <= a AND b = 3 OR
+3 <= a;
 
 #$EXPLAIN
 #SELECT * FROM t1 WHERE

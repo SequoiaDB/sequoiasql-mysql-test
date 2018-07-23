@@ -650,6 +650,20 @@ INSERT INTO t3 SELECT * FROM t3 WHERE a = 10;
 INSERT INTO t3 SELECT * FROM t3 WHERE a = 10;
 SELECT * FROM t1 WHERE
 3 <= a AND a < 5 OR 
+5 < a AND b = 3 OR
+3 <= a;
+a	b
+5	0
+9	7
+SELECT * FROM t1 WHERE
+3 <= a AND a < 5 OR 
+5 <= a AND b = 3 OR
+3 <= a;
+a	b
+5	0
+9	7
+SELECT * FROM t1 WHERE
+3 <= a AND a <= 5 OR 
 5 <= a AND b = 3 OR
 3 <= a;
 a	b
