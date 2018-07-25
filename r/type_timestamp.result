@@ -15,8 +15,6 @@ insert into t1 (a) values(4);
 insert into t2 values(5,"2002-03-04"),(6,NULL),(7,"2002-03-05"),(8,"00-00-00");
 SET TIMESTAMP=1237;
 insert into t1 select * from t2;
-Warnings:
-Warning	1264	Out of range value for column 't' at row 4
 SET TIMESTAMP=1238;
 insert into t1 (a) select a+1 from t2 where a=8;
 select * from t1;

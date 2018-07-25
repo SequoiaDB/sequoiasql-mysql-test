@@ -4,9 +4,6 @@ insert into t1 SET a='test 2000-01-01', b='2000-01-01', c='2000-01-01';
 select * from t1 where c = '2000-01-01';
 a	b	c
 test 2000-01-01	2000-01-01	2000-01-01 00:00:00
-Warnings:
-Warning	1292	Truncated incorrect time value: '2000-01-01'
-Warning	1292	Truncated incorrect time value: '2000-01-01'
 select * from t1 where b = '2000-01-01';
 a	b	c
 test 2000-01-01	2000-01-01	2000-01-01 00:00:00

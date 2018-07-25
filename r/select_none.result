@@ -1776,9 +1776,6 @@ INSERT INTO t1 VALUES('2001-01-01');
 SELECT * FROM t1 WHERE a='2001-01-01' AND a='2001-01-01 00:00:00';
 a
 2001-01-01 00:00:00
-Warnings:
-Warning	1292	Truncated incorrect time value: '2001-01-01'
-Warning	1292	Truncated incorrect time value: '2001-01-01'
 DROP TABLE t1;
 CREATE TABLE t1(a DATE NOT NULL);
 INSERT INTO t1 VALUES('2001-01-01');
@@ -1791,26 +1788,17 @@ INSERT INTO t1 VALUES('2001-01-01');
 SELECT * FROM t1 WHERE a='2001-01-01' AND a='2001-01-01 00:00:00';
 a
 2001-01-01 00:00:00
-Warnings:
-Warning	1292	Truncated incorrect time value: '2001-01-01'
-Warning	1292	Truncated incorrect time value: '2001-01-01'
 DROP TABLE t1;
 CREATE TABLE t1(a DATETIME NOT NULL, b DATE NOT NULL);
 INSERT INTO t1 VALUES('2001-01-01', '2001-01-01');
 SELECT * FROM t1 WHERE a='2001-01-01' AND a=b AND b='2001-01-01 00:00:00';
 a	b
 2001-01-01 00:00:00	2001-01-01
-Warnings:
-Warning	1292	Truncated incorrect time value: '2001-01-01'
-Warning	1292	Truncated incorrect time value: '2001-01-01'
 DROP TABLE t1;
 CREATE TABLE t1(a DATETIME NOT NULL, b VARCHAR(20) NOT NULL);
 INSERT INTO t1 VALUES('2001-01-01', '2001-01-01');
 SELECT * FROM t1 WHERE a='2001-01-01' AND a=b AND b='2001-01-01 00:00:00';
 a	b
-Warnings:
-Warning	1292	Truncated incorrect time value: '2001-01-01'
-Warning	1292	Truncated incorrect time value: '2001-01-01'
 SELECT * FROM t1 WHERE a='2001-01-01 00:00:00' AND a=b AND b='2001-01-01';
 a	b
 2001-01-01 00:00:00	2001-01-01
@@ -1823,13 +1811,6 @@ JOIN t1 z ON y.a=z.a
 WHERE x.a='2001-01-01' AND z.a='2001-01-01 00:00:00';
 a	a	a
 2001-01-01 00:00:00	2001-01-01 00:00:00	2001-01-01 00:00:00
-Warnings:
-Warning	1292	Truncated incorrect time value: '2001-01-01'
-Warning	1292	Truncated incorrect time value: '2001-01-01'
-Warning	1292	Truncated incorrect time value: '2001-01-01'
-Warning	1292	Truncated incorrect time value: '2001-01-01'
-Warning	1292	Truncated incorrect time value: '2001-01-01'
-Warning	1292	Truncated incorrect time value: '2001-01-01'
 DROP TABLE t1;
 #
 # Bug #49897: crash in ptr_compare when char(0) NOT NULL 
