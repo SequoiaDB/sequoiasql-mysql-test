@@ -762,9 +762,6 @@ AND col_datetime_key BETWEEN '2001-08-04' AND '2003-06-13'
 ORDER BY col_time_key
 LIMIT 3;
 col_int_key
-Warnings:
-Warning	1292	Truncated incorrect time value: '2001-08-04'
-Warning	1292	Truncated incorrect time value: '2001-08-04'
 DROP TABLE t1;
 #
 # BUG#13540692: WRONG NULL HANDLING WITH RIGHT JOIN + 

@@ -2712,9 +2712,6 @@ mydate
 2007-01-02 00:00:00
 2007-01-30 00:00:00
 2007-01-31 00:00:00
-Warnings:
-Warning	1292	Truncated incorrect time value: '2007-01-01'
-Warning	1292	Truncated incorrect time value: '2007-01-01'
 SELECT * FROM v1 WHERE mydate BETWEEN '2007-01-01' AND '2007-01-31';
 mydate
 2007-01-01 00:00:00
