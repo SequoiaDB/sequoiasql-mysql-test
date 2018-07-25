@@ -1618,6 +1618,8 @@ SELECT CAST(UNIX_TIMESTAMP(a) AS DECIMAL(25,3)) AS c1 FROM v1 ORDER BY 1;
 c1
 0.000
 1253421159.000
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 1
 DROP VIEW v1;
 DROP TABLE t1;
 SET time_zone=DEFAULT;
