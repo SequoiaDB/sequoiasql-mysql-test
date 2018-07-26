@@ -7,26 +7,26 @@ Warning	1265	Data truncated for column 't' at row 14
 select * from t1;
 t
 2000-01-01 00:00:00
-1933-11-24 17:31:44
+2069-12-31 00:00:00
 1970-01-01 00:00:00
 1999-12-31 00:00:00
-1952-09-18 21:17:52
-1969-12-22 02:12:16
+1000-01-01 00:00:00
+9999-12-31 00:00:00
 2000-01-01 00:00:00
-1933-11-24 17:31:44
+2069-12-31 00:00:00
 1970-01-01 00:00:00
 1999-12-31 23:59:59
-1952-09-18 21:17:52
-1969-12-23 02:12:15
-1905-05-05 18:35:44
-1905-05-05 18:35:44
-delete from t1 where t > 0;
-optimize table t1;
-Table	Op	Msg_type	Msg_text
-test.t1	optimize	note	The storage engine for the table doesn't support optimize
-check table t1;
-Table	Op	Msg_type	Msg_text
-test.t1	check	note	The storage engine for the table doesn't support check
+1000-01-01 00:00:00
+9999-12-31 23:59:59
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 13
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 14
+delete ignore from t1 where t > 0;
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 1
 delete from t1;
 insert ignore into t1 values("000101"),("691231"),("700101"),("991231"),("00000101"),("00010101"),("99991231"),("00101000000"),("691231000000"),("700101000000"),("991231235959"),("10000101000000"),("99991231235959"),("20030100000000"),("20030000000000");
 Warnings:
@@ -37,31 +37,36 @@ insert into t1 values ("20030102T131415"),("2001-01-01T01:01:01"), ("2001-1-1T1:
 select * from t1;
 t
 2000-01-01 00:00:00
-1933-11-24 17:31:44
+2069-12-31 00:00:00
 1970-01-01 00:00:00
 1999-12-31 00:00:00
-1905-06-06 18:35:44
-1906-06-07 18:35:44
-1969-12-22 02:12:16
+0000-01-01 00:00:00
+0001-01-01 00:00:00
+9999-12-31 00:00:00
 2000-10-10 00:00:00
-1933-11-24 17:31:44
+2069-12-31 00:00:00
 1970-01-01 00:00:00
 1999-12-31 23:59:59
-1952-09-18 21:17:52
-1969-12-23 02:12:15
-1905-05-05 18:35:44
-1905-05-05 18:35:44
+1000-01-01 00:00:00
+9999-12-31 23:59:59
+0000-00-00 00:00:00
+0000-00-00 00:00:00
 2003-03-03 00:00:00
 2003-01-02 13:14:15
 2001-01-01 01:01:01
 2001-01-01 01:01:01
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 14
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 15
 truncate table t1;
 insert ignore into t1 values("2003-0303 12:13:14");
 Warnings:
 Warning	1265	Data truncated for column 't' at row 1
 select * from t1;
 t
-1905-05-05 18:35:44
+0000-00-00 00:00:00
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 1
 drop table t1;
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
 Warnings:
@@ -81,6 +86,9 @@ Warnings:
 Warning	1264	Out of range value for column 'a' at row 1
 select * from t1 where a is null;
 a
+0000-00-00 00:00:00
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 1
 drop table t1;
 create table t1 (id int, dt datetime);
 insert into t1 values (1,"2001-08-14 00:00:00"),(2,"2001-08-15 00:00:00"),(3,"2001-08-16 00:00:00"),(4,"2003-09-15 01:20:30");
@@ -105,9 +113,12 @@ PRIMARY KEY  (`numfacture`)
 INSERT INTO t1 (expedition) VALUES ('0001-00-00 00:00:00');
 SELECT * FROM t1 WHERE expedition='0001-00-00 00:00:00';
 date	numfacture	expedition
+0000-00-00 00:00:00	0	0001-00-00 00:00:00
 INSERT INTO t1 (numfacture,expedition) VALUES ('1212','0001-00-00 00:00:00');
 SELECT * FROM t1 WHERE expedition='0001-00-00 00:00:00';
 date	numfacture	expedition
+0000-00-00 00:00:00	0	0001-00-00 00:00:00
+0000-00-00 00:00:00	1212	0001-00-00 00:00:00
 drop table t1;
 create table t1 (a datetime not null, b datetime not null);
 insert into t1 values (now(), now());
@@ -127,12 +138,12 @@ Warning	1265	Data truncated for column 't' at row 5
 Warning	1264	Out of range value for column 't' at row 6
 select * from t1;
 t
-1905-05-05 18:35:44
-1905-05-05 18:35:44
-1905-05-05 18:35:44
-1905-05-05 18:35:44
-1905-05-05 18:35:44
-1905-05-05 18:35:44
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+0000-00-00 00:00:00
 delete from t1;
 insert into t1 values
 ("2003-01-02 03:04:60"),("2003-01-02 03:63:01"),("2003-01-02 24:04:01"),
@@ -146,12 +157,12 @@ Warning	1265	Data truncated for column 't' at row 5
 Warning	1265	Data truncated for column 't' at row 6
 select * from t1;
 t
-1905-05-05 18:35:44
-1905-05-05 18:35:44
-1905-05-05 18:35:44
-1905-05-05 18:35:44
-1905-05-05 18:35:44
-1905-05-05 18:35:44
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+0000-00-00 00:00:00
 delete from t1;
 insert into t1 values ("0000-00-00 00:00:00 some trailer"),("2003-01-01 00:00:00 some trailer");
 Warnings:
@@ -159,7 +170,7 @@ Warning	1265	Data truncated for column 't' at row 1
 Warning	1265	Data truncated for column 't' at row 2
 select * from t1 order by t;
 t
-1905-05-05 18:35:44
+0000-00-00 00:00:00
 2003-01-01 00:00:00
 drop table t1;
 create table t1 (dt datetime);
@@ -167,10 +178,10 @@ insert into t1 values ("12-00-00"), ("00-00-00 01:00:00");
 insert into t1 values ("00-00-00"), ("00-00-00 00:00:00");
 select * from t1;
 dt
-2011-11-30 00:00:00
-1999-11-30 01:00:00
-1905-05-05 18:35:44
-1905-05-05 18:35:44
+2012-00-00 00:00:00
+2000-00-00 01:00:00
+0000-00-00 00:00:00
+0000-00-00 00:00:00
 drop table t1;
 SET sql_mode = default;
 select cast('2006-12-05 22:10:10' as datetime) + 0;
@@ -250,17 +261,11 @@ f1	f3
 2001-02-05	2001-02-05 01:01:01
 2001-03-10	2001-03-10 01:01:01
 2001-04-15	2001-04-15 00:00:00
-Warnings:
-Warning	1292	Truncated incorrect time value: '2001-04-15'
-Warning	1292	Truncated incorrect time value: '2001-04-15'
 select f1, f3 from t1 where f1 >= '2001-2-5 0:0:0' and f2 <= '2001-4-15';
 f1	f3
 2001-02-05	2001-02-05 01:01:01
 2001-03-10	2001-03-10 01:01:01
 2001-04-15	2001-04-15 00:00:00
-Warnings:
-Warning	1292	Truncated incorrect time value: '2001-4-15'
-Warning	1292	Truncated incorrect time value: '2001-4-15'
 select f1, f2 from t1 where if(1, f1, 0) >= f2;
 f1	f2
 2001-02-05	2001-02-05 00:00:00
@@ -287,9 +292,6 @@ select f2 from t1 where f2 between '2001-2-5' and '01-04-14';
 f2
 2001-02-05 00:00:00
 2001-03-09 01:01:01
-Warnings:
-Warning	1292	Truncated incorrect time value: '2001-2-5'
-Warning	1292	Truncated incorrect time value: '2001-2-5'
 select f1, f2, f3 from t1 where f1 between f2 and f3;
 f1	f2	f3
 2001-02-05	2001-02-05 00:00:00	2001-02-05 01:01:01
@@ -328,9 +330,6 @@ select * from t2 where f2 in ('01-01-01','01-02-03 12:34:56','01-02-03');
 f2
 2001-01-01 00:00:00
 2001-02-03 12:34:56
-Warnings:
-Warning	1292	Truncated incorrect time value: '01-01-01'
-Warning	1292	Truncated incorrect time value: '01-01-01'
 select * from t1,t2 where '01-01-02' in (f1, cast(f2 as date));
 f1	f2
 2001-01-02	2001-01-01 00:00:00
@@ -624,10 +623,13 @@ DELETE IGNORE  FROM t1 WHERE dt1 = '0000-00-01 00:00:01';
 Warnings:
 Warning	1292	Incorrect datetime value: '0000-00-01 00:00:01' for column 'dt1' at row 1
 Warning	1292	Incorrect datetime value: '0000-00-01 00:00:01' for column 'dt1' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt1' at row 1
 # Should be empty
 SELECT * FROM t1;
 dt1
-1905-05-05 18:35:44
+0000-00-00 00:00:00
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt1' at row 1
 DROP TABLE t1;
 End of 5.1 tests
 #
@@ -678,14 +680,27 @@ SELECT * FROM t1 WHERE a IS NULL;
 a	b
 SELECT * FROM t2 WHERE a IS NULL;
 a	b
+0000-00-00 00:00:00	1
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 1
 SELECT * FROM t1 LEFT JOIN t1 AS t1_2 ON 1 WHERE t1_2.a IS NULL;
 a	b	a	b
 SELECT * FROM t2 LEFT JOIN t2 AS t2_2 ON 1 WHERE t2_2.a IS NULL;
 a	b	a	b
+0000-00-00 00:00:00	1	0000-00-00 00:00:00	1
+1999-05-10 00:00:00	2	0000-00-00 00:00:00	1
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 3
 SELECT * FROM t1 JOIN t1 AS t1_2 ON 1 WHERE t1_2.a IS NULL;
 a	b	a	b
 SELECT * FROM t2 JOIN t2 AS t2_2 ON 1 WHERE t2_2.a IS NULL;
 a	b	a	b
+0000-00-00 00:00:00	1	0000-00-00 00:00:00	1
+1999-05-10 00:00:00	2	0000-00-00 00:00:00	1
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 3
 
 PREPARE stmt1 FROM 
 'SELECT *
