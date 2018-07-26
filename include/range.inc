@@ -844,18 +844,20 @@ DROP TABLE t1;
 # BUG#13455:
 
 #Bug #SEQUOIADBMAINSTREAM-3621 
-#create table t3 (a int);
-#insert into t3 values (0),(1),(2),(3),(4),(5),(6),(7),(8),(9);
+create table t3 (a int);
+insert into t3 values (0),(1),(2),(3),(4),(5),(6),(7),(8),(9);
 
+#Sequoiadb not support create index on binary
 #create table t1 (a varchar(10), filler char(200), key(a))charset=binary;
-#insert into t1 values ('a','');
-#insert into t1 values ('a ','');
-#insert into t1 values ('a  ', '');
-#insert into t1 select concat('a', 1000 + A.a + 10 * (B.a + 10 * C.a)), ''
-#  from t3 A, t3 B, t3 C;
+create table t1 (a varchar(10), filler char(200))charset=binary;
+insert into t1 values ('a','');
+insert into t1 values ('a ','');
+insert into t1 values ('a  ', '');
+insert into t1 select concat('a', 1000 + A.a + 10 * (B.a + 10 * C.a)), ''
+  from t3 A, t3 B, t3 C;
 
-#create table t2 (a varchar(10), filler char(200), key(a));
-#insert into t2 select * from t1;
+create table t2 (a varchar(10), filler char(200), key(a));
+insert into t2 select * from t1;
 
 #--replace_column 10 #
 #explain select * from t1 where a between 'a' and 'a '; 
@@ -867,12 +869,12 @@ DROP TABLE t1;
 #--replace_column 10 #
 #explain select * from t2 where a = 'a' or a='a ';
 
-#update t1 set a='b' where a<>'a';
+update t1 set a='b' where a<>'a';
 #--replace_column 10 #
 #explain select * from t1 where a not between 'b' and 'b'; 
-#select a, hex(filler) from t1 where a not between 'b' and 'b'; 
+select a, hex(filler) from t1 where a not between 'b' and 'b'; 
 
-#drop table t1,t2,t3;
+drop table t1,t2,t3;
 
 #
 # BUG#21282
