@@ -4031,6 +4031,12 @@ sub mysql_install_db {
   mkpath("$install_datadir/mysql");
   mkpath("$install_datadir/test");
 
+  # liuxiaoxuan: Create directories for each parallel
+  for my $child_num (1..$opt_parallel)
+  {
+     mkpath("$install_datadir/test_parallel_$child_num");
+  }
+
   if ( My::SafeProcess->run
        (
 	name          => "bootstrap",
@@ -4651,7 +4657,6 @@ sub run_testcase ($) {
 
     return 1;
   }
-
   my $test= start_mysqltest($tinfo);
   # Set only when we have to keep waiting after expectedly died server
   my $keep_waiting_proc = 0;
@@ -6545,8 +6550,20 @@ sub start_mysqltest ($) {
   mtr_add_arg($args, "--mark-progress")
     if $opt_mark_progress;
 
-  mtr_add_arg($args, "--database=test");
-
+  # liuxiaoxuan: Use unique database for each parallel
+  # If parallel=1, use 'test'; else use 'test_parallet'
+  my $current_parallel_database;
+  if ($opt_parallel <= 1)
+  {
+     $current_parallel_database = "test";
+  }
+  else
+  {
+     my $parallel_thread = $tinfo->{worker}; 
+     $current_parallel_database = "test_parallel_$parallel_thread";
+  }
+  mtr_add_arg($args, "--database=$current_parallel_database");
+ 
   if ( $opt_ps_protocol )
   {
     mtr_add_arg($args, "--ps-protocol");
