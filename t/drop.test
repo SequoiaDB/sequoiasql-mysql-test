@@ -174,6 +174,7 @@ SET default_storage_engine = SequoiaDB;
 #
 # Bug#30152 MySQLD crash duing alter table causes DROP DATABASE to FAIL due to temp file
 #
+#Bug #SEQUOIADBMAINSTREAM-3617: when create table with special name, drop table fail
 create database mysql_test;
 create table mysql_test.t1(f1 int);
 create table mysql_test.`#sql-347f_7` (f1 int);
@@ -230,6 +231,7 @@ DROP DATABASE mysql_test;
 
 ###########################################################################
 
+#Bug #SEQUOIADBMAINSTREAM-3617: when create table with special name, drop table fail
 --echo
 #
 # Bug#26703: DROP DATABASE fails if database contains a #mysql50# table with backticks

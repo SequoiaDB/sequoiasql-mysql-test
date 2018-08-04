@@ -38,6 +38,15 @@ Warnings:
 Note	1051	Unknown table 'test.t1'
 create table not_existing_database.test (a int);
 ERROR 42000: Unknown database 'not_existing_database'
+create table `a/a` (a int);
+show create table `a/a`;
+Table	Create Table
+a/a	CREATE TABLE `a/a` (
+  `a` int(11) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+create table t1 like `a/a`;
+drop table `a/a`;
+drop table `t1`;
 create table `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa` (aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa int);
 ERROR 42000: Identifier name 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' is too long
 create table a (`aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa` int);
