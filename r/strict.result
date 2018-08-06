@@ -861,6 +861,18 @@ UPDATE t1 SET col2 =NULL WHERE col2 ='hello';
 ERROR 23000: Column 'col2' cannot be null
 UPDATE t1 SET col2 =NULL where col3 IS NOT NULL;
 ERROR 23000: Column 'col2' cannot be null
+INSERT IGNORE INTO t1 values (NULL,NULL,NULL);
+Warnings:
+Warning	1048	Column 'col1' cannot be null
+Warning	1048	Column 'col2' cannot be null
+Warning	1048	Column 'col3' cannot be null
+SELECT * FROM t1;
+col1	col2	col3
+100	hello	2004-08-20
+101	hell2	2004-08-21
+0		0000-00-00
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'col3' at row 3
 DROP TABLE t1;
 CREATE TABLE t1 (col1 INT NOT NULL default 99, col2 CHAR(6) NOT NULL);
 SHOW CREATE TABLE t1;
@@ -1018,6 +1030,47 @@ drop table t1;
 set sql_mode='traditional';
 Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
+create table t1 (col1 date);
+insert ignore into t1 values ('0000-00-00');
+Warnings:
+Warning	1264	Out of range value for column 'col1' at row 1
+insert into t1 select * from t1;
+ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'col1' at row 1
+insert ignore into t1 values ('0000-00-00');
+Warnings:
+Warning	1264	Out of range value for column 'col1' at row 1
+insert ignore into t1 (col1) values (cast('0000-00-00' as date));
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00'
+insert into t1 select * from t1;
+ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'col1' at row 1
+select * from t1;
+col1
+0000-00-00
+0000-00-00
+NULL
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'col1' at row 1
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'col1' at row 2
+drop table t1;
+create table t1 (col1 datetime);
+insert ignore into t1 values ('0000-00-00 00:00:00'),
+('0000-00-00 00:00:00'),
+(NULL);
+Warnings:
+Warning	1264	Out of range value for column 'col1' at row 1
+Warning	1264	Out of range value for column 'col1' at row 2
+insert into t1 select * from t1;
+ERROR 22007: Incorrect datetime value: '0000-00-00 00:00:00' for column 'col1' at row 1
+select * from t1;
+col1
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+NULL
+Warnings:
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'col1' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'col1' at row 2
+drop table t1;
 create table t1 (col1 tinyint);
 drop procedure if exists t1;
 Warnings:
@@ -1366,6 +1419,153 @@ Warning	1411	Incorrect datetime value: '2001' for function str_to_date
 # by Zero would cause the statement to fail if STRICT MODE was enabled
 # with ERROR_FOR_DIVISION_BY_ZERO mode.
 #
+SET @@sql_mode = 'ERROR_FOR_DIVISION_BY_ZERO,NO_ZERO_DATE,NO_ZERO_IN_DATE,STRICT_ALL_TABLES';
+CREATE TABLE t1 (a DATE);
+INSERT INTO t1 VALUES('0000-00-00');
+ERROR 22007: Incorrect date value: '0000-00-00' for column 'a' at row 1
+INSERT IGNORE INTO t1 VALUES('0000-00-00');
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+SELECT * FROM t1;
+a
+0000-00-00
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+INSERT INTO t1 VALUES('2004-0-30');
+ERROR 22007: Incorrect date value: '2004-0-30' for column 'a' at row 1
+INSERT IGNORE INTO t1 VALUES('2004-0-30');
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+SELECT * FROM t1;
+a
+0000-00-00
+0000-00-00
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
+UPDATE t1 SET a = '0000-00-00';
+ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+UPDATE IGNORE t1 SET a = '0000-00-00';
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+Warning	1264	Out of range value for column 'a' at row 1
+Warning	1264	Out of range value for column 'a' at row 2
+Warning	1264	Out of range value for column 'a' at row 2
+SELECT * FROM t1;
+a
+0000-00-00
+0000-00-00
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
+UPDATE t1 SET a = '2004-0-30';
+ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+UPDATE IGNORE t1 SET a = '2004-0-30';
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+Warning	1264	Out of range value for column 'a' at row 1
+Warning	1264	Out of range value for column 'a' at row 2
+Warning	1264	Out of range value for column 'a' at row 2
+SELECT * FROM t1;
+a
+0000-00-00
+0000-00-00
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
+INSERT INTO t1 SELECT * FROM t1;
+ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+INSERT IGNORE INTO t1 SELECT * FROM t1;
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 1
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
+Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 2
+Warning	1264	Out of range value for column 'a' at row 3
+Warning	1264	Out of range value for column 'a' at row 4
+SELECT * FROM t1;
+a
+0000-00-00
+0000-00-00
+0000-00-00
+0000-00-00
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 3
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 4
+CREATE TABLE t2(b DATE) SELECT a FROM t1;
+ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+CREATE TABLE t2 (b DATE) IGNORE SELECT a FROM t1;
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+Warning	1264	Out of range value for column 'a' at row 1
+Warning	1264	Out of range value for column 'a' at row 2
+Warning	1264	Out of range value for column 'a' at row 2
+Warning	1264	Out of range value for column 'a' at row 3
+Warning	1264	Out of range value for column 'a' at row 3
+Warning	1264	Out of range value for column 'a' at row 4
+Warning	1264	Out of range value for column 'a' at row 4
+SELECT * FROM t2;
+b	a
+NULL	0000-00-00
+NULL	0000-00-00
+NULL	0000-00-00
+NULL	0000-00-00
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 3
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 4
+DROP TABLE t2;
+INSERT INTO t1 VALUES(1/0);
+ERROR 22012: Division by 0
+INSERT IGNORE INTO t1 VALUES(1/0);
+Warnings:
+Warning	1365	Division by 0
+SELECT * FROM t1;
+a
+0000-00-00
+0000-00-00
+0000-00-00
+0000-00-00
+NULL
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 3
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 4
+UPDATE t1 SET a = (1/0);
+ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+UPDATE IGNORE t1 SET a = (1/0);
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+Warning	1365	Division by 0
+Warning	1264	Out of range value for column 'a' at row 2
+Warning	1365	Division by 0
+Warning	1264	Out of range value for column 'a' at row 3
+Warning	1365	Division by 0
+Warning	1264	Out of range value for column 'a' at row 4
+Warning	1365	Division by 0
+Warning	1365	Division by 0
+CREATE TABLE t2(b DATE) SELECT (1/0) FROM t1;
+ERROR 22012: Division by 0
+CREATE TABLE t2 (b DATE) IGNORE SELECT (1/0) FROM t1;
+Warnings:
+Warning	1365	Division by 0
+Warning	1365	Division by 0
+Warning	1365	Division by 0
+Warning	1365	Division by 0
+Warning	1365	Division by 0
+SELECT * FROM t2;
+b	(1/0)
+NULL	NULL
+NULL	NULL
+NULL	NULL
+NULL	NULL
+NULL	NULL
+# Clean-up
+DROP TABLE t1,t2;
 SET @@sql_mode = 'STRICT_ALL_TABLES,ALLOW_INVALID_DATES';
 Warnings:
 Warning	3135	'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
