@@ -2,6 +2,7 @@
 #be ported to run with SequoiaDB,
 # (#case #13102: Check update between muiti tables, table scan)
 # (#case #15435: Check update between muiti tables, index scan)
+# (#case #15569: update ignore when duplicate key)
 --source include/have_sequoiadb.inc
 
 #
@@ -817,20 +818,20 @@ DROP VIEW v1;
 --echo #
 
 #Bug #SEQUOIADBMAINSTREAM-3665
-#--disable_warnings
-#DROP TABLE IF EXISTS t1, t2;
-#--enable_warnings
+--disable_warnings
+DROP TABLE IF EXISTS t1, t2;
+--enable_warnings
 
-#CREATE TABLE t1 (id INT PRIMARY KEY);
-#INSERT INTO t1 VALUES (1), (2);
+CREATE TABLE t1 (id INT PRIMARY KEY);
+INSERT INTO t1 VALUES (1), (2);
 
-#--enable_info
-#UPDATE IGNORE t1, (SELECT 1 AS duplicate_id) AS t2 SET t1.id=t2.duplicate_id;
-#--disable_info
+--enable_info
+UPDATE IGNORE t1, (SELECT 1 AS duplicate_id) AS t2 SET t1.id=t2.duplicate_id;
+--disable_info
 
-#--echo # Check that no rows changed.
-#SELECT * FROM t1;
-#DROP TABLE t1;
+--echo # Check that no rows changed.
+SELECT * FROM t1;
+DROP TABLE t1;
 
 --echo #
 --echo #Bug 11757486 - 49539: NON-DESCRIPTIVE ERR (ERROR 0 FROM STORAGE ENGINE)

@@ -143,6 +143,39 @@ drop trigger trg1;
 drop trigger trg2;
 drop trigger trg3;
 drop table t1;
+create table t1 (id int not null primary key, data int);
+create trigger t1_bi before insert on t1 for each row
+set @log:= concat(@log, "(BEFORE_INSERT: new=(id=", new.id, ", data=", new.data,"))");
+create trigger t1_ai after insert on t1 for each row
+set @log:= concat(@log, "(AFTER_INSERT: new=(id=", new.id, ", data=", new.data,"))");
+create trigger t1_bu before update on t1 for each row
+set @log:= concat(@log, "(BEFORE_UPDATE: old=(id=", old.id, ", data=", old.data,
+") new=(id=", new.id, ", data=", new.data,"))");
+create trigger t1_au after update on t1 for each row
+set @log:= concat(@log, "(AFTER_UPDATE: old=(id=", old.id, ", data=", old.data,
+") new=(id=", new.id, ", data=", new.data,"))");
+create trigger t1_bd before delete on t1 for each row
+set @log:= concat(@log, "(BEFORE_DELETE: old=(id=", old.id, ", data=", old.data,"))");
+create trigger t1_ad after delete on t1 for each row
+set @log:= concat(@log, "(AFTER_DELETE: old=(id=", old.id, ", data=", old.data,"))");
+set @log:= "";
+insert into t1 values (1, 1);
+select @log;
+@log
+(BEFORE_INSERT: new=(id=1, data=1))(AFTER_INSERT: new=(id=1, data=1))
+set @log:= "";
+insert ignore t1 values (1, 2);
+Warnings:
+Warning	1022	Can't write; duplicate key in table 't1'
+select @log;
+@log
+(BEFORE_INSERT: new=(id=1, data=2))
+set @log:= "";
+set @log:= "";
+drop trigger t1_bd;
+drop trigger t1_ad;
+set @log:= "";
+drop table t1;
 create table t1 (id int primary key, data varchar(10), fk int);
 create table t2 (event varchar(100));
 create table t3 (id int primary key);
@@ -1807,6 +1840,36 @@ DROP TABLE t1;
 # Bug#16522924 : UPDATE TRIGGER INVOKED WHEN UPDATE IGNORE MEANS
 #                      THAT NO UPDATE IS PERFORMED
 #
+CREATE TABLE t1 (a INT PRIMARY KEY);
+CREATE TABLE t2 (after_update CHAR(50));
+CREATE TABLE t3(b INT PRIMARY KEY);
+INSERT INTO t1 VALUES (1), (2);
+INSERT INTO t3 VALUES (1);
+CREATE TRIGGER post_update_t1 AFTER UPDATE ON t1
+FOR EACH ROW BEGIN
+INSERT INTO t2 VALUES("POST UPDATE TRIGGER FOR UPDATE IGNORE ON t1 FIRED");
+END|
+UPDATE IGNORE t1 SET a=2 WHERE a=1;
+Warnings:
+Warning	1022	Can't write; duplicate key in table 't1'
+SELECT * FROM t2;
+after_update
+UPDATE IGNORE t1,t3 SET t1.a=2 WHERE t1.a=1;
+Warnings:
+Warning	1022	Can't write; duplicate key in table 't1'
+SELECT * FROM t2;
+after_update
+UPDATE IGNORE t3,t1 SET t1.a=2 WHERE t1.a=1;
+Warnings:
+Warning	1022	Can't write; duplicate key in table 't1'
+SELECT * FROM t1;
+a
+1
+2
+SELECT * FROM t2;
+after_update
+DROP TRIGGER post_update_t1;
+DROP TABLE t1,t2,t3;
 #
 # WL#9262: All system tables should support 32 character length user names
 #
