@@ -4401,46 +4401,46 @@ DROP TABLE t1,t2;
 #Bug #SEQUOIADBMAINSTREAM-3560
 #
 
-#CREATE TABLE t1 (a INT, b INT, PRIMARY KEY (a), KEY b (b));
-#
-#INSERT INTO t1 VALUES (1,NULL), (9,NULL);
-#
-#CREATE TABLE t2 (
-#  a INT,
-#  b INT,
-#  c INT,
-#  d INT,
-#  PRIMARY KEY (a),
-#  UNIQUE KEY b (b,c,d),
-#  KEY b_2 (b),
-#  KEY c (c),
-#  KEY d (d)
-#);
-#
-#INSERT INTO t2 VALUES
-#  (43, 2, 11 ,30),
-#  (44, 2, 12 ,30),
-#  (45, 1, 1  ,10000),
-#  (46, 1, 2  ,10000),
-#  (556,1, 32 ,10000);
-#
-#CREATE TABLE t3 (
-#  a INT,
-#  b INT,
-#  c INT,
-#  PRIMARY KEY (a),
-#  UNIQUE KEY b (b,c),
-#  KEY c (c),
-#  KEY b_2 (b)
-#);
-#
-#INSERT INTO t3 VALUES (1,1,1), (2,32,1);
-#
+CREATE TABLE t1 (a INT, b INT, PRIMARY KEY (a), KEY b (b));
+
+INSERT INTO t1 VALUES (1,NULL), (9,NULL);
+
+CREATE TABLE t2 (
+  a INT,
+  b INT,
+  c INT,
+  d INT,
+  PRIMARY KEY (a),
+  UNIQUE KEY b (b,c,d),
+  KEY b_2 (b),
+  KEY c (c),
+  KEY d (d)
+);
+
+INSERT INTO t2 VALUES
+  (43, 2, 11 ,30),
+  (44, 2, 12 ,30),
+  (45, 1, 1  ,10000),
+  (46, 1, 2  ,10000),
+  (556,1, 32 ,10000);
+
+CREATE TABLE t3 (
+  a INT,
+  b INT,
+  c INT,
+  PRIMARY KEY (a),
+  UNIQUE KEY b (b,c),
+  KEY c (c),
+  KEY b_2 (b)
+);
+
+INSERT INTO t3 VALUES (1,1,1), (2,32,1);
+
 #explain
 #SELECT t1.a, (SELECT 1 FROM t2 WHERE t2.b=t3.c AND t2.c=t1.a ORDER BY t2.d LIMIT 1) AS incorrect FROM t1, t3 WHERE t3.b=t1.a;
-#SELECT t1.a, (SELECT 1 FROM t2 WHERE t2.b=t3.c AND t2.c=t1.a ORDER BY t2.d LIMIT 1) AS incorrect FROM t1, t3 WHERE t3.b=t1.a;
-#
-#DROP TABLE t1,t2,t3;
+SELECT t1.a, (SELECT 1 FROM t2 WHERE t2.b=t3.c AND t2.c=t1.a ORDER BY t2.d LIMIT 1) AS incorrect FROM t1, t3 WHERE t3.b=t1.a;
+
+DROP TABLE t1,t2,t3;
 
 #
 # Bug#37460 Assertion failed:

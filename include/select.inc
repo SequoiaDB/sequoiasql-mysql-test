@@ -1501,26 +1501,26 @@ select period from t1 where period=1900;
 #
 
 #Bug #SEQUOIADBMAINSTREAM-3560
-#create table t4 (
-#  companynr tinyint(2) unsigned zerofill NOT NULL default '00',
-#  companyname char(30) NOT NULL default '',
-#  PRIMARY KEY (companynr),
-#  UNIQUE KEY companyname(companyname)
-#) ENGINE=SequoiaDB MAX_ROWS=50 PACK_KEYS=1 ;
-#
+create table t4 (
+  companynr tinyint(2) unsigned zerofill NOT NULL default '00',
+  companyname char(30) NOT NULL default '',
+  PRIMARY KEY (companynr),
+  UNIQUE KEY companyname(companyname)
+) ENGINE=SequoiaDB MAX_ROWS=50 PACK_KEYS=1 ;
+
 --disable_query_log
-#INSERT INTO t4 (companynr, companyname) VALUES (29,'company 1');
-#INSERT INTO t4 (companynr, companyname) VALUES (34,'company 2');
-#INSERT INTO t4 (companynr, companyname) VALUES (36,'company 3');
-#INSERT INTO t4 (companynr, companyname) VALUES (37,'company 4');
-#INSERT INTO t4 (companynr, companyname) VALUES (40,'company 5');
-#INSERT INTO t4 (companynr, companyname) VALUES (41,'company 6');
-#INSERT INTO t4 (companynr, companyname) VALUES (53,'company 7');
-#INSERT INTO t4 (companynr, companyname) VALUES (58,'company 8');
-#INSERT INTO t4 (companynr, companyname) VALUES (65,'company 9');
-#INSERT INTO t4 (companynr, companyname) VALUES (68,'company 10');
-#INSERT INTO t4 (companynr, companyname) VALUES (50,'company 11');
-#INSERT INTO t4 (companynr, companyname) VALUES (00,'Unknown');
+INSERT INTO t4 (companynr, companyname) VALUES (29,'company 1');
+INSERT INTO t4 (companynr, companyname) VALUES (34,'company 2');
+INSERT INTO t4 (companynr, companyname) VALUES (36,'company 3');
+INSERT INTO t4 (companynr, companyname) VALUES (37,'company 4');
+INSERT INTO t4 (companynr, companyname) VALUES (40,'company 5');
+INSERT INTO t4 (companynr, companyname) VALUES (41,'company 6');
+INSERT INTO t4 (companynr, companyname) VALUES (53,'company 7');
+INSERT INTO t4 (companynr, companyname) VALUES (58,'company 8');
+INSERT INTO t4 (companynr, companyname) VALUES (65,'company 9');
+INSERT INTO t4 (companynr, companyname) VALUES (68,'company 10');
+INSERT INTO t4 (companynr, companyname) VALUES (50,'company 11');
+INSERT INTO t4 (companynr, companyname) VALUES (00,'Unknown');
 --enable_query_log
 
 #
@@ -1624,8 +1624,9 @@ select count(*) from t1;
 #select companynr,t2nr,count(price),sum(price),min(price),max(price),avg(price) from t3 where companynr = 37 group by companynr,t2nr limit 10;
 #select /*! SQL_SMALL_RESULT */ companynr,t2nr,count(price),sum(price),min(price),max(price),avg(price) from t3 where companynr = 37 group by companynr,t2nr limit 10;
 #select companynr,count(price),sum(price),min(price),max(price),avg(price) from t3 group by companynr ;
-#select distinct mod(companynr,10) from t4 group by companynr;
-#select distinct 1 from t4 group by companynr;
+--sorted_result
+select distinct mod(companynr,10) from t4 group by companynr;
+select distinct 1 from t4 group by companynr;
 #select count(distinct fld1) from t2;
 #select companynr,count(distinct fld1) from t2 group by companynr;
 #select companynr,count(*) from t2 group by companynr;
@@ -1655,7 +1656,7 @@ select count(*) from t1;
 #
 
 --source include/turn_off_only_full_group_by.inc
-#select companynr|0,companyname from t4 group by 1;
+select companynr|0,companyname from t4 group by 1;
 --source include/restore_sql_mode_after_turn_off_only_full_group_by.inc
 
 #select t2.companynr,companyname,count(*) from t2,t4 where t2.companynr=t4.companynr group by t2.companynr order by companyname;
@@ -1787,7 +1788,7 @@ show tables from test like "t?";
 #show full columns from t2 from test like 's%';
 #show keys from t2;
 
-drop table if exists t3, t1;
+drop table if exists t4, t3, t1;
 
 #
 # Test of DO
