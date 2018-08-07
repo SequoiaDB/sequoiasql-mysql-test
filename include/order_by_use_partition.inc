@@ -71,7 +71,9 @@ drop table t1;
 
 create table t1 (i int);
 insert into t1 values(1),(2),(1),(2),(1),(2),(3);
+--sorted_result
 select distinct i from t1;
+--sorted_result
 select distinct i from t1 order by rand(5);
 select distinct i from t1 order by i desc;
 select distinct i from t1 order by 1-i;
@@ -149,12 +151,12 @@ INSERT INTO t2 VALUES (1,50);
 INSERT INTO t2 VALUES (2,25);
 INSERT INTO t3 VALUES (1,'123 Park Place');
 INSERT INTO t3 VALUES (2,'453 Boardwalk');
-
+--sorted_result
 SELECT    a,b,if(b = 1,i,if(b = 2,v,''))
 FROM      t1
 LEFT JOIN t2 USING(c)
 LEFT JOIN t3 ON t3.c = t1.c;
-
+--sorted_result
 SELECT    a,b,if(b = 1,i,if(b = 2,v,''))
 FROM      t1
 LEFT JOIN t2 ON t1.c = t2.c
@@ -543,7 +545,7 @@ insert into t1 (`sid`, `wnid`) values
 
 #explain select * from t1 where wnid like '0101%' order by wnid;
 
-select * from t1 where wnid like '0101%' order by wnid;
+select * from t1 where wnid like '0101%' order by wnid,sid;
 
 drop table t1;
 
@@ -581,9 +583,11 @@ SELECT CONCAT('test', a) AS str FROM t1 ORDER BY UPPER(str);
 --source include/turn_off_only_full_group_by.inc
 SELECT a + 1 AS num FROM t1 GROUP BY 30 - num;
 --source include/restore_sql_mode_after_turn_off_only_full_group_by.inc
+--sorted_result
 SELECT a + 1 AS num FROM t1 HAVING 30 - num;
 --error ER_BAD_FIELD_ERROR
 SELECT a + 1 AS num, num + 1 FROM t1;
+--sorted_result
 SELECT a + 1 AS num, (select num + 2 FROM t1 LIMIT 1) FROM t1;
 --error ER_BAD_FIELD_ERROR
 SELECT a.a + 1 AS num FROM t1 a JOIN t1 b ON num = b.a;
@@ -661,9 +665,9 @@ SELECT IF(a IN (1,2), a, '') as x1, IF(a NOT IN (1,2), a, '') as x2
   FROM t1 GROUP BY x1, IF(a NOT IN (1,2), a, '');
 
 # The remaining queries are for better coverage
-SELECT a, a IN (1,2) FROM t1 ORDER BY a IN (1,2);
-SELECT a FROM t1 ORDER BY a IN (1,2);
-SELECT a+10 FROM t1 ORDER BY a IN (1,2);
+SELECT a, a IN (1,2) FROM t1 ORDER BY a IN (1,2),a;
+SELECT a FROM t1 ORDER BY a IN (1,2),a;
+SELECT a+10 FROM t1 ORDER BY a IN (1,2),a;
 SELECT a, IF(a IN (1,2), a, a+10) FROM t1
   ORDER BY IF(a IN (3,4), a, a+10);   
 DROP TABLE t1;
@@ -851,7 +855,7 @@ CREATE TABLE t3 (c INT);
 INSERT INTO t1 (a) VALUES (1), (2);
 INSERT INTO t2 (a,b) VALUES (1,2), (2,3);
 INSERT INTO t3 (c) VALUES (1), (2);
-
+--sorted_result
 SELECT
   (SELECT t1.a FROM t1, t2 WHERE t1.a = t2.b AND t2.a = t3.c ORDER BY t1.a)
   FROM t3;
