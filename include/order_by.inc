@@ -732,15 +732,16 @@ DROP TABLE t1;
 #
 # BUG#16590: Optimized does not do right "const" table pre-read
 #
-CREATE TABLE t1 (a INT, b INT, PRIMARY KEY (a), UNIQUE KEY b (b));
-INSERT INTO t1 VALUES (1,1),(2,2);
+#Sequoiadb not support explain
+#CREATE TABLE t1 (a INT, b INT, PRIMARY KEY (a), UNIQUE KEY b (b));
+#INSERT INTO t1 VALUES (1,1),(2,2);
 
-CREATE TABLE t2 (a INT, b INT, KEY a (a,b));
-INSERT INTO t2 VALUES (1,1),(1,2),(2,1),(2,2);
+#CREATE TABLE t2 (a INT, b INT, KEY a (a,b));
+#INSERT INTO t2 VALUES (1,1),(1,2),(2,1),(2,2);
 
 #EXPLAIN SELECT 1 FROM t1,t2 WHERE t1.b=2 AND t1.a=t2.a ORDER BY t2.b;
 
-DROP TABLE t1,t2;
+#DROP TABLE t1,t2;
 
 # End of 5.0
 
