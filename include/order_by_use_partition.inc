@@ -505,13 +505,14 @@ drop table t1, t2;
 #
 # Bug #5428: a problem with small max_sort_length value
 #
-
+# In order to guarantee the sorted results, set max_sort_length=21
 create table t1 (a char(25));
 insert into t1 set a = repeat('x', 20);
 insert into t1 set a = concat(repeat('x', 19), 'z');
 insert into t1 set a = concat(repeat('x', 19), 'ab');
 insert into t1 set a = concat(repeat('x', 19), 'aa');
-set max_sort_length=20;
+#set max_sort_length=20;
+set max_sort_length=21;
 select a from t1 order by a;
 drop table t1;
 
