@@ -4031,10 +4031,13 @@ sub mysql_install_db {
   mkpath("$install_datadir/mysql");
   mkpath("$install_datadir/test");
 
-  # liuxiaoxuan: Create directories for each parallel
-  for my $child_num (1..$opt_parallel)
+  # liuxiaoxuan: Create directories for each parallel when parallel > 1
+  if ($opt_parallel > 1)
   {
-     mkpath("$install_datadir/test_parallel_$child_num");
+     for my $child_num (1..$opt_parallel)
+     {
+        mkpath("$install_datadir/test_parallel_$opt_parallel");
+     }
   }
 
   if ( My::SafeProcess->run
