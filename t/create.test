@@ -51,12 +51,12 @@ drop table if exists t1;
 
 -- error 1049
 create table not_existing_database.test (a int);
-# NOW Sequoiadb not support special table name
-#create table `a/a` (a int);
-#show create table `a/a`;
-#create table t1 like `a/a`;
-#drop table `a/a`;
-#drop table `t1`;
+#Bug #SEQUOIADBMAINSTREAM-3617, when create table with special name, drop table fail
+create table `a/a` (a int);
+show create table `a/a`;
+create table t1 like `a/a`;
+drop table `a/a`;
+drop table `t1`;
 --error ER_TOO_LONG_IDENT
 create table `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa` (aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa int);
 --error 1059
