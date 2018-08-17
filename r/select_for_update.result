@@ -15,7 +15,7 @@ update t1 set a = 1 where a >= 0;
 set counter = counter + 1;
 until counter >= 50 end repeat;
 end $
-connect con1, localhost, root;
+connect con1, localhost, root,, $current_db,,;
 call p1();   # run this in two connections!;
 connection default;
 call p1();

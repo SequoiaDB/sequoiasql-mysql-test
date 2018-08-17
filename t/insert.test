@@ -6,6 +6,9 @@
 #
 # Test of refering to old values
 #
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_insert;
+use test_insert;
 
 --disable_warnings
 drop table if exists t1,t2,t3;
@@ -85,14 +88,15 @@ drop table t1;
 #
 
 --disable_warnings
-drop database if exists mysqltest;
+# Compatible with parallel > 1, don't use mysqltest here, instead use database: mysqltest_casename
+drop database if exists mysqltest_insert;
 --enable_warnings
-create database mysqltest;
-use mysqltest;
+create database mysqltest_insert;
+use mysqltest_insert;
 create table t1 (c int);
-insert into mysqltest.t1 set mysqltest.t1.c = '1';
-drop database mysqltest;
-use test;
+insert into mysqltest_insert.t1 set mysqltest_insert.t1.c = '1';
+drop database mysqltest_insert;
+use test_insert;
 
 #
 # Test of wrong values for float data (bug #2082)
@@ -726,5 +730,8 @@ DROP TABLE t1;
 #--disable_warnings
 #
 #DROP TABLE t2, t1;
+
+# DROP DATABASE
+DROP DATABASE test_insert;
 
 --source include/uninstall_sequoiadb.inc

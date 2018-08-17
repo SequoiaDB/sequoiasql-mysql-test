@@ -6,9 +6,9 @@ DROP DATABASE IF EXISTS world;
 #set names utf8;
 set character_set_server=utf8;
 
-CREATE DATABASE world;
+#CREATE DATABASE world;
 
-use world;
+#use world;
 
 --source include/world_schema1.inc
 
@@ -86,12 +86,12 @@ SELECT city.Name, country.Name, countrylanguage.Language
 set join_buffer_size=default;
 show variables like 'join_buffer_size';
 
-DROP DATABASE world; 
+#DROP DATABASE world; 
+DROP TABLE city,country,countrylanguage;
 
+#CREATE DATABASE world;
 
-CREATE DATABASE world;
-
-use world;
+#use world;
 
 --source include/world_schema.inc
 
@@ -257,9 +257,10 @@ set join_buffer_size=default;
 #
 #set join_buffer_size=default;
 #
-DROP DATABASE world;
+#DROP DATABASE world;
+DROP TABLE city,country,countrylanguage;
 
-use test;
+#use test;
 
 #
 # Bug #35685: assertion abort when initializing a BKA cache

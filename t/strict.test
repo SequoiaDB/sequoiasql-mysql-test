@@ -7,6 +7,10 @@ set @org_mode=@@sql_mode;
 set @@sql_mode='ansi,traditional';
 select @@sql_mode;
 
+# Compatible with parallel > 1, check information_schema, should create and use database: test_casename
+create database test_strict;
+use test_strict;
+
 --disable_warnings
 DROP TABLE IF EXISTS t1, t2;
 --enable_warnings
@@ -1297,7 +1301,7 @@ create table t1
   123456789*123456789*123456789*123456789*');
 SET sql_mode = default;
 select column_name, column_comment from information_schema.columns where
-table_schema = 'test' and table_name = 't1';
+table_schema = 'test_strict' and table_name = 't1';
 drop table t1;
 
 #Sequoiadb not support create table comment
@@ -1628,5 +1632,8 @@ ALTER TABLE t1 ADD KEY in_c1(c1);
 #SHOW WARNINGS;
 --echo # Clean-up
 DROP TABLE t1;
+
+# DROP DATABASE
+DROP DATABASE test_strict;
 
 --source include/uninstall_sequoiadb.inc

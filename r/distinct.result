@@ -1,3 +1,5 @@
+create database test_distinct;
+use test_distinct;
 drop table if exists t1,t2,t3;
 CREATE TABLE t1 (id int,facility char(20));
 CREATE TABLE t2 (facility char(20));
@@ -843,10 +845,10 @@ min(b)
 2
 This query gives random order:
 select distinct b from t1 order by c;
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.t1.c' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.t1.c' which is not in SELECT list; this is incompatible with DISTINCT
 and this one too:
 select distinct b from t1 order by b-1,b+1,c;
-ERROR HY000: Expression #3 of ORDER BY clause is not in SELECT list, references column 'test.t1.c' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #3 of ORDER BY clause is not in SELECT list, references column 'test_distinct.t1.c' which is not in SELECT list; this is incompatible with DISTINCT
 and this one too:
 select distinct min(b) from t1 group by a order by min(c);
 ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, contains aggregate function; this is incompatible with DISTINCT
@@ -891,7 +893,7 @@ z
 1
 2
 select distinct b from t1 order by abs(b+a);
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.t1.a' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.t1.a' which is not in SELECT list; this is incompatible with DISTINCT
 select distinct abs(b) as z from t1 order by z;
 z
 1
@@ -907,23 +909,23 @@ abs(b)
 Not ok: ABS(b)+1 is neither a SELECTed expression nor an alias
 to one, and mentions a column of FROM tables.
 select distinct abs(b) as z from t1 order by abs(b)+1;
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.t1.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.t1.b' which is not in SELECT list; this is incompatible with DISTINCT
 select distinct abs(b) as z from t1 order by z+1;
 z
 1
 2
 select distinct abs(b) from t1 order by abs(b)+1;
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.t1.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.t1.b' which is not in SELECT list; this is incompatible with DISTINCT
 select distinct abs(b) as z from t1 order by floor(10*b);
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.t1.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.t1.b' which is not in SELECT list; this is incompatible with DISTINCT
 select distinct abs(b) from t1 order by floor(10*b);
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.t1.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.t1.b' which is not in SELECT list; this is incompatible with DISTINCT
 Two offending columns; error message needs to report only one
 select distinct abs(b) from t1 order by floor(10*b),floor(10*a);
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.t1.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.t1.b' which is not in SELECT list; this is incompatible with DISTINCT
 select distinct abs(b) from t1 as S2 order by
 (select floor(10*S2.b) from t1 as S3 limit 1);
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.S2.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.S2.b' which is not in SELECT list; this is incompatible with DISTINCT
 Ok as S2.b in SELECT list
 select distinct abs(b),b from t1 as S2 order by
 (select floor(10*S2.b) from t1 as S3 limit 1);
@@ -946,16 +948,16 @@ abs(b)	subq
 Bad field in left or right argument of ALL/ANY(subq):
 select distinct abs(b) from t1 as S2 order by
 floor(10*S2.b) IN (select floor(10*S3.b) from t1 as S3);
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.S2.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.S2.b' which is not in SELECT list; this is incompatible with DISTINCT
 select distinct abs(b) from t1 as S2 order by
 floor(10*S2.b) > ALL(select floor(10*S3.b) from t1 as S3);
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.S2.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.S2.b' which is not in SELECT list; this is incompatible with DISTINCT
 select distinct abs(b) from t1 as S2 order by
 floor(10*10) IN (select floor(10*S2.b) from t1 as S3);
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.S2.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.S2.b' which is not in SELECT list; this is incompatible with DISTINCT
 select distinct abs(b) from t1 as S2 order by
 floor(10*10) > ALL(select floor(10*S2.b) from t1 as S3);
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.S2.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.S2.b' which is not in SELECT list; this is incompatible with DISTINCT
 Aggregates:
 SELECT distinct 1 FROM t1 group by a order by count(*);
 ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, contains aggregate function; this is incompatible with DISTINCT
@@ -999,7 +1001,7 @@ QA's query is properly rejected:
 SELECT DISTINCT GP1.a AS g1 FROM t1 AS GP1
 WHERE GP1.a >= 0
 ORDER BY GP1.b LIMIT 8;
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.GP1.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.GP1.b' which is not in SELECT list; this is incompatible with DISTINCT
 result order does change depending on chosen plan.
 SELECT DISTINCT GP1.a AS g1 FROM t1 AS GP1
 WHERE GP1.a >= 0
@@ -1607,10 +1609,10 @@ g1
 truncate table t1;
 select distinct t1_outer.a from t1 t1_outer
 order by t1_outer.b;
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.t1_outer.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.t1_outer.b' which is not in SELECT list; this is incompatible with DISTINCT
 select distinct t1_outer.a from t1 t1_outer
 order by (select max(t1_outer.b+t1_inner.b) from t1 t1_inner);
-ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test.t1_outer.b' which is not in SELECT list; this is incompatible with DISTINCT
+ERROR HY000: Expression #1 of ORDER BY clause is not in SELECT list, references column 'test_distinct.t1_outer.b' which is not in SELECT list; this is incompatible with DISTINCT
 select
 (select distinct 1 from t1 t1_inner
 group by t1_inner.a order by max(t1_outer.b))
@@ -1631,4 +1633,5 @@ c
 4
 3
 DROP TABLE t1;
+DROP DATABASE test_distinct;
 # End of test for Bug#22686994

@@ -24,6 +24,10 @@ SET @save_sql_mode=@@sql_mode;
 # - an error is the expected result with the current implementation,
 #   and is a limitation.
 
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_parser;
+use test_parser;
+
 set SQL_MODE='';
 
 create table ADDDATE(a int);
@@ -1272,16 +1276,17 @@ SELECT  !((UNHEX() IS NULL));
 --echo #
 --echo # Bug #20086997: PARSER CONFUSES WITH 7BIT-CHARACTER STRING DETECTION
 --echo #
-
-CREATE DATABASE mysqltest1 CHARACTER SET LATIN2;
-USE mysqltest1;
+# Compatible with parallel > 1, don't use mysqltest1 here, instead use database: mysqltest1_casename
+CREATE DATABASE mysqltest1_parser CHARACTER SET LATIN2;
+USE mysqltest1_parser;
 CREATE TABLE t1 (a VARCHAR(255) CHARACTER SET LATIN2);
 SET CHARACTER SET cp1250_latin2;
 INSERT INTO t1 VALUES ('£¥ª¯');
 INSERT INTO t1 VALUES ('£¥ª¯' '');
 SELECT HEX(a) FROM t1;
-DROP DATABASE mysqltest1;
-USE test;
+DROP DATABASE mysqltest1_parser;
+USE test_parser;
+
 
 --echo #
 --echo # WL #7201, WL #7202 and WL#8062 coverage tests
@@ -1356,6 +1361,9 @@ ALTER TABLE t1 WITHOUT VALIDATION;
 ALTER TABLE t1 LOCK=SHARED, WITH VALIDATION, ALGORITHM=COPY,
                LOCK=EXCLUSIVE, WITHOUT VALIDATION, ALGORITHM=INPLACE;
 DROP TABLE t1;
+
+# DROP DATABASE 
+DROP DATABASE test_parser;
 
 --echo #
 

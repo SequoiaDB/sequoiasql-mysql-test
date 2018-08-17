@@ -6,6 +6,10 @@
 --echo # using SP variables
 --echo #
 
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+CREATE DATABASE test_sp_bugs;
+USE test_sp_bugs;
+
 CREATE SCHEMA testdb;
 USE testdb;
 DELIMITER |;
@@ -58,7 +62,7 @@ SELECT f2 ();
 
 DROP SCHEMA testdb;
 
-USE test;
+USE test_sp_bugs;
 
 --echo #
 --echo # Bug#50423: Crash on second call of a procedure dropping a trigger
@@ -134,7 +138,7 @@ SELECT DATABASE();
 --error 1030
 SELECT db1.f1(1);
 SELECT DATABASE();
-USE test;
+USE test_sp_bugs;
 DROP FUNCTION db1.f1;
 DROP TABLE db1.t1;
 DROP DATABASE db1;
@@ -162,7 +166,7 @@ CALL p1();
 --echo # below stmt should not return valgrind warnings
 CALL p1(); 
 DROP DATABASE testdb;
-USE test;
+USE test_sp_bugs;
 
 --echo End of 5.1 tests
 
@@ -369,5 +373,8 @@ delimiter ;|
 SELECT fn1();
 DROP FUNCTION fn1;
 SET sql_mode= default;
+
+# DROP DATABASE
+DROP DATABASE test_sp_bugs;
 
 --source include/uninstall_sequoiadb.inc

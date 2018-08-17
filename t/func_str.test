@@ -8,6 +8,10 @@
 # -----------
 # Testing string functions
 
+# Compatible with parallel > 1, table name will be printed when check error, should create and use database: test_casename
+create database test_func_str;
+use test_func_str;
+
 --disable_warnings
 drop table if exists t1,t2;
 --enable_warnings
@@ -1871,5 +1875,8 @@ WHERE trim(leading  'A' FROM COUNTRY) = 'ustralia'
   AND trim(trailing 'a' FROM COUNTRY) = 'Australi';
 
 DROP TABLE t1;
+
+# DROP DATABASE
+DROP DATABASE test_func_str;
 
 --source include/uninstall_sequoiadb.inc

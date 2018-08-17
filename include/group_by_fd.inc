@@ -9,6 +9,10 @@ set optimizer_trace="enabled=on";
 SET @old_sql_mode = @@sql_mode;
 SET @@sql_mode='ONLY_FULL_GROUP_BY';
 
+# Compatible with parallel > 1, don't use test here, instead create and use database: test_casename
+create database test_group_by_fd_no_prot;
+use test_group_by_fd_no_prot;
+
 # NOW SequoiaDB not support merge
 #--echo #
 #--echo # Bug#16021396 ONLY_FULL_GROUP_BY REJECTS VALID QUERY USING VIEW
@@ -1040,3 +1044,4 @@ DROP TABLE t1,t2;
 #DROP TABLE t,u;
 
 DROP FUNCTION show_json_object;
+DROP DATABASE test_group_by_fd_no_prot;

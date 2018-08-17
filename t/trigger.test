@@ -3,7 +3,7 @@
 --source include/have_sequoiadb.inc
 
 # This test uses chmod, can't be run with root permissions
--- source include/not_as_root.inc
+#-- source include/not_as_root.inc
 
 
 #
@@ -13,15 +13,21 @@
 --disable_warnings
 drop table if exists t1, t2, t3, t4;
 drop view if exists v1;
-drop database if exists mysqltest;
+# Compatible with parallel > 1, don't use mysqltest here, instead use database: mysqltest_casename
+drop database if exists mysqltest_trigger;
 drop function if exists f1;
 drop function if exists f2;
 drop procedure if exists p1;
 --enable_warnings
 
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_trigger;
+use test_trigger;
+
 # Create additional connections used through test
-connect (addconroot1, localhost, root,,);
-connect (addconroot2, localhost, root,,);
+# new connection, should identify with database name
+connect (addconroot1, localhost, root,, test_trigger,,);
+connect (addconroot2, localhost, root,, test_trigger,,);
 # Connection without current database set
 connect (addconwithoutdb, localhost, root,,*NO-ONE*);
 connection default;
@@ -401,25 +407,25 @@ select * from t1;
 drop table t1;
 
 # Test for bug #6559 "DROP DATABASE forgets to drop triggers". 
-create database mysqltest;
-use mysqltest;
+create database mysqltest_trigger;
+use mysqltest_trigger;
 create table t1 (i int);
 create trigger trg1 before insert on t1 for each row set @a:= 1;
 # This should succeed
-drop database mysqltest;
-use test;
+drop database mysqltest_trigger;
+use test_trigger;
 
 # Test for bug #8791
 # "Triggers: Allowed to create triggers on a subject table in a different DB". 
-create database mysqltest;
-create table mysqltest.t1 (i int);
+create database mysqltest_trigger;
+create table mysqltest_trigger.t1 (i int);
 --error ER_TRG_IN_WRONG_SCHEMA
-create trigger trg1 before insert on mysqltest.t1 for each row set @a:= 1;
-use mysqltest;
+create trigger trg1 before insert on mysqltest_trigger.t1 for each row set @a:= 1;
+use mysqltest_trigger;
 --error ER_NO_SUCH_TABLE
-create trigger test.trg1 before insert on t1 for each row set @a:= 1;
-drop database mysqltest;
-use test;
+create trigger test_trigger.trg1 before insert on t1 for each row set @a:= 1;
+drop database mysqltest_trigger;
+use test_trigger;
 
 
 # Test for bug #5860 "Multi-table UPDATE does not activate update triggers"
@@ -1037,9 +1043,9 @@ drop table t1;
 #
 connection addconwithoutdb;
 --error ER_NO_DB_ERROR
-create trigger t1_bi before insert on test.t1 for each row set @a:=0;
+create trigger t1_bi before insert on test_trigger.t1 for each row set @a:=0;
 --error ER_NO_SUCH_TABLE
-create trigger test.t1_bi before insert on t1 for each row set @a:=0;
+create trigger test_trigger.t1_bi before insert on t1 for each row set @a:=0;
 --error ER_NO_DB_ERROR
 drop trigger t1_bi;
 connection default;
@@ -1052,7 +1058,7 @@ connection default;
 #Sequoiadb not support rename table
 #create table t1 (id int);
 #create trigger t1_bi before insert on t1 for each row set @a:=new.id;
-#create trigger t1_ai after insert on test.t1 for each row set @b:=new.id;
+#create trigger t1_ai after insert on test_trigger.t1 for each row set @b:=new.id;
 #insert into t1 values (101);
 #select @a, @b;
 #select trigger_schema, trigger_name, event_object_schema,
@@ -1085,51 +1091,51 @@ connection default;
 #drop trigger t1_ai;
 #drop table t4;
 ## Rename between different databases if triggers exist should fail
-#create database mysqltest;
-#use mysqltest;
+#create database mysqltest_trigger;
+#use mysqltest_trigger;
 #create table t1 (id int);
 #create trigger t1_bi before insert on t1 for each row set @a:=new.id;
 #insert into t1 values (101);
 #select @a;
 #select trigger_schema, trigger_name, event_object_schema,
 #       event_object_table, action_statement from information_schema.triggers
-#       where event_object_schema = 'test' or event_object_schema = 'mysqltest';
+#       where event_object_schema = 'test' or event_object_schema = 'mysqltest_trigger';
 #--error ER_TRG_IN_WRONG_SCHEMA
-#rename table t1 to test.t2;
+#rename table t1 to test_trigger.t2;
 #insert into t1 values (102);
 #select @a;
 #select trigger_schema, trigger_name, event_object_schema,
 #       event_object_table, action_statement from information_schema.triggers
-#       where event_object_schema = 'test' or event_object_schema = 'mysqltest';
+#       where event_object_schema = 'test' or event_object_schema = 'mysqltest_trigger';
 ## There should be no fantom .TRN files 
 #--error ER_TRG_DOES_NOT_EXIST
-#drop trigger test.t1_bi;
+#drop trigger test_trigger.t1_bi;
 ## Let us also check handling of this restriction in ALTER TABLE ... RENAME
 #--error ER_TRG_IN_WRONG_SCHEMA
-#alter table t1 rename to test.t1;
+#alter table t1 rename to test_trigger.t1;
 #insert into t1 values (103);
 #select @a;
 #select trigger_schema, trigger_name, event_object_schema,
 #       event_object_table, action_statement from information_schema.triggers
-#       where event_object_schema = 'test' or event_object_schema = 'mysqltest';
+#       where event_object_schema = 'test' or event_object_schema = 'mysqltest_trigger';
 ## Again there should be no fantom .TRN files 
 #--error ER_TRG_DOES_NOT_EXIST
-#drop trigger test.t1_bi;
+#drop trigger test_trigger.t1_bi;
 #--error ER_TRG_IN_WRONG_SCHEMA
-#alter table t1 rename to test.t1, add column val int default 0;
+#alter table t1 rename to test_trigger.t1, add column val int default 0;
 #insert into t1 values (104);
 #select @a;
 #select trigger_schema, trigger_name, event_object_schema,
 #       event_object_table, action_statement from information_schema.triggers
-#       where event_object_schema = 'test' or event_object_schema = 'mysqltest';
+#       where event_object_schema = 'test' or event_object_schema = 'mysqltest_trigger';
 ## Table definition should not change
 #show create table t1;
 ## And once again check for fantom .TRN files 
 #--error ER_TRG_DOES_NOT_EXIST
-#drop trigger test.t1_bi;
+#drop trigger test_trigger.t1_bi;
 #drop trigger t1_bi;
 #drop table t1;
-#drop database mysqltest;
+#drop database mysqltest_trigger;
 #use test;
 ## And now let us check that the properly handle rename if there is some
 ## error during it (that we rollback such renames completely).
@@ -1246,7 +1252,8 @@ CREATE TRIGGER t1_bi BEFORE INSERT ON t1 FOR EACH ROW
 
 INSERT INTO t1 (conn_id, trigger_conn_id) VALUES (CONNECTION_ID(), -1);
 
-connect (con1,localhost,root,,);
+# new connection, should identify with database name
+connect (con1,localhost,root,, test_trigger,,);
 INSERT INTO t1 (conn_id, trigger_conn_id) VALUES (CONNECTION_ID(), -1);
 connection default;
 disconnect con1;
@@ -1395,7 +1402,7 @@ create trigger wont_work after update on event for each row
 begin
  set @a:= 1;
 end|
-use test|
+use test_trigger|
 delimiter ;|
 
 
@@ -1856,7 +1863,7 @@ insert into t1 (id, count) values (1, 0);
 
 lock table t1 write;
 
---connect (connection_insert, localhost, root, , test, , )
+--connect (connection_insert, localhost, root, , test_trigger, , )
 connection connection_insert;
 # Is expected to pass.
 insert into t2 set id=1;
@@ -2469,7 +2476,7 @@ let $MYSQLD_DATADIR = `select @@datadir`;
 --remove_file $MYSQLD_DATADIR/db1/trg1.TRN
 
 DROP DATABASE db1;
-USE test;
+USE test_trigger;
 
 --echo End of 5.1 tests.
 
@@ -2583,7 +2590,7 @@ create temporary table t1 (j int);
 --echo # Dropping of trigger should succeed.
 drop trigger t1_bi;
 select trigger_name from information_schema.triggers
-  where event_object_schema = 'test' and event_object_table = 't1';
+  where event_object_schema = 'test_trigger' and event_object_table = 't1';
 --echo # Clean-up.
 drop temporary table t1;
 drop table t1;
@@ -2708,7 +2715,7 @@ CREATE TRIGGER t1_au AFTER UPDATE ON t1 FOR EACH ROW STOP SLAVE;
 CREATE TRIGGER t1_au AFTER UPDATE ON t1 FOR EACH ROW
 CREATE SERVER s FOREIGN DATA WRAPPER mysql OPTIONS (USER 'Remote',
                                                     HOST '192.168.1.106',
-                                                    DATABASE 'test');
+                                                    DATABASE 'test_trigger');
 
 --error ER_COMMIT_NOT_ALLOWED_IN_SF_OR_TRG
 CREATE TRIGGER t1_bu BEFORE UPDATE ON t1 FOR EACH ROW
@@ -2921,18 +2928,21 @@ DROP TABLE t1,t2,t3;
 --echo #
 
 CREATE USER user_name_robert_golebiowski@oh_my_gosh_this_is_a_long_hostname_look_at_it_it_has_60_char;
-CREATE TABLE test.silly_one (ID INT);
+CREATE TABLE test_trigger.silly_one (ID INT);
 
-CREATE DEFINER=user_name_robert_golebiowski@oh_my_gosh_this_is_a_long_hostname_look_at_it_it_has_60_char TRIGGER test.silly_trigger BEFORE INSERT ON test.silly_one FOR EACH ROW SET @x=1;
+CREATE DEFINER=user_name_robert_golebiowski@oh_my_gosh_this_is_a_long_hostname_look_at_it_it_has_60_char TRIGGER test_trigger.silly_trigger BEFORE INSERT ON test_trigger.silly_one FOR EACH ROW SET @x=1;
 
 --replace_column 6 #
-SHOW TRIGGERS FROM test LIKE 'silly_one';
+SHOW TRIGGERS FROM test_trigger LIKE 'silly_one';
 
 SELECT DEFINER FROM information_schema.triggers WHERE TRIGGER_NAME='silly_trigger';
 
 DROP USER user_name_robert_golebiowski@oh_my_gosh_this_is_a_long_hostname_look_at_it_it_has_60_char;
-DROP TRIGGER test.silly_trigger;
-DROP TABLE test.silly_one;
+DROP TRIGGER test_trigger.silly_trigger;
+DROP TABLE test_trigger.silly_one;
+
+# DROP DATABASE
+DROP DATABASE test_trigger;
 
 --echo End of 5.7 tests.
 

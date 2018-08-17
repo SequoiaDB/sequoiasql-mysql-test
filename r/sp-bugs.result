@@ -2,6 +2,8 @@
 # Bug #47412: Valgrind warnings / user can read uninitalized memory
 # using SP variables
 #
+CREATE DATABASE test_sp_bugs;
+USE test_sp_bugs;
 CREATE SCHEMA testdb;
 USE testdb;
 CREATE FUNCTION f2 () RETURNS INTEGER
@@ -44,7 +46,7 @@ SELECT f2 ();
 f2 ()
 NULL
 DROP SCHEMA testdb;
-USE test;
+USE test_sp_bugs;
 #
 # Bug#50423: Crash on second call of a procedure dropping a trigger
 #
@@ -104,7 +106,7 @@ ERROR HY000: Got error 49962 from storage engine
 SELECT DATABASE();
 DATABASE()
 db2
-USE test;
+USE test_sp_bugs;
 DROP FUNCTION db1.f1;
 DROP TABLE db1.t1;
 DROP DATABASE db1;
@@ -128,7 +130,7 @@ CALL p1();
 Warnings:
 Note	1050	Table 't2' already exists
 DROP DATABASE testdb;
-USE test;
+USE test_sp_bugs;
 End of 5.1 tests
 #
 # BUG#13489996 valgrind:conditional jump or move depends on
@@ -161,16 +163,16 @@ TESTF_bug11763507()
 0
 SHOW FUNCTION STATUS LIKE  'testf_bug11763507';
 Db	Name	Type	Definer	Modified	Created	Security_type	Comment	character_set_client	collation_connection	Database Collation
-test	testf_bug11763507	FUNCTION	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
+test_sp_bugs	testf_bug11763507	FUNCTION	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
 SHOW FUNCTION STATUS WHERE NAME='testf_bug11763507';
 Db	Name	Type	Definer	Modified	Created	Security_type	Comment	character_set_client	collation_connection	Database Collation
-test	testf_bug11763507	FUNCTION	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
+test_sp_bugs	testf_bug11763507	FUNCTION	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
 SHOW FUNCTION STATUS LIKE  'TESTF_bug11763507';
 Db	Name	Type	Definer	Modified	Created	Security_type	Comment	character_set_client	collation_connection	Database Collation
-test	testf_bug11763507	FUNCTION	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
+test_sp_bugs	testf_bug11763507	FUNCTION	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
 SHOW FUNCTION STATUS WHERE NAME='TESTF_bug11763507';
 Db	Name	Type	Definer	Modified	Created	Security_type	Comment	character_set_client	collation_connection	Database Collation
-test	testf_bug11763507	FUNCTION	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
+test_sp_bugs	testf_bug11763507	FUNCTION	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
 SHOW CREATE FUNCTION testf_bug11763507;
 Function	sql_mode	Create Function	character_set_client	collation_connection	Database Collation
 testf_bug11763507		CREATE DEFINER=`root`@`localhost` FUNCTION `testf_bug11763507`() RETURNS int(11)
@@ -191,16 +193,16 @@ PROCEDURE testp_bug11763507
 PROCEDURE testp_bug11763507
 SHOW PROCEDURE STATUS LIKE  'testp_bug11763507';
 Db	Name	Type	Definer	Modified	Created	Security_type	Comment	character_set_client	collation_connection	Database Collation
-test	testp_bug11763507	PROCEDURE	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
+test_sp_bugs	testp_bug11763507	PROCEDURE	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
 SHOW PROCEDURE STATUS WHERE NAME='testp_bug11763507';
 Db	Name	Type	Definer	Modified	Created	Security_type	Comment	character_set_client	collation_connection	Database Collation
-test	testp_bug11763507	PROCEDURE	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
+test_sp_bugs	testp_bug11763507	PROCEDURE	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
 SHOW PROCEDURE STATUS LIKE  'TESTP_bug11763507';
 Db	Name	Type	Definer	Modified	Created	Security_type	Comment	character_set_client	collation_connection	Database Collation
-test	testp_bug11763507	PROCEDURE	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
+test_sp_bugs	testp_bug11763507	PROCEDURE	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
 SHOW PROCEDURE STATUS WHERE NAME='TESTP_bug11763507';
 Db	Name	Type	Definer	Modified	Created	Security_type	Comment	character_set_client	collation_connection	Database Collation
-test	testp_bug11763507	PROCEDURE	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
+test_sp_bugs	testp_bug11763507	PROCEDURE	root@localhost	#	#	DEFINER		latin1	latin1_swedish_ci	latin1_swedish_ci
 SHOW CREATE PROCEDURE testp_bug11763507;
 Procedure	sql_mode	Create Procedure	character_set_client	collation_connection	Database Collation
 testp_bug11763507		CREATE DEFINER=`root`@`localhost` PROCEDURE `testp_bug11763507`()
@@ -372,3 +374,4 @@ fn1()
 1
 DROP FUNCTION fn1;
 SET sql_mode= default;
+DROP DATABASE test_sp_bugs;

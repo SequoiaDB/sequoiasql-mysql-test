@@ -6,6 +6,10 @@
 
 
 # Initialise
+# Compatible with parallel > 1, table name will be printed when check error, should create and use database: test_casename
+create database test_group_by;
+use test_group_by;
+
 --disable_warnings
 drop table if exists t1,t2,t3;
 --enable_warnings
@@ -263,21 +267,21 @@ CREATE TABLE t1 (
 );
 
 INSERT INTO t1 VALUES (1,1,1),(2,2,2),(2,1,1),(3,3,3),(4,3,3),(5,3,3),(6,3,3),(7,3,3);
-explain select userid,count(*) from t1 group by userid desc;
-explain select userid,count(*) from t1 group by userid desc order by null;
+#explain select userid,count(*) from t1 group by userid desc;
+#explain select userid,count(*) from t1 group by userid desc order by null;
 select userid,count(*) from t1 group by userid desc;
 select userid,count(*) from t1 group by userid desc having (count(*)+1) IN (4,3);
 select userid,count(*) from t1 group by userid desc having 3  IN (1,COUNT(*));
-explain select spid,count(*) from t1 where spid between 1 and 2 group by spid desc;
-explain select spid,count(*) from t1 where spid between 1 and 2 group by spid;
-explain select spid,count(*) from t1 where spid between 1 and 2 group by spid order by null;
+#explain select spid,count(*) from t1 where spid between 1 and 2 group by spid desc;
+#explain select spid,count(*) from t1 where spid between 1 and 2 group by spid;
+#explain select spid,count(*) from t1 where spid between 1 and 2 group by spid order by null;
 select spid,count(*) from t1 where spid between 1 and 2 group by spid;
 select spid,count(*) from t1 where spid between 1 and 2 group by spid desc;
-explain extended select sql_big_result spid,sum(userid) from t1 group by spid desc;
-explain select sql_big_result spid,sum(userid) from t1 group by spid desc order by null;
+#explain extended select sql_big_result spid,sum(userid) from t1 group by spid desc;
+#explain select sql_big_result spid,sum(userid) from t1 group by spid desc order by null;
 select sql_big_result spid,sum(userid) from t1 group by spid desc;
-explain select sql_big_result score,count(*) from t1 group by score desc;
-explain select sql_big_result score,count(*) from t1 group by score desc order by null;
+#explain select sql_big_result score,count(*) from t1 group by score desc;
+#explain select sql_big_result score,count(*) from t1 group by score desc order by null;
 select sql_big_result score,count(*) from t1 group by score desc;
 drop table t1;
 
@@ -420,8 +424,8 @@ create table t2 (a int not null, b int not null, key(a));
 insert into t2 values (1,3),(3,1),(2,2),(1,1);
 select t1.a,t2.b from t1,t2 where t1.a=t2.a group by t1.a,t2.b;
 select t1.a,t2.b from t1,t2 where t1.a=t2.a group by t1.a,t2.b ORDER BY NULL;
-explain select t1.a,t2.b from t1,t2 where t1.a=t2.a group by t1.a,t2.b;
-explain select t1.a,t2.b from t1,t2 where t1.a=t2.a group by t1.a,t2.b ORDER BY NULL;
+#explain select t1.a,t2.b from t1,t2 where t1.a=t2.a group by t1.a,t2.b;
+#explain select t1.a,t2.b from t1,t2 where t1.a=t2.a group by t1.a,t2.b ORDER BY NULL;
 drop table t1,t2;
 
 #
@@ -474,7 +478,7 @@ CREATE TABLE t1 (
 INSERT INTO t1 VALUES (1,2),(2,3),(4,5),(3,5),(1,5),(23,5);
 --source include/turn_off_only_full_group_by.inc
 SELECT i, COUNT(DISTINCT(i)) FROM t1 GROUP BY j ORDER BY NULL;
-explain SELECT i, COUNT(DISTINCT(i)) FROM t1 GROUP BY j ORDER BY NULL;
+#explain SELECT i, COUNT(DISTINCT(i)) FROM t1 GROUP BY j ORDER BY NULL;
 --source include/restore_sql_mode_after_turn_off_only_full_group_by.inc
 DROP TABLE t1;
 
@@ -730,9 +734,9 @@ INSERT INTO t2 VALUES (1,1), (2,1), (6,6), (18,17), (15,25), (16,25),
 
 CREATE VIEW v1 AS select t1.a, concat(t1.b,'') AS b, t1.b as real_b from t1;
 
-explain 
-SELECT straight_join sql_no_cache v1.a, v1.b, v1.real_b from t2, v1
-where t2.b=v1.a GROUP BY t2.b;
+#explain 
+#SELECT straight_join sql_no_cache v1.a, v1.b, v1.real_b from t2, v1
+#where t2.b=v1.a GROUP BY t2.b;
 SELECT straight_join sql_no_cache v1.a, v1.b, v1.real_b from t2, v1
 where t2.b=v1.a GROUP BY t2.b;
 
@@ -2060,7 +2064,7 @@ CREATE TABLE t1 (
 
 INSERT INTO t1 VALUES (1,NULL),(0,'a'),(1,NULL),(0,'a');
 INSERT INTO t1 VALUES (1,'a'),(0,'a'),(1,'a'),(0,'a');
-ANALYZE TABLE t1;
+#ANALYZE TABLE t1;
 
 let $query=
   SELECT SQL_BUFFER_RESULT MIN(a), b FROM t1 WHERE t1.b = 'a' GROUP BY b;
@@ -2498,5 +2502,8 @@ SELECT SQL_BUFFER_RESULT txt, VAR_POP(i) v FROM t GROUP BY txt ORDER BY v, txt;
 SELECT SQL_BUFFER_RESULT txt, STDDEV_POP(i) s FROM t
 GROUP BY txt ORDER BY s, txt;
 DROP TABLE t;
+
+# DROP DATABASE 
+DROP DATABASE test_group_by;
 
 --source include/uninstall_sequoiadb.inc

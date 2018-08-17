@@ -1,3 +1,5 @@
+create database test_ansi;
+use test_ansi;
 drop table if exists t1;
 set sql_mode="MySQL40";
 Warnings:
@@ -16,7 +18,7 @@ CREATE TABLE t1 (id INT, id2 int);
 SELECT id,NULL,1,1.1,'a' FROM t1 GROUP BY id;
 id	NULL	1	1.1	a
 SELECT id FROM t1 GROUP BY id2;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_ansi.t1.id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 drop table t1;
 SET @@SQL_MODE="";
 CREATE TABLE t1 (i int NOT NULL, PRIMARY KEY (i));
@@ -48,3 +50,4 @@ t1	CREATE TABLE `t1` (
   PRIMARY KEY (`i`)
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
 DROP TABLE t1;
+DROP DATABASE test_ansi;

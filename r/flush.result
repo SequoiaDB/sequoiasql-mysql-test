@@ -1,5 +1,7 @@
+create database test_flush;
+use test_flush;
 drop table if exists t1,t2;
-drop database if exists mysqltest;
+drop database if exists mysqltest_flush;
 create temporary table t1(n int not null primary key);
 create table t2(n int) engine = sequoiadb;
 insert into t2 values(3);
@@ -11,12 +13,12 @@ drop table t2;
 ERROR HY000: Can't execute the query because you have a conflicting read lock
 drop table t2;
 unlock tables;
-create database mysqltest;
-create table mysqltest.t1(n int) engine = sequoiadb;
-insert into mysqltest.t1 values (23);
+create database mysqltest_flush;
+create table mysqltest_flush.t1(n int) engine = sequoiadb;
+insert into mysqltest_flush.t1 values (23);
 flush tables with read lock;
-drop database mysqltest;
-select * from mysqltest.t1;
+drop database mysqltest_flush;
+select * from mysqltest_flush.t1;
 n
 23
 unlock tables;
@@ -127,7 +129,7 @@ ERROR 42000: You have an error in your SQL syntax; check the manual that corresp
 flush tables with read lock, tables;
 ERROR 42000: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' tables' at line 1
 show tables;
-Tables_in_test
+Tables_in_test_flush
 #
 # II. Check the allowed syntax.
 #
@@ -158,7 +160,7 @@ ERROR HY000: Table 't2' was locked with a READ lock and can't be updated
 insert into t3 (a) values (1);
 ERROR HY000: Table 't3' was not locked with LOCK TABLES
 lock table no_such_table read;
-ERROR 42S02: Table 'test.no_such_table' doesn't exist
+ERROR 42S02: Table 'test_flush.no_such_table' doesn't exist
 #
 # We implicitly left the locked tables
 # mode but still have the read lock.
@@ -184,7 +186,7 @@ ERROR HY000: Table 't2' was locked with a READ lock and can't be updated
 insert into t3 (a) values (2);
 ERROR HY000: Table 't3' was not locked with LOCK TABLES
 lock table no_such_table read;
-ERROR 42S02: Table 'test.no_such_table' doesn't exist
+ERROR 42S02: Table 'test_flush.no_such_table' doesn't exist
 insert into t3 (a) values (2);
 # 
 # III. Concurrent tests.
@@ -262,16 +264,16 @@ create view v1 as select 1;
 create view v2 as select * from t1;
 create view v3 as select * from v2;
 flush table v1, v2, v3 with read lock;
-ERROR HY000: 'test.v1' is not BASE TABLE
+ERROR HY000: 'test_flush.v1' is not BASE TABLE
 flush table v1 with read lock;
-ERROR HY000: 'test.v1' is not BASE TABLE
+ERROR HY000: 'test_flush.v1' is not BASE TABLE
 flush table v2 with read lock;
-ERROR HY000: 'test.v2' is not BASE TABLE
+ERROR HY000: 'test_flush.v2' is not BASE TABLE
 flush table v3 with read lock;
-ERROR HY000: 'test.v3' is not BASE TABLE
+ERROR HY000: 'test_flush.v3' is not BASE TABLE
 create temporary table v1 (a int);
 flush table v1 with read lock;
-ERROR HY000: 'test.v1' is not BASE TABLE
+ERROR HY000: 'test_flush.v1' is not BASE TABLE
 drop view v1;
 create table v1 (a int) engine = sequoiadb;
 flush table v1 with read lock;
@@ -386,3 +388,4 @@ UNLOCK TABLES;
 # Switching to connection 'default'.
 COMMIT;
 DROP TABLE t1;
+DROP DATABASE test_flush;

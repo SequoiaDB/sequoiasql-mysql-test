@@ -11,6 +11,10 @@ set @@global.concurrent_insert= 0;
 # Save the initial number of concurrent sessions
 --source include/count_sessions.inc
 
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_sp_notembedded;
+use test_sp_notembedded;
+
 --disable_warnings
 drop table if exists t1,t3;
 --enable_warnings
@@ -273,12 +277,12 @@ drop procedure if exists bug15298_2;
 --enable_warnings
 set @orig_sql_mode= @@sql_mode;
 set sql_mode= (select replace(@@sql_mode,'NO_AUTO_CREATE_USER',''));
-grant all privileges on test.* to 'mysqltest_1'@'localhost';
+grant all privileges on test_sp_notembedded.* to 'mysqltest_1'@'localhost';
 set sql_mode= @orig_sql_mode;
 create procedure 15298_1 () sql security definer show grants for current_user;
 create procedure 15298_2 () sql security definer show grants;
 
-connect (con1,localhost,mysqltest_1,,test);
+connect (con1,localhost,mysqltest_1,,test_sp_notembedded);
 call 15298_1();
 call 15298_2();
 
@@ -370,7 +374,8 @@ VALUES('%', 'mysqltest_1', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'N', 'N', 'N',
 '', '', '', '0', '0', '0', '0');
 FLUSH PRIVILEGES;
 
-connect (con1, localhost, mysqltest_1,,);
+# new connection, should identify with database name
+connect (con1, localhost, mysqltest_1,, test_sp_notembedded,,);
 connection con1;
 CREATE PROCEDURE p1(i INT) BEGIN END;
 disconnect con1;
@@ -385,7 +390,8 @@ FLUSH PRIVILEGES;
 --echo # Bug#44521 Prepared Statement: CALL p() - crashes: `! thd->main_da.is_sent' failed et.al.
 --echo #
 SELECT GET_LOCK('Bug44521', 0);
---connect (con1,localhost,root,,)
+# new connection, should identify with database name
+--connect (con1,localhost,root,, test_sp_notembedded,,)
 --echo ** Connection con1
 delimiter $;
 CREATE PROCEDURE p()
@@ -423,7 +429,8 @@ CREATE VIEW v1 AS SELECT f1('a') FROM t1;
 
 SELECT GET_LOCK('Bug47736', 0);
 
---connect (con1, localhost, root,,)
+# new connection, should identify with database name
+--connect (con1, localhost, root,, test_sp_notembedded,,)
 --let $ID_1= `SELECT connection_id()`
 --send SELECT * FROM v1;
 
@@ -479,7 +486,7 @@ SELECT `my.db`.f1(2);
 connection default;
 disconnect addcon;
 DROP DATABASE `my.db`;
-USE test;
+USE test_sp_notembedded;
 
 
 --echo #
@@ -589,12 +596,12 @@ REVOKE ALL PRIVILEGES, GRANT OPTION FROM user_name_len_16@localhost;
 REVOKE ALL PRIVILEGES, GRANT OPTION FROM user_name_len_22_01234@localhost;
 
 --echo # Check that user_name_len16 has no SELECT permission ON t1
-connect (con_user_16,localhost,user_name_len_16,,test);
+connect (con_user_16,localhost,user_name_len_16,,test_sp_notembedded);
 --error ER_TABLEACCESS_DENIED_ERROR
 SELECT * FROM test1.t1;
 
 --echo # Check that user_name_len_22_01234 has no SELECT permission ON t1
-connect (con_user_22,localhost,user_name_len_22_01234,,test);
+connect (con_user_22,localhost,user_name_len_22_01234,,test_sp_notembedded);
 --error ER_TABLEACCESS_DENIED_ERROR
 SELECT * FROM test1.t1;
 
@@ -647,7 +654,7 @@ connection default;
 
 --echo # Recreate test1.p1_len22, this time with Security Context set to INVOKER
 DROP PROCEDURE test1.p1_len22;
---echo # Make sure user_name_len_22_01234 has SELECT privileges on test.t1
+--echo # Make sure user_name_len_22_01234 has SELECT privileges on test_sp_notembedded.t1
 connection con_user_22;
 SELECT * FROM test1.t1;
 connection default;
@@ -677,6 +684,7 @@ disconnect con_user_16;
 disconnect con_user_22;
 
 DROP DATABASE test1;
+DROP DATABASE test_sp_notembedded;
 
 DROP USER user_name_len_16@localhost;
 DROP USER user_name_len_22_01234@localhost;

@@ -1,3 +1,5 @@
+create database test_func_math;
+use test_func_math;
 drop table if exists t1;
 select floor(5.5),floor(-5.5);
 floor(5.5)	floor(-5.5)
@@ -642,9 +644,9 @@ ERROR 22003: BIGINT UNSIGNED value is out of range in '(18446744073709551615 DIV
 CREATE TABLE t1(a BIGINT, b BIGINT UNSIGNED);
 INSERT INTO t1 VALUES(-9223372036854775808, 9223372036854775809);
 SELECT -a FROM t1;
-ERROR 22003: BIGINT value is out of range in '-(`test`.`t1`.`a`)'
+ERROR 22003: BIGINT value is out of range in '-(`test_func_math`.`t1`.`a`)'
 SELECT -b FROM t1;
-ERROR 22003: BIGINT value is out of range in '-(`test`.`t1`.`b`)'
+ERROR 22003: BIGINT value is out of range in '-(`test_func_math`.`t1`.`b`)'
 DROP TABLE t1;
 SET @a:=999999999999999999999999999999999999999999999999999999999999999999999999999999999;
 SELECT @a + @a;
@@ -932,3 +934,4 @@ number	Round(number, num_digits) > 0	Round(number, 3) > 0
 1	1	1
 0	0	0
 DROP PROCEDURE test_round_fn;
+DROP DATABASE test_func_math;

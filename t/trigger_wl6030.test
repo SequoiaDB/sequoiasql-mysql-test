@@ -6,6 +6,10 @@
 --echo # WL#6030: Triggers are not processed for NOT NULL columns.
 --echo #
 
+# Compatible with parallel > 1, table name will be printed when check error, should create and use database: test_casename
+create database test_trigger_wl6030;
+use test_trigger_wl6030;
+
 CREATE TABLE t2(a INT, b INT, c INT);
 
 --echo
@@ -1833,5 +1837,8 @@ SHOW WARNINGS;
 SET sql_mode = @sql_mode_saved;
 --enable_warnings
 DROP TABLE t1;
+
+# DROP DATABASE
+DROP DATABASE test_trigger_wl6030;
 
 --source include/uninstall_sequoiadb.inc

@@ -4036,7 +4036,7 @@ sub mysql_install_db {
   {
      for my $child_num (1..$opt_parallel)
      {
-        mkpath("$install_datadir/test_parallel_$opt_parallel");
+        mkpath("$install_datadir/test_parallel_$child_num");
      }
   }
 

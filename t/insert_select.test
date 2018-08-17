@@ -4,6 +4,10 @@
 #
 --source include/have_sequoiadb.inc
 
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_insert_select;
+use test_insert_select;
+
 --disable_warnings
 drop table if exists t1,t2,t3;
 --enable_warnings
@@ -317,7 +321,7 @@ INSERT INTO bug21774_2.t1 SELECT t1.* FROM t1;
 
 DROP DATABASE bug21774_1;
 DROP DATABASE bug21774_2;
-USE test;
+USE test_insert_select;
 
 #
 # Bug#19978: INSERT .. ON DUPLICATE erroneously reports some records were
@@ -464,5 +468,8 @@ drop table t1,t2;
 #SELECT *, HEX(a) FROM t1 WHERE a = '\'(),-.';
 #SELECT *, HEX(a) FROM t1 WHERE a = x'FFA5A4ABACA9';
 #DROP TABLE t1;
+
+# DROP DATABASE 
+DROP DATABASE test_insert_select;
 
 --source include/uninstall_sequoiadb.inc

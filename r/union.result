@@ -1188,7 +1188,7 @@ Table	Create Table
 t2	CREATE TABLE `t2` (
   `a` varchar(12) DEFAULT NULL
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
-select row_format from information_schema.TABLES where table_schema="test" and table_name="t2";
+select row_format from information_schema.TABLES where table_schema like "test%" and table_name="t2";
 row_format
 Dynamic
 drop table t1,t2;

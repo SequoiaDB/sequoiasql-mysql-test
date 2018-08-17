@@ -288,8 +288,6 @@ ERROR 42000: Column length too big for column 'a' (max = 255); use BLOB or TEXT 
 CREATE TABLE t1 (a varbinary(65536));
 ERROR 42000: Column length too big for column 'a' (max = 65535); use BLOB or TEXT instead
 DROP TABLE IF EXISTS t1;
-Warnings:
-Note	1051	Unknown table 'test.t1'
 CREATE TABLE t1 (a binary(255));
 CREATE TABLE t2 (a varbinary(65530));
 INSERT INTO t1 VALUES (repeat('a', 256));

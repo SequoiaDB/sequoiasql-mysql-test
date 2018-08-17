@@ -6,6 +6,9 @@
 #
 # Check for problems with delete
 #
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_delete;
+use test_delete;
 
 --disable_warnings
 drop table if exists t1,t2,t3,t11,t12;
@@ -346,7 +349,7 @@ DROP DATABASE IF EXISTS db4;
 DROP TABLE IF EXISTS t1, t2;
 DROP PROCEDURE IF EXISTS count;
 --enable_warnings
-USE test;
+USE test_delete;
 CREATE DATABASE db1;
 CREATE DATABASE db2;
 
@@ -365,8 +368,8 @@ BEGIN
   SELECT COUNT(*) AS "COUNT(db1.t2)" FROM db1.t2;
   SELECT COUNT(*) AS "COUNT(db2.t1)" FROM db2.t1;
   SELECT COUNT(*) AS "COUNT(db2.t2)" FROM db2.t2;
-  SELECT COUNT(*) AS "COUNT(test.t1)" FROM test.t1;
-  SELECT COUNT(*) AS "COUNT(test.t2)" FROM test.t2;
+  SELECT COUNT(*) AS "COUNT(test_delete.t1)" FROM test_delete.t1;
+  SELECT COUNT(*) AS "COUNT(test_delete.t2)" FROM test_delete.t2;
 END|
 delimiter ;|
 
@@ -425,7 +428,7 @@ DELETE t1 FROM db1.t1, db2.t1;
 
 # Test all again, now with a selected database
 
-USE test;
+USE test_delete;
 
 # Detect missing table references
 
@@ -573,7 +576,7 @@ CREATE TABLE t1 (id INT);
 CREATE TABLE t2 LIKE t1;
 CREATE TABLE t3 LIKE t1;
 
-DELETE FROM t1.*, test.t2.*, a.* USING t1, t2, t3 AS a;
+DELETE FROM t1.*, test_delete.t2.*, a.* USING t1, t2, t3 AS a;
 
 DROP TABLE t1, t2, t3;
 
@@ -834,5 +837,8 @@ SET sql_mode=default;
 #
 #DROP VIEW v1;
 #DROP TABLE t1;
+
+# DROP DATABASE 
+DROP DATABASE test_delete;
 
 --source include/uninstall_sequoiadb.inc

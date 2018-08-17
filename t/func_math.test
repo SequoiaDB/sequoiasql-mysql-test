@@ -9,6 +9,10 @@
 # Test of math functions
 #
 
+# Compatible with parallel > 1, table name will be printed when check error, should create and use database: test_casename
+create database test_func_math;
+use test_func_math;
+
 --disable_warnings                                                              
 drop table if exists t1;                                                        
 --enable_warnings                                                               
@@ -685,5 +689,8 @@ DELIMITER ;|
 
 CALL test_round_fn();
 DROP PROCEDURE test_round_fn;
+
+# DROP DATABASE 
+DROP DATABASE test_func_math;
 
 --source include/uninstall_sequoiadb.inc
