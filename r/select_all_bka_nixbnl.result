@@ -1117,6 +1117,7 @@ INSERT INTO t2 VALUES
 SELECT t2.sku, t2.sppr, t2.name, t1.sku, t1.pr
 FROM t2, t1 WHERE t2.sku=20 AND (t2.sku=t1.sku OR t2.sppr=t1.sku);
 sku	sppr	name	sku	pr
+20	10	bbb	10	10
 20	10	bbb	20	10
 DROP TABLE t1,t2;
 SET SQL_MODE='NO_UNSIGNED_SUBTRACTION';
