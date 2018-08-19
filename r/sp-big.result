@@ -6,6 +6,7 @@ length
 107520
 select length(routine_definition) from information_schema.routines where routine_schema like 'test_parallel%' and routine_name = 'longprocedure';
 length(routine_definition)
+107530
 call longprocedure(@value);
 select @value;
 @value

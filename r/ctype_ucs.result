@@ -7,8 +7,6 @@ SET @safe_character_set_client= @@character_set_client;
 SET @safe_character_set_results= @@character_set_results;
 SET character_set_server= @test_character_set;
 SET collation_server= @test_collation;
-CREATE DATABASE d1;
-USE d1;
 CREATE TABLE t1 (c1 varchar(15), KEY c1 (c1(2)));
 SHOW FULL COLUMNS FROM t1;
 Field	Type	Collation	Null	Key	Default	Extra	Privileges	Comment
@@ -75,8 +73,6 @@ select concat(name,space(level)), concat(name, repeat(' ',level)) from t1;
 concat(name,space(level))	concat(name, repeat(' ',level))
 string 	string 
 drop table t1;
-DROP DATABASE d1;
-USE test;
 SET character_set_server= @safe_character_set_server;
 SET collation_server= @safe_collation_server;
 SET character_set_client= @safe_character_set_client;
@@ -171,32 +167,6 @@ t1	CREATE TABLE `t1` (
   `l` varchar(10) CHARACTER SET ucs2 DEFAULT NULL,
   `r` varchar(10) CHARACTER SET ucs2 DEFAULT NULL
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
-DROP TABLE t1;
-#
-# Bug #51876 : crash/memory underrun when loading data with ucs2 
-#   and reverse() function
-#
-# Problem # 1 (original report): wrong parsing of ucs2 data
-SELECT '00' UNION SELECT '10' INTO OUTFILE 'tmpp.txt';
-CREATE TABLE t1(a INT);
-LOAD DATA INFILE 'tmpp.txt' INTO TABLE t1 CHARACTER SET ucs2
-(@b) SET a=REVERSE(@b);
-# should return 2 zeroes (as the value is truncated)
-SELECT * FROM t1;
-a
-0
-1
-DROP TABLE t1;
-# Problem # 2 : if you write and read ucs2 data to a file they're lost
-SELECT '00' UNION SELECT '10' INTO OUTFILE 'tmpp2.txt' CHARACTER SET ucs2;
-CREATE TABLE t1(a INT);
-LOAD DATA INFILE 'tmpp2.txt' INTO TABLE t1 CHARACTER SET ucs2
-(@b) SET a=REVERSE(@b);
-# should return 0 and 1 (10 reversed)
-SELECT * FROM t1;
-a
-0
-1
 DROP TABLE t1;
 create table t2(f1 Char(30));
 insert into t2 values ("103000"), ("22720000"), ("3401200"), ("78000");

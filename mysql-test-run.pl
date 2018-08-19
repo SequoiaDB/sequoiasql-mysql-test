@@ -983,7 +983,7 @@ sub run_worker ($) {
 	my $tres= $test->{reserved};
 	mtr_warning("Test reserved for w$tres picked up by w$thread_num");
       }
-      $test->{worker} = $thread_num if $opt_parallel > 1;
+      $test->{worker} = $thread_num;
 
       run_testcase($test);
       #$test->{result}= 'MTR_RES_PASSED';
@@ -4032,12 +4032,9 @@ sub mysql_install_db {
   mkpath("$install_datadir/test");
 
   # liuxiaoxuan: Create directories for each parallel when parallel > 1
-  if ($opt_parallel > 1)
+  for my $child_num (1..$opt_parallel)
   {
-     for my $child_num (1..$opt_parallel)
-     {
-        mkpath("$install_datadir/test_parallel_$child_num");
-     }
+     mkpath("$install_datadir/test_parallel_$child_num");
   }
 
   if ( My::SafeProcess->run
@@ -6554,17 +6551,8 @@ sub start_mysqltest ($) {
     if $opt_mark_progress;
 
   # liuxiaoxuan: Use unique database for each parallel
-  # If parallel=1, use 'test'; else use 'test_parallet'
-  my $current_parallel_database;
-  if ($opt_parallel <= 1)
-  {
-     $current_parallel_database = "test";
-  }
-  else
-  {
-     my $parallel_thread = $tinfo->{worker}; 
-     $current_parallel_database = "test_parallel_$parallel_thread";
-  }
+  my $parallel_thread = $tinfo->{worker};
+  my $current_parallel_database = "test_parallel_$parallel_thread";
   mtr_add_arg($args, "--database=$current_parallel_database");
  
   if ( $opt_ps_protocol )
