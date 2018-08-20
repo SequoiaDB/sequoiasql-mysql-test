@@ -368,12 +368,6 @@ INSERT INTO t6 VALUES (1,1);
 INSERT INTO t6 VALUES (1,2);
 INSERT INTO t6 VALUES (2,2);
 drop table if exists t1,t2,t3,t4,t5,t6,t7;
-Warnings:
-Note	1051	Unknown table 'test.t1'
-Note	1051	Unknown table 'test.t2'
-Note	1051	Unknown table 'test.t3'
-Note	1051	Unknown table 'test.t5'
-Note	1051	Unknown table 'test.t7'
 create table t1 (a blob);
 insert into t1 values ("empty"),("");
 select a,reverse(a) from t1;

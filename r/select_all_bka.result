@@ -98,15 +98,6 @@ summa
 select period as "Nuvarande period" from t1 group by "Nuvarande period" limit 1;
 Nuvarande period
 9410
-show tables;
-Tables_in_test
-t1
-t3
-t4
-show tables from test like "s%";
-Tables_in_test (s%)
-show tables from test like "t?";
-Tables_in_test (t?)
 drop table if exists t4, t3, t1;
 DO 1;
 DO benchmark(100,1+1),1,1;
@@ -1158,9 +1149,6 @@ create table t1 (a int);
 insert into t1 values (0),(1),(2),(3),(4),(5),(6),(7),(8),(9);
 create table t2 (a int, b int, c int, e int, primary key(a,b,c));
 insert into t2 select A.a, B.a, C.a, C.a from t1 A, t1 B, t1 C;
-analyze table t2;
-Table	Op	Msg_type	Msg_text
-test.t2	analyze	note	The storage engine for the table doesn't support analyze
 select 'In next EXPLAIN, B.rows must be exactly 10:' Z;
 Z
 In next EXPLAIN, B.rows must be exactly 10:

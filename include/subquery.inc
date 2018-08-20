@@ -544,10 +544,11 @@ set @a:=2;
 set @a:=(SELECT a from t1);
 select @a;
 drop table t1;
--- error ER_NO_SUCH_TABLE
-do (SELECT a from t1);
--- error ER_NO_SUCH_TABLE
-set @a:=(SELECT a from t1);
+# Compatible with parallel > 1, check error "ER_NO_SUCH_TABLE" here, move to "errors.test" 
+#-- error ER_NO_SUCH_TABLE
+#do (SELECT a from t1);
+#-- error ER_NO_SUCH_TABLE
+#set @a:=(SELECT a from t1);
 
 # NOW SequoiaDB not support Handler
 #CREATE TABLE t1 (a int, KEY(a));
@@ -652,8 +653,9 @@ drop table t1;
 #
 # error in IN
 #
--- error ER_NO_SUCH_TABLE
-select t1.Continent, t2.Name, t2.Population from t1 LEFT JOIN t2 ON t1.Code = t2.Country  where t2.Population IN (select max(t2.Population) AS Population from t2, t1 where t2.Country = t1.Code group by Continent);
+# Compatible with parallel > 1, check error "ER_NO_SUCH_TABLE" here, move to "errors.test"
+#-- error ER_NO_SUCH_TABLE
+#select t1.Continent, t2.Name, t2.Population from t1 LEFT JOIN t2 ON t1.Code = t2.Country  where t2.Population IN (select max(t2.Population) AS Population from t2, t1 where t2.Country = t1.Code group by Continent);
 
 #
 # complex subquery
@@ -1481,7 +1483,10 @@ drop table t1;
 # Subselect in non-select command just after connection
 # Disconnect new connection and switch back when test is finished
 #
-connect (root,localhost,root,,test,$MASTER_MYPORT,$MASTER_MYSOCK);
+# Compatible with parallel > 1, should identify with database name for new connection
+let $current_database = `select database()`;
+#connect (root,localhost,root,,test,$MASTER_MYPORT,$MASTER_MYSOCK);
+connect (root,localhost,root,,$current_database,$MASTER_MYPORT,$MASTER_MYSOCK);
 connection root;
 set @got_val= (SELECT 1 FROM (SELECT 'A' as my_col) as T1 ) ;
 connection default;
@@ -3932,7 +3937,8 @@ load data infile "subselect.out.file.1" into table t1;
 select * from t1;
 drop table t1;
 let $datadir=`select @@datadir`;
---remove_file $datadir/test/subselect.out.file.1
+#--remove_file $datadir/test/subselect.out.file.1
+--remove_file $datadir/$current_database/subselect.out.file.1
 
 #
 # Bug #37894: Assertion in init_read_record_seq in handler.h line 1444
@@ -4463,8 +4469,9 @@ CREATE VIEW v2 (a,b) AS
 SELECT t2.id, t2.c AS c FROM t1, t2
 WHERE t1.id=t2.id AND 1 IN (SELECT id FROM t1) WITH CHECK OPTION;
 
---error ER_VIEW_CHECK_FAILED
-INSERT INTO v2(a,b) VALUES (2,2);
+# Compatible with parallel > 1, check error "ER_VIEW_CHECK_FAILED" here, move to "errors.test"
+#--error ER_VIEW_CHECK_FAILED
+#INSERT INTO v2(a,b) VALUES (2,2);
 INSERT INTO v2(a,b) VALUES (1,2);
 --sorted_result
 SELECT * FROM v1;
@@ -6021,13 +6028,13 @@ CREATE TABLE t0 (
 );
 INSERT INTO t0 VALUES (7);
 
--- disable_query_log
--- disable_result_log
-ANALYZE TABLE t0;
-ANALYZE TABLE t1;
-ANALYZE TABLE t2;
--- enable_result_log
--- enable_query_log
+#-- disable_query_log
+#-- disable_result_log
+#ANALYZE TABLE t0;
+#ANALYZE TABLE t1;
+#ANALYZE TABLE t2;
+#-- enable_result_log
+#-- enable_query_log
 
 SELECT col_varchar_nokey
 FROM t1
@@ -6456,7 +6463,7 @@ DROP TABLE t1;
 
 CREATE TABLE t1 (a INT);
 INSERT INTO t1 VALUES(1),(2);
-ANALYZE TABLE t1;
+#ANALYZE TABLE t1;
 # 3 clauses which should block the replacement with an equality:
 let $query=
 SELECT 1 as col FROM t1 WHERE a IN (SELECT a FROM DUAL WHERE 0);

@@ -2,8 +2,6 @@ set optimizer_switch='batched_key_access=on,block_nested_loop=off,mrr_cost_based
 DROP TABLE IF EXISTS t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11;
 DROP DATABASE IF EXISTS world;
 set character_set_server=utf8;
-CREATE DATABASE world;
-use world;
 CREATE TABLE country (
 Code char(3) NOT NULL default '',
 Name char(52) NOT NULL default '',
@@ -375,9 +373,7 @@ set join_buffer_size=default;
 show variables like 'join_buffer_size';
 Variable_name	Value
 join_buffer_size	262144
-DROP DATABASE world;
-CREATE DATABASE world;
-use world;
+DROP TABLE city,country,countrylanguage;
 CREATE TABLE country (
 Code char(3) NOT NULL default '',
 Name char(52) NOT NULL default '',
@@ -970,8 +966,7 @@ Tianjin	China
 Tokyo	Japan
 Wuhan	China
 set join_buffer_size=default;
-DROP DATABASE world;
-use test;
+DROP TABLE city,country,countrylanguage;
 CREATE TABLE t1(
 affiliatetometaid int  NOT NULL default '0',
 uniquekey int NOT NULL default '0',

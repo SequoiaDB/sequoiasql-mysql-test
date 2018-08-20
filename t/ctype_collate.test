@@ -3,6 +3,10 @@
  #Get deafult engine value
 --let $DEFAULT_ENGINE = `select @@global.default_storage_engine`
 
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_ctype_collate;
+use test_ctype_collate;
+
 --disable_warnings
 DROP TABLE IF EXISTS t1;
 DROP TABLE IF EXISTS t2;
@@ -248,23 +252,25 @@ DROP TABLE t1;
 # Bug#29261: Sort order of the collation wasn't used when comparing trailing
 #            spaces.
 #
-create table t1(f1 varchar(10) character set latin2 collate latin2_hungarian_ci, key(f1));
-insert into t1 set f1=0x3F3F9DC73F;
-insert into t1 set f1=0x3F3F1E563F;
-insert into t1 set f1=0x3F3F;
-check table t1 extended;
-drop table t1;
+# NOW SequoiaDB not support check table
+#create table t1(f1 varchar(10) character set latin2 collate latin2_hungarian_ci, key(f1));
+#insert into t1 set f1=0x3F3F9DC73F;
+#insert into t1 set f1=0x3F3F1E563F;
+#insert into t1 set f1=0x3F3F;
+#check table t1 extended;
+#drop table t1;
 
 #
 # Bug#29461: Sort order of the collation wasn't used when comparing characters
 #            with the space character.
 #
-create table t1 (a varchar(2) character set latin7 collate latin7_general_ci,key(a));
-insert into t1 set a=0x4c20;
-insert into t1 set a=0x6c;
-insert into t1 set a=0x4c98;
-check table t1 extended;
-drop table t1;
+# NOW SequoiaDB not support check table
+#create table t1 (a varchar(2) character set latin7 collate latin7_general_ci,key(a));
+#insert into t1 set a=0x4c20;
+#insert into t1 set a=0x6c;
+#insert into t1 set a=0x4c98;
+#check table t1 extended;
+#drop table t1;
 
 #
 # Bug#41627 Illegal mix of collations in LEAST / GREATEST / CASE
@@ -340,7 +346,7 @@ SHOW CREATE TABLE t1;
 DROP TABLE t1;
 DROP FUNCTION getText;
 DROP DATABASE test1;
-USE test;
+USE test_ctype_collate;
 SET NAMES latin1;
 
 --echo # Bug#20425399: CAN'T USE COLLATE
@@ -375,5 +381,8 @@ SELECT * FROM t3 ORDER BY b COLLATE utf8_general_ci;
 DROP TABLE t1;
 DROP TABLE t2;
 DROP TABLE t3;
+
+# DROP DATABASE
+DROP DATABASE test_ctype_collate;
 
 --source include/uninstall_sequoiadb.inc

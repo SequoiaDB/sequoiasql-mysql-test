@@ -1,3 +1,5 @@
+create database test_having;
+use test_having;
 drop table if exists t1,t2,t3;
 create table t1 (a int);
 select count(a) as b from t1 where a=0 having b > 0;
@@ -391,7 +393,7 @@ HAVING HU.PROJ.CITY = HU.STAFF.CITY);
 EMPNUM	GRADE*1000
 E3	13000
 DROP SCHEMA HU;
-USE test;
+USE test_having;
 create table t1(f1 int);
 select f1 from t1 having max(f1)=f1;
 f1
@@ -401,7 +403,7 @@ set session sql_mode='ONLY_FULL_GROUP_BY';
 Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
 select f1 from t1 having max(f1)=f1;
-ERROR 42000: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'test.t1.f1'; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'test_having.t1.f1'; this is incompatible with sql_mode=only_full_group_by
 select f1 from t1 group by f1 having max(f1)=f1;
 f1
 set session sql_mode='';
@@ -801,3 +803,4 @@ SELECT c1 FROM t1 WHERE EXISTS(SELECT * FROM t2 HAVING c2>0);
 c1
 1
 DROP TABLE t1, t2;
+DROP DATABASE test_having;

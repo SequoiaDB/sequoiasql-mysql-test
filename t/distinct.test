@@ -7,6 +7,9 @@
 # Bug with distinct and INSERT INTO
 # Bug with group by and not used fields
 #
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_distinct;
+use test_distinct;
 
 --disable_warnings
 drop table if exists t1,t2,t3;
@@ -872,6 +875,9 @@ INSERT INTO t1 VALUES (1,3), (2,4), (1,5),
 
 SELECT DISTINCT (COUNT(DISTINCT b) + 1) AS c FROM t1 GROUP BY a;
 DROP TABLE t1;
+
+# DROP DATABASE
+DROP DATABASE test_distinct;
 
 --source include/uninstall_sequoiadb.inc
 --echo # End of test for Bug#22686994

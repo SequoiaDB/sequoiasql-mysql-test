@@ -1,3 +1,5 @@
+create database test_ctype_utf8mb4;
+use test_ctype_utf8mb4;
 drop table if exists t1,t2;
 #
 # Start of 5.5 tests
@@ -1068,7 +1070,7 @@ Warnings:
 Warning	1300	Invalid utf8mb4 character string: 'FFFFFC'
 DROP TABLE crashtest;
 DROP DATABASE crashtest;
-USE test;
+USE test_ctype_utf8mb4;
 SET CHARACTER SET default;
 CREATE TABLE t1(id varchar(20) NOT NULL) DEFAULT CHARSET=utf8mb4;
 INSERT INTO t1 VALUES ('xxx'), ('aa'), ('yyy'), ('aa');
@@ -1745,28 +1747,28 @@ s4 LONGTEXT CHARACTER SET utf8mb4
 SET NAMES utf8mb4, @@character_set_results=NULL;
 SELECT *, HEX(s1) FROM t1;
 Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
-def	test	t1	t1	s1	s1	252	255	0	Y	16	0	45
-def	test	t1	t1	s2	s2	252	65535	0	Y	16	0	45
-def	test	t1	t1	s3	s3	252	16777215	0	Y	16	0	45
-def	test	t1	t1	s4	s4	252	4294967295	0	Y	16	0	45
+def	test_ctype_utf8mb4	t1	t1	s1	s1	252	255	0	Y	16	0	45
+def	test_ctype_utf8mb4	t1	t1	s2	s2	252	65535	0	Y	16	0	45
+def	test_ctype_utf8mb4	t1	t1	s3	s3	252	16777215	0	Y	16	0	45
+def	test_ctype_utf8mb4	t1	t1	s4	s4	252	4294967295	0	Y	16	0	45
 def					HEX(s1)	253	8160	0	Y	0	0	45
 s1	s2	s3	s4	HEX(s1)
 SET NAMES latin1;
 SELECT *, HEX(s1) FROM t1;
 Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
-def	test	t1	t1	s1	s1	252	255	0	Y	16	0	8
-def	test	t1	t1	s2	s2	252	65535	0	Y	16	0	8
-def	test	t1	t1	s3	s3	252	16777215	0	Y	16	0	8
-def	test	t1	t1	s4	s4	252	4294967295	0	Y	16	0	8
+def	test_ctype_utf8mb4	t1	t1	s1	s1	252	255	0	Y	16	0	8
+def	test_ctype_utf8mb4	t1	t1	s2	s2	252	65535	0	Y	16	0	8
+def	test_ctype_utf8mb4	t1	t1	s3	s3	252	16777215	0	Y	16	0	8
+def	test_ctype_utf8mb4	t1	t1	s4	s4	252	4294967295	0	Y	16	0	8
 def					HEX(s1)	253	2040	0	Y	0	0	8
 s1	s2	s3	s4	HEX(s1)
 SET NAMES utf8mb4;
 SELECT *, HEX(s1) FROM t1;
 Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
-def	test	t1	t1	s1	s1	252	1020	0	Y	16	0	45
-def	test	t1	t1	s2	s2	252	262140	0	Y	16	0	45
-def	test	t1	t1	s3	s3	252	67108860	0	Y	16	0	45
-def	test	t1	t1	s4	s4	252	4294967295	0	Y	16	0	45
+def	test_ctype_utf8mb4	t1	t1	s1	s1	252	1020	0	Y	16	0	45
+def	test_ctype_utf8mb4	t1	t1	s2	s2	252	262140	0	Y	16	0	45
+def	test_ctype_utf8mb4	t1	t1	s3	s3	252	67108860	0	Y	16	0	45
+def	test_ctype_utf8mb4	t1	t1	s4	s4	252	4294967295	0	Y	16	0	45
 def					HEX(s1)	253	8160	0	Y	0	0	45
 s1	s2	s3	s4	HEX(s1)
 CREATE TABLE t2 AS SELECT CONCAT(s1) FROM t1;
@@ -1830,6 +1832,7 @@ Warning	1411	Incorrect string value: 'soundex('a')' for function inet6_aton
 do is_ipv4_mapped(inet6_aton(convert(_ascii "a:" using utf8mb4)));
 Warnings:
 Warning	1411	Incorrect string value: 'convert(_ascii'a:' using utf8mb4)' for function inet6_aton
+DROP DATABASE test_ctype_utf8mb4;
 #
 # End of 5.6 tests
 #

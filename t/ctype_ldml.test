@@ -4,6 +4,10 @@
 --source include/have_utf16.inc
 --source include/have_utf32.inc
 
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_ctype_ldml;
+use test_ctype_ldml;
+
 --disable_warnings
 drop table if exists t1;
 --enable_warnings
@@ -185,6 +189,7 @@ show collation like 'ucs2_vn_ci';
 create table t1 (c1 char(1) character set ucs2 collate ucs2_vn_ci);
 insert into t1 values (0x0061);
 --enable_metadata
+--replace_column 2 test
 set @@character_set_results=NULL;
 select * from t1;
 --disable_metadata
@@ -394,5 +399,8 @@ DROP TABLE t1;
 #  close(FILE);
 #EOF
 #--remove_file $out_file
+
+# DROP DATABASE
+DROP DATABASE test_ctype_ldml;
 
 --source include/uninstall_sequoiadb.inc

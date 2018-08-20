@@ -1,4 +1,6 @@
 SET CHARACTER SET koi8r;
+create database test_ctype_recoding;
+use test_ctype_recoding;
 DROP TABLE IF EXISTS таблица, t1, t2;
 SET CHARACTER SET koi8r;
 CREATE TABLE t1 (a CHAR(10) CHARACTER SET cp1251) SELECT _koi8r'проба' AS a;
@@ -70,7 +72,7 @@ SET character_set_connection=cp1251;
 SELECT hex('тест');
 hex('тест')
 F2E5F1F2
-USE test;
+USE test_ctype_recoding;
 SET NAMES latin1;
 CREATE TABLE t1 (`Д` CHAR(128) DEFAULT 'Д', `Д1` ENUM('Д1','Д2') DEFAULT 'Д2');
 SHOW CREATE TABLE t1;
@@ -201,4 +203,5 @@ t1	CREATE TABLE `t1` (
 drop table t1;
 create table t1(a char character set latin1 default _cp1251 0xFF);
 ERROR 42000: Invalid default value for 'a'
+DROP DATABASE test_ctype_recoding;
 End of 4.1 tests

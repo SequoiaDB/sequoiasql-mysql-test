@@ -5,6 +5,9 @@
 #
 # test of updating of keys
 #
+# Compatible with parallel > 1, table name will be printed when check error, should create and use database: test_casename
+create database test_update;
+use test_update;
 
 #--disable_warnings
 #drop table if exists t1,t2;
@@ -749,6 +752,9 @@ DROP TABLE t1;
 #SELECT * FROM t1;
 #
 #DROP TABLE t1;
+
+# DROP DATABASE
+DROP DATABASE test_update;
 
 --echo # End of test for Bug#21032418
 

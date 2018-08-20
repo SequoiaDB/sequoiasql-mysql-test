@@ -203,7 +203,10 @@ CREATE TABLE t1 (a binary(256));
 --error 1074
 CREATE TABLE t1 (a varbinary(65536));
 
+# Compatible with parallel > 1, disable warning
+--disable_warnings 
 DROP TABLE IF EXISTS t1;
+--enable_warnings
 CREATE TABLE t1 (a binary(255));
 CREATE TABLE t2 (a varbinary(65530));
 --error 1406

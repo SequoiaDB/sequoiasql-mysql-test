@@ -1,3 +1,5 @@
+create database test_insert;
+use test_insert;
 drop table if exists t1,t2,t3;
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
 Warnings:
@@ -28,13 +30,13 @@ id
 0
 2
 drop table t1;
-drop database if exists mysqltest;
-create database mysqltest;
-use mysqltest;
+drop database if exists mysqltest_insert;
+create database mysqltest_insert;
+use mysqltest_insert;
 create table t1 (c int);
-insert into mysqltest.t1 set mysqltest.t1.c = '1';
-drop database mysqltest;
-use test;
+insert into mysqltest_insert.t1 set mysqltest_insert.t1.c = '1';
+drop database mysqltest_insert;
+use test_insert;
 create table t1 (a int, b int);
 insert into t1 (a,b) values (a,b);
 insert into t1 SET a=1, b=a+1;
@@ -73,15 +75,15 @@ create view v1 as select * from t1, t2 where f1= f3;
 insert into t1 values (1,11), (2,22);
 insert into t2 values (1,12), (2,24);
 insert into v1 (f1) values (3) on duplicate key update f3= f3 + 10;
-ERROR HY000: Can not modify more than one base table through a join view 'test.v1'
+ERROR HY000: Can not modify more than one base table through a join view 'test_insert.v1'
 insert into v1 (f1) values (3) on duplicate key update f1= f3 + 10;
-ERROR HY000: Can not modify more than one base table through a join view 'test.v1'
+ERROR HY000: Can not modify more than one base table through a join view 'test_insert.v1'
 select * from t1;
 f1	f2
 1	11
 2	22
 insert into v1 (f1) values (3) on duplicate key update f1= f3 + 10;
-ERROR HY000: Can not modify more than one base table through a join view 'test.v1'
+ERROR HY000: Can not modify more than one base table through a join view 'test_insert.v1'
 select * from t1;
 f1	f2
 1	11
@@ -419,3 +421,4 @@ pk
 2
 DROP VIEW v1, v2;
 DROP TABLE t1;
+DROP DATABASE test_insert;

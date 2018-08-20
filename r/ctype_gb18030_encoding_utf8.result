@@ -4,7 +4,7 @@ Warnings:
 Warning	1681	Updating 'character_set_database' is deprecated. It will be made read-only in a future release.
 CREATE DATABASE `中文`;
 CREATE DATABASE `数据库`;
-SELECT schema_name, HEX(schema_name) FROM information_schema.schemata WHERE schema_name NOT IN ('mtr', 'sys');
+SELECT schema_name, HEX(schema_name) FROM information_schema.schemata WHERE schema_name NOT IN ('mtr', 'sys') and schema_name NOT LIKE "test_parallel%";
 schema_name	HEX(schema_name)
 information_schema	696E666F726D6174696F6E5F736368656D61
 中文	E4B8ADE69687
@@ -16,7 +16,8 @@ USE `数据库`;
 USE `中文`;
 DROP DATABASE `数据库`;
 DROP DATABASE `中文`;
-USE test;
+CREATE DATABASE test_ctype_gb18030_encoding_utf8;
+USE test_ctype_gb18030_encoding_utf8;
 'Test for CREATE TABLE'
 CREATE TABLE `表格` (`字段一` CHAR(1)) DEFAULT CHARSET = utf8mb4;
 CREATE TABLE `模式` (`列列列` CHAR(1)) DEFAULT CHARSET = utf8mb4;
@@ -902,3 +903,4 @@ DROP TABLE t1;
 DROP TABLE t2;
 DROP TABLE t3;
 DROP TABLE t4;
+DROP DATABASE test_ctype_gb18030_encoding_utf8;

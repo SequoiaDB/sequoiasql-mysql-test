@@ -512,7 +512,10 @@ select 0.8 = 0.7 + 0.1;
 #-- be exactly the same as the number that gets
 #-- selected.
 #
+# Compatible with parallel > 1, disable warning
+--disable_warnings
 drop table if exists t1;
+--enable_warnings
 #
 create table t1 (col1 decimal(38));
 #

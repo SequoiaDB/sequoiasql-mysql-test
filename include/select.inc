@@ -1775,18 +1775,18 @@ select period as "Nuvarande period" from t1 group by "Nuvarande period" limit 1;
 #
 # Some simple show commands
 #
-
-show tables;
-show tables from test like "s%";
-show tables from test like "t?";
-# We mask out the Privileges column because it differs with embedded server
-#--replace_column 8 #
-#show full columns from t2;
-#--replace_column 8 #
-#show full columns from t2 from test like 'f%';
-#--replace_column 8 #
-#show full columns from t2 from test like 's%';
-#show keys from t2;
+# This test has been moved to "create.test", at the end of the file
+#show tables;
+#show tables from test like "s%";
+#show tables from test like "t?";
+## We mask out the Privileges column because it differs with embedded server
+##--replace_column 8 #
+##show full columns from t2;
+##--replace_column 8 #
+##show full columns from t2 from test like 'f%';
+##--replace_column 8 #
+##show full columns from t2 from test like 's%';
+##show keys from t2;
 
 drop table if exists t4, t3, t1;
 
@@ -2971,7 +2971,7 @@ create table t1 (a int);
 insert into t1 values (0),(1),(2),(3),(4),(5),(6),(7),(8),(9);
 create table t2 (a int, b int, c int, e int, primary key(a,b,c));
 insert into t2 select A.a, B.a, C.a, C.a from t1 A, t1 B, t1 C;
-analyze table t2;
+#analyze table t2;
 select 'In next EXPLAIN, B.rows must be exactly 10:' Z;
 
 #explain select * from t2 a, t2 b where a.a=5 and a.b=5 and a.c<5

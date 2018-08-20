@@ -6,6 +6,10 @@
 # test of problems with having (Reported by Mark Rogers)
 #
 
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_having;
+use test_having;
+
 --disable_warnings
 drop table if exists t1,t2,t3;
 --enable_warnings
@@ -421,7 +425,7 @@ SELECT EMPNUM, GRADE*1000
                            HAVING HU.PROJ.CITY = HU.STAFF.CITY);
 
 DROP SCHEMA HU;
-USE test;
+USE test_having;
 #
 # Bug#18739: non-standard HAVING extension was allowed in strict ANSI sql mode.
 #
@@ -905,5 +909,8 @@ INSERT INTO t2 VALUES(2);
 SELECT c1 FROM t1 WHERE EXISTS(SELECT * FROM t2 HAVING c2>0);
 
 DROP TABLE t1, t2;
+
+# DROP DATABASE
+DROP DATABASE test_having;
 
 --source include/uninstall_sequoiadb.inc

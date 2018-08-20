@@ -1,3 +1,5 @@
+create database test_insert_select;
+use test_insert_select;
 drop table if exists t1,t2,t3;
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION,NO_AUTO_CREATE_USER';
 create table t1 (bandID MEDIUMINT UNSIGNED NOT NULL PRIMARY KEY, payoutID SMALLINT UNSIGNED NOT NULL);
@@ -589,7 +591,7 @@ use bug21774_1;
 INSERT INTO bug21774_2.t1 SELECT t1.* FROM t1;
 DROP DATABASE bug21774_1;
 DROP DATABASE bug21774_2;
-USE test;
+USE test_insert_select;
 CREATE TABLE t1 ( a INT KEY, b INT );
 INSERT INTO t1 VALUES ( 0, 1 );
 INSERT INTO t1 ( b ) SELECT MAX( b ) FROM t1 WHERE b = 2;
@@ -629,3 +631,4 @@ create table t2 (key(f1)) engine=sequoiadb select sql_buffer_result f1 from t1;
 drop table t1,t2;
 ##################################################################
 End of 5.0 tests
+DROP DATABASE test_insert_select;

@@ -1,3 +1,5 @@
+create database test_func_gconcat;
+use test_func_gconcat;
 drop table if exists t1, t2;
 create table t1 (grp int, a bigint unsigned, c char(10) not null, d char(10) not null);
 insert into t1 values (1,1,"a","a");
@@ -542,7 +544,7 @@ create table t1 (f1 int unsigned, f2 varchar(255));
 insert into t1 values (1,repeat('a',255)),(2,repeat('b',255));
 select f2,group_concat(f1) from t1 group by f2;
 Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
-def	test	t1	t1	f2	f2	253	255	255	Y	0	0	8
+def	test_func_gconcat	t1	t1	f2	f2	253	255	255	Y	0	0	8
 def					group_concat(f1)	253	400	1	Y	0	0	8
 f2	group_concat(f1)
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	1
@@ -654,7 +656,7 @@ create table t1 (f1 int unsigned, f2 varchar(255));
 insert into t1 values (1,repeat('a',255)),(2,repeat('b',255));
 select f2,group_concat(f1) from t1 group by f2;
 Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
-def	test	t1	t1	f2	f2	253	255	255	Y	0	0	8
+def	test_func_gconcat	t1	t1	f2	f2	253	255	255	Y	0	0	8
 def					group_concat(f1)	252	1024	1	Y	0	0	8
 f2	group_concat(f1)
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	1
@@ -895,7 +897,7 @@ DROP TABLE t1;
 CREATE TABLE t1(f1 int);
 INSERT INTO t1 values (0),(0);
 SELECT POLYGON((SELECT 1 FROM (SELECT 1 IN (GROUP_CONCAT(t1.f1)) FROM t1, t1 t GROUP BY t.f1 ) d));
-ERROR 22007: Illegal non geometric '(select 1 from (select (1 = group_concat(`test`.`t1`.`f1` separator ',')) AS `1 IN (GROUP_CONCAT(t1.f1))` from `test`.`t1` join `test`.`t1` `t` group by `test`.`t`.`f1`) `d`)' value found during parsing
+ERROR 22007: Illegal non geometric '(select 1 from (select (1 = group_concat(`test_func_gconcat`.`t1`.`f1` separator ',')) AS `1 IN (GROUP_CONCAT(t1.f1))` from `test_func_gconcat`.`t1` join `test_func_gconcat`.`t1` `t` group by ' value found during parsing
 DROP TABLE t1;
 End of 5.1 tests
 DROP TABLE IF EXISTS t1, t2;
@@ -1007,4 +1009,5 @@ Warning	1260	Row 3 was cut by GROUP_CONCAT()
 Warning	1260	Row 5 was cut by GROUP_CONCAT()
 DROP TABLE t1;
 SET group_concat_max_len= DEFAULT;
+DROP DATABASE test_func_gconcat;
 End of 5.6 tests

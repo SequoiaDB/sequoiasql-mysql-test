@@ -701,7 +701,9 @@ eval CREATE TABLE t1 (
   f $datetime DEFAULT $current_timestamp,
   g $datetime ON UPDATE $current_timestamp
 );
-CREATE PROCEDURE p1() INSERT INTO test.t1( a ) VALUES ( 1 );
+# Compatible with parallel > 1, don't use database "test" here, should change "test.t1" to "t1"
+#CREATE PROCEDURE p1() INSERT INTO test.t1( a ) VALUES ( 1 );
+CREATE PROCEDURE p1() INSERT INTO t1( a ) VALUES ( 1 );
 CREATE PROCEDURE p2() UPDATE t1 SET a = 2 WHERE a = 1;
 
 --echo # 1971-01-31 20:13:57 UTC
@@ -913,9 +915,10 @@ ROWS IDENTIFIED BY '<row>';
 DROP TABLE t1, t2;
 
 let $MYSQLD_DATADIR= `select @@datadir`;
-remove_file $MYSQLD_DATADIR/test/t3.dat;
-remove_file $MYSQLD_DATADIR/test/t4.dat;
-remove_file $MYSQLD_DATADIR/test/t5.dat;
+let $CURRENT_DATABASE = `select database()`;
+remove_file $MYSQLD_DATADIR/$CURRENT_DATABASE/t3.dat;
+remove_file $MYSQLD_DATADIR/$CURRENT_DATABASE/t4.dat;
+remove_file $MYSQLD_DATADIR/$CURRENT_DATABASE/t5.dat;
 
 
 --echo #
@@ -1035,8 +1038,8 @@ delete from t1;
 --echo # TIMESTAMP NOT NULL (e) gets NOW.
 
 drop table t1;
-remove_file $MYSQLD_DATADIR/test/file1.dat;
-remove_file $MYSQLD_DATADIR/test/file2.dat;
+remove_file $MYSQLD_DATADIR/$CURRENT_DATABASE/file1.dat;
+remove_file $MYSQLD_DATADIR/$CURRENT_DATABASE/file2.dat;
 
 --echo #
 --echo # Test of updatable views with check options. The option can be violated

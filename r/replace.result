@@ -1,3 +1,5 @@
+create database test_replace;
+use test_replace;
 drop table if exists t1;
 CREATE TABLE t1 (
 gesuchnr int(11) DEFAULT '0' NOT NULL,
@@ -21,6 +23,7 @@ SET sql_mode = default;
 CREATE TABLE t1 (f1 INT);
 CREATE VIEW v1 AS SELECT f1 FROM t1 WHERE f1 = 0 WITH CHECK OPTION;
 REPLACE INTO v1 (f1) VALUES (1);
-ERROR HY000: CHECK OPTION failed 'test.v1'
+ERROR HY000: CHECK OPTION failed 'test_replace.v1'
 DROP TABLE t1;
 DROP VIEW v1;
+DROP DATABASE test_replace;

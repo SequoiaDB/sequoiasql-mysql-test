@@ -1,8 +1,10 @@
+create database test_create;
+use test_create;
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
 Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
 drop table if exists t1,t2,t3,t4,t5;
-drop database if exists mysqltest;
+drop database if exists mysqltest_create;
 drop view if exists v1;
 create table t1 (b char(0));
 insert into t1 values (""),(null);
@@ -24,18 +26,18 @@ b
 
 drop table t1;
 create table t2 engine=sequoiadb select * from t1;
-ERROR 42S02: Table 'test.t1' doesn't exist
+ERROR 42S02: Table 'test_create.t1' doesn't exist
 create table t2 select auto+1 from t1;
-ERROR 42S02: Table 'test.t1' doesn't exist
+ERROR 42S02: Table 'test_create.t1' doesn't exist
 drop table if exists t1,t2;
 Warnings:
-Note	1051	Unknown table 'test.t1'
-Note	1051	Unknown table 'test.t2'
+Note	1051	Unknown table 'test_create.t1'
+Note	1051	Unknown table 'test_create.t2'
 create table t1 (b char(0) not null, index(b));
 ERROR 42000: The used storage engine can't index column 'b'
 drop table if exists t1;
 Warnings:
-Note	1051	Unknown table 'test.t1'
+Note	1051	Unknown table 'test_create.t1'
 create table not_existing_database.test (a int);
 ERROR 42000: Unknown database 'not_existing_database'
 create table `a/a` (a int);
@@ -71,13 +73,13 @@ select 1ea10.1a20,1e+ 1e+10 from 1ea10;
 drop table 1ea10;
 create table t1 (t1.index int);
 drop table t1;
-drop database if exists mysqltest;
+drop database if exists mysqltest_create;
 Warnings:
-Note	1008	Can't drop database 'mysqltest'; database doesn't exist
-create database mysqltest;
-create table mysqltest.test2$ (a int);
-drop table mysqltest.test2$;
-drop database mysqltest;
+Note	1008	Can't drop database 'mysqltest_create'; database doesn't exist
+create database mysqltest_create;
+create table mysqltest_create.test2$ (a int);
+drop table mysqltest_create.test2$;
+drop database mysqltest_create;
 create table `` (a int);
 ERROR 42000: Incorrect table name ''
 drop table if exists ``;
@@ -133,27 +135,27 @@ create table t2 (a int, a float) select * from t1;
 ERROR 42S21: Duplicate column name 'a'
 drop table if exists t2;
 Warnings:
-Note	1051	Unknown table 'test.t2'
+Note	1051	Unknown table 'test_create.t2'
 create table t2 (a int) select a as b, a+1 as b from t1;
 ERROR 42S21: Duplicate column name 'b'
 drop table if exists t2;
 Warnings:
-Note	1051	Unknown table 'test.t2'
+Note	1051	Unknown table 'test_create.t2'
 create table t2 (b int) select a as b, a+1 as b from t1;
 ERROR 42S21: Duplicate column name 'b'
 drop table if exists t1,t2;
 Warnings:
-Note	1051	Unknown table 'test.t2'
+Note	1051	Unknown table 'test_create.t2'
 CREATE TABLE t1 (a int not null);
 INSERT INTO t1 values (1),(2),(1);
 CREATE TABLE t2 (primary key(a)) SELECT * FROM t1;
 ERROR HY000: Got error 49962 from storage engine
 SELECT * from t2;
-ERROR 42S02: Table 'test.t2' doesn't exist
+ERROR 42S02: Table 'test_create.t2' doesn't exist
 DROP TABLE t1;
 DROP TABLE IF EXISTS t2;
 Warnings:
-Note	1051	Unknown table 'test.t2'
+Note	1051	Unknown table 'test_create.t2'
 SET SESSION default_storage_engine="sequoiadb";
 SELECT @@default_storage_engine;
 @@default_storage_engine
@@ -380,12 +382,12 @@ Note	1291	Column 'cset' has duplicated value 'b' in SET
 Note	1291	Column 'cset' has duplicated value 'B' in SET
 Note	1291	Column 'cset' has duplicated value 'd' in SET
 drop table t1, t2, t3;
-create database mysqltest;
-use mysqltest;
+create database mysqltest_create;
+use mysqltest_create;
 select database();
 database()
-mysqltest
-drop database mysqltest;
+mysqltest_create
+drop database mysqltest_create;
 select database();
 database()
 NULL
@@ -394,7 +396,7 @@ select database(), user();
 database()	user()
 NULL	mysqltest_1@localhost
 drop user mysqltest_1;
-use test;
+use test_create;
 SET default_storage_engine = SequoiaDB;
 create table t1 (a int, index `primary` (a));
 ERROR 42000: Incorrect index name 'primary'
@@ -462,18 +464,18 @@ create table t1 (a int);
 create table t1 select * from t1;
 ERROR 42S01: Table 't1' already exists
 create table t2 union = (t1) select * from t1;
-ERROR HY000: 'test.t2' is not BASE TABLE
+ERROR HY000: 'test_create.t2' is not BASE TABLE
 flush tables with read lock;
 unlock tables;
 drop table t1;
 create table t1(column.name int);
 ERROR 42000: Incorrect table name 'column'
-create table t1(test.column.name int);
+create table t1(test_create.column.name int);
 ERROR 42000: Incorrect table name 'column'
 create table t1(xyz.t1.name int);
 ERROR 42000: Incorrect database name 'xyz'
 create table t1(t1.name int);
-create table t2(test.t2.name int);
+create table t2(test_create.t2.name int);
 drop table t1,t2;
 CREATE TABLE t1 (f1 VARCHAR(255) CHARACTER SET utf8);
 CREATE TABLE t2 AS SELECT LEFT(f1,171) AS f2 FROM t1 UNION SELECT LEFT(f1,171) AS f2 FROM t1;
@@ -486,28 +488,28 @@ SELECT * FROM t12913;
 f1
 a
 DROP TABLE t12913;
-create database mysqltest;
-use mysqltest;
-drop database mysqltest;
-create table test.t1 like x;
+create database mysqltest_create;
+use mysqltest_create;
+drop database mysqltest_create;
+create table test_create.t1 like x;
 ERROR 3D000: No database selected
-drop table if exists test.t1;
-create database mysqltest;
-use mysqltest;
+drop table if exists test_create.t1;
+create database mysqltest_create;
+use mysqltest_create;
 create view v1 as select 'foo' from dual;
 create table t1 like v1;
-ERROR HY000: 'mysqltest.v1' is not BASE TABLE
+ERROR HY000: 'mysqltest_create.v1' is not BASE TABLE
 drop view v1;
-drop database mysqltest;
-create database mysqltest;
-create database if not exists mysqltest character set latin2;
+drop database mysqltest_create;
+create database mysqltest_create;
+create database if not exists mysqltest_create character set latin2;
 Warnings:
-Note	1007	Can't create database 'mysqltest'; database exists
-show create database mysqltest;
+Note	1007	Can't create database 'mysqltest_create'; database exists
+show create database mysqltest_create;
 Database	Create Database
-mysqltest	CREATE DATABASE `mysqltest` /*!40100 DEFAULT CHARACTER SET latin1 */
-drop database mysqltest;
-use test;
+mysqltest_create	CREATE DATABASE `mysqltest_create` /*!40100 DEFAULT CHARACTER SET latin1 */
+drop database mysqltest_create;
+use test_create;
 create table t1 (a int);
 create table if not exists t1 (a int);
 Warnings:
@@ -633,9 +635,9 @@ create table t1(a set("a,b","c,d") not null);
 ERROR 22007: Illegal set 'a,b' value found during parsing
 SET default_storage_engine = SequoiaDB;
 create table t1 select * from t2;
-ERROR 42S02: Table 'test.t2' doesn't exist
+ERROR 42S02: Table 'test_create.t2' doesn't exist
 create table t1 select * from t1;
-ERROR 42S02: Table 'test.t1' doesn't exist
+ERROR 42S02: Table 'test_create.t1' doesn't exist
 create table t1 select coalesce('a' collate latin1_swedish_ci,'b' collate latin1_bin);
 ERROR HY000: Illegal mix of collations (latin1_swedish_ci,EXPLICIT) and (latin1_bin,EXPLICIT) for operation 'coalesce'
 create table t1 (primary key(a)) select "b" as b;
@@ -762,12 +764,12 @@ CREATE TABLE t2 (primary key (a)) select * from t1;
 ERROR HY000: Got error 49962 from storage engine
 drop table if exists t2;
 Warnings:
-Note	1051	Unknown table 'test.t2'
+Note	1051	Unknown table 'test_create.t2'
 CREATE TEMPORARY TABLE t2 (primary key (a)) select * from t1;
 ERROR 23000: Duplicate entry '1' for key 'PRIMARY'
 drop table if exists t2;
 Warnings:
-Note	1051	Unknown table 'test.t2'
+Note	1051	Unknown table 'test_create.t2'
 CREATE TABLE t2 (a int, b int, primary key (a));
 INSERT INTO t2 select * from t1;
 ERROR HY000: Got error 49962 from storage engine
@@ -1308,7 +1310,7 @@ a
 1
 drop table t1;
 create table if not exists t1 (a int) select * from t1;
-ERROR 42S02: Table 'test.t1' doesn't exist
+ERROR 42S02: Table 'test_create.t1' doesn't exist
 #
 # 7. Test of non-matching columns, REPLACE and IGNORE.
 #
@@ -1326,12 +1328,12 @@ set @@session.sql_mode=default;
 create table if not exists t1 (a int, b date, c date) select 1 as b, 2 as c;
 ERROR 22007: Incorrect date value: '1' for column 'b' at row 1
 select * from t1;
-ERROR 42S02: Table 'test.t1' doesn't exist
+ERROR 42S02: Table 'test_create.t1' doesn't exist
 create table if not exists t1 (a int, b date, c date) 
 replace select 1 as b, 2 as c;
 ERROR 22007: Incorrect date value: '1' for column 'b' at row 1
 select * from t1;
-ERROR 42S02: Table 'test.t1' doesn't exist
+ERROR 42S02: Table 'test_create.t1' doesn't exist
 create table if not exists t1 (a int, b date, c date) 
 ignore select 1 as b, 2 as c;
 Warnings:
@@ -1502,3 +1504,139 @@ CREATE TABLE t1 (word text NOT NULL, KEY (word(1025)))engine=sequoiadb;
 ERROR 42000: Specified key was too long; max key length is 1024 bytes
 CREATE TABLE t1 (a char,b varchar(1024),KEY (a,b))engine=sequoiadb;
 ERROR 42000: Specified key was too long; max key length is 1024 bytes
+show tables;
+Tables_in_test_create
+show tables from test_create like "s%";
+Tables_in_test_create (s%)
+show tables from test_create like "t?";
+Tables_in_test_create (t?)
+#
+# Bug#52520 Difference in tinytext utf column metadata
+#
+CREATE TABLE t1 (
+s1 TINYTEXT CHARACTER SET utf16le,
+s2 TEXT CHARACTER SET utf16le,
+s3 MEDIUMTEXT CHARACTER SET utf16le,
+s4 LONGTEXT CHARACTER SET utf16le
+);
+SET NAMES utf8, @@character_set_results=NULL;
+SELECT *, HEX(s1) FROM t1;
+Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
+def	test_create	t1	t1	s1	s1	252	255	0	Y	16	0	56
+def	test_create	t1	t1	s2	s2	252	65535	0	Y	16	0	56
+def	test_create	t1	t1	s3	s3	252	16777215	0	Y	16	0	56
+def	test_create	t1	t1	s4	s4	252	4294967295	0	Y	16	0	56
+def					HEX(s1)	253	6120	0	Y	0	0	33
+s1	s2	s3	s4	HEX(s1)
+SET NAMES latin1;
+SELECT *, HEX(s1) FROM t1;
+Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
+def	test_create	t1	t1	s1	s1	252	127	0	Y	16	0	8
+def	test_create	t1	t1	s2	s2	252	32767	0	Y	16	0	8
+def	test_create	t1	t1	s3	s3	252	8388607	0	Y	16	0	8
+def	test_create	t1	t1	s4	s4	252	2147483647	0	Y	16	0	8
+def					HEX(s1)	253	2040	0	Y	0	0	8
+s1	s2	s3	s4	HEX(s1)
+SET NAMES utf8;
+SELECT *, HEX(s1) FROM t1;
+Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
+def	test_create	t1	t1	s1	s1	252	381	0	Y	16	0	33
+def	test_create	t1	t1	s2	s2	252	98301	0	Y	16	0	33
+def	test_create	t1	t1	s3	s3	252	25165821	0	Y	16	0	33
+def	test_create	t1	t1	s4	s4	252	4294967295	0	Y	16	0	33
+def					HEX(s1)	253	6120	0	Y	0	0	33
+s1	s2	s3	s4	HEX(s1)
+CREATE TABLE t2 AS SELECT CONCAT(s1) FROM t1;
+SHOW CREATE TABLE t2;
+Table	Create Table
+t2	CREATE TABLE `t2` (
+  `CONCAT(s1)` varchar(255) CHARACTER SET utf16le DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+DROP TABLE t1, t2;
+#
+# Bug#52520 Difference in tinytext utf column metadata
+#
+CREATE TABLE t1 (
+s1 TINYTEXT CHARACTER SET utf16,
+s2 TEXT CHARACTER SET utf16,
+s3 MEDIUMTEXT CHARACTER SET utf16,
+s4 LONGTEXT CHARACTER SET utf16
+);
+SET NAMES utf8, @@character_set_results=NULL;
+SELECT *, HEX(s1) FROM t1;
+Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
+def	test_create	t1	t1	s1	s1	252	255	0	Y	16	0	54
+def	test_create	t1	t1	s2	s2	252	65535	0	Y	16	0	54
+def	test_create	t1	t1	s3	s3	252	16777215	0	Y	16	0	54
+def	test_create	t1	t1	s4	s4	252	4294967295	0	Y	16	0	54
+def					HEX(s1)	253	6120	0	Y	0	0	33
+s1	s2	s3	s4	HEX(s1)
+SET NAMES latin1;
+SELECT *, HEX(s1) FROM t1;
+Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
+def	test_create	t1	t1	s1	s1	252	127	0	Y	16	0	8
+def	test_create	t1	t1	s2	s2	252	32767	0	Y	16	0	8
+def	test_create	t1	t1	s3	s3	252	8388607	0	Y	16	0	8
+def	test_create	t1	t1	s4	s4	252	2147483647	0	Y	16	0	8
+def					HEX(s1)	253	2040	0	Y	0	0	8
+s1	s2	s3	s4	HEX(s1)
+SET NAMES utf8;
+SELECT *, HEX(s1) FROM t1;
+Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
+def	test_create	t1	t1	s1	s1	252	381	0	Y	16	0	33
+def	test_create	t1	t1	s2	s2	252	98301	0	Y	16	0	33
+def	test_create	t1	t1	s3	s3	252	25165821	0	Y	16	0	33
+def	test_create	t1	t1	s4	s4	252	4294967295	0	Y	16	0	33
+def					HEX(s1)	253	6120	0	Y	0	0	33
+s1	s2	s3	s4	HEX(s1)
+CREATE TABLE t2 AS SELECT CONCAT(s1) FROM t1;
+SHOW CREATE TABLE t2;
+Table	Create Table
+t2	CREATE TABLE `t2` (
+  `CONCAT(s1)` varchar(255) CHARACTER SET utf16 DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+DROP TABLE t1, t2;
+#
+# Bug#52520 Difference in tinytext utf column metadata
+#
+CREATE TABLE t1 (
+s1 TINYTEXT CHARACTER SET utf32,
+s2 TEXT CHARACTER SET utf32,
+s3 MEDIUMTEXT CHARACTER SET utf32,
+s4 LONGTEXT CHARACTER SET utf32
+);
+SET NAMES utf8mb4, @@character_set_results=NULL;
+SELECT *, HEX(s1) FROM t1;
+Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
+def	test_create	t1	t1	s1	s1	252	255	0	Y	16	0	60
+def	test_create	t1	t1	s2	s2	252	65535	0	Y	16	0	60
+def	test_create	t1	t1	s3	s3	252	16777215	0	Y	16	0	60
+def	test_create	t1	t1	s4	s4	252	4294967295	0	Y	16	0	60
+def					HEX(s1)	253	8160	0	Y	0	0	45
+s1	s2	s3	s4	HEX(s1)
+SET NAMES latin1;
+SELECT *, HEX(s1) FROM t1;
+Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
+def	test_create	t1	t1	s1	s1	252	63	0	Y	16	0	8
+def	test_create	t1	t1	s2	s2	252	16383	0	Y	16	0	8
+def	test_create	t1	t1	s3	s3	252	4194303	0	Y	16	0	8
+def	test_create	t1	t1	s4	s4	252	1073741823	0	Y	16	0	8
+def					HEX(s1)	253	2040	0	Y	0	0	8
+s1	s2	s3	s4	HEX(s1)
+SET NAMES utf8mb4;
+SELECT *, HEX(s1) FROM t1;
+Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
+def	test_create	t1	t1	s1	s1	252	252	0	Y	16	0	45
+def	test_create	t1	t1	s2	s2	252	65532	0	Y	16	0	45
+def	test_create	t1	t1	s3	s3	252	16777212	0	Y	16	0	45
+def	test_create	t1	t1	s4	s4	252	4294967292	0	Y	16	0	45
+def					HEX(s1)	253	8160	0	Y	0	0	45
+s1	s2	s3	s4	HEX(s1)
+CREATE TABLE t2 AS SELECT CONCAT(s1) FROM t1;
+SHOW CREATE TABLE t2;
+Table	Create Table
+t2	CREATE TABLE `t2` (
+  `CONCAT(s1)` varchar(255) CHARACTER SET utf32 DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+DROP TABLE t1, t2;
+DROP DATABASE test_create;

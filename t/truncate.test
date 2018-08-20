@@ -4,6 +4,10 @@
 
 --source include/have_sequoiadb.inc
 
+# Compatible with parallel > 1, table name will be printed when check error, should create and use database: test_casename
+create database test_truncate;
+use test_truncate;
+
 --disable_warnings
 drop table if exists t1, t2;
 --enable_warnings
@@ -164,6 +168,7 @@ CREATE TABLE t1 AS SELECT 1 AS f1;
 
 # Cleanup
 DROP TABLE t1;
+DROP DATABASE test_truncate;
 
 --source include/uninstall_sequoiadb.inc
 

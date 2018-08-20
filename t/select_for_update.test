@@ -22,7 +22,9 @@ end $
 delimiter ;$
 
 --enable_connect_log
---connect(con1, localhost, root)
+# Compatible with parallel > 1,  new connection should identify with database name
+let $current_db = `select database()`;
+--connect(con1, localhost, root,, $current_db,,)
 --disable_result_log
 --send call p1();   # run this in two connections!
 --connection default

@@ -1,3 +1,5 @@
+create database test_func_str;
+use test_func_str;
 drop table if exists t1,t2;
 set names latin1;
 select 'hello',"'hello'",'""hello""','''h''e''l''l''o''',"hel""lo",'hel\'lo';
@@ -1253,7 +1255,7 @@ Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
 delete from t1 order by (inet_ntoa(a)) desc limit 10;
 Warnings:
-Warning	1411	Incorrect integer value: '`test`.`t1`.`a`' for function inet_ntoa
+Warning	1411	Incorrect integer value: '`test_func_str`.`t1`.`a`' for function inet_ntoa
 SET SQL_MODE=@orig_sql_mode;
 Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
@@ -4646,3 +4648,4 @@ AND trim(trailing 'a' FROM COUNTRY) = 'Australi';
 COUNTRY
 Australia
 DROP TABLE t1;
+DROP DATABASE test_func_str;

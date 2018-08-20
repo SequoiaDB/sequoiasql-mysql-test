@@ -5,6 +5,8 @@ SET @old_sql_mode = @@sql_mode;
 SET @@sql_mode='ONLY_FULL_GROUP_BY';
 Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
+create database test_group_by_fd_no_prot;
+use test_group_by_fd_no_prot;
 # From testcase of Bug#16903135:
 CREATE TABLE group_by_test2 (
 id int unsigned primary key,
@@ -26,7 +28,7 @@ FROM
 group_by_test2
 GROUP BY
 cat;
-ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.group_by_test2.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.group_by_test2.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 ALTER TABLE group_by_test2 ADD UNIQUE INDEX (cat);
 SELECT
 cat,
@@ -50,7 +52,7 @@ FROM
 group_by_test2
 GROUP BY
 cat WITH ROLLUP;
-ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.group_by_test2.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.group_by_test2.name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 # Expressions of group columns are ok:
 SELECT
 cat,
@@ -83,7 +85,7 @@ SELECT MIN( alias2.col_int_key ),
 alias2.col_int_key
 FROM t1 AS alias1, t2 AS alias2
 WHERE alias1.col_int_key IS NULL;
-ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test.alias2.col_int_key'; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test_group_by_fd_no_prot.alias2.col_int_key'; this is incompatible with sql_mode=only_full_group_by
 # Same with view:
 SELECT MIN( alias2.col_int_key ),
 alias2.col_int_key
@@ -104,9 +106,9 @@ unique key(b,c),
 unique key(b,d)
 );
 select sin(a) as z from t1 group by b;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select sin(a) as z from t1 group by d,b;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 # {b,c} UNIQUE NOT NULL => {c,b}->a
 select sin(a) as z from t1 group by c,b;
 z
@@ -116,12 +118,12 @@ z
 # checks are done at PREPARE, whereas trace below is from EXECUTE.
 # With outer references:
 select (select sin(a)) as z from t1 group by d,b;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select (select sin(a)) as z from t1 group by c,b;
 z
 # If key columns are in function, functional dependency disappears
 select sin(a) as z from t1 group by c*2,b*2;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 # FDs are recognized, like in SQL standard:
 # b=2 => c->{b,c} => c->a as (b,c) is unique not null.
 select sin(a) as z from t1 where b=2 group by c;
@@ -174,22 +176,22 @@ a	a
 2	NULL
 # So this query would choose one arbitrary value of t1.a - wrong:
 select t1.a from t1 left join t2 on t2.a=t1.a and t2.b=t1.b group by t2.a;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 # Also problem for FD with constant:
 select t1.a,t2.a from t1 left join t2 on 42=t1.a and t2.b=t1.b;
 a	a
 1	NULL
 2	NULL
 select t1.a from t1 left join t2 on 42=t1.a and t2.b=t1.b group by t2.a;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select t1.a from t1 left join t2 on t2.b=t1.a group by t2.b;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select t1.a from t1 left join t2 on 42=t1.a group by t2.a;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select t1.c from t1 left join t2 on t1.a=t1.c group by t1.a;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.c' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.c' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select t1.b from t1 left join t2 on t1.c=t1.b and t1.a=t1.c group by t1.a;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select t1.a,t2.c from t1 left join t2 on t1.a=t2.c
 and cos(t2.c+t2.b)>0.5 and sin(t1.a+t2.d)<0.9 group by t1.a;
 a	c
@@ -204,7 +206,7 @@ a	d
 # with non-determinism:
 select t1.a,t2.c from t1 left join t2 on t1.a=t2.c
 and cos(t2.c+rand())>0.5 group by t1.a;
-ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t2.c' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t2.c' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select t1.a, ANY_VALUE(t2.c) from t1 left join t2 on t1.a=t2.c
 and cos(t2.c+rand())>0.5 group by t1.a;
 a	ANY_VALUE(t2.c)
@@ -220,19 +222,19 @@ a	c
 # No OR
 select t1.a,t2.c from t1 left join t2 on t1.a=t2.c
 and cos(t2.c+t2.b)>0.5 OR sin(t2.d)<0.9 group by t1.a;
-ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t2.c' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t2.c' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 # With subq
 select t2.b from t1 left join t1 as t2 on t1.a=t2.b and t1.b group by t1.a;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t2.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t2.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select t2.b from t1 left join t1 as t2 on t1.a=t2.b and (select t1.b) group by t1.a;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t2.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t2.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 # Test ANY_VALUE:
 select ANY_VALUE(t1.b) from t1 left join t2 on t1.c=t1.b and t1.a=t1.c group by t1.a;
 ANY_VALUE(t1.b)
 10
 20
 select 3+(5*t1.b) from t1 left join t2 on t1.c=t1.b and t1.a=t1.c group by t1.a;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select 3+(5*ANY_VALUE(t1.b)) from t1 left join t2 on t1.c=t1.b and t1.a=t1.c group by t1.a;
 3+(5*ANY_VALUE(t1.b))
 53
@@ -242,7 +244,7 @@ insert into t1 (a,b) values(1,10),(1,20),(2,30),(2,40);
 Warnings:
 Warning	1364	Field 'c' doesn't have a default value
 select a, sum(b) from t1;
-ERROR 42000: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'test.t1.a'; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'test_group_by_fd_no_prot.t1.a'; this is incompatible with sql_mode=only_full_group_by
 select any_value(a), sum(b) from t1;
 any_value(a)	sum(b)
 1	100
@@ -251,7 +253,7 @@ select any_value(a), sum(b) from (select * from t1 order by a desc) as d;
 any_value(a)	sum(b)
 1	100
 select a,b,sum(c) from t1 group by a;
-ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select a,any_value(b),sum(c) from t1 group by a;
 a	any_value(b)	sum(c)
 1	10	0
@@ -327,11 +329,11 @@ pk	b
 select t1.pk, t2.b from t2 natural right join t1 group by t1.pk;
 pk	b
 select t1.pk, t2.b from t1 left join t2 on t1.pk>t2.pk group by t1.pk;
-ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t2.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t2.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 # Even in --ps-protocol we see the group-by checks in trace because
 # there has been no execution (due to error).
 select t1.pk, t2.b from t2 right join t1 on t1.pk>t2.pk group by t1.pk;
-ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t2.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t2.b' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 drop table t1,t2;
 # Cases where FDs from weak side do not propagate
 create table t1(a int, b int);
@@ -421,7 +423,7 @@ NULL
 # For T4.D=3, DJS is {T1.A} which is not group column.
 select t4.d
 from t1 left join (t2 as t3 join t2 as t4 on t4.d=3) on t1.a=10 group by "";
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t4.d' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t4.d' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select t4.d
 from t1 left join (t2 as t3 left join t2 as t4 on t4.d=3) on t1.a=10;
 d
@@ -431,7 +433,7 @@ NULL
 # so FD cannot propagate.
 select t4.d
 from t1 left join (t2 as t3 left join t2 as t4 on t4.d=3) on t1.a=10 group by "";
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t4.d' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t4.d' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 select t4.d
 from t1 join (t2 as t3 left join t2 as t4 on t4.d=3) on t1.a=10;
 d
@@ -477,7 +479,7 @@ a	b
 NULL	NULL
 # We correctly reject this:
 select t1.a, v1.b from t1 left join v1 on t1.a is not null group by v1.a;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.a' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 drop view v1;
 drop table t1,t2;
 create table emp(empno int, ename char(1), deptno int);
@@ -501,7 +503,7 @@ from
 emp
 where emp.empno=deriv.empno
 group by emp.empno;
-ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.emp.ename' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.emp.ename' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 drop view empdept;
 # Make the key-searching loop meet view columns which don't wrap a
 # column (CONCAT).
@@ -536,7 +538,7 @@ ON 1
 GROUP BY field1
 ORDER BY alias1.c5;
 SELECT * FROM v1;
-ERROR 42000: Expression #1 of ORDER BY clause is not in GROUP BY clause and contains nonaggregated column 'test.alias1.c5' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #1 of ORDER BY clause is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.alias1.c5' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 DROP VIEW v1;
 # alias1.c5 is FD (WHERE contains: alias1.c5='d')
 CREATE VIEW v1 AS
@@ -634,7 +636,7 @@ a	b	c	d
 SELECT a,b,c,d FROM t1 WHERE (a,b)=(c,d) GROUP BY a,b;
 a	b	c	d
 SELECT a,b,c,d FROM t1 WHERE (a,b)=(c,d+1) GROUP BY a,b;
-ERROR 42000: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test.t1.d' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: Expression #4 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'test_group_by_fd_no_prot.t1.d' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 DROP TABLE t1;
 DROP VIEW v1;
 #
@@ -656,7 +658,7 @@ SELECT COUNT(*), t1.col_int_key
 FROM v2 LEFT OUTER JOIN t1
 ON v2.col_varchar_10_utf8 = t1.col_varchar_10_utf8
 WHERE v2.pk = 4;
-ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test.t1.col_int_key'; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test_group_by_fd_no_prot.t1.col_int_key'; this is incompatible with sql_mode=only_full_group_by
 DROP VIEW v2;
 # A variant: one column is an expression:
 CREATE VIEW v2 AS SELECT
@@ -668,7 +670,7 @@ SELECT COUNT(*), t1.col_int_key
 FROM v2 LEFT OUTER JOIN t1
 ON v2.col_varchar_10_utf8 = t1.col_varchar_10_utf8
 WHERE v2.pk = 4;
-ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test.t1.col_int_key'; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test_group_by_fd_no_prot.t1.col_int_key'; this is incompatible with sql_mode=only_full_group_by
 DROP VIEW v2;
 # Query used in the commit comment: view column involving two tables
 CREATE VIEW v2 AS
@@ -702,3 +704,4 @@ pk	coa
 DROP VIEW v2;
 DROP TABLE t1,t2;
 DROP FUNCTION show_json_object;
+DROP DATABASE test_group_by_fd_no_prot;

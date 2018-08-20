@@ -823,7 +823,9 @@ drop table t1;
 create table t1 (a varchar(5));
 create table t2 select * from t1 union select 'abcdefghijkl';
 show create table t2;
-select row_format from information_schema.TABLES where table_schema="test" and table_name="t2";
+# Compatible with parallel > 1, modify select condition of database name with like 'test%'
+#select row_format from information_schema.TABLES where table_schema="test" and table_name="t2";
+select row_format from information_schema.TABLES where table_schema like "test%" and table_name="t2";
 
 #Sequoiadb not support
 #alter table t2 ROW_FORMAT=fixed;

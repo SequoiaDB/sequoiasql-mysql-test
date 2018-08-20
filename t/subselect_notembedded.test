@@ -62,7 +62,9 @@ drop table t1;
 # (this is a second copy of testcase that uses disconnect/connect commands
 #  which increase probability of crash)
 --disconnect default
---connect (default,localhost,root,,test)
+# Compatible with parallel > 1, should delete argument "test"
+#--connect (default,localhost,root,,test)
+--connect (default,localhost,root,,)
 CREATE TABLE t1 (f1 INT NOT NULL);
 CREATE VIEW v1 (a) AS SELECT f1 IN (SELECT f1 FROM t1) FROM t1;
 SELECT * FROM v1;

@@ -6,6 +6,11 @@
 #
 # simple test of group_concat function
 #
+
+# Compatible with parallel > 1, table name will be printed when check error, should create and use database: test_casename
+create database test_func_gconcat;
+use test_func_gconcat;
+
 --disable_warnings
 drop table if exists t1, t2;
 --enable_warnings
@@ -867,6 +872,9 @@ SELECT LENGTH(GROUP_CONCAT(f1 ORDER BY f2)) FROM t1 GROUP BY f2;
 
 DROP TABLE t1;
 SET group_concat_max_len= DEFAULT;
+
+# DROP DATABASE
+DROP DATABASE test_func_gconcat;
 
 --source include/uninstall_sequoiadb.inc
 --echo End of 5.6 tests

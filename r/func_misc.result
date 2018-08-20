@@ -1,3 +1,5 @@
+create database test_func_misc;
+use test_func_misc;
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
 Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
@@ -302,9 +304,9 @@ select min(a) from t1 group by inet_ntoa(a);
 min(a)
 -2
 Warnings:
-Warning	1411	Incorrect integer value: '`test`.`t1`.`a`' for function inet_ntoa
-Warning	1411	Incorrect integer value: '`test`.`t1`.`a`' for function inet_ntoa
-Warning	1411	Incorrect integer value: '`test`.`t1`.`a`' for function inet_ntoa
+Warning	1411	Incorrect integer value: '`test_func_misc`.`t1`.`a`' for function inet_ntoa
+Warning	1411	Incorrect integer value: '`test_func_misc`.`t1`.`a`' for function inet_ntoa
+Warning	1411	Incorrect integer value: '`test_func_misc`.`t1`.`a`' for function inet_ntoa
 drop table t1;
 SELECT NAME_CONST('var', 'value') COLLATE latin1_general_cs;
 NAME_CONST('var', 'value') COLLATE latin1_general_cs
@@ -1159,6 +1161,7 @@ inet_aton("255.255.255.2551")
 NULL
 Warnings:
 Warning	1411	Incorrect string value: ''255.255.255.2551'' for function inet_aton
+DROP DATABASE test_func_misc;
 
 # -- Done.
 

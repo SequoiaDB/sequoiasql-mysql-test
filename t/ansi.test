@@ -8,6 +8,10 @@
 # Test of ansi mode
 #
 
+# Compatible with parallel > 1, table name will be printed when check error, should create and use database: test_casename
+create database test_ansi;
+use test_ansi;
+
 --disable_warnings
 drop table if exists t1;
 --enable_warnings
@@ -55,6 +59,9 @@ SET @@SQL_MODE="NO_FIELD_OPTIONS";
 --replace_result $DEFAULT_ENGINE ENGINE
 SHOW CREATE TABLE t1;
 DROP TABLE t1;
+
+#DROP DATABASE
+DROP DATABASE test_ansi;
 
 --source include/uninstall_sequoiadb.inc
 # End of 4.1 tests

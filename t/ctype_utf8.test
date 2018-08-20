@@ -4,6 +4,10 @@
 
 --source include/have_sequoiadb.inc
 
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_ctype_utf8;
+use test_ctype_utf8;
+
 --disable_warnings
 drop table if exists t1,t2;
 --enable_warnings
@@ -1223,7 +1227,7 @@ EXPLAIN SELECT * FROM crashtest ORDER BY CHAR(crash USING utf8);
 SELECT * FROM crashtest ORDER BY CHAR(crash USING utf8);
 DROP TABLE crashtest;
 DROP DATABASE crashtest;
-USE test;
+USE test_ctype_utf8;
 SET CHARACTER SET default;
 
 # End of 4.1 tests
@@ -1699,6 +1703,9 @@ set @@collation_connection=utf8_bin;
 SET NAMES utf8; 
 --source include/ctype_inet.inc
 --source include/uninstall_sequoiadb.inc
+
+# DROP DATABASE
+DROP DATABASE test_ctype_utf8;
 
 --echo #
 --echo # End of 5.6 tests

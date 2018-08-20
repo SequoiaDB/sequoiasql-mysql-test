@@ -1,4 +1,6 @@
 SET @save_sql_mode=@@sql_mode;
+create database test_parser;
+use test_parser;
 set SQL_MODE='';
 Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
@@ -1112,8 +1114,8 @@ ERROR 42000: Incorrect parameter count in the call to native function 'UNHEX'
 #
 # Bug #20086997: PARSER CONFUSES WITH 7BIT-CHARACTER STRING DETECTION
 #
-CREATE DATABASE mysqltest1 CHARACTER SET LATIN2;
-USE mysqltest1;
+CREATE DATABASE mysqltest1_parser CHARACTER SET LATIN2;
+USE mysqltest1_parser;
 CREATE TABLE t1 (a VARCHAR(255) CHARACTER SET LATIN2);
 SET CHARACTER SET cp1250_latin2;
 INSERT INTO t1 VALUES ('£¥ª¯');
@@ -1122,8 +1124,8 @@ SELECT HEX(a) FROM t1;
 HEX(a)
 A3A1AAAF
 A3A1AAAF
-DROP DATABASE mysqltest1;
-USE test;
+DROP DATABASE mysqltest1_parser;
+USE test_parser;
 #
 # WL #7201, WL #7202 and WL#8062 coverage tests
 #
@@ -1181,4 +1183,5 @@ ALTER TABLE t1 LOCK=SHARED, WITH VALIDATION, ALGORITHM=COPY,
 LOCK=EXCLUSIVE, WITHOUT VALIDATION, ALGORITHM=INPLACE;
 ERROR HY000: Incorrect usage of ALTER and WITH VALIDATION
 DROP TABLE t1;
+DROP DATABASE test_parser;
 #

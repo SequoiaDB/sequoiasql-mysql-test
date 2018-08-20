@@ -6,6 +6,10 @@
 # And construct these gb18030 chars maped from SIP
 # 𠀀𠀂𫭃𤈼𠻜𠻝𠻞𠻟𠻠
 
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_ctype_gb18030_encoding_cn;
+use test_ctype_gb18030_encoding_cn;
+
 SET NAMES gb18030;
 --CHARACTER_SET gb18030
 SET CHARACTER_SET_DATABASE = gb18030;
@@ -13,7 +17,9 @@ SET CHARACTER_SET_DATABASE = gb18030;
 CREATE DATABASE `中文`;
 CREATE DATABASE `数据库`;
 
-SELECT schema_name, HEX(schema_name) FROM information_schema.schemata WHERE schema_name NOT IN ('mtr', 'sys');
+# Compatible with parallel > 1, modify query condition, ignore database "test_parallel_*" 
+#SELECT schema_name, HEX(schema_name) FROM information_schema.schemata WHERE schema_name NOT IN ('mtr', 'sys');
+SELECT schema_name, HEX(schema_name) FROM information_schema.schemata WHERE schema_name NOT IN ('mtr', 'sys') and schema_name NOT LIKE "test_parallel%";
 
 USE `数据库`;
 USE `中文`;
@@ -21,7 +27,7 @@ USE `中文`;
 DROP DATABASE `数据库`;
 DROP DATABASE `中文`;
 
-USE test;
+USE test_ctype_gb18030_encoding_cn;
 
 --echo 'Test for CREATE TABLE'
 
@@ -543,5 +549,8 @@ DROP TABLE t4;
 #--eval SELECT COUNT(*) AS `Expect 0` FROM `表格一`, `表格二` WHERE `表格一`.id = `表格二`.id AND (`表格一`.c <> `表格二`.c OR `表格一`.b <> `表格二`.b OR `表格一`.v <> `表格二`.v);
 #--remove_file $MYSQLTEST_VARDIR/tmp/gb18030_encoding.txt
 #DROP TABLE `表格二`, `表格一`;
+
+# DROP DATABASE
+DROP DATABASE test_ctype_gb18030_encoding_cn;
 
 --source include/uninstall_sequoiadb.inc

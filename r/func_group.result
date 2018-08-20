@@ -922,19 +922,6 @@ ERROR HY000: Expression #1 of ORDER BY contains aggregate function and applies t
 SELECT 1 FROM t1 GROUP BY (SELECT SLEEP(0) FROM t1 ORDER BY AVG(DISTINCT a) );
 ERROR HY000: Expression #1 of ORDER BY contains aggregate function and applies to the result of a non-aggregated query
 DROP TABLE t1;
-CREATE TABLE t1 (a INT);
-INSERT INTO t1 VALUES (1),(2),(3),(4);
-SELECT a FROM t1 HAVING COUNT(*)>2;
-ERROR 42000: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'test.t1.a'; this is incompatible with sql_mode=only_full_group_by
-SELECT COUNT(*), a FROM t1;
-ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test.t1.a'; this is incompatible with sql_mode=only_full_group_by
-SELECT a FROM t1 HAVING COUNT(*)>2;
-a
-1
-SELECT COUNT(*), a FROM t1;
-COUNT(*)	a
-4	1
-DROP TABLE t1;
 set SQL_MODE=ONLY_FULL_GROUP_BY;
 Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
@@ -953,31 +940,6 @@ DROP TABLE t1;
 CREATE TABLE derived1 (a bigint(21));
 INSERT INTO derived1 VALUES (2);
 DROP TABLE derived1;
-CREATE TABLE t1 (a INT, b INT);
-INSERT INTO t1 VALUES (1,1), (1,2), (1,3);
-SET SQL_MODE='ONLY_FULL_GROUP_BY';
-Warnings:
-Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
-SELECT COUNT(*) FROM t1;
-COUNT(*)
-3
-SELECT COUNT(*) FROM t1 where a=1;
-COUNT(*)
-3
-SELECT COUNT(*),a FROM t1;
-ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test.t1.a'; this is incompatible with sql_mode=only_full_group_by
-SELECT COUNT(*) FROM t1 a JOIN t1 b ON a.a= b.a;
-COUNT(*)
-9
-SELECT COUNT(*), (SELECT count(*) FROM t1 inr WHERE inr.a = outr.a) 
-FROM t1 outr;
-ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test.outr.a'; this is incompatible with sql_mode=only_full_group_by
-SELECT COUNT(*) FROM t1 a JOIN t1 outr 
-ON a.a= (SELECT count(*) FROM t1 inr WHERE inr.a = outr.a);
-COUNT(*)
-0
-SET SQL_MODE=default;
-DROP TABLE t1;
 End of 5.0 tests
 #
 # BUG#47280 - strange results from count(*) with order by multiple 
@@ -1227,17 +1189,6 @@ INSERT INTO t1 VALUES (18446668621106209655);
 SELECT MAX(LENGTH(a)), LENGTH(MAX(a)), MIN(a), MAX(a), CONCAT(MIN(a)), CONCAT(MAX(a)) FROM t1;
 MAX(LENGTH(a))	LENGTH(MAX(a))	MIN(a)	MAX(a)	CONCAT(MIN(a))	CONCAT(MAX(a))
 20	20	18446668621106209655	18446668621106209655	18446668621106209655	18446668621106209655
-DROP TABLE t1;
-#
-# Bug #11766270  59343: YEAR(4): INCORRECT RESULT AND VALGRIND WARNINGS WITH MIN/MAX, UNION
-#
-CREATE TABLE t1(f1 YEAR(4));
-INSERT INTO t1 VALUES (0000),(2001);
-(SELECT MAX(f1) FROM t1) UNION (SELECT MAX(f1) FROM t1);
-Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
-def				MAX(f1)	MAX(f1)	13	4	4	Y	32864	0	63
-MAX(f1)
-2001
 DROP TABLE t1;
 #
 End of 5.1 tests

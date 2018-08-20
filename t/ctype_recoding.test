@@ -5,6 +5,10 @@
 
 SET CHARACTER SET koi8r;
 
+# Compatible with parallel > 1, don't use test anymore, instead create and use database: test_casename
+create database test_ctype_recoding;
+use test_ctype_recoding;
+
 --disable_warnings
 DROP TABLE IF EXISTS таблица, t1, t2;
 --enable_warnings
@@ -108,7 +112,7 @@ SELECT hex('тест');
 SET character_set_connection=cp1251;
 SELECT hex('тест');
 
-USE test;
+USE test_ctype_recoding;
 
 # Bug#4417
 # Check that identifiers and strings are not converted 
@@ -260,6 +264,9 @@ show create table t1;
 drop table t1;
 --error 1067
 create table t1(a char character set latin1 default _cp1251 0xFF);
+
+# DROP DATABASE
+DROP DATABASE test_ctype_recoding;
 
 --source include/uninstall_sequoiadb.inc
 --echo End of 4.1 tests
