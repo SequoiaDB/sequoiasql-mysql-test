@@ -1,5 +1,6 @@
 # The include statement below is a temp one for tests that are yet to
 #be ported to run with Sequoiadb
+# (#Case #15657:index scan use condition where a)
 --source include/have_sequoiadb.inc
 
 
