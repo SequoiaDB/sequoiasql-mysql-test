@@ -1391,23 +1391,23 @@ DROP TABLE t1,t2;
 #
 # Bug#50755: Crash if stored routine def contains version comments
 #
-DROP DATABASE IF EXISTS db1;
+DROP DATABASE IF EXISTS db1_trigger;
 DROP TRIGGER IF EXISTS trg1;
 DROP TABLE IF EXISTS t1, t2;
-CREATE DATABASE db1;
-USE db1;
+CREATE DATABASE db1_trigger;
+USE db1_trigger;
 CREATE TABLE t1 (b INT);
 CREATE TABLE t2 (a INT);
 CREATE TRIGGER trg1 BEFORE INSERT ON t2 FOR EACH ROW INSERT/*!INTO*/t1 VALUES (1);
 # Used to crash
-SHOW TRIGGERS IN db1;
+SHOW TRIGGERS IN db1_trigger;
 Trigger	Event	Table	Statement	Timing	Created	sql_mode	Definer	character_set_client	collation_connection	Database Collation
 INSERT INTO t2 VALUES (1);
 ERROR 42000: Trigger 'trg1' has an error in its body: 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 't1 VALUES (1)' at line 1'
 SELECT * FROM t1;
 b
 # Work around Bug#45235
-DROP DATABASE db1;
+DROP DATABASE db1_trigger;
 USE test_trigger;
 End of 5.1 tests.
 #
@@ -1600,11 +1600,11 @@ ERROR HY000: Explicit or implicit commit is not allowed in stored function or tr
 CREATE TRIGGER tr1 AFTER UPDATE ON t1 FOR EACH ROW
 DROP SERVER IF EXISTS s;
 ERROR HY000: Explicit or implicit commit is not allowed in stored function or trigger.
-CREATE DATABASE db1;
+CREATE DATABASE db1_trigger;
 CREATE TRIGGER tr1 AFTER UPDATE ON t1 FOR EACH ROW
-ALTER DATABASE db1 CHARACTER SET latin1;
+ALTER DATABASE db1_trigger CHARACTER SET latin1;
 ERROR HY000: Explicit or implicit commit is not allowed in stored function or trigger.
-DROP DATABASE db1;
+DROP DATABASE db1_trigger;
 CREATE USER 'u1'@'localhost' IDENTIFIED BY 'pass';
 CREATE TRIGGER tr1 AFTER UPDATE ON t1 FOR EACH ROW
 ALTER USER 'u1'@'localhost' PASSWORD EXPIRE;

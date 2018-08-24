@@ -215,26 +215,26 @@ a INT
 CREATE TABLE t2 (
 a INT
 );
-CREATE DATABASE db1;
-CREATE TABLE db1.t1 (
+CREATE DATABASE db1_delete;
+CREATE TABLE db1_delete.t1 (
 a INT
 );
-INSERT INTO db1.t1 (a) SELECT * FROM t1;
-CREATE DATABASE db2;
-CREATE TABLE db2.t1 (
+INSERT INTO db1_delete.t1 (a) SELECT * FROM t1;
+CREATE DATABASE db2_delete;
+CREATE TABLE db2_delete.t1 (
 a INT
 );
-INSERT INTO db2.t1 (a) SELECT * FROM t2;
+INSERT INTO db2_delete.t1 (a) SELECT * FROM t2;
 DELETE FROM t1 alias USING t1, t2 alias WHERE t1.a = alias.a;
 ERROR 42000: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'alias USING t1, t2 alias WHERE t1.a = alias.a' at line 1
 DELETE FROM alias USING t1, t2 alias WHERE t1.a = alias.a;
 DELETE FROM t1, alias USING t1, t2 alias WHERE t1.a = alias.a;
 DELETE FROM t1, t2 USING t1, t2 alias WHERE t1.a = alias.a;
 ERROR 42S02: Unknown table 't2' in MULTI DELETE
-DELETE FROM db1.t1 alias USING db1.t1, db2.t1 alias WHERE db1.t1.a = alias.a;
-ERROR 42000: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'alias USING db1.t1, db2.t1 alias WHERE db1.t1.a = alias.a' at line 1
-DELETE FROM alias USING db1.t1, db2.t1 alias WHERE db1.t1.a = alias.a;
-DELETE FROM db2.alias USING db1.t1, db2.t1 alias WHERE db1.t1.a = alias.a;
+DELETE FROM db1_delete.t1 alias USING db1_delete.t1, db2_delete.t1 alias WHERE db1_delete.t1.a = alias.a;
+ERROR 42000: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'alias USING db1_delete.t1, db2_delete.t1 alias WHERE db1_delete.t1.a = alias.a' at line 1
+DELETE FROM alias USING db1_delete.t1, db2_delete.t1 alias WHERE db1_delete.t1.a = alias.a;
+DELETE FROM db2_delete.alias USING db1_delete.t1, db2_delete.t1 alias WHERE db1_delete.t1.a = alias.a;
 ERROR 42S02: Unknown table 'alias' in MULTI DELETE
 DELETE FROM t1 USING t1 WHERE a = 1;
 SELECT * FROM t1;
@@ -244,8 +244,8 @@ ERROR 42000: You have an error in your SQL syntax; check the manual that corresp
 SELECT * FROM t1;
 a
 DROP TABLE t1, t2;
-DROP DATABASE db1;
-DROP DATABASE db2;
+DROP DATABASE db1_delete;
+DROP DATABASE db2_delete;
 CREATE FUNCTION f1() RETURNS INT RETURN 1;
 CREATE TABLE t1 (a INT);
 INSERT INTO t1 VALUES (0);
@@ -266,145 +266,145 @@ SELECT * FROM t1;
 a
 DROP TABLE t1;
 End of 5.0 tests
-DROP DATABASE IF EXISTS db1;
-DROP DATABASE IF EXISTS db2;
-DROP DATABASE IF EXISTS db3;
-DROP DATABASE IF EXISTS db4;
+DROP DATABASE IF EXISTS db1_delete;
+DROP DATABASE IF EXISTS db2_delete;
+DROP DATABASE IF EXISTS db3_delete;
+DROP DATABASE IF EXISTS db4_delete;
 DROP TABLE IF EXISTS t1, t2;
 DROP PROCEDURE IF EXISTS count;
 USE test_delete;
-CREATE DATABASE db1;
-CREATE DATABASE db2;
-CREATE TABLE db1.t1 (a INT, b INT);
-INSERT INTO db1.t1 VALUES (1,1),(2,2),(3,3);
-CREATE TABLE db1.t2 AS SELECT * FROM db1.t1;
-CREATE TABLE db2.t1 AS SELECT * FROM db1.t2;
-CREATE TABLE db2.t2 AS SELECT * FROM db2.t1;
-CREATE TABLE t1 AS SELECT * FROM db2.t2;
+CREATE DATABASE db1_delete;
+CREATE DATABASE db2_delete;
+CREATE TABLE db1_delete.t1 (a INT, b INT);
+INSERT INTO db1_delete.t1 VALUES (1,1),(2,2),(3,3);
+CREATE TABLE db1_delete.t2 AS SELECT * FROM db1_delete.t1;
+CREATE TABLE db2_delete.t1 AS SELECT * FROM db1_delete.t2;
+CREATE TABLE db2_delete.t2 AS SELECT * FROM db2_delete.t1;
+CREATE TABLE t1 AS SELECT * FROM db2_delete.t2;
 CREATE TABLE t2 AS SELECT * FROM t1;
 CREATE PROCEDURE count_rows()
 BEGIN
-SELECT COUNT(*) AS "COUNT(db1.t1)" FROM db1.t1;
-SELECT COUNT(*) AS "COUNT(db1.t2)" FROM db1.t2;
-SELECT COUNT(*) AS "COUNT(db2.t1)" FROM db2.t1;
-SELECT COUNT(*) AS "COUNT(db2.t2)" FROM db2.t2;
+SELECT COUNT(*) AS "COUNT(db1_delete.t1)" FROM db1_delete.t1;
+SELECT COUNT(*) AS "COUNT(db1_delete.t2)" FROM db1_delete.t2;
+SELECT COUNT(*) AS "COUNT(db2_delete.t1)" FROM db2_delete.t1;
+SELECT COUNT(*) AS "COUNT(db2_delete.t2)" FROM db2_delete.t2;
 SELECT COUNT(*) AS "COUNT(test_delete.t1)" FROM test_delete.t1;
 SELECT COUNT(*) AS "COUNT(test_delete.t2)" FROM test_delete.t2;
 END|
-CREATE DATABASE db3;
-USE db3;
-DROP DATABASE db3;
+CREATE DATABASE db3_delete;
+USE db3_delete;
+DROP DATABASE db3_delete;
 SELECT * FROM t1;
 ERROR 3D000: No database selected
-DELETE a1,a2 FROM db1.t1, db2.t2;
+DELETE a1,a2 FROM db1_delete.t1, db2_delete.t2;
 ERROR 3D000: No database selected
-DELETE a1,a2 FROM db1.t1, db2.t2;
+DELETE a1,a2 FROM db1_delete.t1, db2_delete.t2;
 ERROR 3D000: No database selected
-DELETE a1,a2 FROM db1.t1 AS a1, db2.t2;
+DELETE a1,a2 FROM db1_delete.t1 AS a1, db2_delete.t2;
 ERROR 3D000: No database selected
-DELETE a1,a2 FROM db1.t1, db2.t2 AS a2;
+DELETE a1,a2 FROM db1_delete.t1, db2_delete.t2 AS a2;
 ERROR 3D000: No database selected
-DELETE a1,a2 FROM db3.t1 AS a1, db4.t2 AS a2;
+DELETE a1,a2 FROM db3_delete.t1 AS a1, db4_delete.t2 AS a2;
 ERROR 3D000: No database selected
-DELETE a1,a2 FROM db3.t1 AS a1, db4.t2 AS a2;
+DELETE a1,a2 FROM db3_delete.t1 AS a1, db4_delete.t2 AS a2;
 ERROR 3D000: No database selected
-DELETE FROM a1,a2 USING db1.t1, db2.t2;
+DELETE FROM a1,a2 USING db1_delete.t1, db2_delete.t2;
 ERROR 3D000: No database selected
-DELETE FROM a1,a2 USING db1.t1, db2.t2;
+DELETE FROM a1,a2 USING db1_delete.t1, db2_delete.t2;
 ERROR 3D000: No database selected
-DELETE FROM a1,a2 USING db1.t1 AS a1, db2.t2;
+DELETE FROM a1,a2 USING db1_delete.t1 AS a1, db2_delete.t2;
 ERROR 3D000: No database selected
-DELETE FROM a1,a2 USING db1.t1, db2.t2 AS a2;
+DELETE FROM a1,a2 USING db1_delete.t1, db2_delete.t2 AS a2;
 ERROR 3D000: No database selected
-DELETE FROM a1,a2 USING db3.t1 AS a1, db4.t2 AS a2;
+DELETE FROM a1,a2 USING db3_delete.t1 AS a1, db4_delete.t2 AS a2;
 ERROR 3D000: No database selected
-DELETE FROM a1,a2 USING db3.t1 AS a1, db4.t2 AS a2;
+DELETE FROM a1,a2 USING db3_delete.t1 AS a1, db4_delete.t2 AS a2;
 ERROR 3D000: No database selected
-DELETE a1 FROM db1.t1 AS a1, db2.t2 AS a1;
+DELETE a1 FROM db1_delete.t1 AS a1, db2_delete.t2 AS a1;
 ERROR 3D000: No database selected
-DELETE a1 FROM db1.a1, db2.t2 AS a1;
+DELETE a1 FROM db1_delete.a1, db2_delete.t2 AS a1;
 ERROR 3D000: No database selected
-DELETE a1 FROM a1, db1.t1 AS a1;
+DELETE a1 FROM a1, db1_delete.t1 AS a1;
 ERROR 3D000: No database selected
-DELETE t1 FROM db1.t1, db2.t1 AS a1;
+DELETE t1 FROM db1_delete.t1, db2_delete.t1 AS a1;
 ERROR 3D000: No database selected
-DELETE t1 FROM db1.t1 AS a1, db2.t1 AS a2;
+DELETE t1 FROM db1_delete.t1 AS a1, db2_delete.t1 AS a2;
 ERROR 3D000: No database selected
-DELETE t1 FROM db1.t1, db2.t1;
+DELETE t1 FROM db1_delete.t1, db2_delete.t1;
 ERROR 3D000: No database selected
 USE test_delete;
-DELETE a1,a2 FROM db1.t1, db2.t2;
+DELETE a1,a2 FROM db1_delete.t1, db2_delete.t2;
 ERROR 42S02: Unknown table 'a1' in MULTI DELETE
-DELETE a1,a2 FROM db1.t1, db2.t2;
+DELETE a1,a2 FROM db1_delete.t1, db2_delete.t2;
 ERROR 42S02: Unknown table 'a1' in MULTI DELETE
-DELETE a1,a2 FROM db1.t1 AS a1, db2.t2;
+DELETE a1,a2 FROM db1_delete.t1 AS a1, db2_delete.t2;
 ERROR 42S02: Unknown table 'a2' in MULTI DELETE
-DELETE a1,a2 FROM db1.t1, db2.t2 AS a2;
+DELETE a1,a2 FROM db1_delete.t1, db2_delete.t2 AS a2;
 ERROR 42S02: Unknown table 'a1' in MULTI DELETE
-DELETE a1,a2 FROM db3.t1 AS a1, db4.t2 AS a2;
-ERROR 42S02: Table 'db3.t1' doesn't exist
-DELETE a1,a2 FROM db3.t1 AS a1, db4.t2 AS a2;
-ERROR 42S02: Table 'db3.t1' doesn't exist
-DELETE FROM a1,a2 USING db1.t1, db2.t2;
+DELETE a1,a2 FROM db3_delete.t1 AS a1, db4_delete.t2 AS a2;
+ERROR 42S02: Table 'db3_delete.t1' doesn't exist
+DELETE a1,a2 FROM db3_delete.t1 AS a1, db4_delete.t2 AS a2;
+ERROR 42S02: Table 'db3_delete.t1' doesn't exist
+DELETE FROM a1,a2 USING db1_delete.t1, db2_delete.t2;
 ERROR 42S02: Unknown table 'a1' in MULTI DELETE
-DELETE FROM a1,a2 USING db1.t1, db2.t2;
+DELETE FROM a1,a2 USING db1_delete.t1, db2_delete.t2;
 ERROR 42S02: Unknown table 'a1' in MULTI DELETE
-DELETE FROM a1,a2 USING db1.t1 AS a1, db2.t2;
+DELETE FROM a1,a2 USING db1_delete.t1 AS a1, db2_delete.t2;
 ERROR 42S02: Unknown table 'a2' in MULTI DELETE
-DELETE FROM a1,a2 USING db1.t1, db2.t2 AS a2;
+DELETE FROM a1,a2 USING db1_delete.t1, db2_delete.t2 AS a2;
 ERROR 42S02: Unknown table 'a1' in MULTI DELETE
-DELETE FROM a1,a2 USING db3.t1 AS a1, db4.t2 AS a2;
-ERROR 42S02: Table 'db3.t1' doesn't exist
-DELETE FROM a1,a2 USING db3.t1 AS a1, db4.t2 AS a2;
-ERROR 42S02: Table 'db3.t1' doesn't exist
-DELETE a1 FROM db1.t1 AS a1, db2.t2 AS a1;
+DELETE FROM a1,a2 USING db3_delete.t1 AS a1, db4_delete.t2 AS a2;
+ERROR 42S02: Table 'db3_delete.t1' doesn't exist
+DELETE FROM a1,a2 USING db3_delete.t1 AS a1, db4_delete.t2 AS a2;
+ERROR 42S02: Table 'db3_delete.t1' doesn't exist
+DELETE a1 FROM db1_delete.t1 AS a1, db2_delete.t2 AS a1;
 ERROR 42000: Not unique table/alias: 'a1'
-DELETE a1 FROM db1.a1, db2.t2 AS a1;
-ERROR 42S02: Table 'db1.a1' doesn't exist
-DELETE a1 FROM a1, db1.t1 AS a1;
+DELETE a1 FROM db1_delete.a1, db2_delete.t2 AS a1;
+ERROR 42S02: Table 'db1_delete.a1' doesn't exist
+DELETE a1 FROM a1, db1_delete.t1 AS a1;
 ERROR 42000: Not unique table/alias: 'a1'
-DELETE t1 FROM db1.t1, db2.t1 AS a1;
+DELETE t1 FROM db1_delete.t1, db2_delete.t1 AS a1;
 ERROR 42S02: Unknown table 't1' in MULTI DELETE
-DELETE t1 FROM db1.t1 AS a1, db2.t1 AS a2;
+DELETE t1 FROM db1_delete.t1 AS a1, db2_delete.t1 AS a2;
 ERROR 42S02: Unknown table 't1' in MULTI DELETE
-DELETE t1 FROM db1.t1, db2.t1;
+DELETE t1 FROM db1_delete.t1, db2_delete.t1;
 ERROR 42S02: Unknown table 't1' in MULTI DELETE
-DELETE t1 FROM db1.t2 AS t1, db2.t2 AS t2 WHERE t2.a = 1 AND t1.a = t2.a;
+DELETE t1 FROM db1_delete.t2 AS t1, db2_delete.t2 AS t2 WHERE t2.a = 1 AND t1.a = t2.a;
 SELECT ROW_COUNT();
 ROW_COUNT()
 1
 CALL count_rows();
-COUNT(db1.t1)
+COUNT(db1_delete.t1)
 3
-COUNT(db1.t2)
+COUNT(db1_delete.t2)
 2
-COUNT(db2.t1)
+COUNT(db2_delete.t1)
 3
-COUNT(db2.t2)
+COUNT(db2_delete.t2)
 3
 COUNT(test_delete.t1)
 3
 COUNT(test_delete.t2)
 3
-DELETE a1, a2 FROM db2.t1 AS a1, t2 AS a2 WHERE a1.a = 2 AND a2.a = 2;
+DELETE a1, a2 FROM db2_delete.t1 AS a1, t2 AS a2 WHERE a1.a = 2 AND a2.a = 2;
 SELECT ROW_COUNT();
 ROW_COUNT()
 2
 CALL count_rows();
-COUNT(db1.t1)
+COUNT(db1_delete.t1)
 3
-COUNT(db1.t2)
+COUNT(db1_delete.t2)
 2
-COUNT(db2.t1)
+COUNT(db2_delete.t1)
 2
-COUNT(db2.t2)
+COUNT(db2_delete.t2)
 3
 COUNT(test_delete.t1)
 3
 COUNT(test_delete.t2)
 2
-DROP DATABASE db1;
-DROP DATABASE db2;
+DROP DATABASE db1_delete;
+DROP DATABASE db2_delete;
 DROP PROCEDURE count_rows;
 DROP TABLE t1, t2;
 #

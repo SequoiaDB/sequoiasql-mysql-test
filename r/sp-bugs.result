@@ -80,9 +80,9 @@ DROP PROCEDURE p1;
 # in different default schema
 #
 SET @@SQL_MODE = 'STRICT_ALL_TABLES';
-DROP DATABASE IF EXISTS db1;
-CREATE DATABASE db1;
-USE db1;
+DROP DATABASE IF EXISTS db1_sp_bugs;
+CREATE DATABASE db1_sp_bugs;
+USE db1_sp_bugs;
 DROP TABLE IF EXISTS t1;
 CREATE TABLE t1 (c1 int NOT NULL PRIMARY KEY);
 INSERT INTO t1 VALUES (1);
@@ -95,22 +95,22 @@ BEGIN
 INSERT INTO t1 SET c1 = some_value;
 RETURN(LAST_INSERT_ID());
 END$$
-DROP DATABASE IF EXISTS db2;
-CREATE DATABASE db2;
-USE db2;
+DROP DATABASE IF EXISTS db2_sp_bugs;
+CREATE DATABASE db2_sp_bugs;
+USE db2_sp_bugs;
 SELECT DATABASE();
 DATABASE()
-db2
-SELECT db1.f1(1);
+db2_sp_bugs
+SELECT db1_sp_bugs.f1(1);
 ERROR HY000: Got error 49962 from storage engine
 SELECT DATABASE();
 DATABASE()
-db2
+db2_sp_bugs
 USE test_sp_bugs;
-DROP FUNCTION db1.f1;
-DROP TABLE db1.t1;
-DROP DATABASE db1;
-DROP DATABASE db2;
+DROP FUNCTION db1_sp_bugs.f1;
+DROP TABLE db1_sp_bugs.t1;
+DROP DATABASE db1_sp_bugs;
+DROP DATABASE db2_sp_bugs;
 #
 # Bug#13105873:valgrind warning:possible crash in foreign 
 # key handling on subsequent create table if not exists 
