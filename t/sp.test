@@ -9154,21 +9154,21 @@ DROP TABLE t1, t2;
 --echo # Bug #18599181: CALLING A ROUTINE WITHOUT SPECIFYING DATABASE PREFIX
 --echo #                MAY RETURN ERROR 1370
 --echo #
-
-CREATE DATABASE db1;
+# Compatible with parallel > 1, don't use db1 anymore, instead create and use db1_testcase
+CREATE DATABASE db1_sp;
 CREATE FUNCTION f1() RETURNS INT RETURN 1;
-CREATE FUNCTION db1.f2() RETURNS INT RETURN test_sp.f1();
+CREATE FUNCTION db1_sp.f2() RETURNS INT RETURN test_sp.f1();
 CREATE USER myuser@'localhost';
-GRANT ALL ON db1.* TO myuser@'localhost';
+GRANT ALL ON db1_sp.* TO myuser@'localhost';
 --disconnect default
 --source include/wait_until_disconnected.inc
---connect(con1,localhost,myuser,,db1)
+--connect(con1,localhost,myuser,,db1_sp)
 SELECT f2();
 SELECT f2();
 --disconnect con1
 --source include/wait_until_disconnected.inc
 --connect(default,localhost,root)
-DROP DATABASE db1;
+DROP DATABASE db1_sp;
 DROP USER myuser@localhost;
 # new connection, should identify with database name
 DROP FUNCTION test_sp.f1;
