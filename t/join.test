@@ -1059,29 +1059,29 @@ t1.c1 join t2 on t2.ref_t1 = t1.c1) on t4.ref_t1 = t1.c1;
 
 drop table t1,t2,t3,t4;
 
-#--echo # Bug#20455184: Assertion failed: join_cond in optimizer.cc
+--echo # Bug#20455184: Assertion failed: join_cond in optimizer.cc
 #Bug #SEQUOIADBMAINSTREAM-3596
-#CREATE TABLE t1(a INTEGER) engine=sequoiadb;
-#
-#let $query=
-#SELECT 1
-#FROM (SELECT 1 FROM t1 WHERE a) AS q
-#     NATURAL LEFT JOIN t1
-#     NATURAL LEFT JOIN t1 AS t2;
-#
+CREATE TABLE t1(a INTEGER) engine=sequoiadb;
+
+let $query=
+SELECT 1
+FROM (SELECT 1 FROM t1 WHERE a) AS q
+     NATURAL LEFT JOIN t1
+     NATURAL LEFT JOIN t1 AS t2;
+
 #eval explain $query;
-#eval $query;
-#
-#let $query=
-#SELECT 1
-#FROM t1
-#     NATURAL RIGHT JOIN t1 AS t2
-#     NATURAL RIGHT JOIN (SELECT 1 FROM t1 WHERE a) AS q;
-#
+eval $query;
+
+let $query=
+SELECT 1
+FROM t1
+     NATURAL RIGHT JOIN t1 AS t2
+     NATURAL RIGHT JOIN (SELECT 1 FROM t1 WHERE a) AS q;
+
 #eval explain $query;
-#eval $query;
-#
-#DROP TABLE t1;
+eval $query;
+
+DROP TABLE t1;
 
 --echo # Bug#21045724: Assertion '!table || !table->read_set ...
 

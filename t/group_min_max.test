@@ -1083,19 +1083,18 @@ DROP TABLE t;
 
 --echo End of 5.0 tests
 
-#Bug #SEQUOIADBMAINSTREAM-3596, core when cond not includes matcher
-#--echo #
-#--echo # Bug #46607: Assertion failed: (cond_type == Item::FUNC_ITEM) results in
-#--echo #              server crash
-#--echo #
-#
-#CREATE TABLE t (a INT, b INT, INDEX (a,b));
-#INSERT INTO t VALUES (2,0), (2,0), (2,1), (2,1);
-#INSERT INTO t SELECT * FROM t;
-#
-#SELECT a, MAX(b) FROM t WHERE b GROUP BY a;
-#
-#DROP TABLE t;
+--echo #
+--echo # Bug #46607: Assertion failed: (cond_type == Item::FUNC_ITEM) results in
+--echo #              server crash
+--echo #
+#Bug #SEQUOIADBMAINSTREAM-3596
+CREATE TABLE t (a INT, b INT, INDEX (a,b));
+INSERT INTO t VALUES (2,0), (2,0), (2,1), (2,1);
+INSERT INTO t SELECT * FROM t;
+
+SELECT a, MAX(b) FROM t WHERE b GROUP BY a;
+
+DROP TABLE t;
 
 #
 # BUG#49902 - SELECT returns incorrect results

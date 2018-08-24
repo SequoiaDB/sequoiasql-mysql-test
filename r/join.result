@@ -1060,6 +1060,19 @@ insert into t4 values(4,'a', 4);
 insert into t1 values(2,'b');
 insert into t1 values(3,'c');
 drop table t1,t2,t3,t4;
+# Bug#20455184: Assertion failed: join_cond in optimizer.cc
+CREATE TABLE t1(a INTEGER) engine=sequoiadb;
+SELECT 1
+FROM (SELECT 1 FROM t1 WHERE a) AS q
+NATURAL LEFT JOIN t1
+NATURAL LEFT JOIN t1 AS t2;
+1
+SELECT 1
+FROM t1
+NATURAL RIGHT JOIN t1 AS t2
+NATURAL RIGHT JOIN (SELECT 1 FROM t1 WHERE a) AS q;
+1
+DROP TABLE t1;
 # Bug#21045724: Assertion '!table || !table->read_set ...
 CREATE TABLE t1
 (pk INTEGER,

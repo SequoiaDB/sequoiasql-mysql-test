@@ -204,11 +204,11 @@ while ($i)
          eval $query;
 
          #Bug #SEQUOIADBMAINSTREAM-3596
-         #let $query=
-         #SELECT * FROM t1 WHERE (11) IN 
-         #  (SELECT t3.i FROM t2 LEFT JOIN t3 ON t2.i=t3.i WHERE t1.i);
+         let $query=
+         SELECT * FROM t1 WHERE (11) IN 
+           (SELECT t3.i FROM t2 LEFT JOIN t3 ON t2.i=t3.i WHERE t1.i);
          #eval EXPLAIN $query;
-         #eval $query;
+         eval $query;
 
          let $query=
          SELECT * FROM t1 WHERE (11) IN 
@@ -2000,12 +2000,12 @@ WHERE varchar_nokey  IN (
 );
 
 #Bug #SEQUOIADBMAINSTREMA-3596
-#SELECT t0.int_key  
-#FROM t0
-#WHERE t0.varchar_nokey  IN (  
-#  SELECT t1_1 .varchar_key  
-#  FROM t1 AS t1_1  JOIN t1 AS t1_2 ON t1_1 .int_key
-#);
+SELECT t0.int_key  
+FROM t0
+WHERE t0.varchar_nokey  IN (  
+  SELECT t1_1 .varchar_key  
+  FROM t1 AS t1_1  JOIN t1 AS t1_2 ON t1_1 .int_key
+);
 
 #EXPLAIN
 #SELECT t0.int_key  
@@ -2015,12 +2015,12 @@ WHERE varchar_nokey  IN (
 #  FROM t1 AS t1_1  JOIN t1 AS t1_2 ON t1_1 .int_key
 #);
 
-#SELECT t0.int_key  
-#FROM t0, t2
-#WHERE t0.varchar_nokey  IN (  
-#  SELECT t1_1 .varchar_key  
-#  FROM t1 AS t1_1  JOIN t1 AS t1_2 ON t1_1 .int_key  
-#);
+SELECT t0.int_key  
+FROM t0, t2
+WHERE t0.varchar_nokey  IN (  
+  SELECT t1_1 .varchar_key  
+  FROM t1 AS t1_1  JOIN t1 AS t1_2 ON t1_1 .int_key  
+);
 
 #EXPLAIN
 #SELECT t0.int_key  
@@ -4108,20 +4108,20 @@ INSERT INTO t2 VALUES (1,4,'b'),(94,6,'u');
 CREATE TABLE t3 (pk int, col_int_nokey int, col_varchar_key varchar(1));
 INSERT INTO t3 VALUES (1,4,'j'),(2,6,'v');
 #Bug #SEQUOIADBMAINSTREAM-3596
-#SELECT table2.col_int_key
-#from t3 as table1 join t1 as table2 on table2.col_int_nokey 
-#where table1.col_int_nokey in 
-#( 
-# select subquery2_t2.col_int_nokey 
-# from t3 as subquery2_t1 
-#      right join
-#        t2 as subquery2_t2
-#        join t1 as subquery2_t3
-#        on subquery2_t3.col_int_key = subquery2_t2.col_int_nokey
-#      on subquery2_t3.col_varchar_key = subquery2_t2.col_varchar_nokey 
-# where subquery2_t1.col_varchar_key != table1.col_varchar_key
-#       or subquery2_t2.pk <= table1.pk
-#);
+SELECT table2.col_int_key
+from t3 as table1 join t1 as table2 on table2.col_int_nokey 
+where table1.col_int_nokey in 
+( 
+ select subquery2_t2.col_int_nokey 
+ from t3 as subquery2_t1 
+      right join
+        t2 as subquery2_t2
+        join t1 as subquery2_t3
+        on subquery2_t3.col_int_key = subquery2_t2.col_int_nokey
+      on subquery2_t3.col_varchar_key = subquery2_t2.col_varchar_nokey 
+ where subquery2_t1.col_varchar_key != table1.col_varchar_key
+       or subquery2_t2.pk <= table1.pk
+);
 
 DROP TABLE t1,t2,t3;
 

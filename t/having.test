@@ -536,22 +536,22 @@ ORDER BY f2;
 
 DROP TABLES t1,t2,t3;
 
-# Bug #SEQUOIADBMAINSTREM-3596: select with where without condition causes lost connection
-#--echo #
-#--echo # Bug#52340 Segfault: read_cached_record (tab=0x94a2634) at sql_select.cc:14411
-#--echo #
-#CREATE TABLE t1 (f1 INT, f2 VARCHAR(1));
-#INSERT INTO t1 VALUES (16,'d');
-#CREATE TABLE t2 (f1 INT, f2 VARCHAR(1));
-#INSERT INTO t2 VALUES (13,'e');
-#INSERT INTO t2 VALUES (20,'d');
-#
-#SELECT MAX(t2.f2) FROM t2 JOIN t1 ON t1.f2
-#HAVING ('e' , 'd') IN
-#(SELECT ts1.f2, ts2.f2 FROM t2 ts1 JOIN t2 ts2 ON ts1.f1)
-#ORDER BY t1.f2;
-#
-#DROP TABLE t1,t2;
+--echo #
+--echo # Bug#52340 Segfault: read_cached_record (tab=0x94a2634) at sql_select.cc:14411
+--echo #
+#Bug #SEQUOIADBMAINSTREM-3596
+CREATE TABLE t1 (f1 INT, f2 VARCHAR(1));
+INSERT INTO t1 VALUES (16,'d');
+CREATE TABLE t2 (f1 INT, f2 VARCHAR(1));
+INSERT INTO t2 VALUES (13,'e');
+INSERT INTO t2 VALUES (20,'d');
+
+SELECT MAX(t2.f2) FROM t2 JOIN t1 ON t1.f2
+HAVING ('e' , 'd') IN
+(SELECT ts1.f2, ts2.f2 FROM t2 ts1 JOIN t2 ts2 ON ts1.f1)
+ORDER BY t1.f2;
+
+DROP TABLE t1,t2;
 
 --echo End of 5.0 tests
 
@@ -647,11 +647,11 @@ CREATE TABLE t1 (
 );
 INSERT INTO t1 VALUES (8, 'g', 'g'), (11, 'a', 'a');
 
-# Bug #SEQUOIADBMAINSTREM-3596: select with where without condition causes lost connection
-#SELECT t1.f1 FROM t1 JOIN t2 ON t2.f1 = t1.f1
-#WHERE t1.f3 AND t1.f2 IN ('f')
-#HAVING (1 ,6) IN (SELECT 3, 6)
-#ORDER BY t1.f1;
+#Bug #SEQUOIADBMAINSTREM-3596
+SELECT t1.f1 FROM t1 JOIN t2 ON t2.f1 = t1.f1
+WHERE t1.f3 AND t1.f2 IN ('f')
+HAVING (1 ,6) IN (SELECT 3, 6)
+ORDER BY t1.f1;
 
 DROP TABLE t1, t2;
 

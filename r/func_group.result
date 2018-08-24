@@ -1074,12 +1074,14 @@ SELECT MIN(b) FROM t1 WHERE a=1 AND b>'2007-08-01';
 MIN(b)
 NULL
 DROP TABLE t1;
+CREATE DATABASE test_func_group;
+USE test_func_group;
 CREATE TABLE t1 (a INT);
 INSERT INTO t1 VALUES (1),(2),(3),(4);
 SELECT a FROM t1 HAVING COUNT(*)>2;
-ERROR 42000: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'test.t1.a'; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'test_func_group.t1.a'; this is incompatible with sql_mode=only_full_group_by
 SELECT COUNT(*), a FROM t1;
-ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test.t1.a'; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test_func_group.t1.a'; this is incompatible with sql_mode=only_full_group_by
 SELECT a FROM t1 HAVING COUNT(*)>2;
 a
 1
@@ -1117,13 +1119,13 @@ SELECT COUNT(*) FROM t1 where a=1;
 COUNT(*)
 3
 SELECT COUNT(*),a FROM t1;
-ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test.t1.a'; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test_func_group.t1.a'; this is incompatible with sql_mode=only_full_group_by
 SELECT COUNT(*) FROM t1 a JOIN t1 b ON a.a= b.a;
 COUNT(*)
 9
 SELECT COUNT(*), (SELECT count(*) FROM t1 inr WHERE inr.a = outr.a) 
 FROM t1 outr;
-ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test.outr.a'; this is incompatible with sql_mode=only_full_group_by
+ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test_func_group.outr.a'; this is incompatible with sql_mode=only_full_group_by
 SELECT COUNT(*) FROM t1 a JOIN t1 outr 
 ON a.a= (SELECT count(*) FROM t1 inr WHERE inr.a = outr.a);
 COUNT(*)
@@ -1463,3 +1465,4 @@ FROM t1 t GROUP BY t1.a)
 0
 0
 DROP TABLE t1;
+DROP DATABASE test_func_group;
