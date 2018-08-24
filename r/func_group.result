@@ -185,6 +185,18 @@ a1	a2
 10	NULL
 10	bbb
 20	zzz
+select min(a2) from t1;
+min(a2)
+aaa
+select max(t1.a1), max(t2.a2) from t1, t2;
+max(t1.a1)	max(t2.a2)
+NULL	NULL
+select max(t1.a1) from t1, t2;
+max(t1.a1)
+NULL
+select max(t2.a2), max(t1.a1) from t1, t2;
+max(t2.a2)	max(t1.a1)
+NULL	NULL
 insert into t2 values('AAA', 10, 0.5);
 insert into t2 values('BBB', 20, 1.0);
 select t1.a1, t1.a2, t2.a1, t2.a2 from t1,t2;
@@ -197,6 +209,12 @@ a1	a2	a1	a2
 10	bbb	BBB	20
 20	zzz	AAA	10
 20	zzz	BBB	20
+select max(t1.a1), max(t2.a1) from t1, t2 where t2.a2=9;
+max(t1.a1)	max(t2.a1)
+NULL	NULL
+select max(t2.a1), max(t1.a1) from t1, t2 where t2.a2=9;
+max(t2.a1)	max(t1.a1)
+NULL	NULL
 select t1.a1, t1.a2, t2.a1, t2.a2 from t1 left outer join t2 on t1.a1=10;
 a1	a2	a1	a2
 10	NULL	AAA	10
@@ -206,6 +224,21 @@ a1	a2	a1	a2
 10	bbb	AAA	10
 10	bbb	BBB	20
 20	zzz	NULL	NULL
+select max(t1.a2) from t1 left outer join t2 on t1.a1=10;
+max(t1.a2)
+zzz
+select max(t2.a1) from t2 left outer join t1 on t2.a2=10 where t2.a2=20;
+max(t2.a1)
+BBB
+select max(t2.a1) from t2 left outer join t1 on t2.a2=10 where t2.a2=10;
+max(t2.a1)
+AAA
+select max(t2.a1) from t1 left outer join t2 on t1.a2=t2.a1 and 1=0 where t2.a1='AAA';
+max(t2.a1)
+NULL
+select max(t1.a2),max(t2.a1) from t1 left outer join t2 on t1.a1=10;
+max(t1.a2)	max(t2.a1)
+zzz	BBB
 drop table t1,t2;
 CREATE TABLE t1 (a int, b int);
 select count(b), sum(b), avg(b), std(b), min(b), max(b), bit_and(b), bit_or(b) from t1;
@@ -330,6 +363,102 @@ SDC	San Diego	CA	TWU
 NOL	New Orleans	LA	GTM
 LAK	Los Angeles	CA	TWU
 AAA	AAA	AA	AME
+select min(a1) from t1;
+min(a1)
+AME
+select max(a4) from t1;
+max(a4)
+0.1
+select min(a5), max(a5) from t1;
+min(a5)	max(a5)
+1942-02-19	1977-09-23
+select min(a3) from t1 where a2 = 2;
+min(a3)
+CHI
+select min(a1), max(a1) from t1 where a4 = 0.080;
+min(a1)	max(a1)
+BDL	TWU
+select min(t1.a5), max(t2.a3) from t1, t2;
+min(t1.a5)	max(t2.a3)
+1942-02-19	WA
+select min(t1.a3), max(t2.a2) from t1, t2 where t1.a2 = 0 and t2.a3 = 'CA';
+min(t1.a3)	max(t2.a2)
+DEN	San Diego
+select min(a1) from t1 where a1 > 'KKK';
+min(a1)
+PLS
+select min(a1) from t1 where a1 >= 'KKK';
+min(a1)
+KKK
+select max(a3) from t1 where a2 = 2 and a3 < 'SEA';
+max(a3)
+MIN
+select max(a5) from t1 where a5 < date'1970-01-01';
+max(a5)
+1969-10-05
+select max(a3) from t1 where a2 is null;
+max(a3)
+MIN
+select max(a3) from t1 where a2 = 0 and a3 between 'K' and 'Q';
+max(a3)
+LAX
+select min(a1), max(a1) from t1 where a1 between 'A' and 'P';
+min(a1)	max(a1)
+AME	KKK
+select max(a3) from t1 where a3 < 'SEA' and a2 = 2 and a3 <= 'MIN';
+max(a3)
+MIN
+select max(a3) from t1 where a3 = 'MIN' and a2 = 2;
+max(a3)
+MIN
+select max(a3) from t1 where a3 = 'DEN' and a2 = 2;
+max(a3)
+NULL
+select max(t1.a3), min(t2.a2) from t1, t2 where t1.a2 = 2 and t1.a3 < 'MIN' and t2.a3 = 'CA';
+max(t1.a3)	min(t2.a2)
+CHI	Los Angeles
+select max(a3) from t1 where a2 is null and a2 = 2;
+max(a3)
+NULL
+select max(a2) from t1 where a2 >= 1;
+max(a2)
+3
+select min(a3) from t1 where a2 = 2 and a3 < 'SEA';
+min(a3)
+CHI
+select min(a3) from t1 where a2 = 4;
+min(a3)
+NULL
+select min(a3) from t1 where a2 = 2 and a3 > 'SEA';
+min(a3)
+NULL
+select (min(a4)+max(a4))/2 from t1;
+(min(a4)+max(a4))/2
+0.085
+select min(a3) from t1 where 2 = a2;
+min(a3)
+CHI
+select max(a3) from t1 where a2 = 2 and 'SEA' > a3;
+max(a3)
+MIN
+select max(a3) from t1 where a2 = 2 and 'SEA' < a3;
+max(a3)
+NULL
+select min(a3) from t1 where a2 = 2 and a3 >= 'CHI';
+min(a3)
+CHI
+select min(a3) from t1 where a2 = 2 and a3 >= 'CHI' and a3 < 'SEA';
+min(a3)
+CHI
+select min(a3) from t1 where a2 = 2 and a3 >= 'CHI' and a3 = 'MIN';
+min(a3)
+MIN
+select min(a3) from t1 where a2 = 2 and a3 >= 'SEA' and a3 = 'MIN';
+min(a3)
+NULL
+select min(t1.a1), min(t2.a4) from t1,t2 where t1.a1 < 'KKK' and t2.a4 < 'KKK';
+min(t1.a1)	min(t2.a4)
+AME	AME
 drop table t1, t2;
 create table t1 (a char(10));
 insert into t1 values ('a'),('b'),('c');
@@ -907,12 +1036,30 @@ MIN(a)	MIN(b)
 NULL	1
 CREATE TABLE t2( a INT, b INT, c INT, KEY(a, b) );
 INSERT INTO t2 ( a, b, c ) VALUES ( 1, NULL, 2 ), ( 1, 3, 4 ), ( 1, 4, 4 );
+SELECT MIN(b), MIN(c) FROM t2 WHERE a = 1;
+MIN(b)	MIN(c)
+3	2
 CREATE TABLE t3 (a INT, b INT, c int, KEY(a, b));
 INSERT INTO t3 VALUES (1, NULL, 1), (2, NULL, 2),  (2, NULL, 2),  (3, NULL, 3);
+SELECT MIN(a), MIN(b) FROM t3 where a = 2;
+MIN(a)	MIN(b)
+2	NULL
 CREATE TABLE t4 (a INT, b INT, c int, KEY(a, b));
 INSERT INTO t4 VALUES (1, 1, 1), (2, NULL, 2),  (2, NULL, 2),  (3, 1, 3);
+SELECT MIN(a), MIN(b) FROM t4 where a = 2;
+MIN(a)	MIN(b)
+2	NULL
+SELECT MIN(b), min(c) FROM t4 where a = 2;
+MIN(b)	min(c)
+NULL	2
 CREATE TABLE t5( a INT, b INT, KEY( a, b) );
 INSERT INTO t5 VALUES( 1, 1 ), ( 1, 2 );
+SELECT MIN(a), MIN(b) FROM t5 WHERE a = 1;
+MIN(a)	MIN(b)
+1	1
+SELECT MIN(a), MIN(b) FROM t5 WHERE a = 1 and b > 1;
+MIN(a)	MIN(b)
+1	2
 DROP TABLE t1, t2, t3, t4, t5;
 CREATE TABLE t1 (a INT);
 INSERT INTO t1 values (),(),();
@@ -921,6 +1068,26 @@ GROUP BY x;
 ERROR HY000: Expression #1 of ORDER BY contains aggregate function and applies to the result of a non-aggregated query
 SELECT 1 FROM t1 GROUP BY (SELECT SLEEP(0) FROM t1 ORDER BY AVG(DISTINCT a) );
 ERROR HY000: Expression #1 of ORDER BY contains aggregate function and applies to the result of a non-aggregated query
+DROP TABLE t1;
+CREATE TABLE t1 (a int, b date NOT NULL, KEY k1 (a));
+SELECT MIN(b) FROM t1 WHERE a=1 AND b>'2007-08-01';
+MIN(b)
+NULL
+DROP TABLE t1;
+CREATE DATABASE test_func_group;
+USE test_func_group;
+CREATE TABLE t1 (a INT);
+INSERT INTO t1 VALUES (1),(2),(3),(4);
+SELECT a FROM t1 HAVING COUNT(*)>2;
+ERROR 42000: In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'test_func_group.t1.a'; this is incompatible with sql_mode=only_full_group_by
+SELECT COUNT(*), a FROM t1;
+ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test_func_group.t1.a'; this is incompatible with sql_mode=only_full_group_by
+SELECT a FROM t1 HAVING COUNT(*)>2;
+a
+1
+SELECT COUNT(*), a FROM t1;
+COUNT(*)	a
+4	1
 DROP TABLE t1;
 set SQL_MODE=ONLY_FULL_GROUP_BY;
 Warnings:
@@ -940,6 +1107,31 @@ DROP TABLE t1;
 CREATE TABLE derived1 (a bigint(21));
 INSERT INTO derived1 VALUES (2);
 DROP TABLE derived1;
+CREATE TABLE t1 (a INT, b INT);
+INSERT INTO t1 VALUES (1,1), (1,2), (1,3);
+SET SQL_MODE='ONLY_FULL_GROUP_BY';
+Warnings:
+Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
+SELECT COUNT(*) FROM t1;
+COUNT(*)
+3
+SELECT COUNT(*) FROM t1 where a=1;
+COUNT(*)
+3
+SELECT COUNT(*),a FROM t1;
+ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test_func_group.t1.a'; this is incompatible with sql_mode=only_full_group_by
+SELECT COUNT(*) FROM t1 a JOIN t1 b ON a.a= b.a;
+COUNT(*)
+9
+SELECT COUNT(*), (SELECT count(*) FROM t1 inr WHERE inr.a = outr.a) 
+FROM t1 outr;
+ERROR 42000: In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'test_func_group.outr.a'; this is incompatible with sql_mode=only_full_group_by
+SELECT COUNT(*) FROM t1 a JOIN t1 outr 
+ON a.a= (SELECT count(*) FROM t1 inr WHERE inr.a = outr.a);
+COUNT(*)
+0
+SET SQL_MODE=default;
+DROP TABLE t1;
 End of 5.0 tests
 #
 # BUG#47280 - strange results from count(*) with order by multiple 
@@ -1191,6 +1383,17 @@ MAX(LENGTH(a))	LENGTH(MAX(a))	MIN(a)	MAX(a)	CONCAT(MIN(a))	CONCAT(MAX(a))
 20	20	18446668621106209655	18446668621106209655	18446668621106209655	18446668621106209655
 DROP TABLE t1;
 #
+# Bug #11766270  59343: YEAR(4): INCORRECT RESULT AND VALGRIND WARNINGS WITH MIN/MAX, UNION
+#
+CREATE TABLE t1(f1 YEAR(4));
+INSERT INTO t1 VALUES (0000),(2001);
+(SELECT MAX(f1) FROM t1) UNION (SELECT MAX(f1) FROM t1);
+Catalog	Database	Table	Table_alias	Column	Column_alias	Type	Length	Max length	Is_null	Flags	Decimals	Charsetnr
+def				MAX(f1)	MAX(f1)	13	4	4	Y	32864	0	63
+MAX(f1)
+2001
+DROP TABLE t1;
+#
 End of 5.1 tests
 #
 # Bug#52123 Assertion failed: aggregator == aggr->Aggrtype(),
@@ -1242,6 +1445,9 @@ DROP TABLE t1;
 #
 CREATE TABLE t1 (a int, KEY (a));
 INSERT INTO t1 VALUES (1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
+SELECT MAX(a) FROM t1 WHERE a NOT BETWEEN 3 AND 9;
+MAX(a)
+10
 DROP TABLE t1;
 #
 # Bug#13724099 1032 BYTE MEMORY LEAK NEW_CACHED_ITEM IN
@@ -1259,3 +1465,4 @@ FROM t1 t GROUP BY t1.a)
 0
 0
 DROP TABLE t1;
+DROP DATABASE test_func_group;

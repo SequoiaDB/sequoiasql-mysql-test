@@ -1276,13 +1276,13 @@ INSERT INTO t2 VALUES (2),(3);
 #--echo # int_key values inserted above (undefined which one). A changed 
 #--echo # execution plan may change the value in the second column
 --source include/turn_off_only_full_group_by.inc
-#Bug #SEQUOIADBMAINSTREAM-3596, query with where without condition cause Lost Connection
-#SELECT  MAX(t1.int_key), t1.int_key
-#FROM t1 STRAIGHT_JOIN t2  
-#ORDER BY t1.int_key;
-#
-#--echo
-#
+#Bug #SEQUOIADBMAINSTREAM-3596
+SELECT  MAX(t1.int_key), t1.int_key
+FROM t1 STRAIGHT_JOIN t2  
+ORDER BY t1.int_key;
+
+--echo
+
 #explain 
 #SELECT  MAX(t1.int_key), t1.int_key
 #FROM t1 STRAIGHT_JOIN t2  
@@ -1482,10 +1482,10 @@ CREATE TABLE t2 (
 );
 INSERT INTO t2 VALUES (10,9,'22:36:46'),(11,0,'08:46:46');
 
-#Bug #SEQUOIADBMAINSTREAM-3596, query with where without condition cause Lost Connection
-#SELECT DISTINCT t1.`pk`
-#FROM t1 RIGHT JOIN t2 STRAIGHT_JOIN t3 ON t2.`int_nokey`  ON t2.`time_key`
-#GROUP BY 1;
+#Bug #SEQUOIADBMAINSTREAM-3596
+SELECT DISTINCT t1.`pk`
+FROM t1 RIGHT JOIN t2 STRAIGHT_JOIN t3 ON t2.`int_nokey`  ON t2.`time_key`
+GROUP BY 1;
 
 DROP TABLE IF EXISTS t1, t2, t3;
 
@@ -1543,14 +1543,14 @@ CREATE TABLE t1 (
 INSERT INTO t1 VALUES (4,9,'k','k');
 INSERT INTO t1 VALUES (12,5,'k','k');
 
-#Bug #SEQUOIADBMAINSTREAM-3596, query with where without condition cause Lost Connection
-#let $query_i= SELECT table2 .`col_int_key` FROM t1 table2,
-#t1 table3 force index (`col_varchar_key`)
-#where table3 .`pk` and table3 .`col_int_key`  >= table2 .`pk`  
-# and table3 .`col_varchar_key`  = table2 .`col_varchar_nokey`;
-#
+#Bug #SEQUOIADBMAINSTREAM-3596
+let $query_i= SELECT table2 .`col_int_key` FROM t1 table2,
+t1 table3 force index (`col_varchar_key`)
+where table3 .`pk` and table3 .`col_int_key`  >= table2 .`pk`  
+and table3 .`col_varchar_key`  = table2 .`col_varchar_nokey`;
+
 #eval explain $query_i;
-#eval $query_i;
+eval $query_i;
 
 drop table t1;
 
@@ -1933,18 +1933,18 @@ INSERT INTO t2 VALUES (18,6,9);
 INSERT INTO t2 VALUES (19,2,4);
 INSERT INTO t2 VALUES (20,9,8);
 
-#Bug #SEQUOIADBMAINSTREAM-3596, query with where without condition cause Lost Connection
-#let $query=SELECT t1.col_varchar_key AS field1, alias2.col_int_key AS field4 
-#FROM t2 AS alias2 STRAIGHT_JOIN t2 AS alias3 ON alias3.pk =
-#alias2.col_int_nokey 
-#left join t1 
-#ON alias3.col_int_nokey 
-#GROUP BY field1, field4
-#LIMIT 15;
+#Bug #SEQUOIADBMAINSTREAM-3596
+let $query=SELECT t1.col_varchar_key AS field1, alias2.col_int_key AS field4 
+FROM t2 AS alias2 STRAIGHT_JOIN t2 AS alias3 ON alias3.pk =
+alias2.col_int_nokey 
+left join t1 
+ON alias3.col_int_nokey 
+GROUP BY field1, field4
+LIMIT 15;
 
 #eval explain $query;
-#--sorted_result
-#eval $query;
+--sorted_result
+eval $query;
 
 DROP TABLE t1,t2;
 

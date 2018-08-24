@@ -1,0 +1,9 @@
+# (#Case #15656:query condition length over 16M)
+--source include/big_test.inc
+--source include/have_64bit.inc
+--source include/have_sequoiadb.inc 
+
+let $min20087571=950000;
+let $max20087571=950000;
+--source include/parser-big.inc
+--source include/uninstall_sequoiadb.inc

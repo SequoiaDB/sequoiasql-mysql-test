@@ -110,7 +110,7 @@ CREATE TABLE t1 (col1 datetime);
 INSERT INTO t1 VALUES('2004-10-31 15:30:00'),('2004-02-29 15:30:00');
 
 #Bug #SEQUOIADBMAINSTREAM-3648
-#INSERT INTO t1 VALUES('0000-10-31 15:30:00');
+INSERT INTO t1 VALUES('0000-10-31 15:30:00');
 
 # All test cases expected to fail should return 
 #      SQLSTATE 22007 <invalid datetime value>
@@ -1629,7 +1629,7 @@ ALTER TABLE t1 ADD KEY in_c1(c1);
 --echo # In WL#6891, ER_DUP_INDEX is removed from being affected by STRICT MODE
 --echo # So the below statement will give warning only for ER_DUP_INDEX
 #ALTER TABLE t1 ADD KEY in_c2(c1); 
-#SHOW WARNINGS;
+SHOW WARNINGS;
 --echo # Clean-up
 DROP TABLE t1;
 

@@ -88,6 +88,7 @@ Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
 CREATE TABLE t1 (col1 datetime);
 INSERT INTO t1 VALUES('2004-10-31 15:30:00'),('2004-02-29 15:30:00');
+INSERT INTO t1 VALUES('0000-10-31 15:30:00');
 INSERT INTO t1 VALUES('2004-0-31 15:30:00');
 ERROR 22007: Incorrect datetime value: '2004-0-31 15:30:00' for column 'col1' at row 1
 INSERT INTO t1 VALUES('2004-10-0 15:30:00');
@@ -108,6 +109,7 @@ select * from t1;
 col1
 2004-10-31 15:30:00
 2004-02-29 15:30:00
+0000-10-31 15:30:00
 drop table t1;
 CREATE TABLE t1 (col1 timestamp);
 INSERT INTO t1 VALUES('2004-10-31 15:30:00'),('2004-02-29 15:30:00');
@@ -1827,6 +1829,8 @@ ALTER TABLE t1 ADD KEY in_c1(c1);
 # Previously this statement was giving error ER_DUP_INDEX in STRICT MODE
 # In WL#6891, ER_DUP_INDEX is removed from being affected by STRICT MODE
 # So the below statement will give warning only for ER_DUP_INDEX
+SHOW WARNINGS;
+Level	Code	Message
 # Clean-up
 DROP TABLE t1;
 DROP DATABASE test_strict;
