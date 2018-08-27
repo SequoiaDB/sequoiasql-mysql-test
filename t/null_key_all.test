@@ -1,5 +1,8 @@
 # The include statement below is a temp one for tests that are yet to
 #be ported to run with Sequoiadb,
+# (#Case #15662: Multi table with inner join query)
+# (#Case #15663: Multi table with left join query)
+
 --source include/have_sequoiadb.inc
 
 # 

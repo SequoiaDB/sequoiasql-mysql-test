@@ -160,9 +160,9 @@ select t1.* from t1
 left join t2 using(order_id, product_id, product_type)
 where t2.order_id=NULL;
 #Bug #SEQUOIADBMAINSTREAM-3615
-#select t1.* from t1
-#left join t2 using(order_id, product_id, product_type)
-#where t2.order_id is NULL;
+select t1.* from t1
+left join t2 using(order_id, product_id, product_type)
+where t2.order_id is NULL;
 drop table t1,t2;
 
 #
