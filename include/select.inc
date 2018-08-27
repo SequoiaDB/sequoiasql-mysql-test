@@ -1941,8 +1941,8 @@ select * from t1 where s = 'one';
 select * from t2 where s = 'one';
 select * from t3 where s = 'one';
 #Bug #SEQUOIADBMAINSTREAM-3567
-#select * from t1,t2 where t1.s = t2.s;
-#select * from t2,t3 where t2.s = t3.s;
+select * from t1,t2 where t1.s = t2.s;
+select * from t2,t3 where t2.s = t3.s;
 drop table t1, t2, t3;
 
 #
@@ -3348,7 +3348,7 @@ SELECT name, LENGTH(name), n FROM t2 ORDER BY name;
 
 #EXPLAIN SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 
-#Bug #SEQUOIADBMAINSTREAM-3567
+#Bug #SEQUOIADBMAINSTREAM-3568
 #SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
@@ -3373,7 +3373,7 @@ SELECT name, LENGTH(name), n FROM t2 ORDER BY name;
 
 #EXPLAIN SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 
-#Bug #SEQUOIADBMAINSTREAM-3567
+#Bug #SEQUOIADBMAINSTREAM-3568
 #SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';

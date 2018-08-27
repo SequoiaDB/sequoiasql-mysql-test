@@ -156,6 +156,12 @@ s
 select * from t3 where s = 'one';
 s
 one 
+select * from t1,t2 where t1.s = t2.s;
+s	s
+two		two	
+select * from t2,t3 where t2.s = t3.s;
+s	s
+two		two	
 drop table t1, t2, t3;
 create table t1 (a integer,  b integer, index(a), index(b));
 create table t2 (c integer,  d integer, index(c), index(d));
