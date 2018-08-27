@@ -4112,20 +4112,20 @@ SELECT * FROM t2 LEFT JOIN t1 ON a = b + 1;
 #EXPLAIN EXTENDED SELECT * FROM t1 WHERE a > UNIX_TIMESTAMP('2009-03-10 00:00:00');
 
 #Bug #SEQUOIADBMAINSTREAM-3670
-#delimiter |;
-#CREATE FUNCTION f1() RETURNS INT DETERMINISTIC
-#BEGIN
-#  SET @cnt := @cnt + 1;
-#  RETURN 1;
-#END;|
-#delimiter ;|
+delimiter |;
+CREATE FUNCTION f1() RETURNS INT DETERMINISTIC
+BEGIN
+  SET @cnt := @cnt + 1;
+  RETURN 1;
+END;|
+delimiter ;|
 
-#SET @cnt := 0;
-#SELECT * FROM t1 WHERE a = f1();
-#SELECT @cnt;
+SET @cnt := 0;
+SELECT * FROM t1 WHERE a = f1();
+SELECT @cnt;
 #EXPLAIN EXTENDED SELECT * FROM t1 WHERE a = f1();
 DROP TABLE t1, t2;
-#DROP FUNCTION f1;
+DROP FUNCTION f1;
 --echo # End of bug#33546
 
 --echo # 

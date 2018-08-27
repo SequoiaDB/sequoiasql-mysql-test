@@ -1991,7 +1991,20 @@ a	b
 SELECT * FROM t2 LEFT JOIN t1 ON a = b + 1;
 b	a
 2	3
+CREATE FUNCTION f1() RETURNS INT DETERMINISTIC
+BEGIN
+SET @cnt := @cnt + 1;
+RETURN 1;
+END;|
+SET @cnt := 0;
+SELECT * FROM t1 WHERE a = f1();
+a
+1
+SELECT @cnt;
+@cnt
+1
 DROP TABLE t1, t2;
+DROP FUNCTION f1;
 # End of bug#33546
 # 
 # BUG#48052: Valgrind warning - uninitialized value in init_read_record()
