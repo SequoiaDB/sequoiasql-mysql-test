@@ -1705,6 +1705,12 @@ a	b	(select max(b) from t2 where t1.b=t2.a)
 2	4	NULL
 2	5	NULL
 drop table t1, t2;
+create table t1 (s1 int,s2 int);
+insert into t1 values (20,15);
+select * from t1 where  (('a',null) <=> (select 'a',s2 from t1 where s1 = 0));
+s1	s2
+20	15
+drop table t1;
 create table t1 (s1 int);
 insert into t1 values (1),(null);
 select * from t1 where s1 < all (select s1 from t1);

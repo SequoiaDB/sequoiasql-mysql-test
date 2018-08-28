@@ -6,7 +6,7 @@
 # (#Case #13107: Check query statments with where use not)
 # (#Case #13111: Check query statments in special fields)
 # (#Case #13112: Check query statments with count(*), concat(*), and select with alias)
-#
+# (#Case #15664: index scan when column value with \t or \r)
 --source include/have_sequoiadb.inc
 
 

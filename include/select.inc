@@ -1941,8 +1941,8 @@ select * from t1 where s = 'one';
 select * from t2 where s = 'one';
 select * from t3 where s = 'one';
 #Bug #SEQUOIADBMAINSTREAM-3567
-#select * from t1,t2 where t1.s = t2.s;
-#select * from t2,t3 where t2.s = t3.s;
+select * from t1,t2 where t1.s = t2.s;
+select * from t2,t3 where t2.s = t3.s;
 drop table t1, t2, t3;
 
 #
@@ -3348,7 +3348,7 @@ SELECT name, LENGTH(name), n FROM t2 ORDER BY name;
 
 #EXPLAIN SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 
-#Bug #SEQUOIADBMAINSTREAM-3567
+#Bug #SEQUOIADBMAINSTREAM-3568
 #SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
@@ -3357,7 +3357,7 @@ SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%' ORDER BY name;
 #EXPLAIN SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
 
 #Bug #SEQUOIADBMAINSTREAM-3643
-#SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
+SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
 
 DROP TABLE t1,t2;
 
@@ -3373,7 +3373,7 @@ SELECT name, LENGTH(name), n FROM t2 ORDER BY name;
 
 #EXPLAIN SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 
-#Bug #SEQUOIADBMAINSTREAM-3567
+#Bug #SEQUOIADBMAINSTREAM-3568
 #SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
@@ -3382,7 +3382,7 @@ SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%' ORDER BY name;
 #EXPLAIN SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
 
 #Bug #SEQUOIADBMAINSTREAM-3643
-#SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
+SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
 
 DROP TABLE t1,t2;
 
@@ -4112,20 +4112,20 @@ SELECT * FROM t2 LEFT JOIN t1 ON a = b + 1;
 #EXPLAIN EXTENDED SELECT * FROM t1 WHERE a > UNIX_TIMESTAMP('2009-03-10 00:00:00');
 
 #Bug #SEQUOIADBMAINSTREAM-3670
-#delimiter |;
-#CREATE FUNCTION f1() RETURNS INT DETERMINISTIC
-#BEGIN
-#  SET @cnt := @cnt + 1;
-#  RETURN 1;
-#END;|
-#delimiter ;|
+delimiter |;
+CREATE FUNCTION f1() RETURNS INT DETERMINISTIC
+BEGIN
+  SET @cnt := @cnt + 1;
+  RETURN 1;
+END;|
+delimiter ;|
 
-#SET @cnt := 0;
-#SELECT * FROM t1 WHERE a = f1();
-#SELECT @cnt;
+SET @cnt := 0;
+SELECT * FROM t1 WHERE a = f1();
+SELECT @cnt;
 #EXPLAIN EXTENDED SELECT * FROM t1 WHERE a = f1();
 DROP TABLE t1, t2;
-#DROP FUNCTION f1;
+DROP FUNCTION f1;
 --echo # End of bug#33546
 
 --echo # 

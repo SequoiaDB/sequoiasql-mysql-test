@@ -831,7 +831,7 @@ drop table t1;
 # Bug#10253 compound index length and utf8mb4 char set
 # produces invalid query results
 #
-#Bug #SEQUOIADBMAINSTREAM-3567, when varchar record exists space, query will cause wrong results
+#Bug #SEQUOIADBMAINSTREAM-3568, when varchar record exists space, query will cause wrong results
 create table t1 (
  id int not null,
  city varchar(20) not null,
