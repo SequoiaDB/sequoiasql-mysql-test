@@ -743,6 +743,11 @@ t	r
 DEALLOCATE PREPARE stmt;
 INSERT INTO t1 SELECT * FROM t1;
 ALTER TABLE t1 ADD KEY(t, u);
+SELECT next_seq_value() r, MIN(u) FROM t1 GROUP BY t HAVING r = 1;
+r	MIN(u)
+1	11
+1	15
+1	17
 DROP TABLE t1;
 DROP FUNCTION next_seq_value;
 DROP TABLE series;

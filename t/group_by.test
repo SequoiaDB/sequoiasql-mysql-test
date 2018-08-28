@@ -638,8 +638,8 @@ DROP TABLE t1;
 create table t1(f1 varchar(5) key);
 insert into t1 values (1),(2);
 #Bug #SEQUOIADBMAINSTREAM-3553
-#select sql_buffer_result max(f1) is null from t1;
-#select sql_buffer_result max(f1)+1 from t1;
+select sql_buffer_result max(f1) is null from t1;
+select sql_buffer_result max(f1)+1 from t1;
 drop table t1;
 
 #
@@ -757,7 +757,7 @@ INSERT INTO t1 SELECT  a + 16, MOD(a + 16, 20) FROM t1;
 INSERT INTO t1 SELECT  a + 32, MOD(a + 32, 20) FROM t1;
 INSERT INTO t1 SELECT  a + 64, MOD(a + 64, 20) FROM t1;
 #Bug #SEQUOIADBMAINSTREAM-3553
-#SELECT MIN(b), MAX(b) from t1;
+SELECT MIN(b), MAX(b) from t1;
 
 #EXPLAIN SELECT b, sum(1) FROM t1 GROUP BY b;
 #EXPLAIN SELECT SQL_BIG_RESULT b, sum(1) FROM t1 GROUP BY b;
@@ -1288,7 +1288,7 @@ INSERT INTO t2 VALUES (1), (2);
 SELECT MIN(t2.a) FROM t2 LEFT JOIN t1 ON t2.a = t1.a;
 #Bug #SEQUOIADBMAINSTREAM-3553
 #EXPLAIN SELECT MAX(t2.a) FROM t2 LEFT JOIN t1 ON t2.a = t1.a;
-#SELECT MAX(t2.a) FROM t2 LEFT JOIN t1 ON t2.a = t1.a;
+SELECT MAX(t2.a) FROM t2 LEFT JOIN t1 ON t2.a = t1.a;
 DROP TABLE t1, t2;
 
 

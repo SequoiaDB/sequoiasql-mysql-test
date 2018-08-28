@@ -2235,6 +2235,12 @@ drop table t1;
 CREATE TABLE t1 (a int PRIMARY KEY, b int);
 INSERT INTO t1 VALUES (2,20), (3,10), (1,10), (0,30), (5,10);
 CREATE VIEW v1 AS SELECT * FROM t1;
+SELECT MAX(a) FROM t1;
+MAX(a)
+5
+SELECT MAX(a) FROM v1;
+MAX(a)
+5
 SELECT MIN(a) FROM t1;
 MIN(a)
 0

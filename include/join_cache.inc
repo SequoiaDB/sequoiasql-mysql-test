@@ -1335,11 +1335,11 @@ CREATE TABLE t2 (
 INSERT INTO t2 VALUES (1,'x'),(2,'y');
 
 #Bug #SEQUOIADBMAINSTREAM-3553, select max() with index will cause error -1
-#--echo
-#
-#SELECT MAX(t1.i) 
-#FROM t1 JOIN t2 ON t2.v
-#ORDER BY t2.v;
+--echo
+
+SELECT MAX(t1.i) 
+FROM t1 JOIN t2 ON t2.v
+ORDER BY t2.v;
 
 #--echo
 #
@@ -1347,8 +1347,8 @@ INSERT INTO t2 VALUES (1,'x'),(2,'y');
 #SELECT MAX(t1.i) 
 #FROM t1 JOIN t2 ON t2.v
 #ORDER BY t2.v;
-
---echo
+#
+#--echo
 
 DROP TABLE t1,t2;
 

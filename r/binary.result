@@ -15,6 +15,9 @@ concat("*",name,"*")
 *å*
 *ä*
 *ö*
+select min(name),min(concat("*",name,"*")),max(name),max(concat("*",name,"*")) from t1;
+min(name)	min(concat("*",name,"*"))	max(name)	max(concat("*",name,"*"))
+ä	*å*	ö	*ö*
 select * from t2 order by name;
 name
 ä
@@ -25,6 +28,9 @@ concat("*",name,"*")
 *ä*
 *å*
 *ö*
+select min(name),min(concat("*",name,"*")),max(name),max(concat("*",name,"*")) from t2;
+min(name)	min(concat("*",name,"*"))	max(name)	max(concat("*",name,"*"))
+ä	*ä*	ö	*ö*
 select name from t2 where name between 'ä' and 'ö';
 name
 ä
