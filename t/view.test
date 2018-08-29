@@ -5207,7 +5207,7 @@ DROP TABLE t1, t2;
 --echo # Bug#19789450 Assert fail in add_key_field
 --echo #
 
-#Sequoiadb not support create index on date、datetime，and not support type of time
+# NOW SequoiaDB not support MERGE tables
 #CREATE TABLE t1 (
 #  pk int NOT NULL,
 #  col_date_key date DEFAULT NULL,

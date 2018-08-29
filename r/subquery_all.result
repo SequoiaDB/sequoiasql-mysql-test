@@ -297,6 +297,30 @@ joce
 SELECT pseudo FROM t8 WHERE pseudo=(SELECT pseudo FROM t8 WHERE pseudo LIKE '%joce%');
 ERROR 21000: Subquery returns more than 1 row
 drop table if exists t1,t2,t3,t4,t5,t6,t7,t8;
+CREATE TABLE `t1` (
+`topic` mediumint(8) unsigned NOT NULL default '0',
+`date` date NOT NULL default '0000-00-00',
+`pseudo` varchar(35) character set latin1 NOT NULL default '',
+#  PRIMARY KEY  (`pseudo`,`date`,`topic`),
+PRIMARY KEY  (`pseudo`,`topic`),
+KEY `topic` (`topic`)
+) ENGINE=SequoiaDB ROW_FORMAT=DYNAMIC;
+INSERT INTO t1 (topic,date,pseudo) VALUES
+('43506','2002-10-02','joce'),('40143','2002-08-03','joce');
+SELECT DISTINCT date FROM t1 WHERE date='2002-08-03';
+date
+2002-08-03
+SELECT (SELECT DISTINCT date FROM t1 WHERE date='2002-08-03');
+(SELECT DISTINCT date FROM t1 WHERE date='2002-08-03')
+2002-08-03
+SELECT 1 FROM t1 WHERE 1=(SELECT 1 UNION SELECT 1) UNION ALL SELECT 1;
+1
+1
+1
+1
+SELECT 1 FROM t1 WHERE 1=(SELECT 1 UNION ALL SELECT 1) UNION SELECT 1;
+ERROR 21000: Subquery returns more than 1 row
+drop table t1;
 create table t1 (a int);
 insert into t1 values (1),(2),(3);
 (select * from t1) union (select * from t1) order by (select a from t1 limit 1);
@@ -700,6 +724,58 @@ i
 drop table t1;
 CREATE TABLE t1 (a int(1));
 drop table t1;
+CREATE TABLE `t1` (
+`mot` varchar(30) character set latin1 NOT NULL default '',
+`topic` mediumint(8) unsigned NOT NULL default '0',
+`date` date NOT NULL default '0000-00-00',
+`pseudo` varchar(35) character set latin1 NOT NULL default '',
+#  PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
+PRIMARY KEY  (`mot`,`pseudo`,`topic`),
+#  KEY `pseudo` (`pseudo`,`date`,`topic`),
+KEY `pseudo` (`pseudo`,`topic`),
+KEY `topic` (`topic`)
+) ENGINE=SequoiaDB CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+CREATE TABLE `t2` (
+`mot` varchar(30) character set latin1 NOT NULL default '',
+`topic` mediumint(8) unsigned NOT NULL default '0',
+`date` date NOT NULL default '0000-00-00',
+`pseudo` varchar(35) character set latin1 NOT NULL default '',
+#  PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
+PRIMARY KEY  (`mot`,`pseudo`,`topic`),
+#  KEY `pseudo` (`pseudo`,`date`,`topic`),
+KEY `pseudo` (`pseudo`,`topic`),
+KEY `topic` (`topic`)
+) ENGINE=SequoiaDB CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+CREATE TABLE `t3` (
+#  `numeropost` mediumint(8) unsigned NOT NULL auto_increment,
+`numeropost` mediumint(8) unsigned NOT NULL,
+`maxnumrep` int(10) unsigned NOT NULL default '0',
+PRIMARY KEY  (`numeropost`),
+UNIQUE KEY `maxnumrep` (`maxnumrep`)
+) ENGINE=SequoiaDB CHARSET=latin1;
+INSERT INTO t1 VALUES ('joce','1','','joce'),('test','2','','test');
+Warnings:
+Warning	1265	Data truncated for column 'date' at row 1
+Warning	1265	Data truncated for column 'date' at row 2
+INSERT INTO t2 VALUES ('joce','1','','joce'),('test','2','','test');
+Warnings:
+Warning	1265	Data truncated for column 'date' at row 1
+Warning	1265	Data truncated for column 'date' at row 2
+INSERT INTO t3 VALUES (1,1);
+SELECT DISTINCT topic FROM t2 WHERE NOT EXISTS(SELECT * FROM t3 WHERE
+numeropost=topic);
+topic
+2
+select * from t1;
+mot	topic	date	pseudo
+joce	1	0000-00-00	joce
+test	2	0000-00-00	test
+DELETE FROM t1 WHERE topic IN (SELECT DISTINCT topic FROM t2 WHERE NOT
+EXISTS(SELECT * FROM t3 WHERE numeropost=topic));
+select * from t1;
+mot	topic	date	pseudo
+joce	1	0000-00-00	joce
+drop table t1, t2, t3;
 SELECT * FROM (SELECT 1 as a,(SELECT a)) a;
 a	(SELECT a)
 1	1
@@ -2031,6 +2107,29 @@ select * from t1 where NOT(s1 = ALL (select s1/s1 from t1));
 s1
 2
 drop table t1;
+create table t1 (
+retailerID varchar(8) NOT NULL,
+statusID   int(10) unsigned NOT NULL,
+changed    datetime NOT NULL,
+#  UNIQUE KEY retailerID (retailerID, statusID, changed)
+UNIQUE KEY retailerID (retailerID, statusID)
+);
+INSERT INTO t1 VALUES("0026", "1", "2005-12-06 12:18:56");
+INSERT INTO t1 VALUES("0026", "2", "2006-01-06 12:25:53");
+INSERT INTO t1 VALUES("0037", "1", "2005-12-06 12:18:56");
+INSERT INTO t1 VALUES("0037", "2", "2006-01-06 12:25:53");
+INSERT INTO t1 VALUES("0048", "1", "2006-01-06 12:37:50");
+INSERT INTO t1 VALUES("0059", "1", "2006-01-06 12:37:50");
+select * from t1 r1
+where (r1.retailerID,(r1.changed)) in
+(SELECT r2.retailerId,(max(changed)) from t1 r2
+group by r2.retailerId);
+retailerID	statusID	changed
+0026	2	2006-01-06 12:25:53
+0037	2	2006-01-06 12:25:53
+0048	1	2006-01-06 12:37:50
+0059	1	2006-01-06 12:37:50
+drop table t1;
 create table t1(a int, primary key (a));
 insert into t1 values (10);
 create table t2 (a int primary key, b varchar(32), c int, unique key b(c, b));
@@ -2952,11 +3051,36 @@ id	st
 DROP TABLE t1,t2;
 CREATE TABLE t1 (a int);
 INSERT INTO t1 VALUES (1), (2);
-SELECT * FROM (SELECT count(*) FROM t1 GROUP BY a) as res;
-count(*)
-1
-1
 DROP TABLE t1;
+CREATE TABLE t1 (
+a varchar(255) default NULL,
+b timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+# INDEX idx(a,b)
+INDEX idx(a)
+);
+CREATE TABLE t2 (
+a varchar(255) default NULL
+);
+INSERT INTO t1 VALUES ('abcdefghijk','2007-05-07 06:00:24');
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO `t1` VALUES ('asdf','2007-02-08 01:11:26');
+INSERT INTO `t2` VALUES ('abcdefghijk');
+INSERT INTO `t2` VALUES ('asdf');
+SET session sort_buffer_size=8192;
+Warnings:
+Warning	1292	Truncated incorrect sort_buffer_size value: '8192'
+SELECT (SELECT 1 FROM  t1 WHERE t1.a=t2.a ORDER BY t1.b LIMIT 1) AS d1 FROM t2;
+d1
+1
+1
+DROP TABLE t1,t2;
 CREATE TABLE t1 (a INTEGER, b INTEGER);
 CREATE TABLE t2 (x INTEGER);
 INSERT INTO t1 VALUES (1,11), (2,22), (2,22);
@@ -3236,9 +3360,6 @@ select a in (select max(ie) from t1 where oref=4 group by grp) from t3;
 a in (select max(ie) from t1 where oref=4 group by grp)
 0
 0
-show status like 'Handler_read_rnd_next';
-Variable_name	Value
-Handler_read_rnd_next	5
 select ' ^ This must show 11' Z;
 Z
  ^ This must show 11
@@ -5138,6 +5259,56 @@ DROP TABLE t1;
 #
 # BUG#58561: Server Crash with correlated subquery and SequoiaDB tables 
 #
+CREATE TABLE cc (
+pk INT,
+col_int_key INT,
+col_varchar_key VARCHAR(1),
+PRIMARY KEY (pk),
+KEY col_int_key (col_int_key),
+KEY col_varchar_key (col_varchar_key,col_int_key)
+) ENGINE=SequoiaDB;
+INSERT INTO cc VALUES (10,7,'v');
+INSERT INTO cc VALUES (11,1,'r');
+CREATE TABLE bb (
+pk INT,
+col_date_key DATE,
+PRIMARY KEY (pk)
+#  KEY col_date_key (col_date_key)
+) ENGINE=SequoiaDB;
+INSERT INTO bb VALUES (10,'2002-02-21');
+CREATE TABLE c (
+pk INT,
+col_int_key INT,
+col_varchar_key VARCHAR(1),
+PRIMARY KEY (pk),
+KEY col_int_key (col_int_key),
+KEY col_varchar_key (col_varchar_key,col_int_key)
+) ENGINE=SequoiaDB;
+INSERT INTO c VALUES (1,NULL,'w');
+INSERT INTO c VALUES (19,NULL,'f');
+CREATE TABLE b (
+pk INT,
+col_int_key INT,
+col_varchar_key VARCHAR(1),
+PRIMARY KEY (pk),
+KEY col_int_key (col_int_key),
+KEY col_varchar_key (col_varchar_key,col_int_key)
+) ENGINE=SequoiaDB;
+INSERT INTO b VALUES (1,7,'f');
+SELECT col_int_key
+FROM b granparent1
+WHERE (col_int_key, col_int_key) IN (
+SELECT parent1.pk, parent1.pk
+FROM bb parent1 JOIN cc parent2
+ON parent2.col_varchar_key = parent2.col_varchar_key
+WHERE granparent1.col_varchar_key IN (
+SELECT col_varchar_key
+FROM c)
+AND parent1.pk = granparent1.col_int_key
+ORDER BY parent1.col_date_key 
+);
+col_int_key
+DROP TABLE bb, b, cc, c;
 End of 5.6 tests
 #
 # BUG#46743 "Azalea processing correlated, aggregate SELECT
@@ -5382,6 +5553,75 @@ DROP TABLE t1, t2;
 # Bug#13651009 WRONG RESULT FROM DERIVED TABLE IF THE SUBQUERY
 # HAS AN EMPTY RESULT
 #
+CREATE TABLE t1 (
+pk int NOT NULL,
+col_int_nokey int NOT NULL,
+col_int_key int NOT NULL,
+col_time_key time NOT NULL,
+col_varchar_key varchar(1) NOT NULL,
+col_varchar_nokey varchar(1) NOT NULL,
+PRIMARY KEY (pk),
+KEY col_int_key (col_int_key),
+#  KEY col_time_key (col_time_key),
+KEY col_varchar_key (col_varchar_key,col_int_key)
+) ENGINE=SequoiaDB;
+CREATE TABLE t2 (
+#  pk int NOT NULL AUTO_INCREMENT,
+pk int NOT NULL,
+col_int_nokey int NOT NULL,
+col_int_key int NOT NULL,
+col_time_key time NOT NULL,
+col_varchar_key varchar(1) NOT NULL,
+col_varchar_nokey varchar(1) NOT NULL,
+PRIMARY KEY (pk),
+KEY col_int_key (col_int_key),
+#  KEY col_time_key (col_time_key),
+KEY col_varchar_key (col_varchar_key,col_int_key)
+) ENGINE=SequoiaDB;
+INSERT INTO t2 VALUES (1,4,4,'00:00:00','b','b');
+SET @var2:=4, @var3:=8;
+
+Testcase without inner subquery
+SELECT @var3:=12, sq4_alias1.*
+FROM t1 AS sq4_alias1
+WHERE (sq4_alias1.col_varchar_key + NULL) IS NULL OR
+sq4_alias1.col_varchar_key = @var3;
+@var3:=12	pk	col_int_nokey	col_int_key	col_time_key	col_varchar_key	col_varchar_nokey
+SELECT @var3;
+@var3
+8
+SELECT * FROM ( SELECT @var3:=12, sq4_alias1.*
+FROM t1 AS sq4_alias1
+WHERE (sq4_alias1.col_varchar_key + NULL) IS NULL OR
+sq4_alias1.col_varchar_key = @var3 ) AS alias3;
+@var3:=12	pk	col_int_nokey	col_int_key	col_time_key	col_varchar_key	col_varchar_nokey
+SELECT @var3;
+@var3
+8
+
+Testcase with inner subquery; crashed WL#6095
+SET @var3=8;
+SELECT sq4_alias1.*
+FROM t1 AS sq4_alias1
+WHERE (sq4_alias1.col_varchar_key , sq4_alias1.col_varchar_nokey)
+NOT IN
+(SELECT c_sq1_alias1.col_varchar_key AS c_sq1_field1,
+c_sq1_alias1.col_varchar_nokey AS c_sq1_field2
+FROM t2 AS c_sq1_alias1
+WHERE (c_sq1_alias1.col_int_nokey != @var2
+OR c_sq1_alias1.pk != @var3));
+pk	col_int_nokey	col_int_key	col_time_key	col_varchar_key	col_varchar_nokey
+SELECT * FROM ( SELECT sq4_alias1.*
+FROM t1 AS sq4_alias1
+WHERE (sq4_alias1.col_varchar_key , sq4_alias1.col_varchar_nokey)
+NOT IN
+(SELECT c_sq1_alias1.col_varchar_key AS c_sq1_field1,
+c_sq1_alias1.col_varchar_nokey AS c_sq1_field2
+FROM t2 AS c_sq1_alias1
+WHERE (c_sq1_alias1.col_int_nokey != @var2
+OR c_sq1_alias1.pk != @var3)) ) AS alias3;
+pk	col_int_nokey	col_int_key	col_time_key	col_varchar_key	col_varchar_nokey
+DROP TABLE t1,t2;
 #
 # Test that indexsubquery_engine only does one lookup if
 # the technique is unique_subquery: does not try to read the
@@ -5395,15 +5635,6 @@ insert into t2 values(1,10),(2,10);
 flush status;
 select * from t1 where a in (select a from t2 where b=3);
 a
-show status like "handler_read%";
-Variable_name	Value
-Handler_read_first	0
-Handler_read_key	0
-Handler_read_last	0
-Handler_read_next	2
-Handler_read_prev	0
-Handler_read_rnd	0
-Handler_read_rnd_next	3
 drop table t1,t2;
 #
 # Bug#13735980 Difference in number of rows when using subqueries
@@ -5756,6 +5987,24 @@ DROP TABLE t1;
 #
 # Bug#19224430 	ASSERT FAILED IN JOIN::REPLACE_INDEX_SUBQUERY
 #
+CREATE TABLE t1 (
+pk INTEGER,
+col_int_nokey INTEGER,
+col_int_key INTEGER,
+col_datetime_key DATETIME,
+PRIMARY KEY (pk),
+KEY (col_int_key)
+#KEY (col_datetime_key)
+)  ENGINE=SequoiaDB;
+INSERT INTO t1 VALUES (1, 1, 7, '2001-11-04 19:07:55.051133');
+CREATE TABLE t2(field1 INT, field2 INT) ENGINE=SequoiaDB;
+SELECT * FROM t2 WHERE (field1, field2) IN (
+SELECT MAX(col_datetime_key), col_int_key
+FROM t1
+WHERE col_int_key > col_int_nokey
+GROUP BY col_int_key);
+field1	field2
+DROP TABLE t1,t2;
 #
 # Bug#19416826 Assert failed in JOIN::make_tmp_tables_info
 #
