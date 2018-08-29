@@ -496,6 +496,13 @@ HEX(a)
 AAAA
 000AAAAA
 DROP TABLE t1;
+create table t1 (s1 char character set `ucs2` collate `ucs2_czech_ci`);
+insert into t1 values ('0'),('1'),('2'),('a'),('b'),('c');
+select s1 from t1 where s1 > 'a' order by s1;
+s1
+b
+c
+drop table t1;
 set @ivar= 1234;
 set @str1 = 'select ?';
 set @str2 = convert(@str1 using ucs2);
@@ -2877,6 +2884,23 @@ Table	Create Table
 t1	CREATE TABLE `t1` (
   `c1` varchar(1) CHARACTER SET ucs2 DEFAULT NULL
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+drop table t1;
+create table t1 as select repeat(' ', 64) as a limit 0;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `a` varchar(64) CHARACTER SET ucs2 DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+insert into t1 values ("1.1"), ("2.1");
+select a, hex(a) from t1;
+a	hex(a)
+1.1	0031002E0031
+2.1	0032002E0031
+update t1 set a= a + 0.1;
+select a, hex(a) from t1;
+a	hex(a)
+1.2000000000000002	0031002E0032003000300030003000300030003000300030003000300030003000300032
+2.2	0032002E0032
 drop table t1;
 create table t1 (a tinyint);
 insert into t1 values (1);
