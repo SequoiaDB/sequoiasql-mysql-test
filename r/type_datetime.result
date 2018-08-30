@@ -95,6 +95,7 @@ insert into t1 values (1,"2001-08-14 00:00:00"),(2,"2001-08-15 00:00:00"),(3,"20
 select * from t1 where dt='2001-08-14 00:00:00' and dt =  if(id=1,'2001-08-14 00:00:00','1999-08-15');
 id	dt
 1	2001-08-14 00:00:00
+create index dt on t1 (dt);
 select * from t1 where dt > 20021020;
 id	dt
 4	2003-09-15 01:20:30
@@ -106,9 +107,9 @@ CREATE TABLE `t1` (
 `date` datetime NOT NULL default '0000-00-00 00:00:00',
 `numfacture` int(6) unsigned NOT NULL default '0',
 `expedition` datetime NOT NULL default '0000-00-00 00:00:00',
-PRIMARY KEY  (`numfacture`)
-#  KEY `date` (`date`),   ## NOW not support index of date
-#  KEY `expedition` (`expedition`)
+PRIMARY KEY  (`numfacture`),
+KEY `date` (`date`),  
+KEY `expedition` (`expedition`)
 ) ENGINE=SequoiaDB;
 INSERT INTO t1 (expedition) VALUES ('0001-00-00 00:00:00');
 SELECT * FROM t1 WHERE expedition='0001-00-00 00:00:00';
@@ -636,6 +637,14 @@ End of 5.1 tests
 # Start of 5.5 tests
 #
 #
+# Bug#52849 datetime index not work
+#
+CREATE TABLE t1 (Id INT, AtTime DATETIME, KEY AtTime (AtTime));
+SET NAMES CP850;
+INSERT INTO t1 VALUES (1,'2010-04-12 22:30:12'), (2,'2010-04-12 22:30:12'), (3,'2010-04-12 22:30:12');
+DROP TABLE t1;
+SET NAMES latin1;
+#
 # Bug#56271: Wrong comparison result with STR_TO_DATE function
 #
 CREATE TABLE t1 (
@@ -650,7 +659,12 @@ STR_TO_DATE('1/1/2010', '%m/%d/%Y');
 year	month
 2010	3
 2010	4
-DROP TABLE t1;
+create table t2(f1 datetime primary key);
+insert into t2 select STR_TO_DATE(CONCAT_WS('/01/',`month`,`year`), '%m/%d/%Y') from t1;
+select * from t2 where f1=STR_TO_DATE('4/1/2010', '%m/%d/%Y');
+f1
+2010-04-01 00:00:00
+DROP TABLE t1,t2;
 #
 # Bug#57095: Wrongly chosen expression cache type led to a wrong
 #            result.
@@ -811,6 +825,29 @@ Warning	3135	'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' 
 ALTER TABLE t1 ADD c2 DATETIME DEFAULT '2012-02-00';
 ERROR 42000: Invalid default value for 'c2'
 #Alter table in non-strict mode but with NO_ZERO_DATE/NO_ZERO_IN_DATE
+SET @@sql_mode='NO_ZERO_DATE';
+Warnings:
+Warning	3135	'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+ALTER TABLE t1 ADD c2 DATETIME DEFAULT 0;
+Warnings:
+Warning	1264	Out of range value for column 'c2' at row 1
+ALTER TABLE t1 ADD c3 DATETIME DEFAULT '0000-00-00';
+Warnings:
+Warning	1264	Out of range value for column 'c2' at row 1
+Warning	1264	Out of range value for column 'c3' at row 1
+SET @@sql_mode='NO_ZERO_IN_DATE';
+Warnings:
+Warning	3135	'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+ALTER TABLE t1 ADD c4 DATETIME DEFAULT '2012-02-00';
+Warnings:
+Warning	1264	Out of range value for column 'c4' at row 1
+DROP TABLE t1;
+CREATE TABLE t1 (c1 INT);
+#Alter table with out any SQL modes
+SET @@sql_mode='';
+ALTER TABLE t1 ADD c2 DATETIME DEFAULT 0;
+ALTER TABLE t1 ADD c3 DATETIME DEFAULT '0000-00-00';
+ALTER TABLE t1 ADD c4 DATETIME DEFAULT '2012-02-00';
 DROP TABLE t1;
 SET @@sql_mode= @org_mode;
 Warnings:

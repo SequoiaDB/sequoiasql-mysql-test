@@ -34,7 +34,6 @@ INSERT INTO t1 VALUES (202,0,'EPOC Port',92,NULL,NULL,NULL,'');
 INSERT INTO t1 VALUES (201,0,'TravelMate',88,NULL,NULL,NULL,'');
 
 # NOW SequoiaDB not support auto_increment
-# NOW SequoiaDB not support index of datetime
 CREATE TABLE t2 (
 #  period_id int(11) NOT NULL auto_increment,
   period_id int(11) NOT NULL,
@@ -44,8 +43,8 @@ CREATE TABLE t2 (
   end_date datetime default NULL,
   work_load int(11) default NULL,
   PRIMARY KEY  (period_id),
-  KEY period_index (period_type,period_key)
-#  KEY date_index (start_date,end_date)
+  KEY period_index (period_type,period_key),
+  KEY date_index (start_date,end_date)
 ) PACK_KEYS=1;
 
 INSERT INTO t2 VALUES (1,'user_table',98,'2000-01-01 00:00:00',NULL,NULL);

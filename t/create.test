@@ -1201,33 +1201,33 @@ DROP TABLE t2;
 #--echo # -- Check ALTER TABLE.
 #ALTER TABLE t1 ADD INDEX(c1);
 
-# NOW not support index of DATETIME
-#--echo
-#--echo # -- Check DATETIME.
-#SET sql_mode = '';
+--echo
+--echo # -- Check DATETIME.
+SET sql_mode = '';
 
-#--echo
+--echo
 
-#CREATE TABLE t3(c1 DATETIME NOT NULL) ENGINE=SEQUOIADB;
-#INSERT INTO t3 VALUES (0);
+CREATE TABLE t3(c1 DATETIME NOT NULL) ENGINE=SEQUOIADB;
+INSERT INTO t3 VALUES (0);
 
-#--echo
-#SET sql_mode = TRADITIONAL;
+--echo
+SET sql_mode = TRADITIONAL;
 
-#--echo
+--echo
+# INNODB will not fail, MyISAM will fail
 #--error ER_TRUNCATED_WRONG_VALUE
-#ALTER TABLE t3 ADD INDEX(c1);
+ALTER TABLE t3 ADD INDEX(c1);
 
-#--echo
-#--echo # -- Cleanup.
+--echo
+--echo # -- Cleanup.
 
-#SET sql_mode = '';
-#DROP TABLE t1;
+SET sql_mode = '';
+DROP TABLE t1;
 #DROP TABLE t2;
-#DROP TABLE t3;
+DROP TABLE t3;
 
-#--echo
-#--echo # -- End of Bug#18834.
+--echo
+--echo # -- End of Bug#18834.
 
 ###########################################################################
 

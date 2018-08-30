@@ -865,6 +865,27 @@ Warnings:
 Warning	1264	Out of range value for column 'c2' at row 1
 DROP TABLE t2;
 
+# -- Check DATETIME.
+SET sql_mode = '';
+
+CREATE TABLE t3(c1 DATETIME NOT NULL) ENGINE=SEQUOIADB;
+INSERT INTO t3 VALUES (0);
+
+SET sql_mode = TRADITIONAL;
+Warnings:
+Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
+
+ALTER TABLE t3 ADD INDEX(c1);
+
+# -- Cleanup.
+SET sql_mode = '';
+Warnings:
+Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
+DROP TABLE t1;
+DROP TABLE t3;
+
+# -- End of Bug#18834.
+
 # --
 # -- Bug#34274: Invalid handling of 'DEFAULT 0' for YEAR data type.
 # --
@@ -992,8 +1013,6 @@ set @@sql_mode='ALLOW_INVALID_DATES';
 # The same should be possible in relaxed mode
 create table t1 (dt datetime default '2008-02-31 00:00:00');
 set @@sql_mode= @old_mode;
-Warnings:
-Warning	3135	'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
 # In normal mode attempt to create copy of table with invalid
 # default should fail
 create table t2 like t1;
@@ -1013,8 +1032,6 @@ t2	CREATE TABLE `t2` (
   `dt` datetime DEFAULT '2008-02-31 00:00:00'
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
 set @@sql_mode= @old_mode;
-Warnings:
-Warning	3135	'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
 drop tables t1, t2;
 CREATE TABLE t1 (id int);
 CREATE TABLE t2 (id int);

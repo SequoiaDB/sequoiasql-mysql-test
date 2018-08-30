@@ -935,31 +935,30 @@ DROP TABLE t1;
 # Bug #16249: different results for a range with an without index 
 #             when a range condition use an invalid datetime constant 
 #
-#Sequoiadb not support index on datetime
-#CREATE TABLE t1 (                                      
-#  item char(20) NOT NULL default '',                          
-#  started datetime NOT NULL default '0000-00-00 00:00:00', 
-#  price decimal(16,3) NOT NULL default '0.000',                 
-#  PRIMARY KEY (item,started)                   
-#) ENGINE=sequoiadb;   
+CREATE TABLE t1 (                                      
+  item char(20) NOT NULL default '',                          
+  started datetime NOT NULL default '0000-00-00 00:00:00', 
+  price decimal(16,3) NOT NULL default '0.000',                 
+  PRIMARY KEY (item,started)                   
+) ENGINE=sequoiadb;   
 
-#INSERT INTO t1 VALUES
-#('A1','2005-11-01 08:00:00',1000),
-#('A1','2005-11-15 00:00:00',2000),
-#('A1','2005-12-12 08:00:00',3000),
-#('A2','2005-12-01 08:00:00',1000);
-
-#EXPLAIN SELECT * FROM t1 WHERE item='A1' AND started<='2005-12-01 24:00:00';
-#SELECT * FROM t1 WHERE item='A1' AND started<='2005-12-01 24:00:00';
-#SELECT * FROM t1 WHERE item='A1' AND started<='2005-12-02 00:00:00';
-
-#DROP INDEX `PRIMARY` ON t1;
+INSERT INTO t1 VALUES
+('A1','2005-11-01 08:00:00',1000),
+('A1','2005-11-15 00:00:00',2000),
+('A1','2005-12-12 08:00:00',3000),
+('A2','2005-12-01 08:00:00',1000);
 
 #EXPLAIN SELECT * FROM t1 WHERE item='A1' AND started<='2005-12-01 24:00:00';
-#SELECT * FROM t1 WHERE item='A1' AND started<='2005-12-01 24:00:00';
-#SELECT * FROM t1 WHERE item='A1' AND started<='2005-12-02 00:00:00';
+SELECT * FROM t1 WHERE item='A1' AND started<='2005-12-01 24:00:00';
+SELECT * FROM t1 WHERE item='A1' AND started<='2005-12-02 00:00:00';
 
-#DROP TABLE t1;
+DROP INDEX `PRIMARY` ON t1;
+
+#EXPLAIN SELECT * FROM t1 WHERE item='A1' AND started<='2005-12-01 24:00:00';
+SELECT * FROM t1 WHERE item='A1' AND started<='2005-12-01 24:00:00';
+SELECT * FROM t1 WHERE item='A1' AND started<='2005-12-02 00:00:00';
+
+DROP TABLE t1;
 
 --echo
 --echo BUG#32198 "Comparison of DATE with DATETIME still not using indexes correctly"
@@ -1213,12 +1212,11 @@ DROP TABLE t1;
 --echo #
 --echo # Bug#47925: regression of range optimizer and date comparison in 5.1.39!
 --echo #
-#sequoiadb not support index on date or datetime
+#sequoiadb not support index on date 
 #CREATE TABLE t1 ( a DATE,     KEY ( a ) );
-#CREATE TABLE t2 ( a DATETIME, KEY ( a ) );
-
 CREATE TABLE t1 ( a DATE );
-CREATE TABLE t2 ( a DATETIME );
+CREATE TABLE t2 ( a DATETIME, KEY ( a ) );
+
 --echo # Make optimizer choose range scan
 INSERT INTO t1 VALUES ('2009-09-22'), ('2009-09-22'), ('2009-09-22');
 INSERT INTO t1 VALUES ('2009-09-23'), ('2009-09-23'), ('2009-09-23');

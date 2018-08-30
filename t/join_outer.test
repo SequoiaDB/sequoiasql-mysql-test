@@ -1111,12 +1111,11 @@ DROP TABLE t1,t2;
 --echo #
 
 # bug#49600 is a duplicate of bug#57034
-# NOW SequoiaDB not support index of datetime
 CREATE TABLE `BB` (
   `col_datetime_key` datetime DEFAULT NULL,
   `col_varchar_key` varchar(1) DEFAULT NULL,
   `col_varchar_nokey` varchar(1) DEFAULT NULL,
-#  KEY `col_datetime_key` (`col_datetime_key`),
+  KEY `col_datetime_key` (`col_datetime_key`),
   KEY `col_varchar_key` (`col_varchar_key`)
 ) ENGINE=SequoiaDB DEFAULT CHARSET=latin1;
 
