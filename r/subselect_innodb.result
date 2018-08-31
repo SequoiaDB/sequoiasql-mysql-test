@@ -357,9 +357,9 @@ DROP TABLE t1,t2,t3;
 CREATE TABLE t1 (
 col_time_key time DEFAULT NULL,
 col_datetime_key datetime DEFAULT NULL,
-col_varchar_nokey varchar(1) DEFAULT NULL
-#KEY col_time_key (col_time_key),
-#KEY col_datetime_key (col_datetime_key)
+col_varchar_nokey varchar(1) DEFAULT NULL,
+#  KEY col_time_key (col_time_key),
+KEY col_datetime_key (col_datetime_key)
 ) ENGINE=Sequoiadb DEFAULT CHARSET=latin1;
 INSERT INTO t1 VALUES ('17:53:30','2005-11-10 12:40:29','h');
 INSERT INTO t1 VALUES ('11:35:49','2009-04-25 00:00:00','b');
@@ -375,9 +375,9 @@ INSERT INTO t1 VALUES ('22:43:58','2000-12-27 00:00:00','c');
 CREATE TABLE t2 (
 col_time_key time DEFAULT NULL,
 col_datetime_key datetime DEFAULT NULL,
-col_varchar_nokey varchar(1) DEFAULT NULL
+col_varchar_nokey varchar(1) DEFAULT NULL,
 #KEY col_time_key (col_time_key),
-#KEY col_datetime_key (col_datetime_key)
+KEY col_datetime_key (col_datetime_key)
 ) ENGINE=Sequoiadb DEFAULT CHARSET=latin1;
 INSERT INTO t2 VALUES ('11:28:45','2004-10-11 18:13:16','w');
 SELECT col_time_key, col_datetime_key

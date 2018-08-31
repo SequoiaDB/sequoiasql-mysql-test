@@ -239,7 +239,7 @@ a	filler
 17	yes
 19	yes
 drop table t2;
-create table t2 (a datetime, filler char(200));
+create table t2 (a datetime, filler char(200), key(a));
 insert into t2 select '2006-04-25 10:00:00' + interval C.a minute,
 'no'  from t1 A, t1 B, t1 C where C.a % 2 = 0;
 insert into t2 select '2006-04-25 10:00:00' + interval C.a*2+1 minute,

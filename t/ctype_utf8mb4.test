@@ -805,6 +805,7 @@ select ifnull(NULL, _utf8mb4'string');
 # Bug#9509 Optimizer: wrong result after AND with comparisons
 #
 #Bug #SEQUOIADBMAINSTREAM-3633, part of characters may cause some wrong query results
+#NOW SequoiaDB not support COLLATE utf8mb4_lithuanian_ci, just work for utf8mb4_bin
 #set names utf8mb4;
 #create table t1 (s1 char(5) character set utf8mb4 collate utf8mb4_lithuanian_ci);
 #insert into t1 values ('I'),('K'),('Y');
@@ -812,6 +813,7 @@ select ifnull(NULL, _utf8mb4'string');
 #select * from t1 where 'K' > s1 and s1 = 'Y';
 #drop table t1;
 
+#NOW SequoiaDB not support COLLATE utf8mb4_lithuanian_ci, just work for utf8mb4_bin
 #create table t1 (s1 char(5) character set utf8mb4 collate utf8mb4_czech_ci);
 #insert into t1 values ('c'),('d'),('h'),('ch'),('CH'),('cH'),('Ch'),('i');
 #select * from t1 where s1 > 'd' and s1 = 'CH';

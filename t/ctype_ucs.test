@@ -316,10 +316,10 @@ DROP TABLE t1;
 #  with certain charset/collation settings
 #
 #Bug #SEQUOIADBMAINSTREAM-3633, query cause wrong result when set `ucs2`
-#create table t1 (s1 char character set `ucs2` collate `ucs2_czech_ci`);
-#insert into t1 values ('0'),('1'),('2'),('a'),('b'),('c');
-#select s1 from t1 where s1 > 'a' order by s1;
-#drop table t1;
+create table t1 (s1 char character set `ucs2` collate `ucs2_czech_ci`);
+insert into t1 values ('0'),('1'),('2'),('a'),('b'),('c');
+select s1 from t1 where s1 > 'a' order by s1;
+drop table t1;
 
 #
 # Bug #5081 : UCS2 fields are filled with '0x2020'

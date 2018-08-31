@@ -582,8 +582,8 @@ INSERT INTO t2 VALUES ('oe');
 
 SELECT COUNT(*) FROM (SELECT DISTINCT a FROM t2) dt;
 #Bug SEQUOIADBMAINSTERAM-3633, set `latin1_german2_ci` collaction will return wrong results
-#SELECT COUNT(*) FROM 
-#  (SELECT DISTINCT a FROM t2 WHERE a='oe' COLLATE latin1_german2_ci) dt;
+SELECT COUNT(*) FROM 
+  (SELECT DISTINCT a FROM t2 WHERE a='oe' COLLATE latin1_german2_ci) dt;
 
 DROP TABLE t1, t2;
 

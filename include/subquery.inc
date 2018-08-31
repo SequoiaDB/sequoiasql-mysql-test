@@ -192,27 +192,28 @@ drop table if exists t1,t2,t3,t4,t5,t6,t7,t8;
 
 #searchconthardwarefr3 forumconthardwarefr7
 # NOW SequoiaDB not support index on Date
-#CREATE TABLE `t1` (
-#  `topic` mediumint(8) unsigned NOT NULL default '0',
-#  `date` date NOT NULL default '0000-00-00',
-#  `pseudo` varchar(35) character set latin1 NOT NULL default '',
+CREATE TABLE `t1` (
+  `topic` mediumint(8) unsigned NOT NULL default '0',
+  `date` date NOT NULL default '0000-00-00',
+  `pseudo` varchar(35) character set latin1 NOT NULL default '',
 #  PRIMARY KEY  (`pseudo`,`date`,`topic`),
-#  KEY `topic` (`topic`)
-#) ENGINE=SequoiaDB ROW_FORMAT=DYNAMIC;
-#INSERT INTO t1 (topic,date,pseudo) VALUES
-#('43506','2002-10-02','joce'),('40143','2002-08-03','joce');
+   PRIMARY KEY  (`pseudo`,`topic`),
+  KEY `topic` (`topic`)
+) ENGINE=SequoiaDB ROW_FORMAT=DYNAMIC;
+INSERT INTO t1 (topic,date,pseudo) VALUES
+('43506','2002-10-02','joce'),('40143','2002-08-03','joce');
 #EXPLAIN EXTENDED SELECT DISTINCT date FROM t1 WHERE date='2002-08-03';
 #EXPLAIN EXTENDED SELECT (SELECT DISTINCT date FROM t1 WHERE date='2002-08-03');
-#SELECT DISTINCT date FROM t1 WHERE date='2002-08-03';
-#SELECT (SELECT DISTINCT date FROM t1 WHERE date='2002-08-03');
-#SELECT 1 FROM t1 WHERE 1=(SELECT 1 UNION SELECT 1) UNION ALL SELECT 1;
-#-- error ER_SUBQUERY_NO_1_ROW
-#SELECT 1 FROM t1 WHERE 1=(SELECT 1 UNION ALL SELECT 1) UNION SELECT 1;
+SELECT DISTINCT date FROM t1 WHERE date='2002-08-03';
+SELECT (SELECT DISTINCT date FROM t1 WHERE date='2002-08-03');
+SELECT 1 FROM t1 WHERE 1=(SELECT 1 UNION SELECT 1) UNION ALL SELECT 1;
+-- error ER_SUBQUERY_NO_1_ROW
+SELECT 1 FROM t1 WHERE 1=(SELECT 1 UNION ALL SELECT 1) UNION SELECT 1;
 #EXPLAIN EXTENDED SELECT 1 FROM t1 WHERE 1=(SELECT 1 UNION SELECT 1);
-#drop table t1;
+drop table t1;
 
 #forumconthardwarefr7 searchconthardwarefr7
-# NOW SequoiaDB not support index on Date
+# NOW SequoiaDB not support auto_increment
 #CREATE TABLE `t1` (
 #  `numeropost` mediumint(8) unsigned NOT NULL auto_increment,
 #  `maxnumrep` int(10) unsigned NOT NULL default '0',
@@ -586,46 +587,51 @@ CREATE TABLE t1 (a int(1));
 drop table t1;
 
 # NOW SequoiaDB not support index of Date
-#CREATE TABLE `t1` (
-#  `mot` varchar(30) character set latin1 NOT NULL default '',
-#  `topic` mediumint(8) unsigned NOT NULL default '0',
-#  `date` date NOT NULL default '0000-00-00',
-#  `pseudo` varchar(35) character set latin1 NOT NULL default '',
+CREATE TABLE `t1` (
+  `mot` varchar(30) character set latin1 NOT NULL default '',
+  `topic` mediumint(8) unsigned NOT NULL default '0',
+  `date` date NOT NULL default '0000-00-00',
+  `pseudo` varchar(35) character set latin1 NOT NULL default '',
 #  PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
+   PRIMARY KEY  (`mot`,`pseudo`,`topic`),
 #  KEY `pseudo` (`pseudo`,`date`,`topic`),
-#  KEY `topic` (`topic`)
-#) ENGINE=SequoiaDB CHARSET=latin1 ROW_FORMAT=DYNAMIC;
-#
-#CREATE TABLE `t2` (
-#  `mot` varchar(30) character set latin1 NOT NULL default '',
-#  `topic` mediumint(8) unsigned NOT NULL default '0',
-#  `date` date NOT NULL default '0000-00-00',
-#  `pseudo` varchar(35) character set latin1 NOT NULL default '',
+   KEY `pseudo` (`pseudo`,`topic`),
+  KEY `topic` (`topic`)
+) ENGINE=SequoiaDB CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE `t2` (
+  `mot` varchar(30) character set latin1 NOT NULL default '',
+  `topic` mediumint(8) unsigned NOT NULL default '0',
+  `date` date NOT NULL default '0000-00-00',
+  `pseudo` varchar(35) character set latin1 NOT NULL default '',
 #  PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
+   PRIMARY KEY  (`mot`,`pseudo`,`topic`),
 #  KEY `pseudo` (`pseudo`,`date`,`topic`),
-#  KEY `topic` (`topic`)
-#) ENGINE=SequoiaDB CHARSET=latin1 ROW_FORMAT=DYNAMIC;
-#
-#CREATE TABLE `t3` (
+   KEY `pseudo` (`pseudo`,`topic`),
+  KEY `topic` (`topic`)
+) ENGINE=SequoiaDB CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE `t3` (
 #  `numeropost` mediumint(8) unsigned NOT NULL auto_increment,
-#  `maxnumrep` int(10) unsigned NOT NULL default '0',
-#  PRIMARY KEY  (`numeropost`),
-#  UNIQUE KEY `maxnumrep` (`maxnumrep`)
-#) ENGINE=SequoiaDB CHARSET=latin1;
-#INSERT INTO t1 VALUES ('joce','1','','joce'),('test','2','','test');
-#
-#INSERT INTO t2 VALUES ('joce','1','','joce'),('test','2','','test');
-#
-#INSERT INTO t3 VALUES (1,1);
-#
-#SELECT DISTINCT topic FROM t2 WHERE NOT EXISTS(SELECT * FROM t3 WHERE
-#numeropost=topic);
-#select * from t1;
-#DELETE FROM t1 WHERE topic IN (SELECT DISTINCT topic FROM t2 WHERE NOT
-#EXISTS(SELECT * FROM t3 WHERE numeropost=topic));
-#select * from t1;
-#
-#drop table t1, t2, t3;
+  `numeropost` mediumint(8) unsigned NOT NULL,
+  `maxnumrep` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`numeropost`),
+  UNIQUE KEY `maxnumrep` (`maxnumrep`)
+) ENGINE=SequoiaDB CHARSET=latin1;
+INSERT INTO t1 VALUES ('joce','1','','joce'),('test','2','','test');
+
+INSERT INTO t2 VALUES ('joce','1','','joce'),('test','2','','test');
+
+INSERT INTO t3 VALUES (1,1);
+
+SELECT DISTINCT topic FROM t2 WHERE NOT EXISTS(SELECT * FROM t3 WHERE
+numeropost=topic);
+select * from t1;
+DELETE FROM t1 WHERE topic IN (SELECT DISTINCT topic FROM t2 WHERE NOT
+EXISTS(SELECT * FROM t3 WHERE numeropost=topic));
+select * from t1;
+
+drop table t1, t2, t3;
 
 SELECT * FROM (SELECT 1 as a,(SELECT a)) a;
 CREATE TABLE t1 SELECT * FROM (SELECT 1 as a,(SELECT 1)) a;
@@ -1865,25 +1871,26 @@ drop table t1;
 # Bug#16255 Subquery in where
 #
 # NOW SequoiaDB not support index on Datetime
-#create table t1 (
-#  retailerID varchar(8) NOT NULL,
-#  statusID   int(10) unsigned NOT NULL,
-#  changed    datetime NOT NULL,
+create table t1 (
+  retailerID varchar(8) NOT NULL,
+  statusID   int(10) unsigned NOT NULL,
+  changed    datetime NOT NULL,
 #  UNIQUE KEY retailerID (retailerID, statusID, changed)
-#);
-#
-#INSERT INTO t1 VALUES("0026", "1", "2005-12-06 12:18:56");
-#INSERT INTO t1 VALUES("0026", "2", "2006-01-06 12:25:53");
-#INSERT INTO t1 VALUES("0037", "1", "2005-12-06 12:18:56");
-#INSERT INTO t1 VALUES("0037", "2", "2006-01-06 12:25:53");
-#INSERT INTO t1 VALUES("0048", "1", "2006-01-06 12:37:50");
-#INSERT INTO t1 VALUES("0059", "1", "2006-01-06 12:37:50");
-#
-#select * from t1 r1
-#  where (r1.retailerID,(r1.changed)) in
-#         (SELECT r2.retailerId,(max(changed)) from t1 r2
-#          group by r2.retailerId);
-#drop table t1;
+  UNIQUE KEY retailerID (retailerID, statusID)
+);
+
+INSERT INTO t1 VALUES("0026", "1", "2005-12-06 12:18:56");
+INSERT INTO t1 VALUES("0026", "2", "2006-01-06 12:25:53");
+INSERT INTO t1 VALUES("0037", "1", "2005-12-06 12:18:56");
+INSERT INTO t1 VALUES("0037", "2", "2006-01-06 12:25:53");
+INSERT INTO t1 VALUES("0048", "1", "2006-01-06 12:37:50");
+INSERT INTO t1 VALUES("0059", "1", "2006-01-06 12:37:50");
+
+select * from t1 r1
+  where (r1.retailerID,(r1.changed)) in
+         (SELECT r2.retailerId,(max(changed)) from t1 r2
+          group by r2.retailerId);
+drop table t1;
 
 
 #
@@ -2423,7 +2430,7 @@ DROP TABLE t2;
 #
 #CREATE TABLE t2 (
 #  i1 int(11) NOT NULL default '0',
-#  i2 int(11) NOT NULL default '0',
+#  i2 int(11) NOT NULL default '0'
 #  t datetime default NULL,
 #  PRIMARY KEY  (i1)
 #);
@@ -2916,7 +2923,7 @@ CREATE TABLE t1 (a int);
 INSERT INTO t1 VALUES (1), (2);
 
 #EXPLAIN EXTENDED
-SELECT * FROM (SELECT count(*) FROM t1 GROUP BY a) as res;
+#SELECT * FROM (SELECT count(*) FROM t1 GROUP BY a) as res;
 
 DROP TABLE t1;
 
@@ -2925,33 +2932,34 @@ DROP TABLE t1;
 # Bug#28811 crash for query containing subquery with ORDER BY and LIMIT 1
 #
 # NOW SequoiaDB not support index on Timestamp
-#CREATE TABLE t1 (
-#  a varchar(255) default NULL,
-#  b timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-#  INDEX idx(a,b)
-#);
-#CREATE TABLE t2 (
-#  a varchar(255) default NULL
-#);
-#
-#INSERT INTO t1 VALUES ('abcdefghijk','2007-05-07 06:00:24');
-#INSERT INTO t1 SELECT * FROM t1;
-#INSERT INTO t1 SELECT * FROM t1;
-#INSERT INTO t1 SELECT * FROM t1;
-#INSERT INTO t1 SELECT * FROM t1;
-#INSERT INTO t1 SELECT * FROM t1;
-#INSERT INTO t1 SELECT * FROM t1;
-#INSERT INTO t1 SELECT * FROM t1;
-#INSERT INTO t1 SELECT * FROM t1;
-#INSERT INTO `t1` VALUES ('asdf','2007-02-08 01:11:26');
-#INSERT INTO `t2` VALUES ('abcdefghijk');
-#INSERT INTO `t2` VALUES ('asdf');
-#
-#SET session sort_buffer_size=8192;
-#
-#SELECT (SELECT 1 FROM  t1 WHERE t1.a=t2.a ORDER BY t1.b LIMIT 1) AS d1 FROM t2;
-#
-#DROP TABLE t1,t2;
+CREATE TABLE t1 (
+  a varchar(255) default NULL,
+  b timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+# INDEX idx(a,b)
+  INDEX idx(a)
+);
+CREATE TABLE t2 (
+  a varchar(255) default NULL
+);
+
+INSERT INTO t1 VALUES ('abcdefghijk','2007-05-07 06:00:24');
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO t1 SELECT * FROM t1;
+INSERT INTO `t1` VALUES ('asdf','2007-02-08 01:11:26');
+INSERT INTO `t2` VALUES ('abcdefghijk');
+INSERT INTO `t2` VALUES ('asdf');
+
+SET session sort_buffer_size=8192;
+
+SELECT (SELECT 1 FROM  t1 WHERE t1.a=t2.a ORDER BY t1.b LIMIT 1) AS d1 FROM t2;
+
+DROP TABLE t1,t2;
 
 
 #
@@ -3343,7 +3351,7 @@ create table t3 (a int);
 insert into t3 values (NULL), (NULL);
 flush status;
 select a in (select max(ie) from t1 where oref=4 group by grp) from t3;
-show status like 'Handler_read_rnd_next';
+#show status like 'Handler_read_rnd_next';
 select ' ^ This must show 11' Z;
 
 # This must show trigcond:
@@ -5395,60 +5403,60 @@ DROP TABLE t1;
 --echo # BUG#58561: Server Crash with correlated subquery and SequoiaDB tables 
 --echo #
 # NOW SequoiaDB not support index of Date
-#CREATE TABLE cc (
-#  pk INT,
-#  col_int_key INT,
-#  col_varchar_key VARCHAR(1),
-#  PRIMARY KEY (pk),
-#  KEY col_int_key (col_int_key),
-#  KEY col_varchar_key (col_varchar_key,col_int_key)
-#) ENGINE=SequoiaDB;
-#INSERT INTO cc VALUES (10,7,'v');
-#INSERT INTO cc VALUES (11,1,'r');
-#
-#CREATE TABLE bb (
-#  pk INT,
-#  col_date_key DATE,
-#  PRIMARY KEY (pk),
+CREATE TABLE cc (
+  pk INT,
+  col_int_key INT,
+  col_varchar_key VARCHAR(1),
+  PRIMARY KEY (pk),
+  KEY col_int_key (col_int_key),
+  KEY col_varchar_key (col_varchar_key,col_int_key)
+) ENGINE=SequoiaDB;
+INSERT INTO cc VALUES (10,7,'v');
+INSERT INTO cc VALUES (11,1,'r');
+
+CREATE TABLE bb (
+  pk INT,
+  col_date_key DATE,
+  PRIMARY KEY (pk)
 #  KEY col_date_key (col_date_key)
-#) ENGINE=SequoiaDB;
-#INSERT INTO bb VALUES (10,'2002-02-21');
-#
-#CREATE TABLE c (
-#  pk INT,
-#  col_int_key INT,
-#  col_varchar_key VARCHAR(1),
-#  PRIMARY KEY (pk),
-#  KEY col_int_key (col_int_key),
-#  KEY col_varchar_key (col_varchar_key,col_int_key)
-#) ENGINE=SequoiaDB;
-#INSERT INTO c VALUES (1,NULL,'w');
-#INSERT INTO c VALUES (19,NULL,'f');
-#
-#CREATE TABLE b (
-#  pk INT,
-#  col_int_key INT,
-#  col_varchar_key VARCHAR(1),
-#  PRIMARY KEY (pk),
-#  KEY col_int_key (col_int_key),
-#  KEY col_varchar_key (col_varchar_key,col_int_key)
-#) ENGINE=SequoiaDB;
-#INSERT INTO b VALUES (1,7,'f');
-#
-#SELECT col_int_key
-#FROM b granparent1
-#WHERE (col_int_key, col_int_key) IN (
-#    SELECT parent1.pk, parent1.pk
-#    FROM bb parent1 JOIN cc parent2
-#                    ON parent2.col_varchar_key = parent2.col_varchar_key
-#    WHERE granparent1.col_varchar_key IN (
-#        SELECT col_varchar_key
-#        FROM c)
-#      AND parent1.pk = granparent1.col_int_key
-#    ORDER BY parent1.col_date_key 
-#);
-#
-#DROP TABLE bb, b, cc, c;
+) ENGINE=SequoiaDB;
+INSERT INTO bb VALUES (10,'2002-02-21');
+
+CREATE TABLE c (
+  pk INT,
+  col_int_key INT,
+  col_varchar_key VARCHAR(1),
+  PRIMARY KEY (pk),
+  KEY col_int_key (col_int_key),
+  KEY col_varchar_key (col_varchar_key,col_int_key)
+) ENGINE=SequoiaDB;
+INSERT INTO c VALUES (1,NULL,'w');
+INSERT INTO c VALUES (19,NULL,'f');
+
+CREATE TABLE b (
+  pk INT,
+  col_int_key INT,
+  col_varchar_key VARCHAR(1),
+  PRIMARY KEY (pk),
+  KEY col_int_key (col_int_key),
+  KEY col_varchar_key (col_varchar_key,col_int_key)
+) ENGINE=SequoiaDB;
+INSERT INTO b VALUES (1,7,'f');
+
+SELECT col_int_key
+FROM b granparent1
+WHERE (col_int_key, col_int_key) IN (
+    SELECT parent1.pk, parent1.pk
+    FROM bb parent1 JOIN cc parent2
+                    ON parent2.col_varchar_key = parent2.col_varchar_key
+    WHERE granparent1.col_varchar_key IN (
+        SELECT col_varchar_key
+        FROM c)
+      AND parent1.pk = granparent1.col_int_key
+    ORDER BY parent1.col_date_key 
+);
+
+DROP TABLE bb, b, cc, c;
 
 --echo End of 5.6 tests
 
@@ -5828,75 +5836,76 @@ DROP TABLE t1, t2;
 --echo # HAS AN EMPTY RESULT
 --echo #
 # NOW SequoiaDB not support index of Date And AUTO_INCREMENT
-#CREATE TABLE t1 (
-#  pk int NOT NULL,
-#  col_int_nokey int NOT NULL,
-#  col_int_key int NOT NULL,
-#  col_time_key time NOT NULL,
-#  col_varchar_key varchar(1) NOT NULL,
-#  col_varchar_nokey varchar(1) NOT NULL,
-#  PRIMARY KEY (pk),
-#  KEY col_int_key (col_int_key),
+CREATE TABLE t1 (
+  pk int NOT NULL,
+  col_int_nokey int NOT NULL,
+  col_int_key int NOT NULL,
+  col_time_key time NOT NULL,
+  col_varchar_key varchar(1) NOT NULL,
+  col_varchar_nokey varchar(1) NOT NULL,
+  PRIMARY KEY (pk),
+  KEY col_int_key (col_int_key),
 #  KEY col_time_key (col_time_key),
-#  KEY col_varchar_key (col_varchar_key,col_int_key)
-#) ENGINE=SequoiaDB;
-#
-#CREATE TABLE t2 (
+  KEY col_varchar_key (col_varchar_key,col_int_key)
+) ENGINE=SequoiaDB;
+
+CREATE TABLE t2 (
 #  pk int NOT NULL AUTO_INCREMENT,
-#  col_int_nokey int NOT NULL,
-#  col_int_key int NOT NULL,
-#  col_time_key time NOT NULL,
-#  col_varchar_key varchar(1) NOT NULL,
-#  col_varchar_nokey varchar(1) NOT NULL,
-#  PRIMARY KEY (pk),
-#  KEY col_int_key (col_int_key),
+  pk int NOT NULL,
+  col_int_nokey int NOT NULL,
+  col_int_key int NOT NULL,
+  col_time_key time NOT NULL,
+  col_varchar_key varchar(1) NOT NULL,
+  col_varchar_nokey varchar(1) NOT NULL,
+  PRIMARY KEY (pk),
+  KEY col_int_key (col_int_key),
 #  KEY col_time_key (col_time_key),
-#  KEY col_varchar_key (col_varchar_key,col_int_key)
-#) ENGINE=SequoiaDB;
-#
-#INSERT INTO t2 VALUES (1,4,4,'00:00:00','b','b');
-#
-#SET @var2:=4, @var3:=8;
-#
-#--echo
-#--echo Testcase without inner subquery
-#
-#let $subq=
-#SELECT @var3:=12, sq4_alias1.*
-#FROM t1 AS sq4_alias1
-#WHERE (sq4_alias1.col_varchar_key + NULL) IS NULL OR
-#      sq4_alias1.col_varchar_key = @var3;
-#
+  KEY col_varchar_key (col_varchar_key,col_int_key)
+) ENGINE=SequoiaDB;
+
+INSERT INTO t2 VALUES (1,4,4,'00:00:00','b','b');
+
+SET @var2:=4, @var3:=8;
+
+--echo
+--echo Testcase without inner subquery
+
+let $subq=
+SELECT @var3:=12, sq4_alias1.*
+FROM t1 AS sq4_alias1
+WHERE (sq4_alias1.col_varchar_key + NULL) IS NULL OR
+      sq4_alias1.col_varchar_key = @var3;
+
 #eval EXPLAIN $subq;
-#eval $subq;
-#SELECT @var3;
-#
-## Now as derived table:
+eval $subq;
+SELECT @var3;
+
+# Now as derived table:
 #eval EXPLAIN SELECT * FROM ( $subq ) AS alias3;
-#eval SELECT * FROM ( $subq ) AS alias3;
-#SELECT @var3;
-#
-#--echo
-#--echo Testcase with inner subquery; crashed WL#6095
-#SET @var3=8;
-#let $subq=
-#SELECT sq4_alias1.*
-#FROM t1 AS sq4_alias1
-#WHERE (sq4_alias1.col_varchar_key , sq4_alias1.col_varchar_nokey)
-#      NOT IN
-#      (SELECT c_sq1_alias1.col_varchar_key AS c_sq1_field1,
-#              c_sq1_alias1.col_varchar_nokey AS c_sq1_field2
-#       FROM t2 AS c_sq1_alias1
-#       WHERE (c_sq1_alias1.col_int_nokey != @var2
-#              OR c_sq1_alias1.pk != @var3));
-#
+eval SELECT * FROM ( $subq ) AS alias3;
+SELECT @var3;
+
+--echo
+--echo Testcase with inner subquery; crashed WL#6095
+SET @var3=8;
+let $subq=
+SELECT sq4_alias1.*
+FROM t1 AS sq4_alias1
+WHERE (sq4_alias1.col_varchar_key , sq4_alias1.col_varchar_nokey)
+      NOT IN
+      (SELECT c_sq1_alias1.col_varchar_key AS c_sq1_field1,
+              c_sq1_alias1.col_varchar_nokey AS c_sq1_field2
+       FROM t2 AS c_sq1_alias1
+       WHERE (c_sq1_alias1.col_int_nokey != @var2
+              OR c_sq1_alias1.pk != @var3));
+
 #eval EXPLAIN $subq;
-#eval $subq;
-## Now as derived table:
+eval $subq;
+# Now as derived table:
 #eval EXPLAIN SELECT * FROM ( $subq ) AS alias3;
-#eval SELECT * FROM ( $subq ) AS alias3;
-#
-#DROP TABLE t1,t2;
+eval SELECT * FROM ( $subq ) AS alias3;
+
+DROP TABLE t1,t2;
 
 --echo #
 --echo # Test that indexsubquery_engine only does one lookup if
@@ -5913,7 +5922,7 @@ let $query=select * from t1 where a in (select a from t2 where b=3);
 #eval explain $query;
 flush status;
 eval $query;
-show status like "handler_read%";
+#show status like "handler_read%";
 drop table t1,t2;
 
 --echo #
@@ -6322,35 +6331,35 @@ DROP TABLE t1;
 --echo #
 --echo # Bug#19224430 	ASSERT FAILED IN JOIN::REPLACE_INDEX_SUBQUERY
 --echo #
-# NOW SequoiaDB not support Datetime
-#CREATE TABLE t1 (
-#pk INTEGER,
-#col_int_nokey INTEGER,
-#col_int_key INTEGER,
-#col_datetime_key DATETIME,
-#PRIMARY KEY (pk),
-#KEY (col_int_key),
+# NOW SequoiaDB not support index on Datetime
+CREATE TABLE t1 (
+pk INTEGER,
+col_int_nokey INTEGER,
+col_int_key INTEGER,
+col_datetime_key DATETIME,
+PRIMARY KEY (pk),
+KEY (col_int_key)
 #KEY (col_datetime_key)
-#)  ENGINE=SequoiaDB;
-#
-#INSERT INTO t1 VALUES (1, 1, 7, '2001-11-04 19:07:55.051133');
-#
-#CREATE TABLE t2(field1 INT, field2 INT) ENGINE=SequoiaDB;
-#
-## Because t1 is a one-row constant table, subquery is rewritten (MAX
-## is read during optimization, GROUP BY is removed) and then
-## index_subquery can be used.
-#let $query=
-#SELECT * FROM t2 WHERE (field1, field2) IN (
-#  SELECT MAX(col_datetime_key), col_int_key
-#  FROM t1
-#  WHERE col_int_key > col_int_nokey
-#  GROUP BY col_int_key);
-#
+)  ENGINE=SequoiaDB;
+
+INSERT INTO t1 VALUES (1, 1, 7, '2001-11-04 19:07:55.051133');
+
+CREATE TABLE t2(field1 INT, field2 INT) ENGINE=SequoiaDB;
+
+# Because t1 is a one-row constant table, subquery is rewritten (MAX
+# is read during optimization, GROUP BY is removed) and then
+# index_subquery can be used.
+let $query=
+SELECT * FROM t2 WHERE (field1, field2) IN (
+  SELECT MAX(col_datetime_key), col_int_key
+  FROM t1
+  WHERE col_int_key > col_int_nokey
+  GROUP BY col_int_key);
+
 #eval EXPLAIN $query;
-#eval $query;
-#
-#DROP TABLE t1,t2;
+eval $query;
+
+DROP TABLE t1,t2;
 
 --echo #
 --echo # Bug#19416826 Assert failed in JOIN::make_tmp_tables_info

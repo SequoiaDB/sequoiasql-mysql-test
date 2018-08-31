@@ -31,8 +31,8 @@ start_date datetime default NULL,
 end_date datetime default NULL,
 work_load int(11) default NULL,
 PRIMARY KEY  (period_id),
-KEY period_index (period_type,period_key)
-#  KEY date_index (start_date,end_date)
+KEY period_index (period_type,period_key),
+KEY date_index (start_date,end_date)
 ) PACK_KEYS=1;
 INSERT INTO t2 VALUES (1,'user_table',98,'2000-01-01 00:00:00',NULL,NULL);
 INSERT INTO t2 VALUES (2,'user_table',99,'2000-01-01 00:00:00',NULL,NULL);

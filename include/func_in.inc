@@ -168,12 +168,11 @@ select * from t2 where a NOT IN (0, 2,4,6,8,10,12,14,16,18);
 
 drop table t2;
 
-# NOW SequoiaDB not support index of DATETIME
+
 #
 # Repeat the test for DATETIME
 #
-#create table t2 (a datetime, filler char(200), key(a));
-create table t2 (a datetime, filler char(200));
+create table t2 (a datetime, filler char(200), key(a));
 
 insert into t2 select '2006-04-25 10:00:00' + interval C.a minute,
                'no'  from t1 A, t1 B, t1 C where C.a % 2 = 0;
