@@ -68,8 +68,8 @@ select * from t1 where a in (b,c);
 --error 1271
 select * from t1 where 'a' in (a,b,c);
 #Bug #SEQUOIADBMAINSTREAM-3373, not case sensitive
-#select * from t1 where 'a' in (a);
-#select * from t1 where a in ('a');
+select * from t1 where 'a' in (a);
+select * from t1 where a in ('a');
 select * from t1 where 'a' collate latin1_general_ci in (a,b,c);
 select * from t1 where 'a' collate latin1_bin in (a,b,c);
 select * from t1 where 'a' in (a,b,c collate latin1_bin);
