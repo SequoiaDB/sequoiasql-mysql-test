@@ -269,6 +269,54 @@ ERROR HY000: Incorrect DATETIME value: '2001-01-00 00:00:00.9999999'
 #
 # String literal with bad dates and nanoseconds to DATETIME(N)
 #
+CREATE TABLE t1 (a DATETIME(6));
+INSERT INTO t1 VALUES ('2001-00-00 00:00:00.9999999');
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+INSERT INTO t1 VALUES ('2001-00-01 00:00:00.9999999');
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+INSERT INTO t1 VALUES ('2001-01-00 00:00:00.9999999');
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+SELECT * FROM t1;
+a
+0000-00-00 00:00:00.000000
+0000-00-00 00:00:00.000000
+0000-00-00 00:00:00.000000
+DROP TABLE t1;
+CREATE TABLE t1 (a DATETIME(5));
+INSERT INTO t1 VALUES ('2001-00-00 00:00:00.9999999');
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+INSERT INTO t1 VALUES ('2001-00-01 00:00:00.9999999');
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+INSERT INTO t1 VALUES ('2001-01-00 00:00:00.9999999');
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+SELECT * FROM t1;
+a
+0000-00-00 00:00:00.00000
+0000-00-00 00:00:00.00000
+0000-00-00 00:00:00.00000
+DROP TABLE t1;
+CREATE TABLE t1 (a DATETIME);
+INSERT INTO t1 VALUES ('2001-00-00 00:00:00.9999999');
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+INSERT INTO t1 VALUES ('2001-00-01 00:00:00.9999999');
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+INSERT INTO t1 VALUES ('2001-01-00 00:00:00.9999999');
+Warnings:
+Warning	1264	Out of range value for column 'a' at row 1
+SELECT * FROM t1;
+a
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+0000-00-00 00:00:00
+DROP TABLE t1;
 #
 # Testing Item_date_literal::eq
 #

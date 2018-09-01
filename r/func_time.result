@@ -452,6 +452,27 @@ select ctime from t1 where extract(MONTH FROM ctime) = 1 AND extract(YEAR FROM c
 ctime
 2001-01-12 12:23:40
 drop table t1;
+create table t1 (id int);
+create table t2 (id int, date date);
+insert into t1 values (1);
+insert ignore into t2 values (1, "0000-00-00");
+Warnings:
+Warning	1264	Out of range value for column 'date' at row 1
+insert into t1 values (2);
+insert into t2 values (2, "2000-01-01");
+select monthname(date) from t1 inner join t2 on t1.id = t2.id;
+monthname(date)
+NULL
+January
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'date' at row 3
+select monthname(date) from t1 inner join t2 on t1.id = t2.id order by t1.id;
+monthname(date)
+NULL
+January
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'date' at row 3
+drop table t1,t2;
 CREATE TABLE t1 (updated text) ENGINE=SequoiaDB;
 INSERT INTO t1 VALUES ('');
 SELECT month(updated) from t1;
@@ -464,6 +485,85 @@ year(updated)
 NULL
 Warnings:
 Warning	1292	Incorrect datetime value: ''
+drop table t1;
+create table t1 (d date, dt datetime, t timestamp, c char(10));
+insert ignore into t1 values ("0000-00-00", "0000-00-00", "0000-00-00", "0000-00-00");
+Warnings:
+Warning	1264	Out of range value for column 'd' at row 1
+Warning	1264	Out of range value for column 'dt' at row 1
+Warning	1264	Out of range value for column 't' at row 1
+select dayofyear("0000-00-00"),dayofyear(d),dayofyear(dt),dayofyear(t),dayofyear(c) from t1;
+dayofyear("0000-00-00")	dayofyear(d)	dayofyear(dt)	dayofyear(t)	dayofyear(c)
+NULL	NULL	NULL	NULL	NULL
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'd' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00'
+Warning	1292	Incorrect datetime value: '0000-00-00'
+select dayofmonth("0000-00-00"),dayofmonth(d),dayofmonth(dt),dayofmonth(t),dayofmonth(c) from t1;
+dayofmonth("0000-00-00")	dayofmonth(d)	dayofmonth(dt)	dayofmonth(t)	dayofmonth(c)
+NULL	0	0	0	NULL
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'd' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00'
+Warning	1292	Incorrect datetime value: '0000-00-00'
+select month("0000-00-00"),month(d),month(dt),month(t),month(c) from t1;
+month("0000-00-00")	month(d)	month(dt)	month(t)	month(c)
+NULL	0	0	0	NULL
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'd' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00'
+Warning	1292	Incorrect datetime value: '0000-00-00'
+select quarter("0000-00-00"),quarter(d),quarter(dt),quarter(t),quarter(c) from t1;
+quarter("0000-00-00")	quarter(d)	quarter(dt)	quarter(t)	quarter(c)
+NULL	0	0	0	NULL
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'd' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00'
+Warning	1292	Incorrect datetime value: '0000-00-00'
+select week("0000-00-00"),week(d),week(dt),week(t),week(c) from t1;
+week("0000-00-00")	week(d)	week(dt)	week(t)	week(c)
+NULL	NULL	NULL	NULL	NULL
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'd' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00'
+Warning	1292	Incorrect datetime value: '0000-00-00'
+select year("0000-00-00"),year(d),year(dt),year(t),year(c) from t1;
+year("0000-00-00")	year(d)	year(dt)	year(t)	year(c)
+NULL	0	0	0	NULL
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'd' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00'
+Warning	1292	Incorrect datetime value: '0000-00-00'
+select yearweek("0000-00-00"),yearweek(d),yearweek(dt),yearweek(t),yearweek(c) from t1;
+yearweek("0000-00-00")	yearweek(d)	yearweek(dt)	yearweek(t)	yearweek(c)
+NULL	NULL	NULL	NULL	NULL
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'd' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00'
+Warning	1292	Incorrect datetime value: '0000-00-00'
+select to_days("0000-00-00"),to_days(d),to_days(dt),to_days(t),to_days(c) from t1;
+to_days("0000-00-00")	to_days(d)	to_days(dt)	to_days(t)	to_days(c)
+NULL	NULL	NULL	NULL	NULL
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'd' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00'
+Warning	1292	Incorrect datetime value: '0000-00-00'
+select extract(MONTH FROM "0000-00-00"),extract(MONTH FROM d),extract(MONTH FROM dt),extract(MONTH FROM t),extract(MONTH FROM c) from t1;
+extract(MONTH FROM "0000-00-00")	extract(MONTH FROM d)	extract(MONTH FROM dt)	extract(MONTH FROM t)	extract(MONTH FROM c)
+NULL	0	0	0	NULL
+Warnings:
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'd' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt' at row 1
+Warning	1292	Incorrect datetime value: '0000-00-00'
+Warning	1292	Incorrect datetime value: '0000-00-00'
 drop table t1;
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
 Warnings:

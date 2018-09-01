@@ -1691,7 +1691,7 @@ select * from t1;
 drop table t1;
 create table if not exists t1 (a int, b date, c date) select 1 as b, 2 as c;
 #Bug #SEQUOIADBMAINSTREAM-3583, insert invalid record will cause wrong result
-#select * from t1;
+select * from t1;
 drop table t1;
 set @@session.sql_mode=default;
 --error ER_TRUNCATED_WRONG_VALUE
@@ -1707,7 +1707,7 @@ select * from t1;
 create table if not exists t1 (a int, b date, c date) 
   ignore select 1 as b, 2 as c;
 #Bug #SEQUOIADBMAINSTREAM-3583, insert invalid record will cause wrong result
-#select * from t1;
+select * from t1;
 drop table t1;
 
 #Bug #SEQUOIADBMAINSTREAM-3573, it will return wrong results after executing $op replace
