@@ -2332,28 +2332,28 @@ DROP TABLE t1;
 --echo #
 
 #Bug #SEQUOIADBMAINSTREAM-3373
-#CREATE TABLE t1 (
-#  v1 VARCHAR(20) CHARACTER SET utf8 NOT NULL,
-#  pk INTEGER NOT NULL,
-#  PRIMARY KEY (pk),
-#  KEY v1_key (v1(10))
-#) ENGINE=sequoiadb;
+CREATE TABLE t1 (
+  v1 VARCHAR(20) CHARACTER SET utf8 NOT NULL,
+  pk INTEGER NOT NULL,
+  PRIMARY KEY (pk),
+  KEY v1_key (v1(10))
+) ENGINE=sequoiadb;
 
-#INSERT INTO t1 VALUES ('ABCDE',19), ('JLVGO',14);
+INSERT INTO t1 VALUES ('ABCDE',19), ('JLVGO',14);
 
-#Let query1= SELECT * FROM t1 WHERE t1.v1 < CHAR(128);
-#Let query2= SELECT * FROM t1 WHERE t1.v1 = CHAR(128);
-#Let query3= SELECT * FROM t1 WHERE t1.v1 BETWEEN 'f' AND CHAR(128);
+Let query1= SELECT * FROM t1 WHERE t1.v1 < CHAR(128);
+Let query2= SELECT * FROM t1 WHERE t1.v1 = CHAR(128);
+Let query3= SELECT * FROM t1 WHERE t1.v1 BETWEEN 'f' AND CHAR(128);
 
 #eval EXPLAIN $query1;
 #eval EXPLAIN $query2;
 #eval EXPLAIN $query3;
 
-#eval $query1;
-#eval $query2;
-#eval $query3;
+eval $query1;
+eval $query2;
+eval $query3;
 
-#DROP TABLE t1;
+DROP TABLE t1;
 
 --echo #
 --echo # Bug #21761867: ASSERTION `TYPE_ARG == MAYBE_KEY ||

@@ -67,7 +67,7 @@ create index dt on t1 (dt);
 select * from t1 where dt > 20021020;
 
 #Bug #SEQUOIADBMAINSTREAM-3583
-#select * from t1 ignore index (dt) where dt > 20021020;
+select * from t1 ignore index (dt) where dt > 20021020;
 drop table t1;
 
 #

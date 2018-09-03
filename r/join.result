@@ -89,6 +89,26 @@ SELECT t1.a,t2.a,b FROM t1,t2 WHERE t1.a=t2.a AND (t1.a=1 OR t1.a=2) AND b>=1 AN
 a	a	b
 2	2	3
 DROP TABLE t1, t2;
+Warnings:
+Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
+CREATE TABLE t1 (d DATE NOT NULL);
+CREATE TABLE t2 (d DATE NOT NULL);
+INSERT INTO t1 (d) VALUES ('2001-08-01'),('0000-00-00');
+SELECT * FROM t1 LEFT JOIN t2 USING (d) WHERE t2.d IS NULL;
+d
+2001-08-01
+0000-00-00
+SELECT * FROM t1 LEFT JOIN t2 USING (d) WHERE d IS NULL;
+d
+0000-00-00
+SELECT * from t1 WHERE t1.d IS NULL;
+d
+0000-00-00
+SELECT * FROM t1 WHERE 1/0 IS NULL;
+d
+2001-08-01
+0000-00-00
+DROP TABLE t1,t2;
 CREATE TABLE t1 (
 Document_ID varchar(50) NOT NULL default '',
 Contractor_ID varchar(6) NOT NULL default '',

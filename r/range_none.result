@@ -1554,6 +1554,28 @@ DROP TABLE t1;
 # Bug#19333852: RESULT DIFF IN QUERY HAVING DISTINCT
 #               WITH GROUP BY
 #
+CREATE TABLE t1 (
+v1 VARCHAR(20) CHARACTER SET utf8 NOT NULL,
+pk INTEGER NOT NULL,
+PRIMARY KEY (pk),
+KEY v1_key (v1(10))
+) ENGINE=sequoiadb;
+INSERT INTO t1 VALUES ('ABCDE',19), ('JLVGO',14);
+SELECT * FROM t1 WHERE t1.v1 < CHAR(128);
+v1	pk
+ABCDE	19
+JLVGO	14
+Warnings:
+Warning	1366	Incorrect string value: '\x80' for column 'v1' at row 1
+SELECT * FROM t1 WHERE t1.v1 = CHAR(128);
+v1	pk
+Warnings:
+Warning	1366	Incorrect string value: '\x80' for column 'v1' at row 1
+SELECT * FROM t1 WHERE t1.v1 BETWEEN 'f' AND CHAR(128);
+v1	pk
+Warnings:
+Warning	1366	Incorrect string value: '\x80' for column 'v1' at row 1
+DROP TABLE t1;
 #
 # Bug #21761867: ASSERTION `TYPE_ARG == MAYBE_KEY ||
 #                TYPE_ARG == IMPOSSIBLE' FAILED.

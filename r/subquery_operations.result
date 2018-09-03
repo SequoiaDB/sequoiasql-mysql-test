@@ -1,0 +1,515 @@
+create table t1 (id int not null, a int, text varchar(20) not null default '', primary key (id));
+insert into t1 (id, a, text) values (1, 1, 'text1'), (2, 2, 'text2'), (3, 3, 'text3'), (4, 4, 'text4'), (5, 5,'text5'), (6, 6, 'text6'), (7, 7, 'text7'), (8, 8, 'text8'), (9, 9, 'text9'), (10, 10, 'text10'), (11, 11, 'text11'), (12, 12, 'text12');
+select * from t1 where (3 + id) > (select id from t1 where id > 11);
+id	a	text
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (id + 3) < (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+select * from t1 where (select id from t1 where id < 2) < (id + 3);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (select id from t1 where id < 2) > (3 + id);
+id	a	text
+select * from t1 where (select id from t1 where id > 11) + 1 <= id;
+id	a	text
+select * from t1 where (select id from t1 where id > 11) + id >= 20;
+id	a	text
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id + (select id from t1 where id > 11) != 3;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where 3 + (select id from t1 where id > 11) <> id;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id = (select id from t1 where id < 2) + 10;
+id	a	text
+11	11	text11
+select * from t1 where 10 > (select id from t1 where id < 2) + id;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+select * from t1 where id + a > (select id from t1 where id > 11);
+id	a	text
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id + a + 10 < (select id from t1 where id > 11);
+id	a	text
+select * from t1 where id + (select id from t1 where id < 2) <> a + (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where 3 + a + (select id from t1 where id < 2) >= 5 + id + (select id from t1 where id > 11);
+id	a	text
+select * from t1 where (10 - id) > (select id from t1 where id > 11);
+id	a	text
+select * from t1 where (id - 10) < (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (select id from t1 where id < 2) < (id - 3);
+id	a	text
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (select id from t1 where id < 2) > (3 - id);
+id	a	text
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (select id from t1 where id > 11) - 1 <= id;
+id	a	text
+11	11	text11
+12	12	text12
+select * from t1 where (select id from t1 where id > 11) - id >= 20;
+id	a	text
+select * from t1 where id - (select id from t1 where id > 11) != 3;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where 3 - (select id from t1 where id > 11) <> id;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id = (select id from t1 where id < 2) - 1;
+id	a	text
+select * from t1 where 10 > (select id from t1 where id < 2) - id;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id - a > (select id from t1 where id > 11);
+id	a	text
+select * from t1 where id - a - 1 < (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id - (select id from t1 where id < 2) <> a - (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where 3 - a - (select id from t1 where id < 2) >= 5 - id - (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (2 * id) > (select id from t1 where id > 11);
+id	a	text
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (id * 2) < (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+select * from t1 where (select id from t1 where id < 2) < (id * 3);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (select id from t1 where id < 2) > (3 * id);
+id	a	text
+select * from t1 where (select id from t1 where id > 11) * 0.2 <= id;
+id	a	text
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (select id from t1 where id > 11) * id >= 20;
+id	a	text
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id * (select id from t1 where id > 11) != 3;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where 0.2 * (select id from t1 where id > 11) <> id;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id = (select id from t1 where id < 2) * 0.3;
+id	a	text
+select * from t1 where 10 > (select id from t1 where id < 2) * id;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+select * from t1 where id * a > (select id from t1 where id > 11);
+id	a	text
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id * a * 0.1 < (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+select * from t1 where id * (select id from t1 where id < 2) <> a * (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where 3 * a * (select id from t1 where id < 2) >= 5 * id * (select id from t1 where id > 11);
+id	a	text
+select * from t1 where (10 / id) > (select id from t1 where id > 11);
+id	a	text
+select * from t1 where (id / 10) < (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (select id from t1 where id < 2) < (id / 3);
+id	a	text
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (select id from t1 where id < 2) > (3 / id);
+id	a	text
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (select id from t1 where id > 11) / 2 <= id;
+id	a	text
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where (select id from t1 where id > 11) / id >= 10;
+id	a	text
+1	1	text1
+select * from t1 where id / (select id from t1 where id > 11) != 3;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where 10 / (select id from t1 where id > 11) <> id;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id = (select id from t1 where id < 2) / 10;
+id	a	text
+select * from t1 where 10 > (select id from t1 where id < 2) / id;
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id / a > (select id from t1 where id > 11);
+id	a	text
+select * from t1 where id / a / 0.1 < (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where id / (select id from t1 where id < 2) <> a / (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12
+select * from t1 where 3 / a / (select id from t1 where id < 2) >= 5 / id / (select id from t1 where id > 11);
+id	a	text
+1	1	text1
+2	2	text2
+3	3	text3
+4	4	text4
+5	5	text5
+6	6	text6
+7	7	text7
+8	8	text8
+9	9	text9
+10	10	text10
+11	11	text11
+12	12	text12

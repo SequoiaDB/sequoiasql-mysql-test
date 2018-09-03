@@ -8,4 +8,6 @@ t1
 ABC
 select * from t1 where t1="ABCD";
 t1
+select * from t1 where t1 like "a_\%";
+t1
 drop table t1;

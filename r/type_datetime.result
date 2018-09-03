@@ -99,6 +99,9 @@ create index dt on t1 (dt);
 select * from t1 where dt > 20021020;
 id	dt
 4	2003-09-15 01:20:30
+select * from t1 ignore index (dt) where dt > 20021020;
+id	dt
+4	2003-09-15 01:20:30
 drop table t1;
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
 Warnings:

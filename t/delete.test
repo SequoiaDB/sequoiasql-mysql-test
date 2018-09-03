@@ -235,12 +235,21 @@ drop table t1,t2,t3;
 # Bug #8143: deleting '0000-00-00' values using IS NULL
 #
 #Bug #SEQUOIADBMAINSTREAM-3583, insert invalid record into Date will cause wrong query result
-#create table t1(a date not null);
-#insert ignore into t1 values (0);
-#select * from t1 where a is null;
-#delete from t1 where a is null;
-#select count(*) from t1;
-#drop table t1;
+# Insert '0000-00-00' in MyISAM will success, but InnoDB and SequoiaDB fail, so add sql_mode='' here
+--disable_query_log
+SET sql_mode = '';
+--enable_query_log
+
+create table t1(a date not null);
+insert ignore into t1 values (0);
+select * from t1 where a is null;
+delete from t1 where a is null;
+select count(*) from t1;
+
+--disable_query_log
+SET sql_mode = default;
+--enable_query_log
+drop table t1;
 
 #
 # Bug #26186: delete order by, sometimes accept unknown column

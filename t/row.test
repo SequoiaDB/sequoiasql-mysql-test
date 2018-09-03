@@ -274,13 +274,13 @@ DROP TABLE t1;
 --echo # Bug#52124 memory leaks like a sieve in datetime, timestamp, time, date fields + warnings
 --echo #
 #Bug #SEQUOIADBMAINSTREAM-3583
-#CREATE TABLE t1 (a DATETIME NOT NULL, b TINYINT);
-#INSERT IGNORE INTO t1 VALUES (0, 0),(0, 0);
-#--disable_warnings
-#SELECT 1 FROM t1 WHERE ROW(a, b) >=
-#ROW('1', (SELECT 1 FROM t1 WHERE a > 1234));
-#--enable_warnings
-#DROP TABLE t1;
+CREATE TABLE t1 (a DATETIME NOT NULL, b TINYINT);
+INSERT IGNORE INTO t1 VALUES (0, 0),(0, 0);
+--disable_warnings
+SELECT 1 FROM t1 WHERE ROW(a, b) >=
+ROW('1', (SELECT 1 FROM t1 WHERE a > 1234));
+--enable_warnings
+DROP TABLE t1;
 
 --echo #
 --echo # Bug #54190: Comparison to row subquery produces incorrect result

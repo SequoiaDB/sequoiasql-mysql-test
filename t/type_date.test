@@ -149,7 +149,7 @@ create table t1 (d  date , dt datetime , ts timestamp);
 insert ignore into t1 values (9912101,9912101,9912101);
 insert into t1 values (11111,11111,11111);
 #Bug #SEQUOIADBMAINSTREAM-3583
-#select * from t1;
+select * from t1;
 drop table t1;
 
 #

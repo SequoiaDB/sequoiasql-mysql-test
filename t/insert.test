@@ -456,27 +456,27 @@ INSERT INTO t1(a) values();
 DROP TABLE t1;
 
 #Bug #SEQUOIADBMAINSTERAM-3583, insert '0000-00-00' into Date will cause wrong results
-#--echo #
-#--echo # Bug#11745889 Traditional: INSERT accepts invalid date from default val
-#--echo #
-#
-#SET sql_mode='';
-#
-#CREATE TABLE default_date(a DATE NOT NULL DEFAULT '0000-00-00');
-#
-#INSERT INTO default_date VALUES();
-#
-#SET sql_mode=default;
-#
-#--error ER_TRUNCATED_WRONG_VALUE
-#INSERT INTO default_date VALUES();
-#
-#--error ER_TRUNCATED_WRONG_VALUE
-#INSERT INTO default_date VALUES('0000-00-00');
-#
-#SELECT * FROM default_date;
-#
-#DROP TABLE default_date;
+--echo #
+--echo # Bug#11745889 Traditional: INSERT accepts invalid date from default val
+--echo #
+
+SET sql_mode='';
+
+CREATE TABLE default_date(a DATE NOT NULL DEFAULT '0000-00-00');
+
+INSERT INTO default_date VALUES();
+
+SET sql_mode=default;
+
+--error ER_TRUNCATED_WRONG_VALUE
+INSERT INTO default_date VALUES();
+
+--error ER_TRUNCATED_WRONG_VALUE
+INSERT INTO default_date VALUES('0000-00-00');
+
+SELECT * FROM default_date;
+
+DROP TABLE default_date;
 
 #Bug #SEQUOIADBMAINSTERAM-3665
 --echo

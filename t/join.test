@@ -154,14 +154,22 @@ DROP TABLE t1, t2;
 # TEST LEFT JOIN with DATE columns
 #
 #Bug #SQUOIODBMAINSTREAM-3583, insert type of Date '0000-00-00' will cause wrong result when query
-#CREATE TABLE t1 (d DATE NOT NULL);
-#CREATE TABLE t2 (d DATE NOT NULL);
-#INSERT INTO t1 (d) VALUES ('2001-08-01'),('0000-00-00');
-#SELECT * FROM t1 LEFT JOIN t2 USING (d) WHERE t2.d IS NULL;
-#SELECT * FROM t1 LEFT JOIN t2 USING (d) WHERE d IS NULL;
-#SELECT * from t1 WHERE t1.d IS NULL;
-#SELECT * FROM t1 WHERE 1/0 IS NULL;
-#DROP TABLE t1,t2;
+# Insert '0000-00-00' in MyISAM will success, but InnoDB and SequoiaDB fail, so add sql_mode='' here
+--disable_query_log
+SET sql_mode = '';
+--enable_query_log
+
+CREATE TABLE t1 (d DATE NOT NULL);
+CREATE TABLE t2 (d DATE NOT NULL);
+INSERT INTO t1 (d) VALUES ('2001-08-01'),('0000-00-00');
+SELECT * FROM t1 LEFT JOIN t2 USING (d) WHERE t2.d IS NULL;
+SELECT * FROM t1 LEFT JOIN t2 USING (d) WHERE d IS NULL;
+SELECT * from t1 WHERE t1.d IS NULL;
+SELECT * FROM t1 WHERE 1/0 IS NULL;
+--disable_query_log
+SET sql_mode = default;
+--enable_query_log
+DROP TABLE t1,t2;
 
 #
 # Problem with reference from const tables

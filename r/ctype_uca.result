@@ -3309,6 +3309,34 @@ u,ü
 ud
 ue
 uf
+SELECT s1, hex(s1), hex(weight_string(s1)) FROM t1 ORDER BY s1, BINARY(s1);
+s1	hex(s1)	hex(weight_string(s1))
+a	61	0E33
+ä	C3A4	0E33
+ad	6164	0E330E6D
+ae	6165	0E330E8B
+af	6166	0E330EB9
+Æ	C386	0E38
+æ	C3A6	0E38
+e	65	0E8B
+o	6F	0F82
+ö	C3B6	0F82
+od	6F64	0F820E6D
+oe	6F65	0F820E8B
+Œ	C592	0F820E8B
+œ	C593	0F820E8B
+of	6F66	0F820EB9
+s	73	0FEA
+ss	7373	0FEA0FEA
+ß	C39F	0FEA0FEA
+u	75	101F
+ü	C3BC	101F
+ud	7564	101F0E6D
+ue	7565	101F0E8B
+uf	7566	101F0EB9
+SELECT s1, hex(s1) FROM t1 WHERE s1='ae' ORDER BY s1, BINARY(s1);
+s1	hex(s1)
+ae	6165
 drop table t1;
 "END ctype_german.inc"
 CREATE TABLE t1 (id int, a varchar(30) character set utf8);
@@ -4269,6 +4297,34 @@ u
 ud
 ue,ü
 uf
+SELECT s1, hex(s1), hex(weight_string(s1)) FROM t1 ORDER BY s1, BINARY(s1);
+s1	hex(s1)	hex(weight_string(s1))
+a	61	0E33
+ad	6164	0E330E6D
+ae	6165	0E330E8B
+Æ	C386	0E330E8B
+ä	C3A4	0E330E8B
+æ	C3A6	0E330E8B
+af	6166	0E330EB9
+e	65	0E8B
+o	6F	0F82
+od	6F64	0F820E6D
+oe	6F65	0F820E8B
+ö	C3B6	0F820E8B
+Œ	C592	0F820E8B
+œ	C593	0F820E8B
+of	6F66	0F820EB9
+s	73	0FEA
+ss	7373	0FEA0FEA
+ß	C39F	0FEA0FEA
+u	75	101F
+ud	7564	101F0E6D
+ue	7565	101F0E8B
+ü	C3BC	101F0E8B
+uf	7566	101F0EB9
+SELECT s1, hex(s1) FROM t1 WHERE s1='ae' ORDER BY s1, BINARY(s1);
+s1	hex(s1)
+ae	6165
 drop table t1;
 "END ctype_german.inc"
 #

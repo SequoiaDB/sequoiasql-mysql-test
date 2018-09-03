@@ -106,39 +106,39 @@ drop table t2;
 #      multiple-row statement, the preceding rows will have been inserted.
 #
 #Bug #SEQUOIADBMAINSTREAM-3583, when insert default '0000-00-00 00:00:00' of date, it will cause wrong query results
-#create table bug20691 (i int, d datetime NOT NULL, dn datetime not null default '0000-00-00 00:00:00');
-#insert into bug20691 values (1, DEFAULT, DEFAULT), (1, '1975-07-10 07:10:03', '1978-01-13 14:08:51'), (1, DEFAULT, DEFAULT);
-#insert into bug20691 (i) values (2);
-#desc bug20691;
-#insert into bug20691 values (3, DEFAULT, DEFAULT), (3, '1975-07-10 07:10:03', '1978-01-13 14:08:51'), (3, DEFAULT, DEFAULT);
-#insert into bug20691 (i) values (4);
-#insert into bug20691 values (5, DEFAULT, DEFAULT), (5, '1975-07-10 07:10:03', '1978-01-13 14:08:51'), (5, DEFAULT, DEFAULT);
-#SET sql_mode = 'ALLOW_INVALID_DATES';
-#insert into bug20691 values (6, DEFAULT, DEFAULT), (6, '1975-07-10 07:10:03', '1978-01-13 14:08:51'), (6, DEFAULT, DEFAULT);
-#SET sql_mode = default;
-#--error 1364
-#insert into bug20691 values (7, DEFAULT, DEFAULT), (7, '1975-07-10 07:10:03', '1978-01-13 14:08:51'), (7, DEFAULT, DEFAULT);
-#select * from bug20691 order by i asc;
-#drop table bug20691;
+create table bug20691 (i int, d datetime NOT NULL, dn datetime not null default '0000-00-00 00:00:00');
+insert into bug20691 values (1, DEFAULT, DEFAULT), (1, '1975-07-10 07:10:03', '1978-01-13 14:08:51'), (1, DEFAULT, DEFAULT);
+insert into bug20691 (i) values (2);
+desc bug20691;
+insert into bug20691 values (3, DEFAULT, DEFAULT), (3, '1975-07-10 07:10:03', '1978-01-13 14:08:51'), (3, DEFAULT, DEFAULT);
+insert into bug20691 (i) values (4);
+insert into bug20691 values (5, DEFAULT, DEFAULT), (5, '1975-07-10 07:10:03', '1978-01-13 14:08:51'), (5, DEFAULT, DEFAULT);
+SET sql_mode = 'ALLOW_INVALID_DATES';
+insert into bug20691 values (6, DEFAULT, DEFAULT), (6, '1975-07-10 07:10:03', '1978-01-13 14:08:51'), (6, DEFAULT, DEFAULT);
+SET sql_mode = default;
+--error 1364
+insert into bug20691 values (7, DEFAULT, DEFAULT), (7, '1975-07-10 07:10:03', '1978-01-13 14:08:51'), (7, DEFAULT, DEFAULT);
+select * from bug20691 order by i asc;
+drop table bug20691;
 
-#SET sql_mode = '';
-#create table bug20691 (
-#  a set('one', 'two', 'three') not null,
-#  b enum('small', 'medium', 'large', 'enormous', 'ellisonego') not null,
-#  c time not null,
-#  d date not null,
-#  e int not null,
-#  f long not null,
-#  g blob not null,
-#  h datetime not null,
-#  i decimal not null,
-#  x int);
-#insert into bug20691 values (2, 3, 5, '0007-01-01', 11, 13, 17, '0019-01-01 00:00:00', 23, 1);
-#insert into bug20691 (x) values (2);
-#insert into bug20691 values (2, 3, 5, '0007-01-01', 11, 13, 17, '0019-01-01 00:00:00', 23, 3);
-#insert into bug20691 values (DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, 4);
-#select * from bug20691 order by x asc;
-#drop table bug20691;
+SET sql_mode = '';
+create table bug20691 (
+  a set('one', 'two', 'three') not null,
+  b enum('small', 'medium', 'large', 'enormous', 'ellisonego') not null,
+  c time not null,
+  d date not null,
+  e int not null,
+  f long not null,
+  g blob not null,
+  h datetime not null,
+  i decimal not null,
+  x int);
+insert into bug20691 values (2, 3, 5, '0007-01-01', 11, 13, 17, '0019-01-01 00:00:00', 23, 1);
+insert into bug20691 (x) values (2);
+insert into bug20691 values (2, 3, 5, '0007-01-01', 11, 13, 17, '0019-01-01 00:00:00', 23, 3);
+insert into bug20691 values (DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, 4);
+select * from bug20691 order by x asc;
+drop table bug20691;
 
 create table t1 (id int not null);
 insert into t1 values(default);
