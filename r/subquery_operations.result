@@ -513,3 +513,4 @@ id	a	text
 10	10	text10
 11	11	text11
 12	12	text12
+drop table t1;
