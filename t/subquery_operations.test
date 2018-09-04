@@ -70,4 +70,6 @@ select * from t1 where id / a / 0.1 < (select id from t1 where id > 11);
 select * from t1 where id / (select id from t1 where id < 2) <> a / (select id from t1 where id > 11);
 select * from t1 where 3 / a / (select id from t1 where id < 2) >= 5 / id / (select id from t1 where id > 11);
 
+drop table t1;
+
 --source include/uninstall_sequoiadb.inc
