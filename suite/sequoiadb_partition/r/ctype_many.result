@@ -1,0 +1,562 @@
+SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
+Warnings:
+Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
+DROP TABLE IF EXISTS t1;
+SET CHARACTER SET latin1;
+CREATE TABLE t1 (
+comment CHAR(32) ASCII NOT NULL,
+koi8_ru_f CHAR(32) CHARACTER SET koi8r NOT NULL default ''
+) CHARSET=latin5;
+SHOW CREATE TABLE t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `comment` char(32) CHARACTER SET latin1 NOT NULL,
+  `koi8_ru_f` char(32) CHARACTER SET koi8r NOT NULL DEFAULT ''
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin5
+SHOW CREATE TABLE t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `comment` char(32) CHARACTER SET latin1 NOT NULL,
+  `koi8_ru_f` char(32) CHARACTER SET koi8r NOT NULL DEFAULT ''
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin5
+SHOW CREATE TABLE t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `comment` char(32) CHARACTER SET latin1 NOT NULL,
+  `koi8_ru_f` char(32) CHARACTER SET koi8r NOT NULL DEFAULT ''
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin5
+SHOW CREATE TABLE t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `comment` char(32) CHARACTER SET latin1 NOT NULL,
+  `koi8_ru_f` char(32) CHARACTER SET koi8r NOT NULL DEFAULT ''
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin5
+SHOW CREATE TABLE t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `comment` char(32) CHARACTER SET latin1 NOT NULL,
+  `koi8_ru_f` char(32) CHARACTER SET koi8r NOT NULL DEFAULT ''
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin5
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('a','LAT SMALL A');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('b','LAT SMALL B');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('c','LAT SMALL C');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('d','LAT SMALL D');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('e','LAT SMALL E');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('f','LAT SMALL F');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('g','LAT SMALL G');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('h','LAT SMALL H');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('i','LAT SMALL I');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('j','LAT SMALL J');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('k','LAT SMALL K');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('l','LAT SMALL L');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('m','LAT SMALL M');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('n','LAT SMALL N');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('o','LAT SMALL O');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('p','LAT SMALL P');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('q','LAT SMALL Q');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('r','LAT SMALL R');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('s','LAT SMALL S');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('t','LAT SMALL T');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('u','LAT SMALL U');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('v','LAT SMALL V');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('w','LAT SMALL W');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('x','LAT SMALL X');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('y','LAT SMALL Y');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('z','LAT SMALL Z');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('A','LAT CAPIT A');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('B','LAT CAPIT B');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('C','LAT CAPIT C');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('D','LAT CAPIT D');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('E','LAT CAPIT E');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('F','LAT CAPIT F');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('G','LAT CAPIT G');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('H','LAT CAPIT H');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('I','LAT CAPIT I');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('J','LAT CAPIT J');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('K','LAT CAPIT K');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('L','LAT CAPIT L');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('M','LAT CAPIT M');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('N','LAT CAPIT N');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('O','LAT CAPIT O');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('P','LAT CAPIT P');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('Q','LAT CAPIT Q');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('R','LAT CAPIT R');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('S','LAT CAPIT S');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('T','LAT CAPIT T');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('U','LAT CAPIT U');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('V','LAT CAPIT V');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('W','LAT CAPIT W');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('X','LAT CAPIT X');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('Y','LAT CAPIT Y');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES ('Z','LAT CAPIT Z');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Á','CYR SMALL A');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Â','CYR SMALL BE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'×','CYR SMALL VE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ç','CYR SMALL GE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ä','CYR SMALL DE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Å','CYR SMALL IE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'£','CYR SMALL IO');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ö','CYR SMALL ZHE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ú','CYR SMALL ZE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'É','CYR SMALL I');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ë','CYR SMALL KA');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ì','CYR SMALL EL');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Í','CYR SMALL EM');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Î','CYR SMALL EN');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ï','CYR SMALL O');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ð','CYR SMALL PE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ò','CYR SMALL ER');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ó','CYR SMALL ES');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ô','CYR SMALL TE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Õ','CYR SMALL U');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Æ','CYR SMALL EF');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'È','CYR SMALL HA');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ã','CYR SMALL TSE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Þ','CYR SMALL CHE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Û','CYR SMALL SHA');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ý','CYR SMALL SCHA');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ß','CYR SMALL HARD SIGN');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ù','CYR SMALL YERU');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ø','CYR SMALL SOFT SIGN');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ü','CYR SMALL E');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'À','CYR SMALL YU');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'Ñ','CYR SMALL YA');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'á','CYR CAPIT A');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'â','CYR CAPIT BE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'÷','CYR CAPIT VE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ç','CYR CAPIT GE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ä','CYR CAPIT DE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'å','CYR CAPIT IE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'³','CYR CAPIT IO');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ö','CYR CAPIT ZHE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ú','CYR CAPIT ZE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'é','CYR CAPIT I');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ë','CYR CAPIT KA');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ì','CYR CAPIT EL');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'í','CYR CAPIT EM');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'î','CYR CAPIT EN');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ï','CYR CAPIT O');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ð','CYR CAPIT PE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ò','CYR CAPIT ER');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ó','CYR CAPIT ES');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ô','CYR CAPIT TE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'õ','CYR CAPIT U');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'æ','CYR CAPIT EF');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'è','CYR CAPIT HA');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ã','CYR CAPIT TSE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'þ','CYR CAPIT CHE');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'û','CYR CAPIT SHA');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ý','CYR CAPIT SCHA');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ÿ','CYR CAPIT HARD SIGN');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ù','CYR CAPIT YERU');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ø','CYR CAPIT SOFT SIGN');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ü','CYR CAPIT E');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'à','CYR CAPIT YU');
+INSERT INTO t1 (koi8_ru_f,comment) VALUES (_koi8r'ñ','CYR CAPIT YA');
+SET CHARACTER SET utf8;
+SELECT koi8_ru_f,MIN(comment),COUNT(*) FROM t1 GROUP BY 1;
+koi8_ru_f	MIN(comment)	COUNT(*)
+B	LAT CAPIT B	2
+D	LAT CAPIT D	2
+J	LAT CAPIT J	2
+M	LAT CAPIT M	2
+N	LAT CAPIT N	2
+O	LAT CAPIT O	2
+R	LAT CAPIT R	2
+T	LAT CAPIT T	2
+V	LAT CAPIT V	2
+a	LAT CAPIT A	2
+c	LAT CAPIT C	2
+e	LAT CAPIT E	2
+f	LAT CAPIT F	2
+g	LAT CAPIT G	2
+h	LAT CAPIT H	2
+i	LAT CAPIT I	2
+k	LAT CAPIT K	2
+l	LAT CAPIT L	2
+p	LAT CAPIT P	2
+q	LAT CAPIT Q	2
+s	LAT CAPIT S	2
+u	LAT CAPIT U	2
+w	LAT CAPIT W	2
+x	LAT CAPIT X	2
+y	LAT CAPIT Y	2
+z	LAT CAPIT Z	2
+Ð¡	CYR CAPIT ES	2
+Ð¨	CYR CAPIT SHA	2
+Ð«	CYR CAPIT YERU	2
+Ð­	CYR CAPIT E	2
+Ð®	CYR CAPIT YU	2
+Ð¯	CYR CAPIT YA	2
+Ð°	CYR CAPIT A	2
+Ð±	CYR CAPIT BE	2
+Ð²	CYR CAPIT VE	2
+Ð³	CYR CAPIT GE	2
+Ð´	CYR CAPIT DE	2
+Ðµ	CYR CAPIT IE	2
+Ð¶	CYR CAPIT ZHE	2
+Ð·	CYR CAPIT ZE	2
+Ð¸	CYR CAPIT I	2
+Ðº	CYR CAPIT KA	2
+Ð»	CYR CAPIT EL	2
+Ð¼	CYR CAPIT EM	2
+Ð½	CYR CAPIT EN	2
+Ð¾	CYR CAPIT O	2
+Ð¿	CYR CAPIT PE	2
+Ñ€	CYR CAPIT ER	2
+Ñ‚	CYR CAPIT TE	2
+Ñƒ	CYR CAPIT U	2
+Ñ„	CYR CAPIT EF	2
+Ñ…	CYR CAPIT HA	2
+Ñ†	CYR CAPIT TSE	2
+Ñ‡	CYR CAPIT CHE	2
+Ñ‰	CYR CAPIT SCHA	2
+ÑŠ	CYR CAPIT HARD SIGN	2
+ÑŒ	CYR CAPIT SOFT SIGN	2
+Ñ‘	CYR CAPIT IO	2
+SET CHARACTER SET koi8r;
+SELECT koi8_ru_f,MIN(comment) FROM t1 GROUP BY 1;
+koi8_ru_f	MIN(comment)
+B	LAT CAPIT B
+D	LAT CAPIT D
+J	LAT CAPIT J
+M	LAT CAPIT M
+N	LAT CAPIT N
+O	LAT CAPIT O
+R	LAT CAPIT R
+T	LAT CAPIT T
+V	LAT CAPIT V
+a	LAT CAPIT A
+c	LAT CAPIT C
+e	LAT CAPIT E
+f	LAT CAPIT F
+g	LAT CAPIT G
+h	LAT CAPIT H
+i	LAT CAPIT I
+k	LAT CAPIT K
+l	LAT CAPIT L
+p	LAT CAPIT P
+q	LAT CAPIT Q
+s	LAT CAPIT S
+u	LAT CAPIT U
+w	LAT CAPIT W
+x	LAT CAPIT X
+y	LAT CAPIT Y
+z	LAT CAPIT Z
+£	CYR CAPIT IO
+Á	CYR CAPIT A
+Â	CYR CAPIT BE
+Ã	CYR CAPIT TSE
+Ä	CYR CAPIT DE
+Å	CYR CAPIT IE
+Æ	CYR CAPIT EF
+Ç	CYR CAPIT GE
+È	CYR CAPIT HA
+É	CYR CAPIT I
+Ë	CYR CAPIT KA
+Ì	CYR CAPIT EL
+Í	CYR CAPIT EM
+Î	CYR CAPIT EN
+Ï	CYR CAPIT O
+Ð	CYR CAPIT PE
+Ò	CYR CAPIT ER
+Ô	CYR CAPIT TE
+Õ	CYR CAPIT U
+Ö	CYR CAPIT ZHE
+×	CYR CAPIT VE
+Ø	CYR CAPIT SOFT SIGN
+Ú	CYR CAPIT ZE
+Ý	CYR CAPIT SCHA
+Þ	CYR CAPIT CHE
+ß	CYR CAPIT HARD SIGN
+à	CYR CAPIT YU
+ñ	CYR CAPIT YA
+ó	CYR CAPIT ES
+ù	CYR CAPIT YERU
+û	CYR CAPIT SHA
+ü	CYR CAPIT E
+SELECT DISTINCT koi8_ru_f FROM t1;
+koi8_ru_f
+B
+D
+J
+M
+N
+O
+R
+T
+V
+a
+c
+e
+f
+g
+h
+i
+k
+l
+p
+q
+s
+u
+w
+x
+y
+z
+£
+Á
+Â
+Ã
+Ä
+Å
+Æ
+Ç
+È
+É
+Ë
+Ì
+Í
+Î
+Ï
+Ð
+Ò
+Ô
+Õ
+Ö
+×
+Ø
+Ú
+Ý
+Þ
+ß
+à
+ñ
+ó
+ù
+û
+ü
+SELECT lower(koi8_ru_f) FROM t1 ORDER BY 1 DESC;
+lower(koi8_ru_f)
+a
+a
+b
+b
+c
+c
+d
+d
+e
+e
+f
+f
+g
+g
+h
+h
+i
+i
+j
+j
+k
+k
+l
+l
+m
+m
+n
+n
+o
+o
+p
+p
+q
+q
+r
+r
+s
+s
+t
+t
+u
+u
+v
+v
+w
+w
+x
+x
+y
+y
+z
+z
+£
+£
+À
+À
+Á
+Á
+Â
+Â
+Ã
+Ã
+Ä
+Ä
+Å
+Å
+Æ
+Æ
+Ç
+Ç
+È
+È
+É
+É
+Ë
+Ë
+Ì
+Ì
+Í
+Í
+Î
+Î
+Ï
+Ï
+Ð
+Ð
+Ñ
+Ñ
+Ò
+Ò
+Ó
+Ó
+Ô
+Ô
+Õ
+Õ
+Ö
+Ö
+×
+×
+Ø
+Ø
+Ù
+Ù
+Ú
+Ú
+Û
+Û
+Ü
+Ü
+Ý
+Ý
+Þ
+Þ
+ß
+ß
+SET CHARACTER SET utf8;
+DROP TABLE t1;
+#
+# Start of 5.1 tests
+#
+#
+# Bug#58371 Assertion failed: !s.uses_buffer_owned_by(this) with format string function
+#
+SET NAMES latin1;
+DO CONVERT(CAST(SUBSTRING_INDEX(FORMAT(1,'1111'), FORMAT('','Zpq'),1) 
+AS BINARY(0)) USING utf8);
+Warnings:
+Warning	1292	Truncated incorrect INTEGER value: 'Zpq'
+Warning	1292	Truncated incorrect BINARY(0) value: '1.'
+#
+# End of 5.1 tests
+#
+#
+# Start of 5.5 tests
+#
+#
+# WL#1213 Implement 4-byte UTF8, UTF16 and UTF32
+# Testing that only utf8mb4 is superset for utf8
+# No other Unicode character set pairs have superset/subset relations
+#
+CREATE TABLE t1 (
+utf8 CHAR CHARACTER SET utf8,
+utf8mb4 CHAR CHARACTER SET utf8mb4,
+ucs2 CHAR CHARACTER SET ucs2,
+utf16 CHAR CHARACTER SET utf16,
+utf32 CHAR CHARACTER SET utf32
+);
+INSERT INTO t1 VALUES ('','','','','');
+SELECT CHARSET(CONCAT(utf8, utf8mb4)) FROM t1;
+CHARSET(CONCAT(utf8, utf8mb4))
+utf8mb4
+SELECT CHARSET(CONCAT(utf8, ucs2)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf8_general_ci,IMPLICIT) and (ucs2_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf8, utf16)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf16_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf8, utf32)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf8mb4, utf8)) FROM t1;
+CHARSET(CONCAT(utf8mb4, utf8))
+utf8mb4
+SELECT CHARSET(CONCAT(utf8mb4, ucs2)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf8mb4_general_ci,IMPLICIT) and (ucs2_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf8mb4, utf16)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf8mb4_general_ci,IMPLICIT) and (utf16_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf8mb4, utf32)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf8mb4_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(ucs2, utf8)) FROM t1;
+ERROR HY000: Illegal mix of collations (ucs2_general_ci,IMPLICIT) and (utf8_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(ucs2, utf8mb4)) FROM t1;
+ERROR HY000: Illegal mix of collations (ucs2_general_ci,IMPLICIT) and (utf8mb4_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(ucs2, utf16)) FROM t1;
+ERROR HY000: Illegal mix of collations (ucs2_general_ci,IMPLICIT) and (utf16_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(ucs2, utf32)) FROM t1;
+ERROR HY000: Illegal mix of collations (ucs2_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf16, utf8)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf16_general_ci,IMPLICIT) and (utf8_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf16, ucs2)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf16_general_ci,IMPLICIT) and (ucs2_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf16, utf8mb4)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf16_general_ci,IMPLICIT) and (utf8mb4_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf16, utf32)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf16_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf32, utf8)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf32_general_ci,IMPLICIT) and (utf8_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf32, ucs2)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf32_general_ci,IMPLICIT) and (ucs2_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf32, utf8mb4)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf32_general_ci,IMPLICIT) and (utf8mb4_general_ci,IMPLICIT) for operation 'concat'
+SELECT CHARSET(CONCAT(utf32, utf16)) FROM t1;
+ERROR HY000: Illegal mix of collations (utf32_general_ci,IMPLICIT) and (utf16_general_ci,IMPLICIT) for operation 'concat'
+DROP TABLE t1;
+#
+# Bug#58321 No warning when characters outside BMP0 is converted to UCS2
+#
+CREATE TABLE t1 (a VARCHAR(10) CHARACTER SET utf32);
+CREATE TABLE t2 (a VARCHAR(10) CHARACTER SET ucs2);
+INSERT INTO t1 VALUES (0x10082), (0x12345);
+INSERT INTO t2 SELECT * FROM t1;
+Warnings:
+Warning	1366	Incorrect string value: '\x00\x01\x23\x45' for column 'a' at row 1
+Warning	1366	Incorrect string value: '\x00\x01\x00\x82' for column 'a' at row 2
+SELECT HEX(a) FROM t2;
+HEX(a)
+003F
+003F
+DROP TABLE t1;
+DROP TABLE t2;
+#
+# End of 5.5 tests
+#
+#
+# Bug#11766143 59185: ASSERTION FAILED: (FIXED == 1), FILE
+# ITEM_STRFUNC.CC, LINE 2760
+#
+CREATE TABLE t1 (a CHAR(1) CHARSET UTF8);
+INSERT INTO t1 VALUES ('a'), ('b');
+CREATE TABLE t2 (a BINARY(1));
+SELECT * FROM t2 WHERE a=(SELECT a FROM t1) AND a=_LATIN1'x';
+ERROR 21000: Subquery returns more than 1 row
+DROP TABLE t2;
+DROP TABLE t1;
+SET sql_mode = default;
