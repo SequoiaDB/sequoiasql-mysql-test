@@ -150,10 +150,10 @@ INSERT t1 (code) SELECT head FROM head WHERE (head BETWEEN 'A1' AND 'DF');
 DROP TEMPORARY TABLE head, tail;
 SHOW CREATE TABLE t1;
 # Bug #SEQUOIASQLMAINSTREAM-146: UPDATE IGNORE failed
-#UPDATE IGNORE t1 SET a=unhex(code) ORDER BY code;
-#SELECT COUNT(*) FROM t1;
-#SELECT COUNT(*) FROM t1 WHERE a<>'' AND OCTET_LENGTH(a)=1;
-#SELECT COUNT(*) FROM t1 WHERE a<>'' AND OCTET_LENGTH(a)=2;
+UPDATE IGNORE t1 SET a=unhex(code) ORDER BY code;
+SELECT COUNT(*) FROM t1;
+SELECT COUNT(*) FROM t1 WHERE a<>'' AND OCTET_LENGTH(a)=1;
+SELECT COUNT(*) FROM t1 WHERE a<>'' AND OCTET_LENGTH(a)=2;
 #
 # Display all characters that have upper or lower case mapping.
 #
