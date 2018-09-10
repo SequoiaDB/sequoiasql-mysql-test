@@ -1251,11 +1251,11 @@ update t1 set name='User defined range #2' where ujis >= 0x8FF5A1 and ujis <= 0x
 update t1 set name='UNASSIGNED' where name='';
 
 # Bug #SEQUOIASQLMAINSTREAM-146: UPDATE IGNORE failed
-#update ignore t1 set ucs2=ujis, ujis2=ucs2;
-#--echo Characters with safe Unicode round trip
-#select hex(ujis), hex(ucs2), hex(ujis2), name from t1 where ujis=ujis2 order by ujis;
-#--echo Characters with unsafe Unicode round trip
-#select hex(ujis), hex(ucs2), hex(ujis2), name from t1 where ujis<>ujis2 order by ujis;
+update ignore t1 set ucs2=ujis, ujis2=ucs2;
+--echo Characters with safe Unicode round trip
+select hex(ujis), hex(ucs2), hex(ujis2), name from t1 where ujis=ujis2 order by ujis;
+--echo Characters with unsafe Unicode round trip
+select hex(ujis), hex(ucs2), hex(ujis2), name from t1 where ujis<>ujis2 order by ujis;
 drop table t1;
 
 drop table t2;
@@ -1292,25 +1292,25 @@ drop table t1;
 # Unicode characters which are not in x-eucjp-unicode-0.9
 #
 # Bug #SEQUOIASQLMAINSTREAM-146: UPDATE IGNORE failed
-#create table t1 (
-#  ujis char(1) character set ujis,
-#  ucs2 char(1) character set ucs2,
-#  name char(64)
-#);
-#insert into t1 (ucs2,name) values (0x00A5,'U+00A5 YEN SIGN');
-#insert into t1 (ucs2,name) values (0x2014,'U+2014 EM DASH');
-#insert into t1 (ucs2,name) values (0x203E,'U+203E OVERLINE');
-#insert into t1 (ucs2,name) values (0x2225,'U+2225 PARALLEL TO');
-#insert into t1 (ucs2,name) values (0xFF0D,'U+FF0D FULLWIDTH HYPHEN-MINUS');
-#insert into t1 (ucs2,name) values (0xFF3C,'U+FF3C FULLWIDTH REVERSE SOLIDUS');
-#insert into t1 (ucs2,name) values (0xFF5E,'U+FF5E FULLWIDTH TILDE');
-#insert into t1 (ucs2,name) values (0xFFE0,'U+FFE0 FULLWIDTH CENT SIGN');
-#insert into t1 (ucs2,name) values (0xFFE1,'U+FFE1 FULLWIDTH POUND SIGN');
-#insert into t1 (ucs2,name) values (0xFFE2,'U+FFE2 FULLWIDTH NOT SIGN');
-#insert into t1 (ucs2,name) values (0xFFE4,'U+FFE4 FULLWIDTH BROKEN BAR');
-#update ignore t1 set ujis=ucs2;
-#select hex(ucs2),hex(ujis),name from t1 order by name;
-#drop table t1;
+create table t1 (
+  ujis char(1) character set ujis,
+  ucs2 char(1) character set ucs2,
+  name char(64)
+);
+insert into t1 (ucs2,name) values (0x00A5,'U+00A5 YEN SIGN');
+insert into t1 (ucs2,name) values (0x2014,'U+2014 EM DASH');
+insert into t1 (ucs2,name) values (0x203E,'U+203E OVERLINE');
+insert into t1 (ucs2,name) values (0x2225,'U+2225 PARALLEL TO');
+insert into t1 (ucs2,name) values (0xFF0D,'U+FF0D FULLWIDTH HYPHEN-MINUS');
+insert into t1 (ucs2,name) values (0xFF3C,'U+FF3C FULLWIDTH REVERSE SOLIDUS');
+insert into t1 (ucs2,name) values (0xFF5E,'U+FF5E FULLWIDTH TILDE');
+insert into t1 (ucs2,name) values (0xFFE0,'U+FFE0 FULLWIDTH CENT SIGN');
+insert into t1 (ucs2,name) values (0xFFE1,'U+FFE1 FULLWIDTH POUND SIGN');
+insert into t1 (ucs2,name) values (0xFFE2,'U+FFE2 FULLWIDTH NOT SIGN');
+insert into t1 (ucs2,name) values (0xFFE4,'U+FFE4 FULLWIDTH BROKEN BAR');
+update ignore t1 set ujis=ucs2;
+select hex(ucs2),hex(ujis),name from t1 order by name;
+drop table t1;
 
 --source include/uninstall_sequoiadb.inc
 --echo End of 5.1 tests
