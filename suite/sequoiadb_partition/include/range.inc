@@ -248,13 +248,13 @@ DROP TABLE t1;
 # Test problem with range optimzer and sub ranges
 #
 # Bug #SEQUOIASQLMAINSTREAM-150: A bug about sharding table 
-#CREATE TABLE t1 (a int, b int, c int, INDEX (c,a,b));
-#INSERT INTO t1 VALUES (1,0,0),(1,0,0),(1,0,0);
-#INSERT INTO t1 VALUES (0,1,0),(0,1,0),(0,1,0);
-## -- First reports 3; second reports 6
-#SELECT COUNT(*) FROM t1 WHERE (c=0 and a=1) or (c=0 and b=1);
-#SELECT COUNT(*) FROM t1 WHERE (c=0 and b=1) or (c=0 and a=1);
-#DROP TABLE t1;
+CREATE TABLE t1 (a int, b int, c int, INDEX (c,a,b));
+INSERT INTO t1 VALUES (1,0,0),(1,0,0),(1,0,0);
+INSERT INTO t1 VALUES (0,1,0),(0,1,0),(0,1,0);
+# -- First reports 3; second reports 6
+SELECT COUNT(*) FROM t1 WHERE (c=0 and a=1) or (c=0 and b=1);
+SELECT COUNT(*) FROM t1 WHERE (c=0 and b=1) or (c=0 and a=1);
+DROP TABLE t1;
 
 #
 # Test problem with range optimization over overlapping ranges (#2448)
