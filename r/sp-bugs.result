@@ -102,7 +102,7 @@ SELECT DATABASE();
 DATABASE()
 db2_sp_bugs
 SELECT db1_sp_bugs.f1(1);
-ERROR HY000: Got error 49962 from storage engine
+ERROR HY000: Got error 40038 from storage engine
 SELECT DATABASE();
 DATABASE()
 db2_sp_bugs

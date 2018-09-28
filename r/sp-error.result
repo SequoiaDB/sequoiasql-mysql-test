@@ -431,7 +431,7 @@ set y = x;
 end|
 set @x = 0|
 call bug3279(@x)|
-ERROR HY000: Got error 49962 from storage engine
+ERROR HY000: Got error 40038 from storage engine
 select @x|
 @x
 0
