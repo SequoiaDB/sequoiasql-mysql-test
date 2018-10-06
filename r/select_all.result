@@ -1386,14 +1386,14 @@ cc 	4	4
 cc	2	5
 cc 	3	7
 cc   	5	3
-SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
+SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name ORDER BY t1.name,t2.name,t2.n;
 name	name	n
-bb	bb	1
 aa  	aa	2
 aa	aa	2
+bb	bb	1
+bb	bb 	6
 cc 	cc   	3
 cc 	cc	5
-bb	bb 	6
 cc 	cc 	7
 ccc	NULL	NULL
 DROP TABLE t1,t2;
@@ -1442,14 +1442,14 @@ cc 	4	4
 cc   	5	3
 cc	2	5
 cc 	3	7
-SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
+SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name ORDER BY t1.name,t2.name,t2.n;
 name	name	n
-bb	bb	1
 aa  	aa	2
 aa	aa	2
+bb	bb	1
+bb	bb 	6
 cc 	cc   	3
 cc 	cc	5
-bb	bb 	6
 cc 	cc 	7
 ccc	NULL	NULL
 DROP TABLE t1,t2;
@@ -1973,7 +1973,7 @@ date_nokey
 Warnings:
 Warning	1292	Incorrect date value: '10:41:7' for column 'date_nokey' at row 1
 Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'date_key' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'date_key' at row 1
+Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'date_key' at row 2
 DROP TABLE A,C;
 CREATE TABLE t1 (a INT NOT NULL, b INT);
 INSERT INTO t1 VALUES (1, 1);
