@@ -778,7 +778,7 @@ select * from v1;
 ERROR HY000: View 'test_view.v1' references invalid table(s) or column(s) or function(s) or definer/invoker of view lack rights to use them
 show table status;
 Name	Engine	Version	Row_format	Rows	Avg_row_length	Data_length	Max_data_length	Index_length	Data_free	Auto_increment	Create_time	Update_time	Check_time	Collation	Checksum	Create_options	Comment
-t1	SequoiaDB	10	Fixed	0	1024	33554432	#	33554432	0	NULL	#	#	NULL	latin1_swedish_ci	NULL		
+t1	SequoiaDB	10	Fixed	2	1024	33554432	#	33554432	0	NULL	#	#	NULL	latin1_swedish_ci	NULL		
 v1	NULL	NULL	NULL	NULL	NULL	NULL	#	NULL	NULL	NULL	#	#	NULL	NULL	NULL	NULL	View 'test_view.v1' references invalid table(s) or column(s) or function(s) or definer/invoker of view lack rights to use them
 Warnings:
 Warning	1356	View 'test_view.v1' references invalid table(s) or column(s) or function(s) or definer/invoker of view lack rights to use them
@@ -1332,8 +1332,8 @@ execute stmt1 using @a,@b;
 select * from v3;
 a	b
 300	1
-300	3
 2	1
+300	3
 2	3
 deallocate prepare stmt1;
 drop view v3,v2;
