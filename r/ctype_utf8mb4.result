@@ -250,7 +250,7 @@ hex(s1)
 41
 drop table t1;
 create table t1 (a text character set utf8mb4, primary key(a(371)));
-ERROR 42000: Specified key was too long; max key length is 1024 bytes
+ERROR 42000: Specified key was too long; max key length is 1000 bytes
 CREATE TABLE t1 ( a varchar(10) ) CHARACTER SET utf8mb4;
 INSERT INTO t1 VALUES ( 'test' );
 SELECT a.a, b.a FROM t1 a, t1 b WHERE a.a = b.a;
@@ -918,6 +918,8 @@ CREATE TABLE t1 (
 a varchar(255) NOT NULL default '',
 KEY a (a)
 ) ENGINE=SequoiaDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
+Warnings:
+Warning	1071	Specified key was too long; max key length is 1000 bytes
 insert into t1 values (_utf8mb4 0xe880bd);
 insert into t1 values (_utf8mb4 0x5b);
 select hex(a) from t1;
