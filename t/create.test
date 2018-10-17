@@ -182,7 +182,7 @@ drop table if exists t1,t2;
 
 CREATE TABLE t1 (a int not null);
 INSERT INTO t1 values (1),(2),(1);
---error 1030
+--error 1022
 CREATE TABLE t2 (primary key(a)) SELECT * FROM t1;
 --error 1146
 SELECT * from t2;
@@ -753,7 +753,7 @@ create table t1 (a int);
 create table if not exists t1 select 1 as a, 2 as b;
 drop table t1;
 # Finally error which happens during insert
---error 1030
+--error 1022
 create table t1 (primary key (a)) (select 1 as a) union all (select 1 as a);
 # What happens if table already exists ?
 create table t1 (i int);
@@ -943,7 +943,7 @@ DROP TABLE t1,t2;
 SET default_storage_engine = SequoiaDB;
 CREATE TABLE t1 (a int, b int);
 insert into t1 values (1,1),(1,2);
---error 1030
+--error 1022
 CREATE TABLE t2 (primary key (a)) select * from t1;
 # This should give warning
 drop table if exists t2;
@@ -952,12 +952,12 @@ CREATE TEMPORARY TABLE t2 (primary key (a)) select * from t1;
 # This should give warning
 drop table if exists t2;
 CREATE TABLE t2 (a int, b int, primary key (a));
---error 1030
+--error 1022
 INSERT INTO t2 select * from t1;
 #Bug #SEQUOIADBMAINSTREAM-3578, insert into select with primary key will cause wrong result
 #SELECT * from t2;
 TRUNCATE table t2;
---error 1030
+--error 1022
 INSERT INTO t2 select * from t1;
 #Bug #SEQUOIADBMAINSTREAM-3578, insert into select with primary key will cause wrong result
 #SELECT * from t2;

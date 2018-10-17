@@ -587,7 +587,7 @@ begin
 end|
 
 set @x = 0|
---error 1030
+--error 1022
 call bug3279(@x)|
 select @x|
 drop procedure bug3279|

@@ -1944,7 +1944,7 @@ SELECT * FROM t1;
 a1
 1
 INSERT INTO t1 VALUES (NULL);
-ERROR HY000: Got error 40038 from storage engine
+ERROR 23000: Can't write; duplicate key in table 't1'
 SELECT * FROM t1;
 a1
 1
@@ -1960,7 +1960,7 @@ SELECT * FROM t1;
 a1
 1
 INSERT INTO t1 VALUES (NULL);
-ERROR HY000: Got error 40038 from storage engine
+ERROR 23000: Can't write; duplicate key in table 't1'
 SELECT * FROM t1;
 a1
 1
@@ -2006,7 +2006,7 @@ CREATE TRIGGER t1_bi BEFORE INSERT ON t1
 FOR EACH ROW
 SET NEW.a1 = 1;
 INSERT INTO t1 VALUES (NULL, 2);
-ERROR HY000: Got error 40038 from storage engine
+ERROR 23000: Can't write; duplicate key in table 't1'
 SELECT * FROM t1;
 a1	a2
 1	1

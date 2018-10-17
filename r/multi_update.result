@@ -427,7 +427,7 @@ insert into t2 values (1),(2);
 insert into t3 values (1),(2);
 reset master;
 delete t3.* from t2,t3 where t2.a=t3.a;
-ERROR HY000: Got error 40038 from storage engine
+ERROR 23000: Can't write; duplicate key in table 't1'
 select count(*) from t1 /* must be 1 */;
 count(*)
 1

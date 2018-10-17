@@ -103,8 +103,7 @@ end|
 delimiter ;|
 
 flush status;
-# replaced by SequoiaDB error
---error 1030
+--error 1022
 select f1(), f2();
 show status like 'Com_insert';
 select * from t1;

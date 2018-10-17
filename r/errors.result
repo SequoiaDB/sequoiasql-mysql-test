@@ -84,7 +84,7 @@ return 2;
 end|
 flush status;
 select f1(), f2();
-ERROR HY000: Got error 40038 from storage engine
+ERROR 23000: Can't write; duplicate key in table 't1'
 show status like 'Com_insert';
 Variable_name	Value
 Com_insert	2

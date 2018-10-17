@@ -136,7 +136,7 @@ CREATE DATABASE db2_sp_bugs;
 --enable_warnings
 USE db2_sp_bugs;
 SELECT DATABASE();
---error 1030
+--error 1022
 SELECT db1_sp_bugs.f1(1);
 SELECT DATABASE();
 USE test_sp_bugs;

@@ -668,7 +668,7 @@ reset master;
 
 # B. send_eof() and send_error() afterward
 
---error 1030
+--error 1022
 delete t3.* from t2,t3 where t2.a=t3.a;
 
 # check
