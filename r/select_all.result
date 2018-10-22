@@ -1972,8 +1972,6 @@ ORDER BY date_key;
 date_nokey
 Warnings:
 Warning	1292	Incorrect date value: '10:41:7' for column 'date_nokey' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'date_key' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'date_key' at row 2
 DROP TABLE A,C;
 CREATE TABLE t1 (a INT NOT NULL, b INT);
 INSERT INTO t1 VALUES (1, 1);
