@@ -887,6 +887,34 @@ use test_sp|
 drop database sp_db3|
 select type,db,name from mysql.proc where db = 'sp_db3'|
 type	db	name
+drop procedure if exists rc|
+create procedure rc()
+begin
+delete from t1;
+insert into t1 values ("a", 1), ("b", 2), ("c", 3);
+end|
+call rc()|
+select row_count()|
+row_count()
+3
+update t1 set data=42 where id = "b";
+select row_count()|
+row_count()
+1
+delete from t1|
+select row_count()|
+row_count()
+3
+delete from t1|
+select row_count()|
+row_count()
+0
+select * from t1|
+id	data
+select row_count()|
+row_count()
+-1
+drop procedure rc|
 drop function if exists f0|
 drop function if exists f1|
 drop function if exists f2|
