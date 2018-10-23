@@ -8908,9 +8908,9 @@ execute s;
 execute s;
 
 #Bug #SEQUOIASQLMAINSTREAM-142
-#prepare s from 'select 1 from `v1` join `t1` on `v1`.`a`';
-#execute s;
-#execute s;
+prepare s from 'select 1 from `v1` join `t1` on `v1`.`a`';
+execute s;
+execute s;
 prepare s from 'select 1 from `v1` join `t1` on `v1`.`a` join t1 as t2
 on v1.a';
 execute s;
