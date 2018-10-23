@@ -1,4 +1,5 @@
 # (#Case #16239)
+# (#Case #16240)
 # The include statement below is a temp one for tests that are yet to
 #be ported to run with Sequoiadb.
 --source include/have_sequoiadb.inc
