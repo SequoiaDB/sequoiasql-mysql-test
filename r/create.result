@@ -773,9 +773,13 @@ Note	1051	Unknown table 'test_create.t2'
 CREATE TABLE t2 (a int, b int, primary key (a));
 INSERT INTO t2 select * from t1;
 ERROR 23000: Can't write; duplicate key in table 't2'
+SELECT * from t2;
+a	b
 TRUNCATE table t2;
 INSERT INTO t2 select * from t1;
 ERROR 23000: Can't write; duplicate key in table 't2'
+SELECT * from t2;
+a	b
 drop table t2;
 CREATE DATABASE aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
 ERROR 42000: Identifier name 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' is too long
