@@ -167,11 +167,9 @@ select @log;
 (BEFORE_INSERT: new=(id=1, data=1))(AFTER_INSERT: new=(id=1, data=1))
 set @log:= "";
 insert ignore t1 values (1, 2);
-Warnings:
-Warning	1022	Can't write; duplicate key in table 't1'
 select @log;
 @log
-(BEFORE_INSERT: new=(id=1, data=2))
+(BEFORE_INSERT: new=(id=1, data=2))(AFTER_INSERT: new=(id=1, data=2))
 set @log:= "";
 set @log:= "";
 drop trigger t1_bd;

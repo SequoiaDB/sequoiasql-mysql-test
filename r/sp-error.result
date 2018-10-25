@@ -1913,16 +1913,11 @@ SELECT 'error caught (unexpected)';
 INSERT IGNORE INTO t1 VALUES (1);
 END|
 CALL p1();
-warning caught (expected)
-warning caught (expected)
 SHOW WARNINGS;
 Level	Code	Message
 CALL p2();
-Warnings:
-Warning	1022	Can't write; duplicate key in table 't1'
 SHOW WARNINGS;
 Level	Code	Message
-Warning	1022	Can't write; duplicate key in table 't1'
 DROP PROCEDURE p1;
 DROP PROCEDURE p2;
 DROP TABLE t1;

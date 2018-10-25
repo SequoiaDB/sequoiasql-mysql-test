@@ -537,6 +537,7 @@ INSERT INTO t1(b, c) VALUES (200, 300);
 INSERT INTO t1(a) VALUES (NULL);
 
 --echo
+--sorted_result
 SELECT * FROM t1;
 --echo
 DELETE FROM t1;
@@ -549,6 +550,7 @@ REPLACE INTO t1(b, c) VALUES (200, 300);
 REPLACE INTO t1(a) VALUES (NULL);
 
 --echo
+--sorted_result
 SELECT * FROM t1;
 --echo
 DELETE FROM t1;
@@ -562,6 +564,7 @@ INSERT INTO t1(b, c) VALUES (2, 3), (20, 30), (200, 300);
 INSERT INTO t1(a) VALUES (-3), (NULL), (NULL);
 
 --echo
+--sorted_result
 SELECT * FROM t1;
 --echo
 DELETE FROM t1;
@@ -575,6 +578,7 @@ REPLACE INTO t1(b, c) VALUES (2, 3), (20, 30), (200, 300);
 REPLACE INTO t1(a) VALUES (-3), (NULL), (NULL);
 
 --echo
+--sorted_result
 SELECT * FROM t1;
 --echo
 DELETE FROM t1;
@@ -587,6 +591,7 @@ INSERT INTO t1(b, c) SELECT b, c FROM t2;
 INSERT INTO t1(a) SELECT a FROM t2;
 
 --echo
+--sorted_result
 SELECT * FROM t1;
 --echo
 DELETE FROM t1;
@@ -599,6 +604,7 @@ REPLACE INTO t1(b, c) SELECT b, c FROM t2;
 REPLACE INTO t1(a) SELECT a FROM t2;
 
 --echo
+--sorted_result
 SELECT * FROM t1;
 --echo
 DELETE FROM t1;
