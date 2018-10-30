@@ -199,6 +199,7 @@ insert into t1 values (1, 1);
 select @log;
 # INSERT IGNORE for already existing key - only before trigger should fire
 set @log:= "";
+#Bug #SEQUOIASQLMAINSTREAM-160
 insert ignore t1 values (1, 2);
 select @log;
 # INSERT ... ON DUPLICATE KEY UPDATE ...
