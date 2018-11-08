@@ -1,9 +1,0 @@
-select des_encrypt('hello');
-des_encrypt('hello')
-€Ö2nV“Ø}
-Warnings:
-Warning	1287	'DES_ENCRYPT' is deprecated and will be removed in a future release. Please use AES_ENCRYPT instead
-#
-# Bug #11643: des_encrypt() causes server to die
-#
-End of 5.0 tests
