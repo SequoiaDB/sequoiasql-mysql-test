@@ -50,21 +50,21 @@ insert into t1 (big) values (-1),(12345678901234567),(9223372036854775807),(1844
 select * from t1;
 select min(big),max(big),max(big)-1 from t1;
 select min(big),max(big),max(big)-1 from t1 group by a;
-alter table t1 modify big bigint unsigned not null;
-select min(big),max(big),max(big)-1 from t1;
-select min(big),max(big),max(big)-1 from t1 group by a;
-insert into t1 (big) values (18446744073709551615);
-select * from t1;
-select min(big),max(big),max(big)-1 from t1;
-select min(big),max(big),max(big)-1 from t1 group by a;
-alter table t1 add key (big);
+#alter table t1 modify big bigint unsigned not null;
+#select min(big),max(big),max(big)-1 from t1;
+#select min(big),max(big),max(big)-1 from t1 group by a;
+#insert into t1 (big) values (18446744073709551615);
+#select * from t1;
+#select min(big),max(big),max(big)-1 from t1;
+#select min(big),max(big),max(big)-1 from t1 group by a;
+#alter table t1 add key (big);
 #Bug #SEQUOIADBMAINSTREAM-3553
-select min(big),max(big),max(big)-1 from t1;
-select min(big),max(big),max(big)-1 from t1 group by a;
-alter table t1 modify big bigint not null;
-select * from t1;
-select min(big),max(big),max(big)-1 from t1;
-select min(big),max(big),max(big)-1 from t1 group by a;
+#select min(big),max(big),max(big)-1 from t1;
+#select min(big),max(big),max(big)-1 from t1 group by a;
+#alter table t1 modify big bigint not null;
+#select * from t1;
+#select min(big),max(big),max(big)-1 from t1;
+#select min(big),max(big),max(big)-1 from t1 group by a;
 drop table t1;
 
 #
@@ -110,8 +110,9 @@ insert into t1 values(17156792991891826145, 1);
 insert into t1 values( 9223372036854775807, 2);
 insert into t2 values(17156792991891826145, 3);
 insert into t2 values( 9223372036854775807, 4);
-
+--sorted_result
 select * from t1;
+--sorted_result
 select * from t2;
 
 select * from t1, t2 where t1.value64=17156792991891826145 and

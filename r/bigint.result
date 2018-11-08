@@ -63,52 +63,6 @@ min(big)	max(big)	max(big)-1
 select min(big),max(big),max(big)-1 from t1 group by a;
 min(big)	max(big)	max(big)-1
 -1	9223372036854775807	9223372036854775806
-alter table t1 modify big bigint unsigned not null;
-Warnings:
-Warning	1264	Out of range value for column 'big' at row 1
-select min(big),max(big),max(big)-1 from t1;
-min(big)	max(big)	max(big)-1
-0	9223372036854775807	9223372036854775806
-select min(big),max(big),max(big)-1 from t1 group by a;
-min(big)	max(big)	max(big)-1
-0	9223372036854775807	9223372036854775806
-insert into t1 (big) values (18446744073709551615);
-select * from t1;
-a	big
-1	0
-1	12345678901234567
-1	9223372036854775807
-1	9223372036854775807
-1	18446744073709551615
-select min(big),max(big),max(big)-1 from t1;
-min(big)	max(big)	max(big)-1
-0	18446744073709551615	18446744073709551614
-select min(big),max(big),max(big)-1 from t1 group by a;
-min(big)	max(big)	max(big)-1
-0	18446744073709551615	18446744073709551614
-alter table t1 add key (big);
-select min(big),max(big),max(big)-1 from t1;
-min(big)	max(big)	max(big)-1
-0	18446744073709551615	18446744073709551614
-select min(big),max(big),max(big)-1 from t1 group by a;
-min(big)	max(big)	max(big)-1
-0	18446744073709551615	18446744073709551614
-alter table t1 modify big bigint not null;
-Warnings:
-Warning	1264	Out of range value for column 'big' at row 5
-select * from t1;
-a	big
-1	0
-1	12345678901234567
-1	9223372036854775807
-1	9223372036854775807
-1	9223372036854775807
-select min(big),max(big),max(big)-1 from t1;
-min(big)	max(big)	max(big)-1
-0	9223372036854775807	9223372036854775806
-select min(big),max(big),max(big)-1 from t1 group by a;
-min(big)	max(big)	max(big)-1
-0	9223372036854775807	9223372036854775806
 drop table t1;
 CREATE TABLE t1 ( quantity decimal(60,0));
 insert into t1 values (10000000000000000000);
@@ -141,12 +95,12 @@ insert into t2 values(17156792991891826145, 3);
 insert into t2 values( 9223372036854775807, 4);
 select * from t1;
 value64	value32
-9223372036854775807	2
 17156792991891826145	1
+9223372036854775807	2
 select * from t2;
 value64	value32
-9223372036854775807	4
 17156792991891826145	3
+9223372036854775807	4
 select * from t1, t2 where t1.value64=17156792991891826145 and
 t2.value64=17156792991891826145;
 value64	value32	value64	value32
