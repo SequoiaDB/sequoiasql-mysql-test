@@ -33,7 +33,7 @@ select conv(1,10,16),conv((1<<2)-1,10,16),conv((1<<10)-2,10,16),conv((1<<16)-3,1
 # In 3.23 we have to disable the test of column to bigint as
 # this fails on AIX powerpc (the resolution for double is not good enough)
 # This will work on 4.0 as we then have internal handling of bigint variables.
-#Bug #SEQUOIADBMAINSTREAM-3563, query unsigned bigint with index will cause wrong results
+#Bug #SEQUOIADBMAINSTREAM-3563
 create table t1 (a bigint unsigned not null, primary key(a));
 insert into t1 values (18446744073709551615), (0xFFFFFFFFFFFFFFFE), (18446744073709551613), (18446744073709551612);
 --sorted_result
@@ -50,23 +50,21 @@ insert into t1 (big) values (-1),(12345678901234567),(9223372036854775807),(1844
 select * from t1;
 select min(big),max(big),max(big)-1 from t1;
 select min(big),max(big),max(big)-1 from t1 group by a;
-# NOW SequoiaDB not support alter modify
-#alter table t1 modify big bigint unsigned not null;
-#select min(big),max(big),max(big)-1 from t1;
-#select min(big),max(big),max(big)-1 from t1 group by a;
-#insert into t1 (big) values (18446744073709551615);
-#select * from t1;
-#select min(big),max(big),max(big)-1 from t1;
-#select min(big),max(big),max(big)-1 from t1 group by a;
-#alter table t1 add key (big);
-#Bug #SEQUOIADBMAINSTREAM-3553, query max with index will cause -1
-#select min(big),max(big),max(big)-1 from t1;
-#select min(big),max(big),max(big)-1 from t1 group by a;
-# NOW SequoiaDB not support alter modify
-#alter table t1 modify big bigint not null;
-#select * from t1;
-#select min(big),max(big),max(big)-1 from t1;
-#select min(big),max(big),max(big)-1 from t1 group by a;
+alter table t1 modify big bigint unsigned not null;
+select min(big),max(big),max(big)-1 from t1;
+select min(big),max(big),max(big)-1 from t1 group by a;
+insert into t1 (big) values (18446744073709551615);
+select * from t1;
+select min(big),max(big),max(big)-1 from t1;
+select min(big),max(big),max(big)-1 from t1 group by a;
+alter table t1 add key (big);
+#Bug #SEQUOIADBMAINSTREAM-3553
+select min(big),max(big),max(big)-1 from t1;
+select min(big),max(big),max(big)-1 from t1 group by a;
+alter table t1 modify big bigint not null;
+select * from t1;
+select min(big),max(big),max(big)-1 from t1;
+select min(big),max(big),max(big)-1 from t1 group by a;
 drop table t1;
 
 #
