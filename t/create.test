@@ -1253,18 +1253,17 @@ INSERT INTO t1 VALUES();
 --echo
 SELECT * FROM t1;
 
-# NOW Sequoiab not support year
-#--echo
-#ALTER TABLE t1 MODIFY c1 YEAR DEFAULT 0;
+--echo
+ALTER TABLE t1 MODIFY c1 YEAR DEFAULT 0;
 
 --echo
-#SHOW CREATE TABLE t1;
+SHOW CREATE TABLE t1;
 
 --echo
-#INSERT INTO t1 VALUES();
+INSERT INTO t1 VALUES();
 
 --echo
-#SELECT * FROM t1;
+SELECT * FROM t1;
 
 --echo
 DROP TABLE t1;
