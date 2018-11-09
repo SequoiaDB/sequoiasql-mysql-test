@@ -20,26 +20,28 @@ DROP TABLE IF EXISTS t5;
 
 let $default_engine = `select @@SESSION.default_storage_engine`;
 
-# NOW SequoiaDB not support type of bit
 # Bug#11766521 - BIT Datatype comparison in where clause return incorrect
 # result for '=' , '<=>' operators
-#--replace_result $default_engine <default_engine>
+--replace_result $default_engine <default_engine>
+
+#Sequoiadb not support create index on bit type
 #eval CREATE TABLE t5(c1  BIT(2) PRIMARY KEY) ENGINE = $default_engine;
-#INSERT INTO t5 VALUES (0), (1), (2);
-#SELECT HEX(c1) FROM t5 ORDER BY c1;
-## Enable Following two select after Bug#11766521 fix
-## SELECT HEX(c1) FROM t5 WHERE c1 = '1' ORDER BY c1;
-## SELECT HEX(c1) FROM t5 WHERE c1 <=> '1' ORDER BY c1;
-#SELECT HEX(c1) FROM t5 WHERE c1 = b'1' ORDER BY c1;
-#SELECT HEX(c1) FROM t5 WHERE c1 <=> b'1' ORDER BY c1;
-#SELECT HEX(c1) FROM t5 WHERE c1 != b'1' ORDER BY c1;
-#--echo # In the following queries the string is compared as ASCII when
-#--echo # range access is used. See BUG#13727586.
-#SELECT HEX(c1) FROM t5 WHERE c1 >= '1' ORDER BY c1;
-#SELECT HEX(c1) FROM t5 WHERE c1 <= '1' ORDER BY c1;
-#SELECT HEX(c1) FROM t5 WHERE c1 < '1' ORDER BY c1;
-#SELECT HEX(c1) FROM t5 WHERE c1 > '0' ORDER BY c1;
-#DROP TABLE t5;
+eval CREATE TABLE t5(c1  BIT(2)) ENGINE = $default_engine;
+INSERT INTO t5 VALUES (0), (1), (2);
+SELECT HEX(c1) FROM t5 ORDER BY c1;
+# Enable Following two select after Bug#11766521 fix
+# SELECT HEX(c1) FROM t5 WHERE c1 = '1' ORDER BY c1;
+# SELECT HEX(c1) FROM t5 WHERE c1 <=> '1' ORDER BY c1;
+SELECT HEX(c1) FROM t5 WHERE c1 = b'1' ORDER BY c1;
+SELECT HEX(c1) FROM t5 WHERE c1 <=> b'1' ORDER BY c1;
+SELECT HEX(c1) FROM t5 WHERE c1 != b'1' ORDER BY c1;
+--echo # In the following queries the string is compared as ASCII when
+--echo # range access is used. See BUG#13727586.
+SELECT HEX(c1) FROM t5 WHERE c1 >= '1' ORDER BY c1;
+SELECT HEX(c1) FROM t5 WHERE c1 <= '1' ORDER BY c1;
+SELECT HEX(c1) FROM t5 WHERE c1 < '1' ORDER BY c1;
+SELECT HEX(c1) FROM t5 WHERE c1 > '0' ORDER BY c1;
+DROP TABLE t5;
 
 # FLOAT Data-type
 --replace_result $default_engine <default_engine>

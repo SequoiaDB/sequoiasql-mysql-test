@@ -2447,6 +2447,18 @@ t2	CREATE TABLE `t2` (
   `concat(a)` varchar(4) DEFAULT NULL
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
 drop table t1, t2;
+create table t1 (a bit(64));
+insert into t1 values (1);
+select hex(concat(a)) from t1;
+hex(concat(a))
+0000000000000001
+create table t2 as select concat(a) from t1;
+show create table t2;
+Table	Create Table
+t2	CREATE TABLE `t2` (
+  `concat(a)` varbinary(64) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+drop table t1, t2;
 create table t1 (a timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
 insert ignore into t1 values (0);
 Warnings:
@@ -2746,6 +2758,17 @@ a	varchar(4)	YES		NULL
 select hex(a) from v1;
 hex(a)
 32303031
+drop table t1;
+drop view v1;
+create table t1 (a bit(64));
+insert into t1 values (1);
+create view v1(a) as select concat(a) from t1;
+show columns from v1;
+Field	Type	Null	Key	Default	Extra
+a	varbinary(64)	YES		NULL	
+select hex(a) from v1;
+hex(a)
+0000000000000001
 drop table t1;
 drop view v1;
 create table t1 (a timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);

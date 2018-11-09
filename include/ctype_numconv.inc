@@ -1155,14 +1155,13 @@ create table t2 as select concat(a) from t1;
 show create table t2;
 drop table t1, t2;
 
-# NOW SequoiaDB not support bit
-#create table t1 (a bit(64));
+create table t1 (a bit(64));
 # BIT is always BINARY
-#insert into t1 values (1);
-#select hex(concat(a)) from t1;
-#create table t2 as select concat(a) from t1;
-#show create table t2;
-#drop table t1, t2;
+insert into t1 values (1);
+select hex(concat(a)) from t1;
+create table t2 as select concat(a) from t1;
+show create table t2;
+drop table t1, t2;
 
 create table t1 (a timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
 insert ignore into t1 values (0);
@@ -1467,15 +1466,14 @@ select hex(a) from v1;
 drop table t1;
 drop view v1;
 
-# NOW SequoiaDB not support bit
-#create table t1 (a bit(64));
+create table t1 (a bit(64));
 # BIT is always BINARY
-#insert into t1 values (1);
-#create view v1(a) as select concat(a) from t1;
-#show columns from v1;
-#select hex(a) from v1;
-#drop table t1;
-#drop view v1;
+insert into t1 values (1);
+create view v1(a) as select concat(a) from t1;
+show columns from v1;
+select hex(a) from v1;
+drop table t1;
+drop view v1;
 
 create table t1 (a timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
 insert ignore into t1 values (0);

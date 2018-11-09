@@ -311,50 +311,49 @@ select * from t1 order by (select col from columns limit 1);
 * Column types/sizes that affect materialization.
 ******************************************************************************/
 
-# test for BIT fields,Sequoiadb not support bit
-# create table t1bit (a1 bit(3), a2 bit(3));
-# create table t2bit (b1 bit(3), b2 bit(3));
+create table t1bit (a1 bit(3), a2 bit(3));
+create table t2bit (b1 bit(3), b2 bit(3));
 
-#insert into t1bit values (b'000', b'100');
-#insert into t1bit values (b'001', b'101');
-#insert into t1bit values (b'010', b'110');
+insert into t1bit values (b'000', b'100');
+insert into t1bit values (b'001', b'101');
+insert into t1bit values (b'010', b'110');
 
-#insert into t2bit values (b'001', b'101');
-#insert into t2bit values (b'010', b'110');
-#insert into t2bit values (b'110', b'111');
+insert into t2bit values (b'001', b'101');
+insert into t2bit values (b'010', b'110');
+insert into t2bit values (b'110', b'111');
 
 
 #explain extended select bin(a1), bin(a2)
 #from t1bit
 #where (a1, a2) in (select b1, b2 from t2bit);
 
-#select bin(a1), bin(a2)
-#from t1bit
-#where (a1, a2) in (select b1, b2 from t2bit);
+select bin(a1), bin(a2)
+from t1bit
+where (a1, a2) in (select b1, b2 from t2bit);
 
-#drop table t1bit, t2bit;
+drop table t1bit, t2bit;
 
 # test mixture of BIT and BLOB
-#create table t1bb (a1 bit(3), a2 blob(3));
-#create table t2bb (b1 bit(3), b2 blob(3));
-#
-#insert into t1bb values (b'000', '100');
-#insert into t1bb values (b'001', '101');
-#insert into t1bb values (b'010', '110');
-#
-#insert into t2bb values (b'001', '101');
-#insert into t2bb values (b'010', '110');
-#insert into t2bb values (b'110', '111');
+create table t1bb (a1 bit(3), a2 blob(3));
+create table t2bb (b1 bit(3), b2 blob(3));
+
+insert into t1bb values (b'000', '100');
+insert into t1bb values (b'001', '101');
+insert into t1bb values (b'010', '110');
+
+insert into t2bb values (b'001', '101');
+insert into t2bb values (b'010', '110');
+insert into t2bb values (b'110', '111');
 
 #explain extended select bin(a1), a2
 #from t1bb
 #where (a1, a2) in (select b1, b2 from t2bb);
 
-#select bin(a1), a2
-#from t1bb
-#where (a1, a2) in (select b1, b2 from t2bb);
+select bin(a1), a2
+from t1bb
+where (a1, a2) in (select b1, b2 from t2bb);
 
-#drop table t1bb, t2bb;
+drop table t1bb, t2bb;
 drop table t1, t2, t3, t1i, t2i, t3i, columns;
 
 /******************************************************************************

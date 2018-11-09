@@ -105,347 +105,345 @@ DROP TABLE t;
 
 #DROP TABLE networks;
 
-# NOW SequoiaDB not support bit
-#--echo #
-#--echo # Table containing columns of MySQL types
-#--echo #
+# NOW SequoiaDB not support GEOMETRY
+--echo #
+--echo # Table containing columns of MySQL types
+--echo #
 
-#CREATE TABLE at(_bit bit(64),
-#                _tin tinyint(8),
-#                _boo bool,
-#                _sms smallint signed,
-#                _smu smallint unsigned,
-#                _mes mediumint signed,
-#                _meu mediumint unsigned,
-#                _ins int signed,
-#                _inu int unsigned,
-#                _bis bigint signed,
-#                _biu bigint unsigned,
-#                _dec decimal (5,2),
-#                _flo float,
-#                _dou double,
-#                _yea year,
-#                _jsn json,
-#                _chr char(12),
-#                _vch varchar(12),
-#                _bin binary(255),
-#                _vbn varbinary(255),
-#                _tbl tinyblob,
-#                _ttx tinytext,
-#                _blb blob,
-#                _txt text,
-#                _mbb mediumblob,
-#                _mtx mediumtext,
-#                _lbb longblob,
-#                _ltx longtext,
-#                _pnt point,
-#                _dat date default '1988-12-15',
-#                _dtt datetime default '2015-10-24 12:00:00',
-#                _smp timestamp default '2015-10-24 14:00:00',
-#                _tim time default' 07:08:09',
-#                _enu enum('a', 'b', 'c'),
-#                _set set('a', 'b', 'c')
-#                );
-#INSERT INTO at (
-#    _bit,
-#    _tin,
-#    _boo,
-#    _sms,
-#    _smu,
-#    _mes,
-#    _meu,
-#    _ins,
-#    _inu,
-#    _bis,
-#    _biu,
-#    _dec,
-#    _flo,
-#    _dou,
-#    _yea,
-#    _jsn,
-#    _chr,
-#    _vch,
-#    _bin,
-#    _vbn,
-#    _tbl,
-#    _ttx,
-#    _blb,
-#    _txt,
-#    _mbb,
-#    _mtx,
-#    _lbb,
-#    _ltx,
-#    _pnt,
-#    _enu,
-#    _set
-#) VALUES (
-#    64,
-#    64,
-#    true,
-#    64,
-#    64,
-#    64,
-#    64,
-#    64,
-#    64,
-#    64,
-#    64,
-#    64,
-#    64,
-#    64,
-#    2005,
-#    cast('{"a": 3}' as json),
-#    "abcdefghijkl",
-#    "abcdefghijkl",
-#    x'CAFEBABE000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CAFEBABE11111111',
-#    x'CAFEBABE00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111CAFEBABE',
-#    x'CAFEBABE000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CAFE1111CAFE1111',
-#    "abcdefg",
-#    x'cafebabe',
-#    "abcdefg",
-#    x'cafebabe',
-#    "abcdefg",
-#    x'cafebabe',
-#    "abcdefg",
-#    st_geomfromtext('point(1 1)'),
-#    1,
-#    1
-#);
-#
-#SELECT * FROM at;
-#
-#--echo #
-#--echo # bitwise operations with an integer argument and mysql data-types
-#--echo #
-#
-#SELECT _bit | 2147483647 FROM at;
-#SELECT _tin | 2147483647 FROM at;
-#SELECT _boo | 2147483647 FROM at;
-#SELECT _sms | 2147483647 FROM at;
-#SELECT _smu | 2147483647 FROM at;
-#SELECT _mes | 2147483647 FROM at;
-#SELECT _meu | 2147483647 FROM at;
-#SELECT _ins | 2147483647 FROM at;
-#SELECT _inu | 2147483647 FROM at;
-#SELECT _bis | 2147483647 FROM at;
-#SELECT _biu | 2147483647 FROM at;
-#SELECT _dec | 2147483647 FROM at;
-#SELECT _flo | 2147483647 FROM at;
-#SELECT _dou | 2147483647 FROM at;
-#SELECT _yea | 2147483647 FROM at;
-#SELECT _jsn | 2147483647 FROM at;
-#SELECT _chr | 2147483647 FROM at;
-#SELECT _vch | 2147483647 FROM at;
-#SELECT _bin | 2147483647 FROM at;
-#SELECT _vbn | 2147483647 FROM at;
-#SELECT _tbl | 2147483647 FROM at;
-#SELECT _ttx | 2147483647 FROM at;
-#SELECT _blb | 2147483647 FROM at;
-#SELECT _txt | 2147483647 FROM at;
-#SELECT _mbb | 2147483647 FROM at;
-#SELECT _mtx | 2147483647 FROM at;
-#SELECT _lbb | 2147483647 FROM at;
-#SELECT _ltx | 2147483647 FROM at;
+CREATE TABLE at(_bit bit(64),
+                _tin tinyint(8),
+                _boo bool,
+                _sms smallint signed,
+                _smu smallint unsigned,
+                _mes mediumint signed,
+                _meu mediumint unsigned,
+                _ins int signed,
+                _inu int unsigned,
+                _bis bigint signed,
+                _biu bigint unsigned,
+                _dec decimal (5,2),
+                _flo float,
+                _dou double,
+                _yea year,
+                _jsn json,
+                _chr char(12),
+                _vch varchar(12),
+                _bin binary(255),
+                _vbn varbinary(255),
+                _tbl tinyblob,
+                _ttx tinytext,
+                _blb blob,
+                _txt text,
+                _mbb mediumblob,
+                _mtx mediumtext,
+                _lbb longblob,
+                _ltx longtext,
+                #_pnt point,
+                _dat date default '1988-12-15',
+                _dtt datetime default '2015-10-24 12:00:00',
+                _smp timestamp default '2015-10-24 14:00:00',
+                _tim time default' 07:08:09',
+                _enu enum('a', 'b', 'c'),
+                _set set('a', 'b', 'c')
+                );
+INSERT INTO at (
+    _bit,
+    _tin,
+    _boo,
+    _sms,
+    _smu,
+    _mes,
+    _meu,
+    _ins,
+    _inu,
+    _bis,
+    _biu,
+    _dec,
+    _flo,
+    _dou,
+    _yea,
+    _jsn,
+    _chr,
+    _vch,
+    _bin,
+    _vbn,
+    _tbl,
+    _ttx,
+    _blb,
+    _txt,
+    _mbb,
+    _mtx,
+    _lbb,
+    _ltx,
+    _enu,
+    _set
+) VALUES (
+    64,
+    64,
+    true,
+    64,
+    64,
+    64,
+    64,
+    64,
+    64,
+    64,
+    64,
+    64,
+    64,
+    64,
+    2005,
+    cast('{"a": 3}' as json),
+    "abcdefghijkl",
+    "abcdefghijkl",
+    x'CAFEBABE000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CAFEBABE11111111',
+    x'CAFEBABE00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111CAFEBABE',
+    x'CAFEBABE000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CAFE1111CAFE1111',
+    "abcdefg",
+    x'cafebabe',
+    "abcdefg",
+    x'cafebabe',
+    "abcdefg",
+    x'cafebabe',
+    "abcdefg",
+    1,
+    1
+);
+
+SELECT * FROM at;
+
+--echo #
+--echo # bitwise operations with an integer argument and mysql data-types
+--echo #
+
+SELECT _bit | 2147483647 FROM at;
+SELECT _tin | 2147483647 FROM at;
+SELECT _boo | 2147483647 FROM at;
+SELECT _sms | 2147483647 FROM at;
+SELECT _smu | 2147483647 FROM at;
+SELECT _mes | 2147483647 FROM at;
+SELECT _meu | 2147483647 FROM at;
+SELECT _ins | 2147483647 FROM at;
+SELECT _inu | 2147483647 FROM at;
+SELECT _bis | 2147483647 FROM at;
+SELECT _biu | 2147483647 FROM at;
+SELECT _dec | 2147483647 FROM at;
+SELECT _flo | 2147483647 FROM at;
+SELECT _dou | 2147483647 FROM at;
+SELECT _yea | 2147483647 FROM at;
+SELECT _jsn | 2147483647 FROM at;
+SELECT _chr | 2147483647 FROM at;
+SELECT _vch | 2147483647 FROM at;
+SELECT _bin | 2147483647 FROM at;
+SELECT _vbn | 2147483647 FROM at;
+SELECT _tbl | 2147483647 FROM at;
+SELECT _ttx | 2147483647 FROM at;
+SELECT _blb | 2147483647 FROM at;
+SELECT _txt | 2147483647 FROM at;
+SELECT _mbb | 2147483647 FROM at;
+SELECT _mtx | 2147483647 FROM at;
+SELECT _lbb | 2147483647 FROM at;
+SELECT _ltx | 2147483647 FROM at;
 #SELECT _pnt | 2147483647 FROM at;
-#SELECT _dat | 2147483647 FROM at;
-#SELECT _dtt | 2147483647 FROM at;
-#SELECT _smp | 2147483647 FROM at;
-#SELECT _tim | 2147483647 FROM at;
-#SELECT _enu | 2147483647 FROM at;
-#SELECT _set | 2147483647 FROM at;
-#
-#SELECT _bit & 2147483647 FROM at;
-#SELECT _tin & 2147483647 FROM at;
-#SELECT _boo & 2147483647 FROM at;
-#SELECT _sms & 2147483647 FROM at;
-#SELECT _smu & 2147483647 FROM at;
-#SELECT _mes & 2147483647 FROM at;
-#SELECT _meu & 2147483647 FROM at;
-#SELECT _ins & 2147483647 FROM at;
-#SELECT _inu & 2147483647 FROM at;
-#SELECT _bis & 2147483647 FROM at;
-#SELECT _biu & 2147483647 FROM at;
-#SELECT _dec & 2147483647 FROM at;
-#SELECT _flo & 2147483647 FROM at;
-#SELECT _dou & 2147483647 FROM at;
-#SELECT _yea & 2147483647 FROM at;
-#SELECT _jsn & 2147483647 FROM at;
-#SELECT _chr & 2147483647 FROM at;
-#SELECT _vch & 2147483647 FROM at;
-#SELECT _bin & 2147483647 FROM at;
-#SELECT _vbn & 2147483647 FROM at;
-#SELECT _tbl & 2147483647 FROM at;
-#SELECT _ttx & 2147483647 FROM at;
-#SELECT _blb & 2147483647 FROM at;
-#SELECT _txt & 2147483647 FROM at;
-#SELECT _mbb & 2147483647 FROM at;
-#SELECT _mtx & 2147483647 FROM at;
-#SELECT _lbb & 2147483647 FROM at;
-#SELECT _ltx & 2147483647 FROM at;
+SELECT _dat | 2147483647 FROM at;
+SELECT _dtt | 2147483647 FROM at;
+SELECT _smp | 2147483647 FROM at;
+SELECT _tim | 2147483647 FROM at;
+SELECT _enu | 2147483647 FROM at;
+SELECT _set | 2147483647 FROM at;
+
+SELECT _bit & 2147483647 FROM at;
+SELECT _tin & 2147483647 FROM at;
+SELECT _boo & 2147483647 FROM at;
+SELECT _sms & 2147483647 FROM at;
+SELECT _smu & 2147483647 FROM at;
+SELECT _mes & 2147483647 FROM at;
+SELECT _meu & 2147483647 FROM at;
+SELECT _ins & 2147483647 FROM at;
+SELECT _inu & 2147483647 FROM at;
+SELECT _bis & 2147483647 FROM at;
+SELECT _biu & 2147483647 FROM at;
+SELECT _dec & 2147483647 FROM at;
+SELECT _flo & 2147483647 FROM at;
+SELECT _dou & 2147483647 FROM at;
+SELECT _yea & 2147483647 FROM at;
+SELECT _jsn & 2147483647 FROM at;
+SELECT _chr & 2147483647 FROM at;
+SELECT _vch & 2147483647 FROM at;
+SELECT _bin & 2147483647 FROM at;
+SELECT _vbn & 2147483647 FROM at;
+SELECT _tbl & 2147483647 FROM at;
+SELECT _ttx & 2147483647 FROM at;
+SELECT _blb & 2147483647 FROM at;
+SELECT _txt & 2147483647 FROM at;
+SELECT _mbb & 2147483647 FROM at;
+SELECT _mtx & 2147483647 FROM at;
+SELECT _lbb & 2147483647 FROM at;
+SELECT _ltx & 2147483647 FROM at;
 #SELECT _pnt & 2147483647 FROM at;
-#SELECT _dat & 2147483647 FROM at;
-#SELECT _dtt & 2147483647 FROM at;
-#SELECT _smp & 2147483647 FROM at;
-#SELECT _tim & 2147483647 FROM at;
-#SELECT _enu & 2147483647 FROM at;
-#SELECT _set & 2147483647 FROM at;
-#
-#SELECT _bit ^ 2147483647 FROM at;
-#SELECT _tin ^ 2147483647 FROM at;
-#SELECT _boo ^ 2147483647 FROM at;
-#SELECT _sms ^ 2147483647 FROM at;
-#SELECT _smu ^ 2147483647 FROM at;
-#SELECT _mes ^ 2147483647 FROM at;
-#SELECT _meu ^ 2147483647 FROM at;
-#SELECT _ins ^ 2147483647 FROM at;
-#SELECT _inu ^ 2147483647 FROM at;
-#SELECT _bis ^ 2147483647 FROM at;
-#SELECT _biu ^ 2147483647 FROM at;
-#SELECT _dec ^ 2147483647 FROM at;
-#SELECT _flo ^ 2147483647 FROM at;
-#SELECT _dou ^ 2147483647 FROM at;
-#SELECT _yea ^ 2147483647 FROM at;
-#SELECT _jsn ^ 2147483647 FROM at;
-#SELECT _chr ^ 2147483647 FROM at;
-#SELECT _vch ^ 2147483647 FROM at;
-#SELECT _bin ^ 2147483647 FROM at;
-#SELECT _vbn ^ 2147483647 FROM at;
-#SELECT _tbl ^ 2147483647 FROM at;
-#SELECT _ttx ^ 2147483647 FROM at;
-#SELECT _blb ^ 2147483647 FROM at;
-#SELECT _txt ^ 2147483647 FROM at;
-#SELECT _mbb ^ 2147483647 FROM at;
-#SELECT _mtx ^ 2147483647 FROM at;
-#SELECT _lbb ^ 2147483647 FROM at;
-#SELECT _ltx ^ 2147483647 FROM at;
+SELECT _dat & 2147483647 FROM at;
+SELECT _dtt & 2147483647 FROM at;
+SELECT _smp & 2147483647 FROM at;
+SELECT _tim & 2147483647 FROM at;
+SELECT _enu & 2147483647 FROM at;
+SELECT _set & 2147483647 FROM at;
+
+SELECT _bit ^ 2147483647 FROM at;
+SELECT _tin ^ 2147483647 FROM at;
+SELECT _boo ^ 2147483647 FROM at;
+SELECT _sms ^ 2147483647 FROM at;
+SELECT _smu ^ 2147483647 FROM at;
+SELECT _mes ^ 2147483647 FROM at;
+SELECT _meu ^ 2147483647 FROM at;
+SELECT _ins ^ 2147483647 FROM at;
+SELECT _inu ^ 2147483647 FROM at;
+SELECT _bis ^ 2147483647 FROM at;
+SELECT _biu ^ 2147483647 FROM at;
+SELECT _dec ^ 2147483647 FROM at;
+SELECT _flo ^ 2147483647 FROM at;
+SELECT _dou ^ 2147483647 FROM at;
+SELECT _yea ^ 2147483647 FROM at;
+SELECT _jsn ^ 2147483647 FROM at;
+SELECT _chr ^ 2147483647 FROM at;
+SELECT _vch ^ 2147483647 FROM at;
+SELECT _bin ^ 2147483647 FROM at;
+SELECT _vbn ^ 2147483647 FROM at;
+SELECT _tbl ^ 2147483647 FROM at;
+SELECT _ttx ^ 2147483647 FROM at;
+SELECT _blb ^ 2147483647 FROM at;
+SELECT _txt ^ 2147483647 FROM at;
+SELECT _mbb ^ 2147483647 FROM at;
+SELECT _mtx ^ 2147483647 FROM at;
+SELECT _lbb ^ 2147483647 FROM at;
+SELECT _ltx ^ 2147483647 FROM at;
 #SELECT _pnt ^ 2147483647 FROM at;
-#SELECT _dat ^ 2147483647 FROM at;
-#SELECT _dtt ^ 2147483647 FROM at;
-#SELECT _smp ^ 2147483647 FROM at;
-#SELECT _tim ^ 2147483647 FROM at;
-#SELECT _enu ^ 2147483647 FROM at;
-#SELECT _set ^ 2147483647 FROM at;
-#
-#--echo #
-#--echo # bitwise operations with a hex literal argument and mysql data-types
-#--echo #
-#
-#SELECT _bit | x'cafebabe' FROM at;
-#SELECT _tin | x'cafebabe' FROM at;
-#SELECT _boo | x'cafebabe' FROM at;
-#SELECT _sms | x'cafebabe' FROM at;
-#SELECT _smu | x'cafebabe' FROM at;
-#SELECT _mes | x'cafebabe' FROM at;
-#SELECT _meu | x'cafebabe' FROM at;
-#SELECT _ins | x'cafebabe' FROM at;
-#SELECT _inu | x'cafebabe' FROM at;
-#SELECT _bis | x'cafebabe' FROM at;
-#SELECT _biu | x'cafebabe' FROM at;
-#SELECT _dec | x'cafebabe' FROM at;
-#SELECT _flo | x'cafebabe' FROM at;
-#SELECT _dou | x'cafebabe' FROM at;
-#SELECT _yea | x'cafebabe' FROM at;
-#SELECT _jsn | x'cafebabe' FROM at;
-#SELECT _chr | x'cafebabe' FROM at;
-#SELECT _vch | x'cafebabe' FROM at;
-#SELECT _bin | x'cafebabe' FROM at;
-#SELECT _vbn | x'cafebabe' FROM at;
-#SELECT _tbl | x'cafebabe' FROM at;
-#SELECT _ttx | x'cafebabe' FROM at;
-#SELECT _blb | x'cafebabe' FROM at;
-#SELECT _txt | x'cafebabe' FROM at;
-#SELECT _mbb | x'cafebabe' FROM at;
-#SELECT _mtx | x'cafebabe' FROM at;
-#SELECT _lbb | x'cafebabe' FROM at;
-#SELECT _ltx | x'cafebabe' FROM at;
+SELECT _dat ^ 2147483647 FROM at;
+SELECT _dtt ^ 2147483647 FROM at;
+SELECT _smp ^ 2147483647 FROM at;
+SELECT _tim ^ 2147483647 FROM at;
+SELECT _enu ^ 2147483647 FROM at;
+SELECT _set ^ 2147483647 FROM at;
+
+--echo #
+--echo # bitwise operations with a hex literal argument and mysql data-types
+--echo #
+
+SELECT _bit | x'cafebabe' FROM at;
+SELECT _tin | x'cafebabe' FROM at;
+SELECT _boo | x'cafebabe' FROM at;
+SELECT _sms | x'cafebabe' FROM at;
+SELECT _smu | x'cafebabe' FROM at;
+SELECT _mes | x'cafebabe' FROM at;
+SELECT _meu | x'cafebabe' FROM at;
+SELECT _ins | x'cafebabe' FROM at;
+SELECT _inu | x'cafebabe' FROM at;
+SELECT _bis | x'cafebabe' FROM at;
+SELECT _biu | x'cafebabe' FROM at;
+SELECT _dec | x'cafebabe' FROM at;
+SELECT _flo | x'cafebabe' FROM at;
+SELECT _dou | x'cafebabe' FROM at;
+SELECT _yea | x'cafebabe' FROM at;
+SELECT _jsn | x'cafebabe' FROM at;
+SELECT _chr | x'cafebabe' FROM at;
+SELECT _vch | x'cafebabe' FROM at;
+SELECT _bin | x'cafebabe' FROM at;
+SELECT _vbn | x'cafebabe' FROM at;
+SELECT _tbl | x'cafebabe' FROM at;
+SELECT _ttx | x'cafebabe' FROM at;
+SELECT _blb | x'cafebabe' FROM at;
+SELECT _txt | x'cafebabe' FROM at;
+SELECT _mbb | x'cafebabe' FROM at;
+SELECT _mtx | x'cafebabe' FROM at;
+SELECT _lbb | x'cafebabe' FROM at;
+SELECT _ltx | x'cafebabe' FROM at;
 #SELECT _pnt | x'cafebabe' FROM at;
-#SELECT _dat | x'cafebabe' FROM at;
-#SELECT _dtt | x'cafebabe' FROM at;
-#SELECT _smp | x'cafebabe' FROM at;
-#SELECT _tim | x'cafebabe' FROM at;
-#SELECT _enu | x'cafebabe' FROM at;
-#SELECT _set | x'cafebabe' FROM at;
-#
-#SELECT _bit & x'cafebabe' FROM at;
-#SELECT _tin & x'cafebabe' FROM at;
-#SELECT _boo & x'cafebabe' FROM at;
-#SELECT _sms & x'cafebabe' FROM at;
-#SELECT _smu & x'cafebabe' FROM at;
-#SELECT _mes & x'cafebabe' FROM at;
-#SELECT _meu & x'cafebabe' FROM at;
-#SELECT _ins & x'cafebabe' FROM at;
-#SELECT _inu & x'cafebabe' FROM at;
-#SELECT _bis & x'cafebabe' FROM at;
-#SELECT _biu & x'cafebabe' FROM at;
-#SELECT _dec & x'cafebabe' FROM at;
-#SELECT _flo & x'cafebabe' FROM at;
-#SELECT _dou & x'cafebabe' FROM at;
-#SELECT _yea & x'cafebabe' FROM at;
-#SELECT _jsn & x'cafebabe' FROM at;
-#SELECT _chr & x'cafebabe' FROM at;
-#SELECT _vch & x'cafebabe' FROM at;
-#SELECT _bin & x'cafebabe' FROM at;
-#SELECT _vbn & x'cafebabe' FROM at;
-#SELECT _tbl & x'cafebabe' FROM at;
-#SELECT _ttx & x'cafebabe' FROM at;
-#SELECT _blb & x'cafebabe' FROM at;
-#SELECT _txt & x'cafebabe' FROM at;
-#SELECT _mbb & x'cafebabe' FROM at;
-#SELECT _mtx & x'cafebabe' FROM at;
-#SELECT _lbb & x'cafebabe' FROM at;
-#SELECT _ltx & x'cafebabe' FROM at;
+SELECT _dat | x'cafebabe' FROM at;
+SELECT _dtt | x'cafebabe' FROM at;
+SELECT _smp | x'cafebabe' FROM at;
+SELECT _tim | x'cafebabe' FROM at;
+SELECT _enu | x'cafebabe' FROM at;
+SELECT _set | x'cafebabe' FROM at;
+
+SELECT _bit & x'cafebabe' FROM at;
+SELECT _tin & x'cafebabe' FROM at;
+SELECT _boo & x'cafebabe' FROM at;
+SELECT _sms & x'cafebabe' FROM at;
+SELECT _smu & x'cafebabe' FROM at;
+SELECT _mes & x'cafebabe' FROM at;
+SELECT _meu & x'cafebabe' FROM at;
+SELECT _ins & x'cafebabe' FROM at;
+SELECT _inu & x'cafebabe' FROM at;
+SELECT _bis & x'cafebabe' FROM at;
+SELECT _biu & x'cafebabe' FROM at;
+SELECT _dec & x'cafebabe' FROM at;
+SELECT _flo & x'cafebabe' FROM at;
+SELECT _dou & x'cafebabe' FROM at;
+SELECT _yea & x'cafebabe' FROM at;
+SELECT _jsn & x'cafebabe' FROM at;
+SELECT _chr & x'cafebabe' FROM at;
+SELECT _vch & x'cafebabe' FROM at;
+SELECT _bin & x'cafebabe' FROM at;
+SELECT _vbn & x'cafebabe' FROM at;
+SELECT _tbl & x'cafebabe' FROM at;
+SELECT _ttx & x'cafebabe' FROM at;
+SELECT _blb & x'cafebabe' FROM at;
+SELECT _txt & x'cafebabe' FROM at;
+SELECT _mbb & x'cafebabe' FROM at;
+SELECT _mtx & x'cafebabe' FROM at;
+SELECT _lbb & x'cafebabe' FROM at;
+SELECT _ltx & x'cafebabe' FROM at;
 #SELECT _pnt & x'cafebabe' FROM at;
-#SELECT _dat & x'cafebabe' FROM at;
-#SELECT _dtt & x'cafebabe' FROM at;
-#SELECT _smp & x'cafebabe' FROM at;
-#SELECT _tim & x'cafebabe' FROM at;
-#SELECT _enu & x'cafebabe' FROM at;
-#SELECT _set & x'cafebabe' FROM at;
-#
-#SELECT _bit ^ x'cafebabe' FROM at;
-#SELECT _tin ^ x'cafebabe' FROM at;
-#SELECT _boo ^ x'cafebabe' FROM at;
-#SELECT _sms ^ x'cafebabe' FROM at;
-#SELECT _smu ^ x'cafebabe' FROM at;
-#SELECT _mes ^ x'cafebabe' FROM at;
-#SELECT _meu ^ x'cafebabe' FROM at;
-#SELECT _ins ^ x'cafebabe' FROM at;
-#SELECT _inu ^ x'cafebabe' FROM at;
-#SELECT _bis ^ x'cafebabe' FROM at;
-#SELECT _biu ^ x'cafebabe' FROM at;
-#SELECT _dec ^ x'cafebabe' FROM at;
-#SELECT _flo ^ x'cafebabe' FROM at;
-#SELECT _dou ^ x'cafebabe' FROM at;
-#SELECT _yea ^ x'cafebabe' FROM at;
-#SELECT _jsn ^ x'cafebabe' FROM at;
-#SELECT _chr ^ x'cafebabe' FROM at;
-#SELECT _vch ^ x'cafebabe' FROM at;
-#SELECT _bin ^ x'cafebabe' FROM at;
-#SELECT _vbn ^ x'cafebabe' FROM at;
-#SELECT _tbl ^ x'cafebabe' FROM at;
-#SELECT _ttx ^ x'cafebabe' FROM at;
-#SELECT _blb ^ x'cafebabe' FROM at;
-#SELECT _txt ^ x'cafebabe' FROM at;
-#SELECT _mbb ^ x'cafebabe' FROM at;
-#SELECT _mtx ^ x'cafebabe' FROM at;
-#SELECT _lbb ^ x'cafebabe' FROM at;
-#SELECT _ltx ^ x'cafebabe' FROM at;
+SELECT _dat & x'cafebabe' FROM at;
+SELECT _dtt & x'cafebabe' FROM at;
+SELECT _smp & x'cafebabe' FROM at;
+SELECT _tim & x'cafebabe' FROM at;
+SELECT _enu & x'cafebabe' FROM at;
+SELECT _set & x'cafebabe' FROM at;
+
+SELECT _bit ^ x'cafebabe' FROM at;
+SELECT _tin ^ x'cafebabe' FROM at;
+SELECT _boo ^ x'cafebabe' FROM at;
+SELECT _sms ^ x'cafebabe' FROM at;
+SELECT _smu ^ x'cafebabe' FROM at;
+SELECT _mes ^ x'cafebabe' FROM at;
+SELECT _meu ^ x'cafebabe' FROM at;
+SELECT _ins ^ x'cafebabe' FROM at;
+SELECT _inu ^ x'cafebabe' FROM at;
+SELECT _bis ^ x'cafebabe' FROM at;
+SELECT _biu ^ x'cafebabe' FROM at;
+SELECT _dec ^ x'cafebabe' FROM at;
+SELECT _flo ^ x'cafebabe' FROM at;
+SELECT _dou ^ x'cafebabe' FROM at;
+SELECT _yea ^ x'cafebabe' FROM at;
+SELECT _jsn ^ x'cafebabe' FROM at;
+SELECT _chr ^ x'cafebabe' FROM at;
+SELECT _vch ^ x'cafebabe' FROM at;
+SELECT _bin ^ x'cafebabe' FROM at;
+SELECT _vbn ^ x'cafebabe' FROM at;
+SELECT _tbl ^ x'cafebabe' FROM at;
+SELECT _ttx ^ x'cafebabe' FROM at;
+SELECT _blb ^ x'cafebabe' FROM at;
+SELECT _txt ^ x'cafebabe' FROM at;
+SELECT _mbb ^ x'cafebabe' FROM at;
+SELECT _mtx ^ x'cafebabe' FROM at;
+SELECT _lbb ^ x'cafebabe' FROM at;
+SELECT _ltx ^ x'cafebabe' FROM at;
 #SELECT _pnt ^ x'cafebabe' FROM at;
-#SELECT _dat ^ x'cafebabe' FROM at;
-#SELECT _dtt ^ x'cafebabe' FROM at;
-#SELECT _smp ^ x'cafebabe' FROM at;
-#SELECT _tim ^ x'cafebabe' FROM at;
-#SELECT _enu ^ x'cafebabe' FROM at;
-#SELECT _set ^ x'cafebabe' FROM at;
-#
-#--echo #
-#--echo # bitwise operations with binary and varbinary arguments
-#--echo #
-#
-#SELECT HEX(_bin & _bin), HEX(_bin & _vbn), HEX(_vbn & _bin), HEX(_vbn & _vbn) FROM at;
-#SELECT HEX(_bin | _bin), HEX(_bin | _vbn), HEX(_vbn | _bin), HEX(_vbn | _vbn) FROM at;
-#SELECT HEX(_bin ^ _bin), HEX(_bin ^ _vbn), HEX(_vbn ^ _bin), HEX(_vbn ^ _vbn) FROM at;
-#DROP TABLE at;
+SELECT _dat ^ x'cafebabe' FROM at;
+SELECT _dtt ^ x'cafebabe' FROM at;
+SELECT _smp ^ x'cafebabe' FROM at;
+SELECT _tim ^ x'cafebabe' FROM at;
+SELECT _enu ^ x'cafebabe' FROM at;
+SELECT _set ^ x'cafebabe' FROM at;
+
+--echo #
+--echo # bitwise operations with binary and varbinary arguments
+--echo #
+
+SELECT HEX(_bin & _bin), HEX(_bin & _vbn), HEX(_vbn & _bin), HEX(_vbn & _vbn) FROM at;
+SELECT HEX(_bin | _bin), HEX(_bin | _vbn), HEX(_vbn | _bin), HEX(_vbn | _vbn) FROM at;
+SELECT HEX(_bin ^ _bin), HEX(_bin ^ _vbn), HEX(_vbn ^ _bin), HEX(_vbn ^ _vbn) FROM at;
+DROP TABLE at;
 
 --echo #
 --echo # Test of bitwise aggregate functions on BINARY
@@ -597,5 +595,4 @@ FROM "SELECT group_id, HEX(BIT_AND(a)), HEX(BIT_OR(a)), HEX (BIT_XOR(a)) FROM t 
 EXECUTE s2;
 EXECUTE s2;
 DROP TABLE t;
-
 -- source include/uninstall_sequoiadb.inc
