@@ -1364,39 +1364,39 @@ DROP TABLE t1,t2,t3,t4;
 --echo # Bug#13727407: Assert !item->const_item() || !item->not_null_tables()
 --echo #
 
-#Sequoiadb not support time and key on timestamp
-#CREATE TABLE t1 (
-#  col_int_key INT,
-#  KEY col_int_key (col_int_key)
-#);
-#
-#INSERT INTO t1 VALUES (1);
-#
-#CREATE TABLE t2 (
-#  col_int_key INT,
-#  col_time_key TIME,
-#  col_datetime_nokey DATETIME,
-#  KEY col_int_key (col_int_key),
+#Sequoiadb not support key on timestamp
+CREATE TABLE t1 (
+  col_int_key INT,
+  KEY col_int_key (col_int_key)
+);
+
+INSERT INTO t1 VALUES (1);
+
+CREATE TABLE t2 (
+  col_int_key INT,
+  col_time_key TIME,
+  col_datetime_nokey DATETIME,
+  KEY col_int_key (col_int_key)
 #  KEY col_time_key (col_time_key)
-#);
-#
-#INSERT INTO t2 VALUES
-# (7,'14:03:03','2001-11-28 00:50:27'), (1,'01:46:09','2007-10-09 19:53:04');
-#
-#let $query=
-#SELECT col_datetime_nokey AS x
-#FROM t2 AS outr
-#WHERE col_int_key IN (
-#  SELECT STRAIGHT_JOIN col_int_key
-#  FROM t1
-#) AND outr.col_int_key = 0
-#HAVING x = '2000-09-09'
-#ORDER BY col_time_key;
-#
+);
+
+INSERT INTO t2 VALUES
+ (7,'14:03:03','2001-11-28 00:50:27'), (1,'01:46:09','2007-10-09 19:53:04');
+
+let $query=
+SELECT col_datetime_nokey AS x
+FROM t2 AS outr
+WHERE col_int_key IN (
+  SELECT STRAIGHT_JOIN col_int_key
+  FROM t1
+) AND outr.col_int_key = 0
+HAVING x = '2000-09-09'
+ORDER BY col_time_key;
+
 #eval EXPLAIN $query;
-#eval $query;
-#
-#DROP TABLE t1, t2;
+eval $query;
+
+DROP TABLE t1, t2;
 
 --echo #
 --echo # Bug#13838501 ASSERTION `TABLE->FILE->INITED' FAILED IN
