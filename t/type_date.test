@@ -203,7 +203,7 @@ if (`SELECT CURTIME() > SEC_TO_TIME(24 * 3600 - 5)`)
 #
 # Bug#28687: Search fails on '0000-00-00' date after sql_mode change
 #
-
+#Bug #SEQUOIASQLMAINSTREAM-167
 CREATE TABLE t1 (a DATE);
 CREATE TABLE t2 (a DATE);
 # NOW not support index of date
