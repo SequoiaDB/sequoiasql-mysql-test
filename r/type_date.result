@@ -182,8 +182,6 @@ a
 Warnings:
 Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 1
 Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 1
-Warning	1292	Incorrect datetime value: '0000-00-00'
-Warning	1292	Incorrect datetime value: '0000-00-00'
 Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
 Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
 SELECT * FROM t2 WHERE a = '0000-00-00';
@@ -193,8 +191,6 @@ a
 Warnings:
 Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 1
 Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 1
-Warning	1292	Incorrect datetime value: '0000-00-00'
-Warning	1292	Incorrect datetime value: '0000-00-00'
 Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
 Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
 SET SQL_MODE=TRADITIONAL;
@@ -205,8 +201,6 @@ a
 Warnings:
 Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 1
 Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 1
-Warning	1292	Incorrect datetime value: '0000-00-00'
-Warning	1292	Incorrect datetime value: '0000-00-00'
 Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
 Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
 SELECT * FROM t2 WHERE a = '0000-00-00';
@@ -216,8 +210,6 @@ a
 Warnings:
 Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 1
 Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 1
-Warning	1292	Incorrect datetime value: '0000-00-00'
-Warning	1292	Incorrect datetime value: '0000-00-00'
 Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
 Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
 INSERT INTO t1 VALUES ('0000-00-00');
