@@ -912,8 +912,6 @@ col1	col2	col3
 100	hello	2004-08-20
 101	hell2	2004-08-21
 0		0000-00-00
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'col3' at row 3
 DROP TABLE t1;
 CREATE TABLE t1 (col1 INT NOT NULL default 99, col2 CHAR(6) NOT NULL);
 SHOW CREATE TABLE t1;
@@ -1076,7 +1074,7 @@ insert ignore into t1 values ('0000-00-00');
 Warnings:
 Warning	1264	Out of range value for column 'col1' at row 1
 insert into t1 select * from t1;
-ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'col1' at row 1
+ERROR 22007: Incorrect date value: '0000-00-00' for column 'col1' at row 1
 insert ignore into t1 values ('0000-00-00');
 Warnings:
 Warning	1264	Out of range value for column 'col1' at row 1
@@ -1084,15 +1082,12 @@ insert ignore into t1 (col1) values (cast('0000-00-00' as date));
 Warnings:
 Warning	1292	Incorrect datetime value: '0000-00-00'
 insert into t1 select * from t1;
-ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'col1' at row 1
+ERROR 22007: Incorrect date value: '0000-00-00' for column 'col1' at row 1
 select * from t1;
 col1
 0000-00-00
 0000-00-00
 NULL
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'col1' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'col1' at row 2
 drop table t1;
 create table t1 (col1 datetime);
 insert ignore into t1 values ('0000-00-00 00:00:00'),
@@ -1470,8 +1465,6 @@ Warning	1264	Out of range value for column 'a' at row 1
 SELECT * FROM t1;
 a
 0000-00-00
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
 INSERT INTO t1 VALUES('2004-0-30');
 ERROR 22007: Incorrect date value: '2004-0-30' for column 'a' at row 1
 INSERT IGNORE INTO t1 VALUES('2004-0-30');
@@ -1481,46 +1474,31 @@ SELECT * FROM t1;
 a
 0000-00-00
 0000-00-00
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
 UPDATE t1 SET a = '0000-00-00';
-ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+ERROR 22007: Incorrect date value: '0000-00-00' for column 'a' at row 1
 UPDATE IGNORE t1 SET a = '0000-00-00';
 Warnings:
 Warning	1264	Out of range value for column 'a' at row 1
-Warning	1264	Out of range value for column 'a' at row 1
-Warning	1264	Out of range value for column 'a' at row 2
 Warning	1264	Out of range value for column 'a' at row 2
 SELECT * FROM t1;
 a
 0000-00-00
 0000-00-00
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
 UPDATE t1 SET a = '2004-0-30';
-ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+ERROR 22007: Incorrect date value: '2004-0-30' for column 'a' at row 1
 UPDATE IGNORE t1 SET a = '2004-0-30';
 Warnings:
 Warning	1264	Out of range value for column 'a' at row 1
-Warning	1264	Out of range value for column 'a' at row 1
-Warning	1264	Out of range value for column 'a' at row 2
 Warning	1264	Out of range value for column 'a' at row 2
 SELECT * FROM t1;
 a
 0000-00-00
 0000-00-00
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
 INSERT INTO t1 SELECT * FROM t1;
-ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+ERROR 22007: Incorrect date value: '0000-00-00' for column 'a' at row 1
 INSERT IGNORE INTO t1 SELECT * FROM t1;
 Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
 Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
 Warning	1292	Incorrect date value: '0000-00-00' for column 'a' at row 2
 Warning	1264	Out of range value for column 'a' at row 3
 Warning	1264	Out of range value for column 'a' at row 4
@@ -1530,22 +1508,13 @@ a
 0000-00-00
 0000-00-00
 0000-00-00
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 3
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 4
 CREATE TABLE t2(b DATE) SELECT a FROM t1;
-ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+ERROR 22007: Incorrect date value: '0000-00-00' for column 'a' at row 1
 CREATE TABLE t2 (b DATE) IGNORE SELECT a FROM t1;
 Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
 Warning	1264	Out of range value for column 'a' at row 1
 Warning	1264	Out of range value for column 'a' at row 2
-Warning	1264	Out of range value for column 'a' at row 2
 Warning	1264	Out of range value for column 'a' at row 3
-Warning	1264	Out of range value for column 'a' at row 3
-Warning	1264	Out of range value for column 'a' at row 4
 Warning	1264	Out of range value for column 'a' at row 4
 SELECT * FROM t2;
 b	a
@@ -1553,11 +1522,6 @@ NULL	0000-00-00
 NULL	0000-00-00
 NULL	0000-00-00
 NULL	0000-00-00
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 3
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 4
 DROP TABLE t2;
 INSERT INTO t1 VALUES(1/0);
 ERROR 22012: Division by 0
@@ -1571,22 +1535,13 @@ a
 0000-00-00
 0000-00-00
 NULL
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 2
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 3
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 4
 UPDATE t1 SET a = (1/0);
-ERROR 22007: Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
+ERROR 22012: Division by 0
 UPDATE IGNORE t1 SET a = (1/0);
 Warnings:
-Warning	1264	Out of range value for column 'a' at row 1
 Warning	1365	Division by 0
-Warning	1264	Out of range value for column 'a' at row 2
 Warning	1365	Division by 0
-Warning	1264	Out of range value for column 'a' at row 3
 Warning	1365	Division by 0
-Warning	1264	Out of range value for column 'a' at row 4
 Warning	1365	Division by 0
 Warning	1365	Division by 0
 CREATE TABLE t2(b DATE) SELECT (1/0) FROM t1;

@@ -323,8 +323,6 @@ ERROR 22007: Incorrect date value: '0000-00-00' for column 'a' at row 1
 SELECT * FROM default_date;
 a
 0000-00-00
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'a' at row 1
 DROP TABLE default_date;
 
 # Bug#11744960 : INSERT IGNORE SHOULD RETURN WARNINGS

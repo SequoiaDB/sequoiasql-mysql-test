@@ -1950,9 +1950,6 @@ SELECT 1 FROM C WHERE pk > ANY (SELECT 1 FROM C);
 SELECT COUNT(DISTINCT 1) FROM C 
 WHERE date_key = (SELECT 1 FROM A WHERE C.date_key IS NULL) GROUP BY pk;
 COUNT(DISTINCT 1)
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'date_key' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'date_key' at row 1
 SELECT date_nokey FROM C 
 WHERE int_key IN (SELECT 1 FROM A) 
 HAVING date_nokey = '10:41:7' 
@@ -1960,8 +1957,6 @@ ORDER BY date_key;
 date_nokey
 Warnings:
 Warning	1292	Incorrect date value: '10:41:7' for column 'date_nokey' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'date_key' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'date_key' at row 1
 DROP TABLE A,C;
 CREATE TABLE t1 (a INT NOT NULL, b INT);
 INSERT INTO t1 VALUES (1, 1);

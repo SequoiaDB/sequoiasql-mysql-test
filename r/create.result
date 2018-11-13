@@ -1379,9 +1379,6 @@ Warning	1265	Data truncated for column 'c' at row 1
 select * from t1;
 a	b	c
 NULL	0000-00-00	0000-00-00
-Warnings:
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'b' at row 1
-Warning	1292	Incorrect date value: '0000-00-00 00:00:00' for column 'c' at row 1
 drop table t1;
 #
 #
