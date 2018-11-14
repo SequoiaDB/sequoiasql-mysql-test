@@ -1103,9 +1103,6 @@ col1
 0000-00-00 00:00:00
 0000-00-00 00:00:00
 NULL
-Warnings:
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'col1' at row 1
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'col1' at row 2
 drop table t1;
 create table t1 (col1 tinyint);
 drop procedure if exists t1;

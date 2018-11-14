@@ -147,8 +147,6 @@ select * from t1;
 d	dt	ts
 0000-00-00	0000-00-00 00:00:00	0000-00-00 00:00:00
 2001-11-11	2001-11-11 00:00:00	2001-11-11 00:00:00
-Warnings:
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt' at row 1
 drop table t1;
 SET sql_mode='NO_AUTO_CREATE_USER,STRICT_TRANS_TABLES';
 Warnings:

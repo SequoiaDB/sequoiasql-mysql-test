@@ -20,13 +20,7 @@ t
 9999-12-31 23:59:59
 0000-00-00 00:00:00
 0000-00-00 00:00:00
-Warnings:
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 13
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 14
-delete ignore from t1 where t > 0;
-Warnings:
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 1
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 1
+delete from t1 where t > 0;
 delete from t1;
 insert ignore into t1 values("000101"),("691231"),("700101"),("991231"),("00000101"),("00010101"),("99991231"),("00101000000"),("691231000000"),("700101000000"),("991231235959"),("10000101000000"),("99991231235959"),("20030100000000"),("20030000000000");
 Warnings:
@@ -55,9 +49,6 @@ t
 2003-01-02 13:14:15
 2001-01-01 01:01:01
 2001-01-01 01:01:01
-Warnings:
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 14
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 15
 truncate table t1;
 insert ignore into t1 values("2003-0303 12:13:14");
 Warnings:
@@ -65,8 +56,6 @@ Warning	1265	Data truncated for column 't' at row 1
 select * from t1;
 t
 0000-00-00 00:00:00
-Warnings:
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 't' at row 1
 drop table t1;
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
 Warnings:
@@ -87,8 +76,6 @@ Warning	1264	Out of range value for column 'a' at row 1
 select * from t1 where a is null;
 a
 0000-00-00 00:00:00
-Warnings:
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 1
 drop table t1;
 create table t1 (id int, dt datetime);
 insert into t1 values (1,"2001-08-14 00:00:00"),(2,"2001-08-15 00:00:00"),(3,"2001-08-16 00:00:00"),(4,"2003-09-15 01:20:30");
@@ -627,13 +614,10 @@ DELETE IGNORE  FROM t1 WHERE dt1 = '0000-00-01 00:00:01';
 Warnings:
 Warning	1292	Incorrect datetime value: '0000-00-01 00:00:01' for column 'dt1' at row 1
 Warning	1292	Incorrect datetime value: '0000-00-01 00:00:01' for column 'dt1' at row 1
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt1' at row 1
 # Should be empty
 SELECT * FROM t1;
 dt1
 0000-00-00 00:00:00
-Warnings:
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'dt1' at row 1
 DROP TABLE t1;
 End of 5.1 tests
 #
@@ -699,8 +683,6 @@ a	b
 SELECT * FROM t2 WHERE a IS NULL;
 a	b
 0000-00-00 00:00:00	1
-Warnings:
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 1
 SELECT * FROM t1 LEFT JOIN t1 AS t1_2 ON 1 WHERE t1_2.a IS NULL;
 a	b	a	b
 0000-00-00	1	0000-00-00	1
@@ -709,9 +691,6 @@ SELECT * FROM t2 LEFT JOIN t2 AS t2_2 ON 1 WHERE t2_2.a IS NULL;
 a	b	a	b
 0000-00-00 00:00:00	1	0000-00-00 00:00:00	1
 1999-05-10 00:00:00	2	0000-00-00 00:00:00	1
-Warnings:
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 1
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 3
 SELECT * FROM t1 JOIN t1 AS t1_2 ON 1 WHERE t1_2.a IS NULL;
 a	b	a	b
 0000-00-00	1	0000-00-00	1
@@ -720,9 +699,6 @@ SELECT * FROM t2 JOIN t2 AS t2_2 ON 1 WHERE t2_2.a IS NULL;
 a	b	a	b
 0000-00-00 00:00:00	1	0000-00-00 00:00:00	1
 1999-05-10 00:00:00	2	0000-00-00 00:00:00	1
-Warnings:
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 1
-Warning	1292	Incorrect datetime value: '0000-00-00 00:00:00' for column 'a' at row 3
 
 PREPARE stmt1 FROM 
 'SELECT *
