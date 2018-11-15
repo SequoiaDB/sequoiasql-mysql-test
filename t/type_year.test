@@ -4,6 +4,7 @@
 #
 # (#Case #16584)
 # (#Case #16522)
+--source include/have_sequoiadb.inc
 --disable_warnings
 drop table if exists t1;
 --enable_warnings
@@ -200,3 +201,5 @@ INSERT INTO t1 VALUES (TIME'25:00:00');
 SELECT * FROM t1;
 DROP TABLE t1;
 SET timestamp=DEFAULT;
+--source include/uninstall_sequoiadb.inc
+

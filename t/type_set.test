@@ -1,5 +1,6 @@
 
  #Get deafult engine value
+-- source include/have_sequoiadb.inc
 --let $DEFAULT_ENGINE = `select @@global.default_storage_engine`
 
 #
@@ -125,4 +126,5 @@ set('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16',
 INSERT INTO bar VALUES ("100");
 SELECT * FROM bar;
 DROP TABLE bar; 
+--source include/uninstall_sequoiadb.inc
 

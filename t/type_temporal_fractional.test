@@ -4,7 +4,7 @@
 
 
 #SET @@default_storage_engine=SEQUOIADB;
-
+-- source include/have_sequoiadb.inc
 --disable_warnings
 DROP TABLE IF EXISTS t1, t2;
 --enable_warnings
@@ -7915,3 +7915,5 @@ SELECT ADDTIME(a, 100000) FROM t1;
 SET @@session.sql_buffer_result=default;
 
 DROP TABLE t1;
+--source include/uninstall_sequoiadb.inc
+

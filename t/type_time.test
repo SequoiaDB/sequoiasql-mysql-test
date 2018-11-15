@@ -2,7 +2,7 @@
 #
 # testing of the TIME column type
 #
-
+--source include/have_sequoiadb.inc
 --disable_warnings
 drop table if exists t1;
 --enable_warnings
@@ -443,3 +443,5 @@ SET sql_mode = default;
 --echo #
 --echo # End of 5.6 tests
 --echo #
+--source include/uninstall_sequoiadb.inc
+
