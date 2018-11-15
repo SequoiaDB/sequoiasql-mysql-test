@@ -2,6 +2,8 @@
 #
 # Test year
 #
+# (#Case #16584)
+# (#Case #16522)
 --disable_warnings
 drop table if exists t1;
 --enable_warnings
