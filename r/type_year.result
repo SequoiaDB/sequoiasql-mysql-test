@@ -116,6 +116,15 @@ SELECT * FROM t2 WHERE yy = NOW();
 yy	c2
 SELECT * FROM t4 WHERE yyyy = NOW();
 yyyy	c4
+SELECT * FROM t2 WHERE yy = 99;
+yy	c2
+1999	1999
+SELECT * FROM t2 WHERE 99 = yy;
+yy	c2
+1999	1999
+SELECT * FROM t4 WHERE yyyy = 99;
+yyyy	c4
+1999	1999
 SELECT * FROM t2 WHERE yy = 'test';
 yy	c2
 Warnings:
