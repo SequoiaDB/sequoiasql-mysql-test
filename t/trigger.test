@@ -199,9 +199,9 @@ insert into t1 values (1, 1);
 select @log;
 # INSERT IGNORE for already existing key - only before trigger should fire
 set @log:= "";
-#Bug #SEQUOIASQLMAINSTREAM-160
+#Bug #SEQUOIASQLMAINSTREAM-160,SEQUOIASQLMAINSTREAM-183
 insert ignore t1 values (1, 2);
-select @log;
+#select @log;
 # INSERT ... ON DUPLICATE KEY UPDATE ...
 set @log:= "";
 
@@ -238,6 +238,7 @@ drop table t1;
 # Let us test triggers which access other tables.
 #
 # Trivial trigger which inserts data into another table
+#engine sequoiadb modify test result as same as the innodb
 create table t1 (id int primary key, data varchar(10), fk int);
 create table t2 (event varchar(100));
 create table t3 (id int primary key);
@@ -262,6 +263,7 @@ delimiter ;|
 insert into t3 values (1);
 --error ER_BAD_NULL_ERROR
 insert into t1 values (4, "four", 1), (5, "five", 2);
+#engine sequoiadb modify test result as same as the innodb
 select * from t1;
 select * from t2;
 drop table t1, t2, t3;
@@ -500,7 +502,7 @@ drop table t1;
 
 # Test for bug #5894 "Triggers with altered tables cause corrupt databases"
 # Also tests basic error handling for various kinds of triggers.
-create table t1 (i int, at int, k int, key(k)) engine=Sequoiadb;
+create table t1 (i int, at int, k int, key(k));
 create table t2 (i int);
 insert into t1 values (1, 1, 1);
 # We need at least 3 elements in t2 to test multi-update properly
@@ -519,10 +521,10 @@ select * from t1;
 --error ER_BAD_FIELD_ERROR
 insert into t1 values (2, 1);
 select * from t1;
---error ER_BAD_FIELD_ERROR
+#engine sequoiadb modify testcase result as same as innodb
 update t1 set k = 2 where i = 2;
 select * from t1;
---error ER_BAD_FIELD_ERROR
+#engine sequoiadb modify testcase result as same as innodb
 delete from t1 where i = 2;
 select * from t1;
 # Should fail and insert only 1 row
@@ -531,23 +533,28 @@ load data infile '../../std_data/loaddata5.dat' into table t1 fields terminated 
 select * from t1;
 --error ER_BAD_FIELD_ERROR
 insert into t1 select 3, 3;
+#engine sequoiadb modify testcase result as same as innodb
 select * from t1;
 # Multi-update working on the fly, again it will update only
 # one row even if more matches
 --error ER_BAD_FIELD_ERROR
 update t1, t2 set k = k + 10 where t1.i = t2.i;
+#engine sequoiadb modify testcase result as same as innodb
 select * from t1;
 # The same for multi-update via temp table
 --error ER_BAD_FIELD_ERROR
 update t1, t2 set k = k + 10 where t1.i = t2.i and k < 3;
+#engine sequoiadb modify testcase result as same as innodb
 select * from t1;
 # Multi-delete on the fly
 --error ER_BAD_FIELD_ERROR
 delete t1, t2 from t1 straight_join t2 where t1.i = t2.i;
+#engine sequoiadb modify testcase result as same as innodb
 select * from t1;
 # And via temporary storage
 --error ER_BAD_FIELD_ERROR
 delete t2, t1 from t2 straight_join t1 where t1.i = t2.i;
+#engine sequoiadb modify testcase result as same as innodb
 select * from t1;
 # Prepare table for testing of REPLACE and INSERT ... ON DUPLICATE KEY UPDATE
 alter table t1 add primary key (i);
@@ -848,19 +855,20 @@ set @@max_sp_recursion_depth=100;
 --error ER_CANT_UPDATE_USED_TABLE_IN_SF_OR_TRG
 insert into t1 values (1);
 set @@max_sp_recursion_depth=@SAVE_SP_RECURSION_LEVELS;
+#engine sequoiadb modify test result as same as the innodb
 select * from t1;
 select * from t2;
 drop trigger t1_ai;
 drop trigger t2_ai;
 create trigger t1_bu before update on t1
   for each row insert into t1 values (2);
---error ER_CANT_UPDATE_USED_TABLE_IN_SF_OR_TRG
+#engine sequoiadb modify testcase result as same as innodb
 update t1 set f1= 10;
 select * from t1;
 drop trigger t1_bu;
 create trigger t1_bu before update on t1
   for each row delete from t1 where f1=new.f1;
---error ER_CANT_UPDATE_USED_TABLE_IN_SF_OR_TRG
+#engine sequoiadb modify testcase result as same as innodb
 update t1 set f1= 10;
 select * from t1;
 drop trigger t1_bu;
@@ -868,6 +876,7 @@ drop trigger t1_bu;
 create trigger t1_bi before insert on t1
   for each row set new.f1=(select sum(f1) from t1);
 insert into t1 values (3);
+#engine sequoiadb modify test result as same as the innodb
 select * from t1;
 drop trigger t1_bi;
 drop tables t1, t2;
@@ -1100,25 +1109,27 @@ insert into t1 values (101);
 select @a;
 select trigger_schema, trigger_name, event_object_schema,
        event_object_table, action_statement from information_schema.triggers
-       where event_object_schema = 'test' or event_object_schema = 'mysqltest_trigger';
+       where event_object_schema = 'test_trigger' or event_object_schema = 'mysqltest_trigger';
+#SEQUOIASQLMAINSTREAM-184
 #--error 200
 #rename table t1 to test_trigger.t2;
 insert into t1 values (102);
 select @a;
 select trigger_schema, trigger_name, event_object_schema,
        event_object_table, action_statement from information_schema.triggers
-       where event_object_schema = 'test' or event_object_schema = 'mysqltest_trigger';
+       where event_object_schema = 'test_trigger' or event_object_schema = 'mysqltest_trigger';
 # There should be no fantom .TRN files 
 --error ER_TRG_DOES_NOT_EXIST
 drop trigger test_trigger.t1_bi;
 # Let us also check handling of this restriction in ALTER TABLE ... RENAME
+#SEQUOIASQLMAINSTREAM-184
 #--error 200
 #alter table t1 rename to test_trigger.t1;
 insert into t1 values (103);
 select @a;
 select trigger_schema, trigger_name, event_object_schema,
        event_object_table, action_statement from information_schema.triggers
-       where event_object_schema = 'test' or event_object_schema = 'mysqltest_trigger';
+       where event_object_schema = 'test_trigger' or event_object_schema = 'mysqltest_trigger';
 # Again there should be no fantom .TRN files 
 --error ER_TRG_DOES_NOT_EXIST
 drop trigger test_trigger.t1_bi;
@@ -1128,7 +1139,7 @@ insert into t1 values (104);
 select @a;
 select trigger_schema, trigger_name, event_object_schema,
        event_object_table, action_statement from information_schema.triggers
-       where event_object_schema = 'test' or event_object_schema = 'mysqltest_trigger';
+       where event_object_schema = 'test_trigger' or event_object_schema = 'mysqltest_trigger';
 # Table definition should not change
 show create table t1;
 # And once again check for fantom .TRN files 
@@ -1379,6 +1390,7 @@ DROP TRIGGER t1_au;
 DROP PROCEDURE p1;
 
 # Post requisite.
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t1;
 
 DROP TABLE t1;
@@ -2282,6 +2294,7 @@ select * from table_25411_a;
 --error ER_BAD_TABLE_ERROR
 insert into table_25411_a values (1);
 
+#engine sequoiadb modify test result as same as the innodb
 select * from table_25411_a;
 
 drop table table_25411_a;
