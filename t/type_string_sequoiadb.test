@@ -1,0 +1,186 @@
+# (#Case #13307: Check DataType not support)
+# (#Case #13097: Check DataType null)
+# (#Case #16523: Check DataType time)
+# (#Case #16522: Check DataType year)
+# (#Case #16518: Check DataType bit)
+# (#Case #13083: Check DataType bigint)
+# (#Case #13084: Check DataType bigint unsigned)
+
+--disable_warnings
+drop table if exists t1;
+--enable_warnings
+
+#char
+create table t1 (a char);
+insert into t1 values('a');
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1406
+insert into t1(a) values('ab');
+drop table t1;
+create table t1 (a char(255));
+insert into t1 values('我');
+insert into t1 values(repeat('a',255));
+select * from t1;
+--error 1406
+insert into t1 values(repeat('a',256));
+drop table t1;
+
+#varchar
+--error 1118
+create table t1 (a varchar(65533));
+create table t1 (a varchar(65532));
+insert into t1 values('a'),('我');
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+insert into t1 values(repeat('a',65532));
+select length(a) from t1;
+--error 1406
+insert into t1 values(repeat('a',65533));
+drop table t1;
+
+#tinytext
+create table t1 (a tinytext);
+insert into t1 values('a'),('我'),(repeat('a',255));
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1406
+insert into t1 values(repeat('a',256));
+drop table t1;
+
+#text
+create table t1 (a text);
+insert into t1 values('a'),('我');
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+insert into t1 values(repeat('a',65535));
+select length(a) from t1;
+--error 1406
+insert into t1 values(repeat('a',65536));
+drop table t1;
+
+#mediumtext
+create table t1 (a mediumtext);
+insert into t1 values('a'),('我');
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+select * from t1;
+insert into t1 values(repeat('a',16773074));
+select length(a) from t1;
+--error 1030
+insert into t1 values(repeat('a',16773075));
+drop table t1;
+
+#longtext
+create table t1 (a longtext);
+insert into t1 values('a'),('我');
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+select * from t1;
+insert into t1 values(repeat('a',16773074));
+select length(a) from t1;
+--error 1030
+insert into t1 values(repeat('a',16773075));
+drop table t1;
+
+#tinyblob
+create table t1 (a tinyblob);
+insert into t1 values('a'),('我'),(repeat('a',255));
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1406
+insert into t1 values(repeat('a',256));
+drop table t1;
+
+#blob
+create table t1 (a blob);
+insert into t1 values('a'),('我');
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+select * from t1;
+insert into t1 values(repeat('a',65535));
+select length(a) from t1;
+--error 1406
+insert into t1 values(repeat('a',65536));
+drop table t1;
+
+#mediumblob
+create table t1 (a mediumblob);
+insert into t1 values('a'),('我');
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+select * from t1;
+insert into t1 values(repeat('a',16773074));
+select length(a) from t1;
+--error 1030
+insert into t1 values(repeat('a',16773075));
+drop table t1;
+
+#longblob
+create table t1 (a longblob);
+insert into t1 values('a'),('我');
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+select * from t1;
+insert into t1 values(repeat('a',16773074));
+select length(a) from t1;
+--error 1030
+insert into t1 values(repeat('a',16773075));
+drop table t1;
+
+#binary
+create table t1 (a binary);
+insert into t1 values('a');
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1406
+insert into t1 values('ab');
+drop table t1;
+create table t1 (a binary(255));
+insert into t1 values('我'),(repeat('a',255));
+select * from t1;
+--error 1406
+insert into t1 values(repeat('a',256));
+drop table t1;
+
+#varbinary
+--error 1118
+create table t1 (a varbinary(65533));
+create table t1 (a varbinary(65532));
+insert into t1 values('a'),('我');
+select * from t1;
+update t1 set a='c' where a='a';
+select * from t1;
+delete from t1;
+select * from t1;
+insert into t1 values(repeat('a',65532));
+select length(a) from t1;
+--error 1406
+insert into t1 values(repeat('a',65533));
+drop table t1;
