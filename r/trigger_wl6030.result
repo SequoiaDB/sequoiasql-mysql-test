@@ -319,7 +319,7 @@ a	b	c
 
 SELECT * FROM t3;
 a	b
--10	-10
+10	-10
 
 DELETE FROM t1;
 DELETE FROM t2;
@@ -1680,10 +1680,6 @@ ERROR 23000: Column 'b' cannot be null
 # t1's engine is MyISAM, so the transaction can not be fully rolled back.
 SELECT * FROM t1;
 a	b
-11	12
-NULL	22
-110	120
-NULL	220
 DELETE FROM t1;
 
 REPLACE INTO t1 SELECT * FROM t1_data;
@@ -1695,10 +1691,6 @@ ERROR 23000: Column 'b' cannot be null
 # t1's engine is MyISAM, so the transaction can not be fully rolled back.
 SELECT * FROM t1;
 a	b
-11	12
-NULL	22
-110	120
-NULL	220
 DELETE FROM t1;
 
 #   - No column list (all columns) + NULL-value for NOT NULL column.
@@ -1711,10 +1703,6 @@ ERROR 23000: Column 'b' cannot be null
 # t2's engine is MyISAM, so the transaction can not be fully rolled back.
 SELECT * FROM t2;
 a	b	c	d
-11	12	13	14
-NULL	22	23	24
-110	120	130	140
-NULL	220	230	240
 DELETE FROM t2;
 
 #   - No column list (all columns) + NULL-value for NOT NULL column.
@@ -1727,10 +1715,6 @@ ERROR 23000: Column 'b' cannot be null
 # t2's engine is MyISAM, so the transaction can not be fully rolled back.
 SELECT * FROM t2;
 a	b	c	d
-11	12	13	14
-NULL	22	23	24
-110	120	130	140
-NULL	220	230	240
 DELETE FROM t2;
 
 #   - All columns + NULL-value for NOT NULL column.
@@ -1744,10 +1728,6 @@ ERROR 23000: Column 'b' cannot be null
 # t1's engine is MyISAM, so the transaction can not be fully rolled back.
 SELECT * FROM t1;
 a	b
-11	12
-NULL	22
-110	120
-NULL	220
 DELETE FROM t1;
 
 REPLACE INTO t1(a, b) SELECT * FROM t1_data;
@@ -1759,10 +1739,6 @@ ERROR 23000: Column 'b' cannot be null
 # t1's engine is MyISAM, so the transaction can not be fully rolled back.
 SELECT * FROM t1;
 a	b
-11	12
-NULL	22
-110	120
-NULL	220
 DELETE FROM t1;
 
 INSERT INTO t2(a, b, c, d) SELECT * FROM t2_data;
@@ -1774,10 +1750,6 @@ ERROR 23000: Column 'b' cannot be null
 # t2's engine is MyISAM, so the transaction can not be fully rolled back.
 SELECT * FROM t2;
 a	b	c	d
-11	12	13	14
-NULL	22	23	24
-110	120	130	140
-NULL	220	230	240
 DELETE FROM t2;
 
 REPLACE INTO t2(a, b, c, d) SELECT * FROM t2_data;
@@ -1789,10 +1761,6 @@ ERROR 23000: Column 'b' cannot be null
 # t2's engine is MyISAM, so the transaction can not be fully rolled back.
 SELECT * FROM t2;
 a	b	c	d
-11	12	13	14
-NULL	22	23	24
-110	120	130	140
-NULL	220	230	240
 DELETE FROM t2;
 
 #   - Single nullable column, no values for NOT NULL columns.
@@ -1846,8 +1814,6 @@ ERROR 22004: Column set to default value; NULL supplied to NOT NULL column 'b' a
 
 SELECT * FROM t2;
 a	b	c	d
-11	12	13	14
-NULL	22	23	24
 
 DELETE FROM t2;
 LOAD DATA INFILE '../../std_data/wl6030_2.dat' INTO TABLE v2 FIELDS
@@ -1856,8 +1822,6 @@ ERROR 22004: Column set to default value; NULL supplied to NOT NULL column 'b' a
 
 SELECT * FROM t2;
 a	b	c	d
-11	12	13	14
-NULL	22	23	24
 
 SET sql_mode = @sql_mode_saved;
 DROP TABLE t1;

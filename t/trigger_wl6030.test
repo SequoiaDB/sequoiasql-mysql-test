@@ -285,6 +285,7 @@ UPDATE t1, t3 SET t1.a = 99, t3.a = -10 WHERE t1.a = t3.a AND t3.a = 10;
 --echo
 SELECT * FROM t1;
 --echo
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t3;
 --echo
 
@@ -1292,6 +1293,7 @@ INSERT INTO v1 SELECT a * 10, b * 10 FROM t1_data;
 --echo
 --echo # The following SELECT output should have 4 rows.
 --echo # t1's engine is MyISAM, so the transaction can not be fully rolled back.
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t1;
 DELETE FROM t1;
 
@@ -1304,6 +1306,7 @@ REPLACE INTO v1 SELECT a * 10, b * 10 FROM t1_data;
 --echo
 --echo # The following SELECT output should have 4 rows.
 --echo # t1's engine is MyISAM, so the transaction can not be fully rolled back.
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t1;
 DELETE FROM t1;
 
@@ -1317,6 +1320,7 @@ INSERT INTO v2 SELECT a * 10, b * 10, c * 10, d * 10 FROM t2_data;
 --echo
 --echo # The following SELECT output should have 4 rows.
 --echo # t2's engine is MyISAM, so the transaction can not be fully rolled back.
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t2;
 DELETE FROM t2;
 
@@ -1330,6 +1334,7 @@ REPLACE INTO v2 SELECT a * 10, b * 10, c * 10, d * 10 FROM t2_data;
 --echo
 --echo # The following SELECT output should have 4 rows.
 --echo # t2's engine is MyISAM, so the transaction can not be fully rolled back.
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t2;
 DELETE FROM t2;
 
@@ -1345,6 +1350,7 @@ INSERT INTO v1(a, b) SELECT a * 10, b * 10 FROM t1_data;
 --echo
 --echo # The following SELECT output should have 4 rows.
 --echo # t1's engine is MyISAM, so the transaction can not be fully rolled back.
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t1;
 DELETE FROM t1;
 
@@ -1357,6 +1363,7 @@ REPLACE INTO v1(a, b) SELECT a * 10, b * 10 FROM t1_data;
 --echo
 --echo # The following SELECT output should have 4 rows.
 --echo # t1's engine is MyISAM, so the transaction can not be fully rolled back.
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t1;
 DELETE FROM t1;
 
@@ -1369,6 +1376,7 @@ INSERT INTO v2(a, b, c, d) SELECT a * 10, b * 10, c * 10, d * 10 FROM t2_data;
 --echo
 --echo # The following SELECT output should have 4 rows.
 --echo # t2's engine is MyISAM, so the transaction can not be fully rolled back.
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t2;
 DELETE FROM t2;
 
@@ -1381,6 +1389,7 @@ REPLACE INTO v2(a, b, c, d) SELECT a * 10, b * 10, c * 10, d * 10 FROM t2_data;
 --echo
 --echo # The following SELECT output should have 4 rows.
 --echo # t2's engine is MyISAM, so the transaction can not be fully rolled back.
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t2;
 DELETE FROM t2;
 
@@ -1440,6 +1449,7 @@ DELETE FROM t2;
 LOAD DATA INFILE '../../std_data/wl6030_2.dat' INTO TABLE t2 FIELDS
 TERMINATED BY ',' ENCLOSED BY '"';
 
+#engine sequoiadb modify test result as same as the innodb
 --echo
 SELECT * FROM t2;
 
@@ -1450,6 +1460,7 @@ DELETE FROM t2;
 LOAD DATA INFILE '../../std_data/wl6030_2.dat' INTO TABLE v2 FIELDS
 TERMINATED BY ',' ENCLOSED BY '"';
 
+#engine sequoiadb modify test result as same as the innodb
 --echo
 SELECT * FROM t2;
 

@@ -634,6 +634,7 @@ GRANT UPDATE(col) ON mysqltest_db1_trigger_notembedded.t4 TO mysqltest_u1@localh
 --error ER_COLUMNACCESS_DENIED_ERROR
 INSERT INTO t1 VALUES('line1');
 
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t1;
 SELECT @mysqltest_var;
 
@@ -646,6 +647,7 @@ SELECT * FROM t2;
 --error ER_COLUMNACCESS_DENIED_ERROR
 INSERT INTO t3 VALUES('t3_line1');
 
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t3;
 SELECT @mysqltest_var;
 
@@ -677,6 +679,7 @@ GRANT SELECT(col) ON mysqltest_db1_trigger_notembedded.t4 TO mysqltest_u1@localh
 
 INSERT INTO t1 VALUES('line3');
 
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t1;
 SELECT @mysqltest_var;
 
@@ -689,6 +692,7 @@ SELECT * FROM t2;
 
 INSERT INTO t3 VALUES('t3_line2');
 
+#engine sequoiadb modify test result as same as the innodb
 SELECT * FROM t3;
 SELECT @mysqltest_var;
 
