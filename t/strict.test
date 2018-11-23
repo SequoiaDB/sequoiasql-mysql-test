@@ -72,39 +72,41 @@ select * from t1;
 drop table t1;
 
 #Bug #SEQUOIASQLMAINSTREAM-179: insert date ouf range, query result wrong
-## Test Sequoiadb tables
-#set @@sql_mode='strict_trans_tables';
-#CREATE TABLE t1 (col1 date) engine=Sequoiadb;
-#--error 1292
-#INSERT INTO t1 VALUES('2004-13-31'),('2004-1-1');
-## Compatible with innodb, should return error 1292
-#--error 1292
-#INSERT INTO t1 VALUES ('2004-1-2'), ('2004-13-31'),('2004-1-3');
-#INSERT IGNORE INTO t1 VALUES('2004-13-31'),('2004-1-4');
-#--error 1292
-#INSERT INTO t1 VALUES ('2003-02-29');
-#INSERT ignore INTO t1 VALUES('2003-02-30');
-#set @@sql_mode='STRICT_ALL_TABLES,ALLOW_INVALID_DATES';
-#INSERT ignore INTO t1 VALUES('2003-02-31');
-#select * from t1;
-#drop table t1;
-#
-#set @@sql_mode='strict_trans_tables';
-#CREATE TABLE t1 (col1 date) engine=Sequoiadb;
-#--error 1292
-#INSERT INTO t1 VALUES('2004-13-31'),('2004-1-1');
-#--error 1292
-#INSERT INTO t1 VALUES ('2004-1-2'), ('2004-13-31'),('2004-1-3');
-#INSERT IGNORE INTO t1 VALUES('2004-13-31'),('2004-1-4');
-#--error 1292
-#INSERT INTO t1 VALUES ('2003-02-29');
-#INSERT ignore INTO t1 VALUES('2003-02-30');
-#set @@sql_mode='STRICT_ALL_TABLES,ALLOW_INVALID_DATES';
-#
-##Bug #SEQUOIADBMAINSTREAM-3583
-#INSERT ignore INTO t1 VALUES('2003-02-31');
-#select * from t1;
-#drop table t1;
+# Test Sequoiadb tables
+set @@sql_mode='strict_trans_tables';
+CREATE TABLE t1 (col1 date) engine=Sequoiadb;
+--error 1292
+INSERT INTO t1 VALUES('2004-13-31'),('2004-1-1');
+# Compatible with innodb, should return error 1292
+--error 1292
+INSERT INTO t1 VALUES ('2004-1-2'), ('2004-13-31'),('2004-1-3');
+INSERT IGNORE INTO t1 VALUES('2004-13-31'),('2004-1-4');
+--error 1292
+INSERT INTO t1 VALUES ('2003-02-29');
+INSERT ignore INTO t1 VALUES('2003-02-30');
+set @@sql_mode='STRICT_ALL_TABLES,ALLOW_INVALID_DATES';
+INSERT ignore INTO t1 VALUES('2003-02-31');
+select * from t1;
+drop table t1;
+
+set @@sql_mode='strict_trans_tables';
+CREATE TABLE t1 (col1 date) engine=Sequoiadb;
+--error 1292
+INSERT INTO t1 VALUES('2004-13-31'),('2004-1-1');
+--error 1292
+INSERT INTO t1 VALUES ('2004-1-2'), ('2004-13-31'),('2004-1-3');
+INSERT IGNORE INTO t1 VALUES('2004-13-31'),('2004-1-4');
+--error 1292
+INSERT INTO t1 VALUES ('2003-02-29');
+INSERT ignore INTO t1 VALUES('2003-02-30');
+set @@sql_mode='STRICT_ALL_TABLES,ALLOW_INVALID_DATES';
+
+#Bug #SEQUOIADBMAINSTREAM-3583
+INSERT ignore INTO t1 VALUES('2003-02-31');
+
+#engine sequoiadb modify test result as same as the innodb
+select * from t1;
+drop table t1;
 set @@sql_mode='ansi,traditional';
 
 # Test INSERT with DATETIME
