@@ -432,3 +432,13 @@ SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ, READ WRITE;
 DROP FUNCTION f1;
 #
 # Test 8: SET TRANSACTION and auto-commit
+SELECT @@autocommit;
+@@autocommit
+1
+CREATE TABLE t1(a INT) engine=SEQUOIADB;
+SET TRANSACTION READ ONLY;
+SELECT * FROM t1;
+a
+# This statement should work, since last statement committed.
+INSERT INTO t1 VALUES (1);
+DROP TABLE t1;

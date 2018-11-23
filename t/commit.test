@@ -1,4 +1,5 @@
 --source include/have_sequoiadb.inc
+# (#Case #16710)
 
 connect (con1,localhost,root,,);
 
@@ -700,13 +701,13 @@ DROP FUNCTION f1;
 --echo # Test 8: SET TRANSACTION and auto-commit
 
 #Bug #SEQUOIASQLMAINSTREAM-180
-#SELECT @@autocommit;
-#CREATE TABLE t1(a INT) engine=SEQUOIADB;
-#
-#SET TRANSACTION READ ONLY;
-#SELECT * FROM t1;
-#--echo # This statement should work, since last statement committed.
-#INSERT INTO t1 VALUES (1);
-#
-#DROP TABLE t1;
+SELECT @@autocommit;
+CREATE TABLE t1(a INT) engine=SEQUOIADB;
+
+SET TRANSACTION READ ONLY;
+SELECT * FROM t1;
+--echo # This statement should work, since last statement committed.
+INSERT INTO t1 VALUES (1);
+
+DROP TABLE t1;
 --source include/uninstall_sequoiadb.inc
