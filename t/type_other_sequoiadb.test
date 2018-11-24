@@ -1,0 +1,60 @@
+# (#Case #13307: Check DataType not support)
+# (#Case #16518: Check DataType bit)
+# (#Case #13097: Check DataType null)
+--source include/have_sequoiadb.inc
+
+--disable_warnings
+drop table if exists t1;
+--enable_warnings
+
+#test datatype which not support
+--error 1178
+CREATE TABLE t1(g GEOMETRY);
+
+#null
+create table t1(a int, b int);
+insert into t1 values(null, 1);
+update t1 set b=null;
+select * from t1;
+delete from t1;
+select * from t1;
+drop table t1;
+
+#bit
+create table t1 (a0 bit, a1 bit(1),a2 bit(31), a3 bit(32),a4 bit(33), a5 bit(64));
+insert into t1 values(0,1,2147483647,4294967295,8589934591,18446744073709551615);
+insert into t1 values(1,0,1,0,1,0);
+select * from t1;
+update t1 set a5=18446744073709551615 where a5=18446744073709551615;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1406
+insert into t1(a0) values (2);
+--error 1406
+insert into t1(a1) values (2);
+--error 1406
+insert into t1(a2) values (2147483648);
+--error 1406
+insert into t1(a3) values (4294967296);
+--error 1406
+insert into t1(a4) values (8589934592);
+--error 1264
+insert into t1(a5) values (18446744073709551616);
+insert into t1(a5) values (-1);
+drop table t1;
+create table t1 (c1 bool,c2 boolean);
+insert into t1 values (0,0);
+insert into t1 values (1,1);
+insert into t1 values (2,2);
+insert into t1 values (true,true);
+insert into t1 values (false,false);
+--error 1366
+insert into t1 values ('a','a');
+select * from t1;
+update t1 set c1=false where c1=true;
+select * from t1;
+delete from t1;
+select * from t1;
+drop table t1;
+--source include/uninstall_sequoiadb.inc
