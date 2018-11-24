@@ -1,10 +1,18 @@
-# (#Case #13307: Check DataType not support)
-# (#Case #13097: Check DataType null)
-# (#Case #16523: Check DataType time)
-# (#Case #16522: Check DataType year)
-# (#Case #16518: Check DataType bit)
-# (#Case #13083: Check DataType bigint)
-# (#Case #13084: Check DataType bigint unsigned)
+# (#Case #13093: Check DataType char)
+# (#Case #13094: Check DataType varchar)
+# (#Case #13095: Check DataType text)
+# (#Case #13096: Check DataType blob)
+# (#Case #15437: Check DataType binary)
+# (#Case #15439: Check DataType varbinary)
+# (#Case #15440: Check DataType tinytext)
+# (#Case #15441: Check DataType mediumtext)
+# (#Case #15442: Check DataType longtext)
+# (#Case #15443: Check DataType tinyblob)
+# (#Case #15444: Check DataType mediumblob)
+# (#Case #15445: Check DataType longblob)
+# (#Case #15440: Check DataType tinytext)
+# (#Case #15440: Check DataType tinytext)
+--source include/have_sequoiadb.inc
 
 --disable_warnings
 drop table if exists t1;
@@ -184,3 +192,4 @@ select length(a) from t1;
 --error 1406
 insert into t1 values(repeat('a',65533));
 drop table t1;
+--source include/uninstall_sequoiadb.inc
