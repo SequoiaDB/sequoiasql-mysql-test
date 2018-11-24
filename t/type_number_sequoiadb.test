@@ -1,0 +1,306 @@
+# (#Case #16520: Check DataType tinyint)
+# (#Case #16521: Check DataType tinyint unsigned)
+# (#Case #13077: Check DataType smallint)
+# (#Case #13078: Check DataType smallint unsigned)
+# (#Case #13079: Check DataType int)
+# (#Case #13080: Check DataType int unsigned)
+# (#Case #13081: Check DataType mediumint)
+# (#Case #13082: Check DataType mediumint unsigned)
+# (#Case #13083: Check DataType bigint)
+# (#Case #13084: Check DataType bigint unsigned)
+# (#Case #13085: Check DataType decimal)
+# (#Case #13086: Check DataType decimal unsigned)
+# (#Case #13087: Check DataType float)
+# (#Case #13088: Check DataType float unsigned)
+# (#Case #13089: Check DataType double)
+# (#Case #13090: Check DataType double unsigned)
+--source include/have_sequoiadb.inc
+
+--disable_warnings
+drop table if exists t1;
+--enable_warnings
+
+#tinyint
+create table t1 (a tinyint, b tinyint(2));
+insert into t1 values('-128', '-128'),(127,127),(1,1),(0,0);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1 values(-129,-129);
+--error 1264
+insert into t1 values(128,128);
+--error 1366
+insert into t1 values('a','a');
+drop table t1;
+
+#tinyint unsigned
+create table t1 (a tinyint unsigned, b tinyint(2) unsigned zerofill);
+insert into t1 values('0', '0'),(255,255),(1,1);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1 values(-1,-1);
+--error 1264
+insert into t1 values(256,256);
+--error 1366
+insert into t1 values('a','a');
+drop table t1;
+
+#smallint
+create table t1 (a smallint, b smallint(3));
+insert into t1 values('-32768', '-32768'),(32767,32767),(1,1),(0,0);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1 values(-32769,-32769);
+--error 1264
+insert into t1 values(32768,32768);
+--error 1366
+insert into t1 values('a','a');
+drop table t1;
+
+#smallint unsigned
+create table t1 (a smallint unsigned, b smallint(3) unsigned zerofill);
+insert into t1 values('0', '0'),(65535,65535),(1,1);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1 values(-1,-1);
+--error 1264
+insert into t1 values(65536,65536);
+--error 1366
+insert into t1 values('a','a');
+drop table t1;
+
+#mediumint
+create table t1 (a mediumint, b mediumint(4));
+insert into t1 values('-8388608', '-8388608'),(8388607,8388607),(1,1),(0,0);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1 values(-8388609,-8388609);
+--error 1264
+insert into t1 values(8388608,8388608);
+--error 1366
+insert into t1 values('a','a');
+drop table t1;
+
+#mediumint unsigned
+create table t1 (a mediumint unsigned, b mediumint(4) unsigned zerofill);
+insert into t1 values('0', '0'),(16777215,16777215),(1,1);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1 values(-1,-1);
+--error 1264
+insert into t1 values(16777216,16777216);
+--error 1366
+insert into t1 values('a','a');
+drop table t1;
+
+#int
+create table t1 (a int, b integer(4));
+insert into t1 values('-2147483648', '-2147483648'),(2147483647,2147483647),(1,1),(0,0);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1 values(-2147483649,-2147483649);
+--error 1264
+insert into t1 values(2147483648,2147483648);
+--error 1366
+insert into t1 values('a','a');
+drop table t1;
+
+#int unsigned
+create table t1 (a int unsigned, b int(4) unsigned zerofill);
+insert into t1 values('0', '0'),(4294967295,4294967295),(1,1);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1 values(-1,-1);
+--error 1264
+insert into t1 values(4294967296,4294967296);
+--error 1366
+insert into t1 values('a','a');
+drop table t1;
+
+#bigint
+create table t1 (a bigint, b bigint(10));
+insert into t1 values (9223372036854775807, 9223372036854775807),(-9223372036854775808, -9223372036854775808),(-9223372036854775807, 9223372036854775806),('9223372036854775807', '9223372036854775807'),('-9223372036854775808', '-9223372036854775808'),('-9223372036854775807', '9223372036854775806');
+select * from t1;
+update t1 set a=1,b=1 where a=9223372036854775807;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1 values (9223372036854775808, 9223372036854775808);
+--error 1264
+insert into t1 values (-9223372036854775809, -9223372036854775809);
+--error 1366
+insert into t1 values ('a', 'a');
+drop table t1;
+create table t1 (a bigint);
+insert into t1 values(9),(99),('999'),(9999),('99999'),(999999),('9999999'),(99999999),('999999999'),(9999999999),('99999999999'),(999999999999),('9999999999999'),(99999999999999),('999999999999999'),(9999999999999999),('99999999999999999'),(999999999999999999),('8888888888888888888');
+select * from t1;
+delete from t1;
+insert into t1 values(-9),(-99),('-999'),(-9999),('-99999'),(-999999),('-9999999'),(-99999999),('-999999999'),(-9999999999),('-99999999999'),(-999999999999),('-9999999999999'),(-99999999999999),('-999999999999999'),(-9999999999999999),('-99999999999999999'),(-999999999999999999),('-8888888888888888888');
+select * from t1;
+drop table t1;
+create table t1 (a bigint unsigned);
+insert into t1 values('9'),(99),('999'),(9999),('99999'),(999999),('9999999'),(99999999),('999999999'),(9999999999),('99999999999'),(999999999999),('9999999999999'),(99999999999999),('999999999999999'),(9999999999999999),('99999999999999999'),(999999999999999999),('9999999999999999999'),(11111111111111111111);
+select * from t1;
+drop table t1;
+
+#bigint unsigned
+create table t1 (a bigint unsigned, b bigint(10) unsigned zerofill);
+insert into t1 values (18446744073709551615, 18446744073709551615),(0, 0),(1, 18446744073709551614),('18446744073709551615', '18446744073709551615'),('0', '0'),('1', '18446744073709551614');
+select * from t1;
+update t1 set a=1,b=1 where a=18446744073709551615;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1 values (18446744073709551616, 18446744073709551616);
+--error 1264
+insert into t1 values (-1, -1);
+--error 1366
+insert into t1 values ('a', 'a');
+drop table t1;
+
+#decimal
+create table t1 (a decimal, b NUMERIC(60,30), c dec(1));
+insert into t1 values('9999999999', '999999999999999999999999999999.999999999999999999999999999999',9),(-9999999999, -999999999999999999999999999999.999999999999999999999999999999,-9),(1,1,1),(0,0,0);
+insert into t1(b) values(99999999999999999999999999999.9999999999999999999999999999999);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1(b) values(1000000000000000000000000000000);
+--error 1366
+insert into t1(b) values('a');
+drop table t1;
+--error 1426
+create table t1 (a decimal(66,0));
+--error 1425
+create table t1 (a decimal(65,31));
+
+#decimal unsigned
+create table t1 (a decimal unsigned, b NUMERIC(60,30) unsigned zerofill);
+insert into t1 values('0', '0'),(9999999999,999999999999999999999999999999.999999999999999999999999999999),(1,1);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1(a) values(-1);
+--error 1264
+insert into t1(a) values(1000000000000000000000000000000);
+--error 1264
+insert into t1(a) values(99999999999999999999999999999.9999999999999999999999999999999);
+--error 1366
+insert into t1(a) values('a');
+drop table t1;
+--error 1426
+create table t1 (a decimal(66,0) unsigned);
+--error 1425
+create table t1 (a decimal(65,31) unsigned);
+
+#float
+create table t1 (a float);
+insert into t1 values('-3.402823466E+38');
+insert into t1 values(-1.175494351E-38);
+insert into t1 values(1);
+insert into t1 values(0);
+insert into t1 values(1.175494351E-38);
+insert into t1 values(3.402823466E+38);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1(a) values(-3.402823466E+39);
+--error 1264
+insert into t1(a) values(3.402823466E+39);
+--error 1265
+insert into t1 values('a');
+drop table t1;
+
+#float unsigned
+create table t1 (a float unsigned, b float(60,1) unsigned zerofill);
+insert into t1 values(1.175494351E-38,1.175494351E-38),(1,1),(0,0),(3.402823466E+38,3.402823466E+38);
+insert into t1(a) values(1.175494351E-39);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1(a) values(-1);
+--error 1264
+insert into t1(a) values(3.402823466E+39);
+--error 1265
+insert into t1 values('a','a');
+drop table t1;
+
+#double
+create table t1 (a double);
+insert into t1 values('-1.7976931348623157E+308'),(-2.2250738585072014E-308),(1),(0),(2.2250738585072014E-308),(1.7976931348623157E+308);
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1 values('-1.7976931348623157E+309');
+--error 1264
+insert into t1 values('1.7976931348623157E+309');
+--error 1265
+insert into t1 values('a');
+drop table t1;
+
+#double unsigned
+create table t1 (a double unsigned, b double(60,1) unsigned zerofill);
+insert into t1 values(2.2250738585072014E-308,2.2250738585072014E-308),(1,1),(0,0);
+insert into t1(a) values(1.7976931348623157E+308);
+insert into t1(a) values('2.2250738585072014E-309');
+select * from t1;
+update t1 set a=10 where a=1;
+select * from t1;
+delete from t1;
+select * from t1;
+--error 1264
+insert into t1(a) values(-1);
+--error 1264
+insert into t1(a) values('1.7976931348623157E+309');
+--error 1265
+insert into t1(a) values('a');
+drop table t1;
+--source include/uninstall_sequoiadb.inc

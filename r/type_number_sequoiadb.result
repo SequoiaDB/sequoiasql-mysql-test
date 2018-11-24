@@ -1,0 +1,504 @@
+drop table if exists t1;
+create table t1 (a tinyint, b tinyint(2));
+insert into t1 values('-128', '-128'),(127,127),(1,1),(0,0);
+select * from t1;
+a	b
+-128	-128
+127	127
+1	1
+0	0
+update t1 set a=10 where a=1;
+select * from t1;
+a	b
+-128	-128
+127	127
+10	1
+0	0
+delete from t1;
+select * from t1;
+a	b
+insert into t1 values(-129,-129);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values(128,128);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('a','a');
+ERROR HY000: Incorrect integer value: 'a' for column 'a' at row 1
+drop table t1;
+create table t1 (a tinyint unsigned, b tinyint(2) unsigned zerofill);
+insert into t1 values('0', '0'),(255,255),(1,1);
+select * from t1;
+a	b
+0	00
+255	255
+1	01
+update t1 set a=10 where a=1;
+select * from t1;
+a	b
+0	00
+255	255
+10	01
+delete from t1;
+select * from t1;
+a	b
+insert into t1 values(-1,-1);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values(256,256);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('a','a');
+ERROR HY000: Incorrect integer value: 'a' for column 'a' at row 1
+drop table t1;
+create table t1 (a smallint, b smallint(3));
+insert into t1 values('-32768', '-32768'),(32767,32767),(1,1),(0,0);
+select * from t1;
+a	b
+-32768	-32768
+32767	32767
+1	1
+0	0
+update t1 set a=10 where a=1;
+select * from t1;
+a	b
+-32768	-32768
+32767	32767
+10	1
+0	0
+delete from t1;
+select * from t1;
+a	b
+insert into t1 values(-32769,-32769);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values(32768,32768);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('a','a');
+ERROR HY000: Incorrect integer value: 'a' for column 'a' at row 1
+drop table t1;
+create table t1 (a smallint unsigned, b smallint(3) unsigned zerofill);
+insert into t1 values('0', '0'),(65535,65535),(1,1);
+select * from t1;
+a	b
+0	000
+65535	65535
+1	001
+update t1 set a=10 where a=1;
+select * from t1;
+a	b
+0	000
+65535	65535
+10	001
+delete from t1;
+select * from t1;
+a	b
+insert into t1 values(-1,-1);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values(65536,65536);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('a','a');
+ERROR HY000: Incorrect integer value: 'a' for column 'a' at row 1
+drop table t1;
+create table t1 (a mediumint, b mediumint(4));
+insert into t1 values('-8388608', '-8388608'),(8388607,8388607),(1,1),(0,0);
+select * from t1;
+a	b
+-8388608	-8388608
+8388607	8388607
+1	1
+0	0
+update t1 set a=10 where a=1;
+select * from t1;
+a	b
+-8388608	-8388608
+8388607	8388607
+10	1
+0	0
+delete from t1;
+select * from t1;
+a	b
+insert into t1 values(-8388609,-8388609);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values(8388608,8388608);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('a','a');
+ERROR HY000: Incorrect integer value: 'a' for column 'a' at row 1
+drop table t1;
+create table t1 (a mediumint unsigned, b mediumint(4) unsigned zerofill);
+insert into t1 values('0', '0'),(16777215,16777215),(1,1);
+select * from t1;
+a	b
+0	0000
+16777215	16777215
+1	0001
+update t1 set a=10 where a=1;
+select * from t1;
+a	b
+0	0000
+16777215	16777215
+10	0001
+delete from t1;
+select * from t1;
+a	b
+insert into t1 values(-1,-1);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values(16777216,16777216);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('a','a');
+ERROR HY000: Incorrect integer value: 'a' for column 'a' at row 1
+drop table t1;
+create table t1 (a int, b integer(4));
+insert into t1 values('-2147483648', '-2147483648'),(2147483647,2147483647),(1,1),(0,0);
+select * from t1;
+a	b
+-2147483648	-2147483648
+2147483647	2147483647
+1	1
+0	0
+update t1 set a=10 where a=1;
+select * from t1;
+a	b
+-2147483648	-2147483648
+2147483647	2147483647
+10	1
+0	0
+delete from t1;
+select * from t1;
+a	b
+insert into t1 values(-2147483649,-2147483649);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values(2147483648,2147483648);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('a','a');
+ERROR HY000: Incorrect integer value: 'a' for column 'a' at row 1
+drop table t1;
+create table t1 (a int unsigned, b int(4) unsigned zerofill);
+insert into t1 values('0', '0'),(4294967295,4294967295),(1,1);
+select * from t1;
+a	b
+0	0000
+4294967295	4294967295
+1	0001
+update t1 set a=10 where a=1;
+select * from t1;
+a	b
+0	0000
+4294967295	4294967295
+10	0001
+delete from t1;
+select * from t1;
+a	b
+insert into t1 values(-1,-1);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values(4294967296,4294967296);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('a','a');
+ERROR HY000: Incorrect integer value: 'a' for column 'a' at row 1
+drop table t1;
+create table t1 (a bigint, b bigint(10));
+insert into t1 values (9223372036854775807, 9223372036854775807),(-9223372036854775808, -9223372036854775808),(-9223372036854775807, 9223372036854775806),('9223372036854775807', '9223372036854775807'),('-9223372036854775808', '-9223372036854775808'),('-9223372036854775807', '9223372036854775806');
+select * from t1;
+a	b
+9223372036854775807	9223372036854775807
+-9223372036854775808	-9223372036854775808
+-9223372036854775807	9223372036854775806
+9223372036854775807	9223372036854775807
+-9223372036854775808	-9223372036854775808
+-9223372036854775807	9223372036854775806
+update t1 set a=1,b=1 where a=9223372036854775807;
+select * from t1;
+a	b
+1	1
+-9223372036854775808	-9223372036854775808
+-9223372036854775807	9223372036854775806
+1	1
+-9223372036854775808	-9223372036854775808
+-9223372036854775807	9223372036854775806
+delete from t1;
+select * from t1;
+a	b
+insert into t1 values (9223372036854775808, 9223372036854775808);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values (-9223372036854775809, -9223372036854775809);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values ('a', 'a');
+ERROR HY000: Incorrect integer value: 'a' for column 'a' at row 1
+drop table t1;
+create table t1 (a bigint);
+insert into t1 values(9),(99),('999'),(9999),('99999'),(999999),('9999999'),(99999999),('999999999'),(9999999999),('99999999999'),(999999999999),('9999999999999'),(99999999999999),('999999999999999'),(9999999999999999),('99999999999999999'),(999999999999999999),('8888888888888888888');
+select * from t1;
+a
+9
+99
+999
+9999
+99999
+999999
+9999999
+99999999
+999999999
+9999999999
+99999999999
+999999999999
+9999999999999
+99999999999999
+999999999999999
+9999999999999999
+99999999999999999
+999999999999999999
+8888888888888888888
+delete from t1;
+insert into t1 values(-9),(-99),('-999'),(-9999),('-99999'),(-999999),('-9999999'),(-99999999),('-999999999'),(-9999999999),('-99999999999'),(-999999999999),('-9999999999999'),(-99999999999999),('-999999999999999'),(-9999999999999999),('-99999999999999999'),(-999999999999999999),('-8888888888888888888');
+select * from t1;
+a
+-9
+-99
+-999
+-9999
+-99999
+-999999
+-9999999
+-99999999
+-999999999
+-9999999999
+-99999999999
+-999999999999
+-9999999999999
+-99999999999999
+-999999999999999
+-9999999999999999
+-99999999999999999
+-999999999999999999
+-8888888888888888888
+drop table t1;
+create table t1 (a bigint unsigned);
+insert into t1 values('9'),(99),('999'),(9999),('99999'),(999999),('9999999'),(99999999),('999999999'),(9999999999),('99999999999'),(999999999999),('9999999999999'),(99999999999999),('999999999999999'),(9999999999999999),('99999999999999999'),(999999999999999999),('9999999999999999999'),(11111111111111111111);
+select * from t1;
+a
+9
+99
+999
+9999
+99999
+999999
+9999999
+99999999
+999999999
+9999999999
+99999999999
+999999999999
+9999999999999
+99999999999999
+999999999999999
+9999999999999999
+99999999999999999
+999999999999999999
+9999999999999999999
+11111111111111111111
+drop table t1;
+create table t1 (a bigint unsigned, b bigint(10) unsigned zerofill);
+insert into t1 values (18446744073709551615, 18446744073709551615),(0, 0),(1, 18446744073709551614),('18446744073709551615', '18446744073709551615'),('0', '0'),('1', '18446744073709551614');
+select * from t1;
+a	b
+18446744073709551615	18446744073709551615
+0	0000000000
+1	18446744073709551614
+18446744073709551615	18446744073709551615
+0	0000000000
+1	18446744073709551614
+update t1 set a=1,b=1 where a=18446744073709551615;
+select * from t1;
+a	b
+1	0000000001
+0	0000000000
+1	18446744073709551614
+1	0000000001
+0	0000000000
+1	18446744073709551614
+delete from t1;
+select * from t1;
+a	b
+insert into t1 values (18446744073709551616, 18446744073709551616);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values (-1, -1);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values ('a', 'a');
+ERROR HY000: Incorrect integer value: 'a' for column 'a' at row 1
+drop table t1;
+create table t1 (a decimal, b NUMERIC(60,30), c dec(1));
+insert into t1 values('9999999999', '999999999999999999999999999999.999999999999999999999999999999',9),(-9999999999, -999999999999999999999999999999.999999999999999999999999999999,-9),(1,1,1),(0,0,0);
+insert into t1(b) values(99999999999999999999999999999.9999999999999999999999999999999);
+Warnings:
+Note	1265	Data truncated for column 'b' at row 1
+select * from t1;
+a	b	c
+9999999999	999999999999999999999999999999.999999999999999999999999999999	9
+-9999999999	-999999999999999999999999999999.999999999999999999999999999999	-9
+1	1.000000000000000000000000000000	1
+0	0.000000000000000000000000000000	0
+NULL	100000000000000000000000000000.000000000000000000000000000000	NULL
+update t1 set a=10 where a=1;
+select * from t1;
+a	b	c
+9999999999	999999999999999999999999999999.999999999999999999999999999999	9
+-9999999999	-999999999999999999999999999999.999999999999999999999999999999	-9
+10	1.000000000000000000000000000000	1
+0	0.000000000000000000000000000000	0
+NULL	100000000000000000000000000000.000000000000000000000000000000	NULL
+delete from t1;
+select * from t1;
+a	b	c
+insert into t1(b) values(1000000000000000000000000000000);
+ERROR 22003: Out of range value for column 'b' at row 1
+insert into t1(b) values('a');
+ERROR HY000: Incorrect decimal value: 'a' for column 'b' at row 1
+drop table t1;
+create table t1 (a decimal(66,0));
+ERROR 42000: Too-big precision 66 specified for 'a'. Maximum is 65.
+create table t1 (a decimal(65,31));
+ERROR 42000: Too big scale 31 specified for column 'a'. Maximum is 30.
+create table t1 (a decimal unsigned, b NUMERIC(60,30) unsigned zerofill);
+insert into t1 values('0', '0'),(9999999999,999999999999999999999999999999.999999999999999999999999999999),(1,1);
+select * from t1;
+a	b
+0	000000000000000000000000000000.000000000000000000000000000000
+9999999999	999999999999999999999999999999.999999999999999999999999999999
+1	000000000000000000000000000001.000000000000000000000000000000
+update t1 set a=10 where a=1;
+select * from t1;
+a	b
+0	000000000000000000000000000000.000000000000000000000000000000
+9999999999	999999999999999999999999999999.999999999999999999999999999999
+10	000000000000000000000000000001.000000000000000000000000000000
+delete from t1;
+select * from t1;
+a	b
+insert into t1(a) values(-1);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1(a) values(1000000000000000000000000000000);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1(a) values(99999999999999999999999999999.9999999999999999999999999999999);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1(a) values('a');
+ERROR HY000: Incorrect decimal value: 'a' for column 'a' at row 1
+drop table t1;
+create table t1 (a decimal(66,0) unsigned);
+ERROR 42000: Too-big precision 66 specified for 'a'. Maximum is 65.
+create table t1 (a decimal(65,31) unsigned);
+ERROR 42000: Too big scale 31 specified for column 'a'. Maximum is 30.
+create table t1 (a float);
+insert into t1 values('-3.402823466E+38');
+insert into t1 values(-1.175494351E-38);
+insert into t1 values(1);
+insert into t1 values(0);
+insert into t1 values(1.175494351E-38);
+insert into t1 values(3.402823466E+38);
+select * from t1;
+a
+-3.40282e38
+-1.17549e-38
+1
+0
+1.17549e-38
+3.40282e38
+update t1 set a=10 where a=1;
+select * from t1;
+a
+-3.40282e38
+-1.17549e-38
+10
+0
+1.17549e-38
+3.40282e38
+delete from t1;
+select * from t1;
+a
+insert into t1(a) values(-3.402823466E+39);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1(a) values(3.402823466E+39);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('a');
+ERROR 01000: Data truncated for column 'a' at row 1
+drop table t1;
+create table t1 (a float unsigned, b float(60,1) unsigned zerofill);
+insert into t1 values(1.175494351E-38,1.175494351E-38),(1,1),(0,0),(3.402823466E+38,3.402823466E+38);
+insert into t1(a) values(1.175494351E-39);
+select * from t1;
+a	b
+1.17549e-38	0000000000000000000000000000000000000000000000000000000000.0
+1	0000000000000000000000000000000000000000000000000000000001.0
+0	0000000000000000000000000000000000000000000000000000000000.0
+3.40282e38	0000000000000000000340282346638528860000000000000000000000.0
+1.17549e-39	NULL
+update t1 set a=10 where a=1;
+select * from t1;
+a	b
+1.17549e-38	0000000000000000000000000000000000000000000000000000000000.0
+10	0000000000000000000000000000000000000000000000000000000001.0
+0	0000000000000000000000000000000000000000000000000000000000.0
+3.40282e38	0000000000000000000340282346638528860000000000000000000000.0
+1.17549e-39	NULL
+delete from t1;
+select * from t1;
+a	b
+insert into t1(a) values(-1);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1(a) values(3.402823466E+39);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('a','a');
+ERROR 01000: Data truncated for column 'a' at row 1
+drop table t1;
+create table t1 (a double);
+insert into t1 values('-1.7976931348623157E+308'),(-2.2250738585072014E-308),(1),(0),(2.2250738585072014E-308),(1.7976931348623157E+308);
+select * from t1;
+a
+-1.7976931348623157e308
+-2.2250738585072014e-308
+1
+0
+2.2250738585072014e-308
+1.7976931348623157e308
+update t1 set a=10 where a=1;
+select * from t1;
+a
+-1.7976931348623157e308
+-2.2250738585072014e-308
+10
+0
+2.2250738585072014e-308
+1.7976931348623157e308
+delete from t1;
+select * from t1;
+a
+insert into t1 values('-1.7976931348623157E+309');
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('1.7976931348623157E+309');
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1 values('a');
+ERROR 01000: Data truncated for column 'a' at row 1
+drop table t1;
+create table t1 (a double unsigned, b double(60,1) unsigned zerofill);
+insert into t1 values(2.2250738585072014E-308,2.2250738585072014E-308),(1,1),(0,0);
+insert into t1(a) values(1.7976931348623157E+308);
+insert into t1(a) values('2.2250738585072014E-309');
+select * from t1;
+a	b
+2.2250738585072014e-308	0000000000000000000000000000000000000000000000000000000000.0
+1	0000000000000000000000000000000000000000000000000000000001.0
+0	0000000000000000000000000000000000000000000000000000000000.0
+1.7976931348623157e308	NULL
+2.225073858507203e-309	NULL
+update t1 set a=10 where a=1;
+select * from t1;
+a	b
+2.2250738585072014e-308	0000000000000000000000000000000000000000000000000000000000.0
+10	0000000000000000000000000000000000000000000000000000000001.0
+0	0000000000000000000000000000000000000000000000000000000000.0
+1.7976931348623157e308	NULL
+2.225073858507203e-309	NULL
+delete from t1;
+select * from t1;
+a	b
+insert into t1(a) values(-1);
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1(a) values('1.7976931348623157E+309');
+ERROR 22003: Out of range value for column 'a' at row 1
+insert into t1(a) values('a');
+ERROR 01000: Data truncated for column 'a' at row 1
+drop table t1;
