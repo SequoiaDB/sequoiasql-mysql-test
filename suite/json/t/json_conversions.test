@@ -6,6 +6,8 @@
 #
 # This takes a long time on tiny hardware so run it only in --big-test mode
 #
+--source include/have_sequoiadb.inc
+
 --source include/big_test.inc
 #
 # Skip it in valgrind until BUG#21616914 has been fixed
@@ -7099,3 +7101,5 @@ drop table comparison_weight;
 drop function get_json_weight;
 
 set names default;
+
+--source include/uninstall_sequoiadb.inc
