@@ -85,7 +85,7 @@ select c, json_type(j), j from t;
 c	json_type(j)	j
 null	NULL	null
 bool	BOOLEAN	true
-uint	INTEGER	12
+uint	UNSIGNED INTEGER	12
 int	INTEGER	12
 double	DOUBLE	3.14
 stringany	STRING	"a"
@@ -93,21 +93,21 @@ stringint	STRING	"1"
 stringdecimal	STRING	"3.14"
 object	OBJECT	{"a": 3}
 array	ARRAY	[1, 2]
-opaque_mysql_type_decimal	DOUBLE	3.14
+opaque_mysql_type_decimal	DECIMAL	3.14
 opaque_mysql_type_set	STRING	"b,c"
 opaque_mysql_type_enum	STRING	"b"
-opaque_mysql_type_date	STRING	"2015-01-15"
-opaque_mysql_type_time	STRING	"23:24:25.000000"
-opaque_mysql_type_datetime	STRING	"2015-01-15 23:24:25.000000"
-opaque_mysql_type_bit	STRING	"base64:type16:yv4="
-opaque_mysql_type_year	STRING	"base64:type13:MTk5Mg=="
-opaque_mysql_type_blob	STRING	"base64:type252:yv66vg=="
-opaque_mysql_type_longblob	STRING	"base64:type251:yv66vg=="
-opaque_mysql_type_mediumblob	STRING	"base64:type250:yv66vg=="
-opaque_mysql_type_tinyblob	STRING	"base64:type249:yv66vg=="
+opaque_mysql_type_date	DATE	"2015-01-15"
+opaque_mysql_type_time	TIME	"23:24:25.000000"
+opaque_mysql_type_datetime	DATETIME	"2015-01-15 23:24:25.000000"
+opaque_mysql_type_bit	BIT	"base64:type16:yv4="
+opaque_mysql_type_year	OPAQUE	"base64:type13:MTk5Mg=="
+opaque_mysql_type_blob	BLOB	"base64:type252:yv66vg=="
+opaque_mysql_type_longblob	BLOB	"base64:type251:yv66vg=="
+opaque_mysql_type_mediumblob	BLOB	"base64:type250:yv66vg=="
+opaque_mysql_type_tinyblob	BLOB	"base64:type249:yv66vg=="
 opaque_mysql_type_varbinary	NULL	NULL
 opaque_mysql_type_binary	NULL	NULL
-opaque_mysql_type_varchar	STRING	"base64:type15:Zm9v"
+opaque_mysql_type_varchar	BLOB	"base64:type15:Zm9v"
 opaque_mysql_type_string	NULL	NULL
 opaque_mysql_type_var_string	NULL	NULL
 # Auxiliary table containing columns of MySQL types
@@ -4194,7 +4194,8 @@ _vch: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--
 _bin: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	null	N	N	N	N	N	N	N	N	N	N	N
 _bin: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	true	N	N	N	N	N	N	N	N	N	N	N
 _bin: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	12	N	N	N	N	N	N	N	N	N	N	N
-_bin: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_bin: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_bin: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bin: int	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	12	N	N	N	N	N	N	N	N	N	N	N
 _bin: double	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	3.14	N	N	N	N	N	N	N	N	N	N	N
 _bin: stringany	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"a"	N	N	N	N	N	N	N	N	N	N	N
@@ -4212,12 +4213,11 @@ _bin: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME
 _bin: opaque_mysql_type_year	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type13:MTk5Mg=="	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type252:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type251:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N
+_bin: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_bin: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type250:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type249:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type15:Zm9v"	N	N	N	N	N	N	N	N	N	N	N
-_bin: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _vbn: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	null	N	N	N	N	N	N	N	N	N	N
 _vbn: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	true	N	N	N	N	N	N	N	N	N	N
 _vbn: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	12	N	N	N	N	N	N	N	N	N	N
@@ -4298,10 +4298,10 @@ _ttx: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	
 _ttx: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _ttx: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	"base64:type15:Zm9v"	N	N	N	N	N	N	N	N
 _ttx: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_blb: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	null	N	N	N	N	N	N	N
 _ttx: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_blb: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	true	N	N	N	N	N	N	N
 _blb: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	12	N	N	N	N	N	N	N
+_blb: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	null	N	N	N	N	N	N	N
+_blb: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	true	N	N	N	N	N	N	N
 _blb: int	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	12	N	N	N	N	N	N	N
 _blb: double	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	3.14	N	N	N	N	N	N	N
 _blb: stringany	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"a"	N	N	N	N	N	N	N
@@ -4344,11 +4344,11 @@ _txt: opaque_mysql_type_time	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIM
 _txt: opaque_mysql_type_datetime	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"--EXPECTED_TIME--"	N	N	N	N	N	N
 _txt: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type16:yv4="	N	N	N	N	N	N
 _txt: opaque_mysql_type_year	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type13:MTk5Mg=="	N	N	N	N	N	N
+_txt: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _txt: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type252:yv66vg=="	N	N	N	N	N	N
 _txt: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type251:yv66vg=="	N	N	N	N	N	N
 _txt: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type250:yv66vg=="	N	N	N	N	N	N
 _txt: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type249:yv66vg=="	N	N	N	N	N	N
-_txt: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _txt: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _txt: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type15:Zm9v"	N	N	N	N	N	N
 _txt: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -4367,6 +4367,7 @@ _mbb: opaque_mysql_type_decimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--
 _mbb: opaque_mysql_type_set	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	"b,c"	N	N	N	N	N
 _mbb: opaque_mysql_type_enum	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	"b"	N	N	N	N	N
 _mbb: opaque_mysql_type_date	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	"--EXPECTED_DATE--"	N	N	N	N	N
+_mbb: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _mbb: opaque_mysql_type_time	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	"--EXPECTED_TIME--.000000"	N	N	N	N	N
 _mbb: opaque_mysql_type_datetime	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	"--EXPECTED_TIME--"	N	N	N	N	N
 _mbb: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	"base64:type16:yv4="	N	N	N	N	N
@@ -4375,7 +4376,6 @@ _mbb: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIM
 _mbb: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	"base64:type251:yv66vg=="	N	N	N	N	N
 _mbb: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	"base64:type250:yv66vg=="	N	N	N	N	N
 _mbb: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	"base64:type249:yv66vg=="	N	N	N	N	N
-_mbb: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _mbb: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _mbb: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	"base64:type15:Zm9v"	N	N	N	N	N
 _mbb: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -4433,8 +4433,8 @@ _lbb: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	
 _lbb: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _lbb: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type15:Zm9v"	N	N	N
 _lbb: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_lbb: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _ltx: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	null	N	N
+_lbb: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _ltx: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	true	N	N
 _ltx: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	12	N	N
 _ltx: int	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	12	N	N
@@ -4504,6 +4504,7 @@ _boo: stringint	N	N	1	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	
 _boo: opaque_mysql_type_decimal	N	N	3	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _boo: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _boo: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_dtt: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	N	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _boo: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _boo: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _sms: bool	N	N	N	1	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -4553,10 +4554,10 @@ _ins: double	N	N	N	N	N	N	N	3	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N
 _ins: stringint	N	N	N	N	N	N	N	1	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _ins: opaque_mysql_type_decimal	N	N	N	N	N	N	N	3	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _ins: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_inu: bool	N	N	N	N	N	N	N	N	1	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _ins: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _ins: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _ins: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_inu: bool	N	N	N	N	N	N	N	N	1	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _inu: uint	N	N	N	N	N	N	N	N	12	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _inu: int	N	N	N	N	N	N	N	N	12	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _inu: double	N	N	N	N	N	N	N	N	3	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -4577,8 +4578,8 @@ _bis: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--T
 _bis: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bis: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _biu: bool	N	N	N	N	N	N	N	N	N	N	1	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_dtt: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	N	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _biu: uint	N	N	N	N	N	N	N	N	N	N	12	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_dtt: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	N	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _biu: int	N	N	N	N	N	N	N	N	N	N	12	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _biu: double	N	N	N	N	N	N	N	N	N	N	3	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _biu: stringint	N	N	N	N	N	N	N	N	N	N	1	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -4624,7 +4625,6 @@ _dat: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME-
 _dat: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _dat: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _dat: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_dtt: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	N	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _dtt: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	N	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _dat: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _smp: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -4653,8 +4653,8 @@ _jsn: stringint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	
 _jsn: stringdecimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"3.14"	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: object	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	{"a": 3}	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: array	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	[1, 2]	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_jsn: opaque_mysql_type_decimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	3.14	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_set	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"b,c"	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_jsn: opaque_mysql_type_decimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	3.14	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_enum	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"b"	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_date	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"--EXPECTED_DATE--"	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_time	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"--EXPECTED_TIME--.000000"	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -4730,9 +4730,9 @@ _bin: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N
 _bin: int	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	12	N	N	N	N	N	N	N	N	N	N	N
 _bin: double	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	3.14	N	N	N	N	N	N	N	N	N	N	N
 _bin: stringany	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"a"	N	N	N	N	N	N	N	N	N	N	N
+_bin: stringint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"1"	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_bin: stringint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"1"	N	N	N	N	N	N	N	N	N	N	N
 _bin: stringdecimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"3.14"	N	N	N	N	N	N	N	N	N	N	N
 _bin: object	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	{"a": 3}	N	N	N	N	N	N	N	N	N	N	N
 _bin: array	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	[1, 2]	N	N	N	N	N	N	N	N	N	N	N
@@ -4798,6 +4798,7 @@ _tbl: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME
 _tbl: opaque_mysql_type_year	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	"base64:type13:MTk5Mg=="	N	N	N	N	N	N	N	N	N
 _tbl: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	"base64:type252:yv66vg=="	N	N	N	N	N	N	N	N	N
 _tbl: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	"base64:type251:yv66vg=="	N	N	N	N	N	N	N	N	N
+_bit: int		N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _tbl: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	"base64:type250:yv66vg=="	N	N	N	N	N	N	N	N	N
 _tbl: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	"base64:type249:yv66vg=="	N	N	N	N	N	N	N	N	N
 _tbl: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -4843,6 +4844,7 @@ _blb: stringdecimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIM
 _blb: object	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	{"a": 3}	N	N	N	N	N	N	N
 _blb: array	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	[1, 2]	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_decimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	3.14	N	N	N	N	N	N	N
+_txt: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	12	N	N	N	N	N	N
 _blb: opaque_mysql_type_set	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"b,c"	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_enum	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"b"	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_date	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"--EXPECTED_DATE--"	N	N	N	N	N	N	N
@@ -4861,7 +4863,6 @@ _blb: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--T
 _blb: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _txt: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	null	N	N	N	N	N	N
 _txt: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	true	N	N	N	N	N	N
-_txt: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	12	N	N	N	N	N	N
 _txt: int	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	12	N	N	N	N	N	N
 _txt: double	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	3.14	N	N	N	N	N	N
 _txt: stringany	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"a"	N	N	N	N	N	N
@@ -4932,6 +4933,7 @@ _mtx: opaque_mysql_type_datetime	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	-
 _mtx: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	"base64:type16:yv4="	N	N	N	N
 _mtx: opaque_mysql_type_year	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	"base64:type13:MTk5Mg=="	N	N	N	N
 _mtx: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	"base64:type252:yv66vg=="	N	N	N	N
+_lbb: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	null	N	N	N
 _mtx: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	"base64:type251:yv66vg=="	N	N	N	N
 _mtx: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	"base64:type250:yv66vg=="	N	N	N	N
 _mtx: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	"base64:type249:yv66vg=="	N	N	N	N
@@ -4940,7 +4942,6 @@ _mtx: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--T
 _mtx: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	"base64:type15:Zm9v"	N	N	N	N
 _mtx: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _mtx: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_lbb: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	null	N	N	N
 _lbb: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	true	N	N	N
 _lbb: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	12	N	N	N
 _lbb: int	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	12	N	N	N
@@ -4952,10 +4953,10 @@ _lbb: object	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N
 _lbb: array	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	[1, 2]	N	N	N
 _lbb: opaque_mysql_type_decimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	3.14	N	N	N
 _lbb: opaque_mysql_type_set	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"b,c"	N	N	N
-_lbb: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _lbb: opaque_mysql_type_enum	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"b"	N	N	N
 _lbb: opaque_mysql_type_date	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"--EXPECTED_DATE--"	N	N	N
 _lbb: opaque_mysql_type_time	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"--EXPECTED_TIME--.000000"	N	N	N
+_lbb: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _lbb: opaque_mysql_type_datetime	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"--EXPECTED_TIME--"	N	N	N
 _lbb: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type16:yv4="	N	N	N
 _lbb: opaque_mysql_type_year	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type13:MTk5Mg=="	N	N	N
@@ -4996,17 +4997,16 @@ _ltx: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--T
 _ltx: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _enu: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _enu: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_tin: bool	N	1	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _enu: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _enu: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _set: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _set: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _set: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _set: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_tin: bool	N	1	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bit: null		N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bit: bool		N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bit: uint		N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_bit: int		N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bit: double		N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bit: stringany		N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bit: stringint		N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -5021,13 +5021,12 @@ _bit: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--T
 _bit: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bit: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _tin: bool	N	1	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_dtt: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	N	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _tin: uint	N	12	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _tin: int	N	12	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _tin: double	N	3	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _tin: stringint	N	1	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_tin: opaque_mysql_type_decimal	N	3	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _tin: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_tin: opaque_mysql_type_decimal	N	3	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _tin: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _tin: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _tin: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -5051,6 +5050,7 @@ _sms: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	
 _sms: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _sms: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _sms: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_dat: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _smu: bool	N	N	N	N	1	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _smu: uint	N	N	N	N	12	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _smu: int	N	N	N	N	12	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -5100,6 +5100,7 @@ _inu: opaque_mysql_type_decimal	N	N	N	N	N	N	N	N	3	N	N	N	N	N	--DATE--	--TIME--	--
 _inu: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _inu: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _inu: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_dat: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _inu: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bis: bool	N	N	N	N	N	N	N	N	N	1	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bis: uint	N	N	N	N	N	N	N	N	N	12	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -5155,10 +5156,9 @@ _dou: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--T
 _dou: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _dou: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _dat: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_dat: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_dat: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _dat: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _dtt: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	N	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_dtt: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	N	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _dtt: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	N	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _dat: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _smp: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -5196,10 +5196,10 @@ _jsn: opaque_mysql_type_datetime	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	-
 _jsn: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"base64:type16:yv4="	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_year	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"base64:type13:MTk5Mg=="	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"base64:type252:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_jsn: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"base64:type251:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"base64:type250:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"base64:type249:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_jsn: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	"base64:type15:Zm9v"	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _jsn: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -5215,11 +5215,11 @@ _chr: stringdecimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIM
 _chr: object	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	{"a": 3}	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: array	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	[1, 2]	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_decimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	3.14	N	N	N	N	N	N	N	N	N	N	N	N	N
-_vch: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	12	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_set	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	"b,c"	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_enum	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	"b"	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_date	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	"--EXPECTED_DATE--"	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_time	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	"--EXPECTED_TIME--.000000"	N	N	N	N	N	N	N	N	N	N	N	N	N
+_chr: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_datetime	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	"--EXPECTED_TIME--"	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	"base64:type16:yv4="	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_year	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	"base64:type13:MTk5Mg=="	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -5227,13 +5227,13 @@ _chr: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIM
 _chr: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	"base64:type251:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	"base64:type250:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	"base64:type249:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N	N	N
-_chr: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	"base64:type15:Zm9v"	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _chr: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _vch: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	null	N	N	N	N	N	N	N	N	N	N	N	N
 _vch: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	true	N	N	N	N	N	N	N	N	N	N	N	N
+_vch: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	12	N	N	N	N	N	N	N	N	N	N	N	N
 _vch: int	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	12	N	N	N	N	N	N	N	N	N	N	N	N
 _vch: double	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	3.14	N	N	N	N	N	N	N	N	N	N	N	N
 _vch: stringany	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	"a"	N	N	N	N	N	N	N	N	N	N	N	N
@@ -5258,7 +5258,6 @@ _vch: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--T
 _vch: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	"base64:type15:Zm9v"	N	N	N	N	N	N	N	N	N	N	N	N
 _vch: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _vch: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_bin: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bin: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	null	N	N	N	N	N	N	N	N	N	N	N
 _bin: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	true	N	N	N	N	N	N	N	N	N	N	N
 _bin: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	12	N	N	N	N	N	N	N	N	N	N	N
@@ -5278,10 +5277,11 @@ _bin: opaque_mysql_type_datetime	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	-
 _bin: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type16:yv4="	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_year	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type13:MTk5Mg=="	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type252:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N
+_bin: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_bin: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type251:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type250:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type249:yv66vg=="	N	N	N	N	N	N	N	N	N	N	N
-_bin: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	"base64:type15:Zm9v"	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _bin: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -5339,9 +5339,9 @@ _tbl: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--T
 _tbl: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	"base64:type15:Zm9v"	N	N	N	N	N	N	N	N	N
 _tbl: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _tbl: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_ttx: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	12	N	N	N	N	N	N	N	N
 _ttx: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	null	N	N	N	N	N	N	N	N
 _ttx: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	true	N	N	N	N	N	N	N	N
-_ttx: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	12	N	N	N	N	N	N	N	N
 _ttx: int	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	12	N	N	N	N	N	N	N	N
 _ttx: double	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	3.14	N	N	N	N	N	N	N	N
 _ttx: stringany	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	"a"	N	N	N	N	N	N	N	N
@@ -5384,11 +5384,11 @@ _blb: opaque_mysql_type_time	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIM
 _blb: opaque_mysql_type_datetime	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"--EXPECTED_TIME--"	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"base64:type16:yv4="	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_year	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"base64:type13:MTk5Mg=="	N	N	N	N	N	N	N
+_blb: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"base64:type252:yv66vg=="	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"base64:type251:yv66vg=="	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"base64:type250:yv66vg=="	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"base64:type249:yv66vg=="	N	N	N	N	N	N	N
-_blb: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	"base64:type15:Zm9v"	N	N	N	N	N	N	N
 _blb: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -5404,10 +5404,10 @@ _txt: stringdecimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIM
 _txt: object	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	{"a": 3}	N	N	N	N	N	N
 _txt: array	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	[1, 2]	N	N	N	N	N	N
 _txt: opaque_mysql_type_decimal	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	3.14	N	N	N	N	N	N
-_mbb: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	12	N	N	N	N	N
 _txt: opaque_mysql_type_set	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"b,c"	N	N	N	N	N	N
 _txt: opaque_mysql_type_enum	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"b"	N	N	N	N	N	N
 _txt: opaque_mysql_type_date	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"--EXPECTED_DATE--"	N	N	N	N	N	N
+_txt: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _txt: opaque_mysql_type_time	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"--EXPECTED_TIME--.000000"	N	N	N	N	N	N
 _txt: opaque_mysql_type_datetime	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"--EXPECTED_TIME--"	N	N	N	N	N	N
 _txt: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type16:yv4="	N	N	N	N	N	N
@@ -5416,13 +5416,13 @@ _txt: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIM
 _txt: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type251:yv66vg=="	N	N	N	N	N	N
 _txt: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type250:yv66vg=="	N	N	N	N	N	N
 _txt: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type249:yv66vg=="	N	N	N	N	N	N
-_txt: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _txt: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _txt: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	"base64:type15:Zm9v"	N	N	N	N	N	N
 _txt: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _txt: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _mbb: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	null	N	N	N	N	N
 _mbb: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	true	N	N	N	N	N
+_mbb: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	12	N	N	N	N	N
 _mbb: int	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	12	N	N	N	N	N
 _mbb: double	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	3.14	N	N	N	N	N
 _mbb: stringany	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	"a"	N	N	N	N	N
@@ -5473,8 +5473,8 @@ _mtx: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	
 _mtx: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _mtx: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	"base64:type15:Zm9v"	N	N	N	N
 _mtx: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
-_mtx: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _lbb: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	null	N	N	N
+_mtx: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _lbb: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	true	N	N	N
 _lbb: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	12	N	N	N
 _lbb: int	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	12	N	N	N
@@ -5493,7 +5493,6 @@ _lbb: opaque_mysql_type_datetime	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	-
 _lbb: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type16:yv4="	N	N	N
 _lbb: opaque_mysql_type_year	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type13:MTk5Mg=="	N	N	N
 _lbb: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type252:yv66vg=="	N	N	N
-_ltx: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	null	N	N
 _lbb: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type251:yv66vg=="	N	N	N
 _lbb: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type250:yv66vg=="	N	N	N
 _lbb: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type249:yv66vg=="	N	N	N
@@ -5502,6 +5501,7 @@ _lbb: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--T
 _lbb: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type15:Zm9v"	N	N	N
 _lbb: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _lbb: opaque_mysql_type_var_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
+_ltx: null	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	null	N	N
 _ltx: bool	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	true	N	N
 _ltx: uint	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	12	N	N
 _ltx: int	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	12	N	N
@@ -5516,7 +5516,6 @@ _ltx: opaque_mysql_type_set	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME
 _ltx: opaque_mysql_type_enum	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	"b"	N	N
 _ltx: opaque_mysql_type_date	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	"--EXPECTED_DATE--"	N	N
 _ltx: opaque_mysql_type_time	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	"--EXPECTED_TIME--.000000"	N	N
-_ltx: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _ltx: opaque_mysql_type_datetime	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	"--EXPECTED_TIME--"	N	N
 _ltx: opaque_mysql_type_bit	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type16:yv4="	N	N
 _ltx: opaque_mysql_type_year	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type13:MTk5Mg=="	N	N
@@ -5524,6 +5523,7 @@ _ltx: opaque_mysql_type_blob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIM
 _ltx: opaque_mysql_type_longblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type251:yv66vg=="	N	N
 _ltx: opaque_mysql_type_mediumblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type250:yv66vg=="	N	N
 _ltx: opaque_mysql_type_tinyblob	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type249:yv66vg=="	N	N
+_ltx: opaque_mysql_type_varbinary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _ltx: opaque_mysql_type_binary	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
 _ltx: opaque_mysql_type_varchar	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	"base64:type15:Zm9v"	N	N
 _ltx: opaque_mysql_type_string	N	N	N	N	N	N	N	N	N	N	N	N	N	N	--DATE--	--TIME--	--TIME--	--TIME--	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N	N
@@ -5573,10 +5573,10 @@ _bit: opaque_mysql_type_varbinary	NULL
 _bit: opaque_mysql_type_binary	NULL
 _bit: opaque_mysql_type_string	NULL
 _bit: opaque_mysql_type_var_string	NULL
+_bit: int	      12
 _bit: null	    null
 _bit: bool	    true
 _bit: uint	      12
-_bit: int	      12
 _bit: double	    3.14
 _bit: stringany	     "a"
 _bit: stringint	     "1"
@@ -5619,8 +5619,8 @@ _tin: uint	12
 _tin: int	12
 _tin: double	3
 _tin: stringint	1
-_tin: opaque_mysql_type_decimal	3
 _tin: opaque_mysql_type_varbinary	NULL
+_tin: opaque_mysql_type_decimal	3
 _tin: opaque_mysql_type_binary	NULL
 _tin: opaque_mysql_type_string	NULL
 _tin: opaque_mysql_type_var_string	NULL
@@ -6042,9 +6042,9 @@ _dat: opaque_mysql_type_binary	NULL
 _dat: opaque_mysql_type_string	NULL
 _dat: opaque_mysql_type_var_string	NULL
 _dat: opaque_mysql_type_var_string	NULL
-_dat: opaque_mysql_type_varbinary	NULL
-_dat: opaque_mysql_type_binary	NULL
 _dat: opaque_mysql_type_string	NULL
+_dat: opaque_mysql_type_binary	NULL
+_dat: opaque_mysql_type_varbinary	NULL
 _dat: opaque_mysql_type_var_string	NULL
 _dat: opaque_mysql_type_var_string	NULL
 select c, _dtt from at
@@ -6056,8 +6056,8 @@ _dtt: opaque_mysql_type_string	NULL
 _dtt: opaque_mysql_type_varbinary	NULL
 _dtt: opaque_mysql_type_binary	NULL
 _dtt: opaque_mysql_type_string	NULL
-_dtt: opaque_mysql_type_binary	NULL
 _dtt: opaque_mysql_type_varbinary	NULL
+_dtt: opaque_mysql_type_binary	NULL
 _dtt: opaque_mysql_type_string	NULL
 select c, _smp from at
 where c like '_smp%';
@@ -6156,8 +6156,8 @@ _jsn: stringint	"1"
 _jsn: stringdecimal	"3.14"
 _jsn: object	{"a": 3}
 _jsn: array	[1, 2]
-_jsn: opaque_mysql_type_decimal	3.14
 _jsn: opaque_mysql_type_set	"b,c"
+_jsn: opaque_mysql_type_decimal	3.14
 _jsn: opaque_mysql_type_enum	"b"
 _jsn: opaque_mysql_type_date	"2015-01-15"
 _jsn: opaque_mysql_type_time	"23:24:25.000000"
@@ -6192,10 +6192,10 @@ _jsn: opaque_mysql_type_datetime	"2015-01-15 23:24:25.000000"
 _jsn: opaque_mysql_type_bit	"base64:type16:yv4="
 _jsn: opaque_mysql_type_year	"base64:type13:MTk5Mg=="
 _jsn: opaque_mysql_type_blob	"base64:type252:yv66vg=="
+_jsn: opaque_mysql_type_varbinary	NULL
 _jsn: opaque_mysql_type_longblob	"base64:type251:yv66vg=="
 _jsn: opaque_mysql_type_mediumblob	"base64:type250:yv66vg=="
 _jsn: opaque_mysql_type_tinyblob	"base64:type249:yv66vg=="
-_jsn: opaque_mysql_type_varbinary	NULL
 _jsn: opaque_mysql_type_binary	NULL
 _jsn: opaque_mysql_type_varchar	"base64:type15:Zm9v"
 _jsn: opaque_mysql_type_string	NULL
@@ -6272,6 +6272,7 @@ _chr: opaque_mysql_type_set	"b,c"
 _chr: opaque_mysql_type_enum	"b"
 _chr: opaque_mysql_type_date	"2015-01-15"
 _chr: opaque_mysql_type_time	"23:24:25.000000"
+_chr: opaque_mysql_type_varbinary	NULL
 _chr: opaque_mysql_type_datetime	"2015-01-15 23:24:25.000000"
 _chr: opaque_mysql_type_bit	"base64:type16:yv4="
 _chr: opaque_mysql_type_year	"base64:type13:MTk5Mg=="
@@ -6279,7 +6280,6 @@ _chr: opaque_mysql_type_blob	"base64:type252:yv66vg=="
 _chr: opaque_mysql_type_longblob	"base64:type251:yv66vg=="
 _chr: opaque_mysql_type_mediumblob	"base64:type250:yv66vg=="
 _chr: opaque_mysql_type_tinyblob	"base64:type249:yv66vg=="
-_chr: opaque_mysql_type_varbinary	NULL
 _chr: opaque_mysql_type_binary	NULL
 _chr: opaque_mysql_type_varchar	"base64:type15:Zm9v"
 _chr: opaque_mysql_type_string	NULL
@@ -6341,9 +6341,9 @@ _vch: opaque_mysql_type_binary	NULL
 _vch: opaque_mysql_type_varchar	"base64:type15:Zm9v"
 _vch: opaque_mysql_type_string	NULL
 _vch: opaque_mysql_type_var_string	NULL
-_vch: uint	12
 _vch: null	null
 _vch: bool	true
+_vch: uint	12
 _vch: int	12
 _vch: double	3.14
 _vch: stringany	"a"
@@ -6374,7 +6374,8 @@ c	replace(_bin, '\0', '')
 _bin: null	null
 _bin: bool	true
 _bin: uint	12
-_bin: opaque_mysql_type_varbinary	NULL
+_bin: opaque_mysql_type_string	NULL
+_bin: opaque_mysql_type_var_string	NULL
 _bin: int	12
 _bin: double	3.14
 _bin: stringany	"a"
@@ -6392,40 +6393,11 @@ _bin: opaque_mysql_type_bit	"base64:type16:yv4="
 _bin: opaque_mysql_type_year	"base64:type13:MTk5Mg=="
 _bin: opaque_mysql_type_blob	"base64:type252:yv66vg=="
 _bin: opaque_mysql_type_longblob	"base64:type251:yv66vg=="
+_bin: opaque_mysql_type_varbinary	NULL
 _bin: opaque_mysql_type_binary	NULL
-_bin: opaque_mysql_type_string	NULL
 _bin: opaque_mysql_type_mediumblob	"base64:type250:yv66vg=="
 _bin: opaque_mysql_type_tinyblob	"base64:type249:yv66vg=="
 _bin: opaque_mysql_type_varchar	"base64:type15:Zm9v"
-_bin: opaque_mysql_type_var_string	NULL
-_bin: null	null
-_bin: bool	true
-_bin: uint	12
-_bin: int	12
-_bin: double	3.14
-_bin: stringany	"a"
-_bin: opaque_mysql_type_varbinary	NULL
-_bin: opaque_mysql_type_binary	NULL
-_bin: stringint	"1"
-_bin: stringdecimal	"3.14"
-_bin: object	{"a": 3}
-_bin: array	[1, 2]
-_bin: opaque_mysql_type_decimal	3.14
-_bin: opaque_mysql_type_set	"b,c"
-_bin: opaque_mysql_type_enum	"b"
-_bin: opaque_mysql_type_date	"2015-01-15"
-_bin: opaque_mysql_type_time	"23:24:25.000000"
-_bin: opaque_mysql_type_datetime	"2015-01-15 23:24:25.000000"
-_bin: opaque_mysql_type_bit	"base64:type16:yv4="
-_bin: opaque_mysql_type_year	"base64:type13:MTk5Mg=="
-_bin: opaque_mysql_type_blob	"base64:type252:yv66vg=="
-_bin: opaque_mysql_type_longblob	"base64:type251:yv66vg=="
-_bin: opaque_mysql_type_mediumblob	"base64:type250:yv66vg=="
-_bin: opaque_mysql_type_tinyblob	"base64:type249:yv66vg=="
-_bin: opaque_mysql_type_varchar	"base64:type15:Zm9v"
-_bin: opaque_mysql_type_string	NULL
-_bin: opaque_mysql_type_var_string	NULL
-_bin: opaque_mysql_type_varbinary	NULL
 _bin: null	null
 _bin: bool	true
 _bin: uint	12
@@ -6433,6 +6405,8 @@ _bin: int	12
 _bin: double	3.14
 _bin: stringany	"a"
 _bin: stringint	"1"
+_bin: opaque_mysql_type_varbinary	NULL
+_bin: opaque_mysql_type_binary	NULL
 _bin: stringdecimal	"3.14"
 _bin: object	{"a": 3}
 _bin: array	[1, 2]
@@ -6448,7 +6422,33 @@ _bin: opaque_mysql_type_blob	"base64:type252:yv66vg=="
 _bin: opaque_mysql_type_longblob	"base64:type251:yv66vg=="
 _bin: opaque_mysql_type_mediumblob	"base64:type250:yv66vg=="
 _bin: opaque_mysql_type_tinyblob	"base64:type249:yv66vg=="
+_bin: opaque_mysql_type_varchar	"base64:type15:Zm9v"
+_bin: opaque_mysql_type_string	NULL
+_bin: opaque_mysql_type_var_string	NULL
+_bin: null	null
+_bin: bool	true
+_bin: uint	12
+_bin: int	12
+_bin: double	3.14
+_bin: stringany	"a"
+_bin: stringint	"1"
+_bin: stringdecimal	"3.14"
+_bin: object	{"a": 3}
+_bin: array	[1, 2]
+_bin: opaque_mysql_type_decimal	3.14
+_bin: opaque_mysql_type_set	"b,c"
+_bin: opaque_mysql_type_enum	"b"
+_bin: opaque_mysql_type_date	"2015-01-15"
+_bin: opaque_mysql_type_time	"23:24:25.000000"
+_bin: opaque_mysql_type_datetime	"2015-01-15 23:24:25.000000"
+_bin: opaque_mysql_type_bit	"base64:type16:yv4="
+_bin: opaque_mysql_type_year	"base64:type13:MTk5Mg=="
+_bin: opaque_mysql_type_blob	"base64:type252:yv66vg=="
+_bin: opaque_mysql_type_varbinary	NULL
 _bin: opaque_mysql_type_binary	NULL
+_bin: opaque_mysql_type_longblob	"base64:type251:yv66vg=="
+_bin: opaque_mysql_type_mediumblob	"base64:type250:yv66vg=="
+_bin: opaque_mysql_type_tinyblob	"base64:type249:yv66vg=="
 _bin: opaque_mysql_type_varchar	"base64:type15:Zm9v"
 _bin: opaque_mysql_type_string	NULL
 _bin: opaque_mysql_type_var_string	NULL
@@ -6677,9 +6677,9 @@ _ttx: opaque_mysql_type_binary	NULL
 _ttx: opaque_mysql_type_varchar	"base64:type15:Zm9v"
 _ttx: opaque_mysql_type_string	NULL
 _ttx: opaque_mysql_type_var_string	NULL
+_ttx: uint	12
 _ttx: null	null
 _ttx: bool	true
-_ttx: uint	12
 _ttx: int	12
 _ttx: double	3.14
 _ttx: stringany	"a"
@@ -6707,9 +6707,9 @@ _ttx: opaque_mysql_type_var_string	NULL
 select c, _blb from at
 where c like '_blb%';
 c	_blb
+_blb: uint	12
 _blb: null	null
 _blb: bool	true
-_blb: uint	12
 _blb: int	12
 _blb: double	3.14
 _blb: stringany	"a"
@@ -6779,11 +6779,11 @@ _blb: opaque_mysql_type_time	"23:24:25.000000"
 _blb: opaque_mysql_type_datetime	"2015-01-15 23:24:25.000000"
 _blb: opaque_mysql_type_bit	"base64:type16:yv4="
 _blb: opaque_mysql_type_year	"base64:type13:MTk5Mg=="
+_blb: opaque_mysql_type_varbinary	NULL
 _blb: opaque_mysql_type_blob	"base64:type252:yv66vg=="
 _blb: opaque_mysql_type_longblob	"base64:type251:yv66vg=="
 _blb: opaque_mysql_type_mediumblob	"base64:type250:yv66vg=="
 _blb: opaque_mysql_type_tinyblob	"base64:type249:yv66vg=="
-_blb: opaque_mysql_type_varbinary	NULL
 _blb: opaque_mysql_type_binary	NULL
 _blb: opaque_mysql_type_varchar	"base64:type15:Zm9v"
 _blb: opaque_mysql_type_string	NULL
@@ -6809,18 +6809,18 @@ _txt: opaque_mysql_type_time	"23:24:25.000000"
 _txt: opaque_mysql_type_datetime	"2015-01-15 23:24:25.000000"
 _txt: opaque_mysql_type_bit	"base64:type16:yv4="
 _txt: opaque_mysql_type_year	"base64:type13:MTk5Mg=="
+_txt: opaque_mysql_type_varbinary	NULL
 _txt: opaque_mysql_type_blob	"base64:type252:yv66vg=="
 _txt: opaque_mysql_type_longblob	"base64:type251:yv66vg=="
 _txt: opaque_mysql_type_mediumblob	"base64:type250:yv66vg=="
 _txt: opaque_mysql_type_tinyblob	"base64:type249:yv66vg=="
-_txt: opaque_mysql_type_varbinary	NULL
 _txt: opaque_mysql_type_binary	NULL
 _txt: opaque_mysql_type_varchar	"base64:type15:Zm9v"
 _txt: opaque_mysql_type_string	NULL
 _txt: opaque_mysql_type_var_string	NULL
+_txt: uint	12
 _txt: null	null
 _txt: bool	true
-_txt: uint	12
 _txt: int	12
 _txt: double	3.14
 _txt: stringany	"a"
@@ -6859,6 +6859,7 @@ _txt: opaque_mysql_type_decimal	3.14
 _txt: opaque_mysql_type_set	"b,c"
 _txt: opaque_mysql_type_enum	"b"
 _txt: opaque_mysql_type_date	"2015-01-15"
+_txt: opaque_mysql_type_varbinary	NULL
 _txt: opaque_mysql_type_time	"23:24:25.000000"
 _txt: opaque_mysql_type_datetime	"2015-01-15 23:24:25.000000"
 _txt: opaque_mysql_type_bit	"base64:type16:yv4="
@@ -6867,7 +6868,6 @@ _txt: opaque_mysql_type_blob	"base64:type252:yv66vg=="
 _txt: opaque_mysql_type_longblob	"base64:type251:yv66vg=="
 _txt: opaque_mysql_type_mediumblob	"base64:type250:yv66vg=="
 _txt: opaque_mysql_type_tinyblob	"base64:type249:yv66vg=="
-_txt: opaque_mysql_type_varbinary	NULL
 _txt: opaque_mysql_type_binary	NULL
 _txt: opaque_mysql_type_varchar	"base64:type15:Zm9v"
 _txt: opaque_mysql_type_string	NULL
@@ -6889,6 +6889,7 @@ _mbb: opaque_mysql_type_decimal	3.14
 _mbb: opaque_mysql_type_set	"b,c"
 _mbb: opaque_mysql_type_enum	"b"
 _mbb: opaque_mysql_type_date	"2015-01-15"
+_mbb: opaque_mysql_type_varbinary	NULL
 _mbb: opaque_mysql_type_time	"23:24:25.000000"
 _mbb: opaque_mysql_type_datetime	"2015-01-15 23:24:25.000000"
 _mbb: opaque_mysql_type_bit	"base64:type16:yv4="
@@ -6897,7 +6898,6 @@ _mbb: opaque_mysql_type_blob	"base64:type252:yv66vg=="
 _mbb: opaque_mysql_type_longblob	"base64:type251:yv66vg=="
 _mbb: opaque_mysql_type_mediumblob	"base64:type250:yv66vg=="
 _mbb: opaque_mysql_type_tinyblob	"base64:type249:yv66vg=="
-_mbb: opaque_mysql_type_varbinary	NULL
 _mbb: opaque_mysql_type_binary	NULL
 _mbb: opaque_mysql_type_varchar	"base64:type15:Zm9v"
 _mbb: opaque_mysql_type_string	NULL
@@ -6929,9 +6929,9 @@ _mbb: opaque_mysql_type_binary	NULL
 _mbb: opaque_mysql_type_varchar	"base64:type15:Zm9v"
 _mbb: opaque_mysql_type_string	NULL
 _mbb: opaque_mysql_type_var_string	NULL
-_mbb: uint	12
 _mbb: null	null
 _mbb: bool	true
+_mbb: uint	12
 _mbb: int	12
 _mbb: double	3.14
 _mbb: stringany	"a"
@@ -7082,10 +7082,10 @@ _lbb: object	{"a": 3}
 _lbb: array	[1, 2]
 _lbb: opaque_mysql_type_decimal	3.14
 _lbb: opaque_mysql_type_set	"b,c"
-_lbb: opaque_mysql_type_varbinary	NULL
 _lbb: opaque_mysql_type_enum	"b"
 _lbb: opaque_mysql_type_date	"2015-01-15"
 _lbb: opaque_mysql_type_time	"23:24:25.000000"
+_lbb: opaque_mysql_type_varbinary	NULL
 _lbb: opaque_mysql_type_datetime	"2015-01-15 23:24:25.000000"
 _lbb: opaque_mysql_type_bit	"base64:type16:yv4="
 _lbb: opaque_mysql_type_year	"base64:type13:MTk5Mg=="
@@ -7196,7 +7196,6 @@ _ltx: opaque_mysql_type_set	"b,c"
 _ltx: opaque_mysql_type_enum	"b"
 _ltx: opaque_mysql_type_date	"2015-01-15"
 _ltx: opaque_mysql_type_time	"23:24:25.000000"
-_ltx: opaque_mysql_type_varbinary	NULL
 _ltx: opaque_mysql_type_datetime	"2015-01-15 23:24:25.000000"
 _ltx: opaque_mysql_type_bit	"base64:type16:yv4="
 _ltx: opaque_mysql_type_year	"base64:type13:MTk5Mg=="
@@ -7204,6 +7203,7 @@ _ltx: opaque_mysql_type_blob	"base64:type252:yv66vg=="
 _ltx: opaque_mysql_type_longblob	"base64:type251:yv66vg=="
 _ltx: opaque_mysql_type_mediumblob	"base64:type250:yv66vg=="
 _ltx: opaque_mysql_type_tinyblob	"base64:type249:yv66vg=="
+_ltx: opaque_mysql_type_varbinary	NULL
 _ltx: opaque_mysql_type_binary	NULL
 _ltx: opaque_mysql_type_varchar	"base64:type15:Zm9v"
 _ltx: opaque_mysql_type_string	NULL
@@ -7487,19 +7487,13 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
 select concat('From JSON col ',c, ' as DATE'), cast(j as DATE) from t where c='opaque_mysql_type_date';
 concat('From JSON col ',c, ' as DATE')	cast(j as DATE)
-From JSON col opaque_mysql_type_date as DATE	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON col opaque_mysql_type_date as DATE	2015-01-15
 select concat('From JSON col ',c, ' as DATE'), cast(j as DATE) from t where c='opaque_mysql_type_time';
 concat('From JSON col ',c, ' as DATE')	cast(j as DATE)
-From JSON col opaque_mysql_type_time as DATE	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON col opaque_mysql_type_time as DATE	--DATE--
 select concat('From JSON col ',c, ' as DATE'), cast(j as DATE) from t where c='opaque_mysql_type_datetime';
 concat('From JSON col ',c, ' as DATE')	cast(j as DATE)
-From JSON col opaque_mysql_type_datetime as DATE	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON col opaque_mysql_type_datetime as DATE	2015-01-15
 select concat('From JSON col ',c, ' as DATE'), cast(j as DATE) from t where c='opaque_mysql_type_bit';
 concat('From JSON col ',c, ' as DATE')	cast(j as DATE)
 From JSON col opaque_mysql_type_bit as DATE	NULL
@@ -7619,19 +7613,13 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
 select concat('From JSON col ',c, ' as DATETIME'), cast(j as DATETIME) from t where c='opaque_mysql_type_date';
 concat('From JSON col ',c, ' as DATETIME')	cast(j as DATETIME)
-From JSON col opaque_mysql_type_date as DATETIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON col opaque_mysql_type_date as DATETIME	2015-01-15 00:00:00
 select concat('From JSON col ',c, ' as DATETIME'), cast(j as DATETIME) from t where c='opaque_mysql_type_time';
 concat('From JSON col ',c, ' as DATETIME')	cast(j as DATETIME)
-From JSON col opaque_mysql_type_time as DATETIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON col opaque_mysql_type_time as DATETIME	--DATE-- 23:24:25
 select concat('From JSON col ',c, ' as DATETIME'), cast(j as DATETIME) from t where c='opaque_mysql_type_datetime';
 concat('From JSON col ',c, ' as DATETIME')	cast(j as DATETIME)
-From JSON col opaque_mysql_type_datetime as DATETIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON col opaque_mysql_type_datetime as DATETIME	2015-01-15 23:24:25
 select concat('From JSON col ',c, ' as DATETIME'), cast(j as DATETIME) from t where c='opaque_mysql_type_bit';
 concat('From JSON col ',c, ' as DATETIME')	cast(j as DATETIME)
 From JSON col opaque_mysql_type_bit as DATETIME	NULL
@@ -7751,19 +7739,13 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
 select concat('From JSON col ',c, ' as TIME'), cast(j as TIME) from t where c='opaque_mysql_type_date';
 concat('From JSON col ',c, ' as TIME')	cast(j as TIME)
-From JSON col opaque_mysql_type_date as TIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON col opaque_mysql_type_date as TIME	00:00:00
 select concat('From JSON col ',c, ' as TIME'), cast(j as TIME) from t where c='opaque_mysql_type_time';
 concat('From JSON col ',c, ' as TIME')	cast(j as TIME)
-From JSON col opaque_mysql_type_time as TIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON col opaque_mysql_type_time as TIME	23:24:25
 select concat('From JSON col ',c, ' as TIME'), cast(j as TIME) from t where c='opaque_mysql_type_datetime';
 concat('From JSON col ',c, ' as TIME')	cast(j as TIME)
-From JSON col opaque_mysql_type_datetime as TIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON col opaque_mysql_type_datetime as TIME	23:24:25
 select concat('From JSON col ',c, ' as TIME'), cast(j as TIME) from t where c='opaque_mysql_type_bit';
 concat('From JSON col ',c, ' as TIME')	cast(j as TIME)
 From JSON col opaque_mysql_type_bit as TIME	NULL
@@ -7872,62 +7854,53 @@ Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_date';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
-From JSON col opaque_mysql_type_date as DECIMAL(5,2)	999.99
+From JSON col opaque_mysql_type_date as DECIMAL(5,2)	0.00
 Warnings:
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
-Warning	1264	Out of range value for column 'cast(j as DECIMAL(5,2))' at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_time';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
-From JSON col opaque_mysql_type_time as DECIMAL(5,2)	23.00
+From JSON col opaque_mysql_type_time as DECIMAL(5,2)	0.00
 Warnings:
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_datetime';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
-From JSON col opaque_mysql_type_datetime as DECIMAL(5,2)	999.99
+From JSON col opaque_mysql_type_datetime as DECIMAL(5,2)	0.00
 Warnings:
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
-Warning	1264	Out of range value for column 'cast(j as DECIMAL(5,2))' at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_bit';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON col opaque_mysql_type_bit as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_year';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON col opaque_mysql_type_year as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_year';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON col opaque_mysql_type_year as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_blob';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON col opaque_mysql_type_blob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_longblob';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON col opaque_mysql_type_longblob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_mediumblob';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON col opaque_mysql_type_mediumblob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_tinyblob';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON col opaque_mysql_type_tinyblob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_varbinary';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
@@ -7939,7 +7912,6 @@ select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) f
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON col opaque_mysql_type_varchar as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON col ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_string';
 concat('From JSON col ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
@@ -8002,17 +7974,17 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON col ',c, ' as UNSIGNED'), cast(j as UNSIGNED) from t where c='opaque_mysql_type_date';
 concat('From JSON col ',c, ' as UNSIGNED')	cast(j as UNSIGNED)
-From JSON col opaque_mysql_type_date as UNSIGNED	2015
+From JSON col opaque_mysql_type_date as UNSIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON col ',c, ' as UNSIGNED'), cast(j as UNSIGNED) from t where c='opaque_mysql_type_time';
 concat('From JSON col ',c, ' as UNSIGNED')	cast(j as UNSIGNED)
-From JSON col opaque_mysql_type_time as UNSIGNED	23
+From JSON col opaque_mysql_type_time as UNSIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON col ',c, ' as UNSIGNED'), cast(j as UNSIGNED) from t where c='opaque_mysql_type_datetime';
 concat('From JSON col ',c, ' as UNSIGNED')	cast(j as UNSIGNED)
-From JSON col opaque_mysql_type_datetime as UNSIGNED	2015
+From JSON col opaque_mysql_type_datetime as UNSIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON col ',c, ' as UNSIGNED'), cast(j as UNSIGNED) from t where c='opaque_mysql_type_bit';
@@ -8122,17 +8094,17 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON col ',c, ' as SIGNED'), cast(j as SIGNED) from t where c='opaque_mysql_type_date';
 concat('From JSON col ',c, ' as SIGNED')	cast(j as SIGNED)
-From JSON col opaque_mysql_type_date as SIGNED	2015
+From JSON col opaque_mysql_type_date as SIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON col ',c, ' as SIGNED'), cast(j as SIGNED) from t where c='opaque_mysql_type_time';
 concat('From JSON col ',c, ' as SIGNED')	cast(j as SIGNED)
-From JSON col opaque_mysql_type_time as SIGNED	23
+From JSON col opaque_mysql_type_time as SIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON col ',c, ' as SIGNED'), cast(j as SIGNED) from t where c='opaque_mysql_type_datetime';
 concat('From JSON col ',c, ' as SIGNED')	cast(j as SIGNED)
-From JSON col opaque_mysql_type_datetime as SIGNED	2015
+From JSON col opaque_mysql_type_datetime as SIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON col ',c, ' as SIGNED'), cast(j as SIGNED) from t where c='opaque_mysql_type_bit';
@@ -8425,19 +8397,13 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
 select concat('From JSON func ',c, ' as DATE'), cast(json_extract(j, '$') as DATE) from t where c='opaque_mysql_type_date';
 concat('From JSON func ',c, ' as DATE')	cast(json_extract(j, '$') as DATE)
-From JSON func opaque_mysql_type_date as DATE	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
+From JSON func opaque_mysql_type_date as DATE	2015-01-15
 select concat('From JSON func ',c, ' as DATE'), cast(json_extract(j, '$') as DATE) from t where c='opaque_mysql_type_time';
 concat('From JSON func ',c, ' as DATE')	cast(json_extract(j, '$') as DATE)
-From JSON func opaque_mysql_type_time as DATE	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
+From JSON func opaque_mysql_type_time as DATE	--DATE--
 select concat('From JSON func ',c, ' as DATE'), cast(json_extract(j, '$') as DATE) from t where c='opaque_mysql_type_datetime';
 concat('From JSON func ',c, ' as DATE')	cast(json_extract(j, '$') as DATE)
-From JSON func opaque_mysql_type_datetime as DATE	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
+From JSON func opaque_mysql_type_datetime as DATE	2015-01-15
 select concat('From JSON func ',c, ' as DATE'), cast(json_extract(j, '$') as DATE) from t where c='opaque_mysql_type_bit';
 concat('From JSON func ',c, ' as DATE')	cast(json_extract(j, '$') as DATE)
 From JSON func opaque_mysql_type_bit as DATE	NULL
@@ -8557,19 +8523,13 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
 select concat('From JSON func ',c, ' as DATETIME'), cast(json_extract(j, '$') as DATETIME) from t where c='opaque_mysql_type_date';
 concat('From JSON func ',c, ' as DATETIME')	cast(json_extract(j, '$') as DATETIME)
-From JSON func opaque_mysql_type_date as DATETIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
+From JSON func opaque_mysql_type_date as DATETIME	2015-01-15 00:00:00
 select concat('From JSON func ',c, ' as DATETIME'), cast(json_extract(j, '$') as DATETIME) from t where c='opaque_mysql_type_time';
 concat('From JSON func ',c, ' as DATETIME')	cast(json_extract(j, '$') as DATETIME)
-From JSON func opaque_mysql_type_time as DATETIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
+From JSON func opaque_mysql_type_time as DATETIME	--DATE-- 23:24:25
 select concat('From JSON func ',c, ' as DATETIME'), cast(json_extract(j, '$') as DATETIME) from t where c='opaque_mysql_type_datetime';
 concat('From JSON func ',c, ' as DATETIME')	cast(json_extract(j, '$') as DATETIME)
-From JSON func opaque_mysql_type_datetime as DATETIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
+From JSON func opaque_mysql_type_datetime as DATETIME	2015-01-15 23:24:25
 select concat('From JSON func ',c, ' as DATETIME'), cast(json_extract(j, '$') as DATETIME) from t where c='opaque_mysql_type_bit';
 concat('From JSON func ',c, ' as DATETIME')	cast(json_extract(j, '$') as DATETIME)
 From JSON func opaque_mysql_type_bit as DATETIME	NULL
@@ -8689,19 +8649,13 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
 select concat('From JSON func ',c, ' as TIME'), cast(json_extract(j, '$') as TIME) from t where c='opaque_mysql_type_date';
 concat('From JSON func ',c, ' as TIME')	cast(json_extract(j, '$') as TIME)
-From JSON func opaque_mysql_type_date as TIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
+From JSON func opaque_mysql_type_date as TIME	00:00:00
 select concat('From JSON func ',c, ' as TIME'), cast(json_extract(j, '$') as TIME) from t where c='opaque_mysql_type_time';
 concat('From JSON func ',c, ' as TIME')	cast(json_extract(j, '$') as TIME)
-From JSON func opaque_mysql_type_time as TIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
+From JSON func opaque_mysql_type_time as TIME	23:24:25
 select concat('From JSON func ',c, ' as TIME'), cast(json_extract(j, '$') as TIME) from t where c='opaque_mysql_type_datetime';
 concat('From JSON func ',c, ' as TIME')	cast(json_extract(j, '$') as TIME)
-From JSON func opaque_mysql_type_datetime as TIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column json_extract at row 1
+From JSON func opaque_mysql_type_datetime as TIME	23:24:25
 select concat('From JSON func ',c, ' as TIME'), cast(json_extract(j, '$') as TIME) from t where c='opaque_mysql_type_bit';
 concat('From JSON func ',c, ' as TIME')	cast(json_extract(j, '$') as TIME)
 From JSON func opaque_mysql_type_bit as TIME	NULL
@@ -8810,62 +8764,53 @@ Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_date';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
-From JSON func opaque_mysql_type_date as DECIMAL(5,2)	999.99
+From JSON func opaque_mysql_type_date as DECIMAL(5,2)	0.00
 Warnings:
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
-Warning	1264	Out of range value for column 'cast(json_extract(j, '$') as DECIMAL(5,2))' at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_time';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
-From JSON func opaque_mysql_type_time as DECIMAL(5,2)	23.00
+From JSON func opaque_mysql_type_time as DECIMAL(5,2)	0.00
 Warnings:
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_datetime';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
-From JSON func opaque_mysql_type_datetime as DECIMAL(5,2)	999.99
+From JSON func opaque_mysql_type_datetime as DECIMAL(5,2)	0.00
 Warnings:
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
-Warning	1264	Out of range value for column 'cast(json_extract(j, '$') as DECIMAL(5,2))' at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_bit';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
 From JSON func opaque_mysql_type_bit as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_year';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
 From JSON func opaque_mysql_type_year as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_year';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
 From JSON func opaque_mysql_type_year as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_blob';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
 From JSON func opaque_mysql_type_blob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_longblob';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
 From JSON func opaque_mysql_type_longblob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_mediumblob';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
 From JSON func opaque_mysql_type_mediumblob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_tinyblob';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
 From JSON func opaque_mysql_type_tinyblob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_varbinary';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
@@ -8877,7 +8822,6 @@ select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$'
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
 From JSON func opaque_mysql_type_varchar as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column json_extract at row 1
 select concat('From JSON func ',c, ' as DECIMAL(5,2)'), cast(json_extract(j, '$') as DECIMAL(5,2)) from t where c='opaque_mysql_type_string';
 concat('From JSON func ',c, ' as DECIMAL(5,2)')	cast(json_extract(j, '$') as DECIMAL(5,2))
@@ -8940,17 +8884,17 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column json_extract at row 1
 select concat('From JSON func ',c, ' as UNSIGNED'), cast(json_extract(j, '$') as UNSIGNED) from t where c='opaque_mysql_type_date';
 concat('From JSON func ',c, ' as UNSIGNED')	cast(json_extract(j, '$') as UNSIGNED)
-From JSON func opaque_mysql_type_date as UNSIGNED	2015
+From JSON func opaque_mysql_type_date as UNSIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column json_extract at row 1
 select concat('From JSON func ',c, ' as UNSIGNED'), cast(json_extract(j, '$') as UNSIGNED) from t where c='opaque_mysql_type_time';
 concat('From JSON func ',c, ' as UNSIGNED')	cast(json_extract(j, '$') as UNSIGNED)
-From JSON func opaque_mysql_type_time as UNSIGNED	23
+From JSON func opaque_mysql_type_time as UNSIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column json_extract at row 1
 select concat('From JSON func ',c, ' as UNSIGNED'), cast(json_extract(j, '$') as UNSIGNED) from t where c='opaque_mysql_type_datetime';
 concat('From JSON func ',c, ' as UNSIGNED')	cast(json_extract(j, '$') as UNSIGNED)
-From JSON func opaque_mysql_type_datetime as UNSIGNED	2015
+From JSON func opaque_mysql_type_datetime as UNSIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column json_extract at row 1
 select concat('From JSON func ',c, ' as UNSIGNED'), cast(json_extract(j, '$') as UNSIGNED) from t where c='opaque_mysql_type_bit';
@@ -9060,17 +9004,17 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column json_extract at row 1
 select concat('From JSON func ',c, ' as SIGNED'), cast(json_extract(j, '$') as SIGNED) from t where c='opaque_mysql_type_date';
 concat('From JSON func ',c, ' as SIGNED')	cast(json_extract(j, '$') as SIGNED)
-From JSON func opaque_mysql_type_date as SIGNED	2015
+From JSON func opaque_mysql_type_date as SIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column json_extract at row 1
 select concat('From JSON func ',c, ' as SIGNED'), cast(json_extract(j, '$') as SIGNED) from t where c='opaque_mysql_type_time';
 concat('From JSON func ',c, ' as SIGNED')	cast(json_extract(j, '$') as SIGNED)
-From JSON func opaque_mysql_type_time as SIGNED	23
+From JSON func opaque_mysql_type_time as SIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column json_extract at row 1
 select concat('From JSON func ',c, ' as SIGNED'), cast(json_extract(j, '$') as SIGNED) from t where c='opaque_mysql_type_datetime';
 concat('From JSON func ',c, ' as SIGNED')	cast(json_extract(j, '$') as SIGNED)
-From JSON func opaque_mysql_type_datetime as SIGNED	2015
+From JSON func opaque_mysql_type_datetime as SIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column json_extract at row 1
 select concat('From JSON func ',c, ' as SIGNED'), cast(json_extract(j, '$') as SIGNED) from t where c='opaque_mysql_type_bit';
@@ -9363,19 +9307,13 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 2
 select concat('From JSON subselect ',c, ' as DATE'), cast(j as DATE) from t where c='opaque_mysql_type_date';
 concat('From JSON subselect ',c, ' as DATE')	cast(j as DATE)
-From JSON subselect opaque_mysql_type_date as DATE	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON subselect opaque_mysql_type_date as DATE	2015-01-15
 select concat('From JSON subselect ',c, ' as DATE'), cast((select j from t where c='opaque_mysql_type_time') as DATE) from t where c='opaque_mysql_type_time';
 concat('From JSON subselect ',c, ' as DATE')	cast((select j from t where c='opaque_mysql_type_time') as DATE)
-From JSON subselect opaque_mysql_type_time as DATE	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 2
+From JSON subselect opaque_mysql_type_time as DATE	--DATE--
 select concat('From JSON subselect ',c, ' as DATE'), cast(j as DATE) from t where c='opaque_mysql_type_datetime';
 concat('From JSON subselect ',c, ' as DATE')	cast(j as DATE)
-From JSON subselect opaque_mysql_type_datetime as DATE	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON subselect opaque_mysql_type_datetime as DATE	2015-01-15
 select concat('From JSON subselect ',c, ' as DATE'), cast(j as DATE) from t where c='opaque_mysql_type_bit';
 concat('From JSON subselect ',c, ' as DATE')	cast(j as DATE)
 From JSON subselect opaque_mysql_type_bit as DATE	NULL
@@ -9495,19 +9433,13 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 2
 select concat('From JSON subselect ',c, ' as DATETIME'), cast((select j from t where c='opaque_mysql_type_date') as DATETIME) from t where c='opaque_mysql_type_date';
 concat('From JSON subselect ',c, ' as DATETIME')	cast((select j from t where c='opaque_mysql_type_date') as DATETIME)
-From JSON subselect opaque_mysql_type_date as DATETIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 2
+From JSON subselect opaque_mysql_type_date as DATETIME	2015-01-15 00:00:00
 select concat('From JSON subselect ',c, ' as DATETIME'), cast((select j from t where c='opaque_mysql_type_time') as DATETIME) from t where c='opaque_mysql_type_time';
 concat('From JSON subselect ',c, ' as DATETIME')	cast((select j from t where c='opaque_mysql_type_time') as DATETIME)
-From JSON subselect opaque_mysql_type_time as DATETIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 2
+From JSON subselect opaque_mysql_type_time as DATETIME	--DATE-- 23:24:25
 select concat('From JSON subselect ',c, ' as DATETIME'), cast(j as DATETIME) from t where c='opaque_mysql_type_datetime';
 concat('From JSON subselect ',c, ' as DATETIME')	cast(j as DATETIME)
-From JSON subselect opaque_mysql_type_datetime as DATETIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON subselect opaque_mysql_type_datetime as DATETIME	2015-01-15 23:24:25
 select concat('From JSON subselect ',c, ' as DATETIME'), cast(j as DATETIME) from t where c='opaque_mysql_type_bit';
 concat('From JSON subselect ',c, ' as DATETIME')	cast(j as DATETIME)
 From JSON subselect opaque_mysql_type_bit as DATETIME	NULL
@@ -9627,19 +9559,13 @@ Warnings:
 Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 2
 select concat('From JSON subselect ',c, ' as TIME'), cast(j as TIME) from t where c='opaque_mysql_type_date';
 concat('From JSON subselect ',c, ' as TIME')	cast(j as TIME)
-From JSON subselect opaque_mysql_type_date as TIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON subselect opaque_mysql_type_date as TIME	00:00:00
 select concat('From JSON subselect ',c, ' as TIME'), cast((select j from t where c='opaque_mysql_type_time') as TIME) from t where c='opaque_mysql_type_time';
 concat('From JSON subselect ',c, ' as TIME')	cast((select j from t where c='opaque_mysql_type_time') as TIME)
-From JSON subselect opaque_mysql_type_time as TIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 2
+From JSON subselect opaque_mysql_type_time as TIME	23:24:25
 select concat('From JSON subselect ',c, ' as TIME'), cast(j as TIME) from t where c='opaque_mysql_type_datetime';
 concat('From JSON subselect ',c, ' as TIME')	cast(j as TIME)
-From JSON subselect opaque_mysql_type_datetime as TIME	NULL
-Warnings:
-Warning	3156	Invalid JSON value for CAST to DATE/TIME/DATETIME/TIMESTAMP from column j at row 1
+From JSON subselect opaque_mysql_type_datetime as TIME	23:24:25
 select concat('From JSON subselect ',c, ' as TIME'), cast(j as TIME) from t where c='opaque_mysql_type_bit';
 concat('From JSON subselect ',c, ' as TIME')	cast(j as TIME)
 From JSON subselect opaque_mysql_type_bit as TIME	NULL
@@ -9748,62 +9674,53 @@ Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 2
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_date';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
-From JSON subselect opaque_mysql_type_date as DECIMAL(5,2)	999.99
+From JSON subselect opaque_mysql_type_date as DECIMAL(5,2)	0.00
 Warnings:
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
-Warning	1264	Out of range value for column 'cast(j as DECIMAL(5,2))' at row 1
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast((select j from t where c='opaque_mysql_type_time') as DECIMAL(5,2)) from t where c='opaque_mysql_type_time';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast((select j from t where c='opaque_mysql_type_time') as DECIMAL(5,2))
-From JSON subselect opaque_mysql_type_time as DECIMAL(5,2)	23.00
+From JSON subselect opaque_mysql_type_time as DECIMAL(5,2)	0.00
 Warnings:
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 2
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_datetime';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
-From JSON subselect opaque_mysql_type_datetime as DECIMAL(5,2)	999.99
+From JSON subselect opaque_mysql_type_datetime as DECIMAL(5,2)	0.00
 Warnings:
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
-Warning	1264	Out of range value for column 'cast(j as DECIMAL(5,2))' at row 1
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_bit';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON subselect opaque_mysql_type_bit as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast((select j from t where c='opaque_mysql_type_year') as DECIMAL(5,2)) from t where c='opaque_mysql_type_year';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast((select j from t where c='opaque_mysql_type_year') as DECIMAL(5,2))
 From JSON subselect opaque_mysql_type_year as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 2
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_year';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON subselect opaque_mysql_type_year as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast((select j from t where c='opaque_mysql_type_blob') as DECIMAL(5,2)) from t where c='opaque_mysql_type_blob';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast((select j from t where c='opaque_mysql_type_blob') as DECIMAL(5,2))
 From JSON subselect opaque_mysql_type_blob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 2
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_longblob';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON subselect opaque_mysql_type_longblob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast((select j from t where c='opaque_mysql_type_mediumblob') as DECIMAL(5,2)) from t where c='opaque_mysql_type_mediumblob';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast((select j from t where c='opaque_mysql_type_mediumblob') as DECIMAL(5,2))
 From JSON subselect opaque_mysql_type_mediumblob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 2
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_tinyblob';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
 From JSON subselect opaque_mysql_type_tinyblob as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 1
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast((select j from t where c='opaque_mysql_type_varbinary') as DECIMAL(5,2)) from t where c='opaque_mysql_type_varbinary';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast((select j from t where c='opaque_mysql_type_varbinary') as DECIMAL(5,2))
@@ -9815,7 +9732,6 @@ select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast((select j from
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast((select j from t where c='opaque_mysql_type_varchar') as DECIMAL(5,2))
 From JSON subselect opaque_mysql_type_varchar as DECIMAL(5,2)	0.00
 Warnings:
-Warning	1366	Incorrect DECIMAL value: '0' for column '' at row -1
 Warning	3156	Invalid JSON value for CAST to DECIMAL from column j at row 2
 select concat('From JSON subselect ',c, ' as DECIMAL(5,2)'), cast(j as DECIMAL(5,2)) from t where c='opaque_mysql_type_string';
 concat('From JSON subselect ',c, ' as DECIMAL(5,2)')	cast(j as DECIMAL(5,2))
@@ -9884,7 +9800,7 @@ Warnings:
 Warning	1292	Truncated incorrect INTEGER value: '"b"'
 select concat('From JSON subselect ',c, ' as UNSIGNED'), cast(j as UNSIGNED) from t where c='opaque_mysql_type_date';
 concat('From JSON subselect ',c, ' as UNSIGNED')	cast(j as UNSIGNED)
-From JSON subselect opaque_mysql_type_date as UNSIGNED	2015
+From JSON subselect opaque_mysql_type_date as UNSIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON subselect ',c, ' as UNSIGNED'), cast((select j from t where c='opaque_mysql_type_time') as UNSIGNED) from t where c='opaque_mysql_type_time';
@@ -9894,7 +9810,7 @@ Warnings:
 Warning	1292	Truncated incorrect INTEGER value: '"23:24:25.000000"'
 select concat('From JSON subselect ',c, ' as UNSIGNED'), cast(j as UNSIGNED) from t where c='opaque_mysql_type_datetime';
 concat('From JSON subselect ',c, ' as UNSIGNED')	cast(j as UNSIGNED)
-From JSON subselect opaque_mysql_type_datetime as UNSIGNED	2015
+From JSON subselect opaque_mysql_type_datetime as UNSIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON subselect ',c, ' as UNSIGNED'), cast(j as UNSIGNED) from t where c='opaque_mysql_type_bit';
@@ -10010,7 +9926,7 @@ Warnings:
 Warning	1292	Truncated incorrect INTEGER value: '"b"'
 select concat('From JSON subselect ',c, ' as SIGNED'), cast(j as SIGNED) from t where c='opaque_mysql_type_date';
 concat('From JSON subselect ',c, ' as SIGNED')	cast(j as SIGNED)
-From JSON subselect opaque_mysql_type_date as SIGNED	2015
+From JSON subselect opaque_mysql_type_date as SIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON subselect ',c, ' as SIGNED'), cast((select j from t where c='opaque_mysql_type_time') as SIGNED) from t where c='opaque_mysql_type_time';
@@ -10020,7 +9936,7 @@ Warnings:
 Warning	1292	Truncated incorrect INTEGER value: '"23:24:25.000000"'
 select concat('From JSON subselect ',c, ' as SIGNED'), cast(j as SIGNED) from t where c='opaque_mysql_type_datetime';
 concat('From JSON subselect ',c, ' as SIGNED')	cast(j as SIGNED)
-From JSON subselect opaque_mysql_type_datetime as SIGNED	2015
+From JSON subselect opaque_mysql_type_datetime as SIGNED	0
 Warnings:
 Warning	3156	Invalid JSON value for CAST to INTEGER from column j at row 1
 select concat('From JSON subselect ',c, ' as SIGNED'), cast(j as SIGNED) from t where c='opaque_mysql_type_bit';

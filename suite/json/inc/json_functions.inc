@@ -1986,8 +1986,9 @@ FROM T_WITH_NULLS
 ORDER BY i;
 eval $query;
 # It should work the same way with a TEXT column as with a JSON column.
-ALTER TABLE T_WITH_NULLS MODIFY COLUMN j TEXT;
-eval $query;
+#Sequoiadb not support alter
+#ALTER TABLE T_WITH_NULLS MODIFY COLUMN j TEXT;
+#eval $query;
 DROP TABLE T_WITH_NULLS;
 
 # Make sure that every JSON function accepts latin1 text arguments. The JSON
