@@ -504,12 +504,16 @@ a	b	a	b
 1	NULL	2	1
 1	NULL	4	10
 2	10	4	10
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 SELECT STRAIGHT_JOIN SQL_NO_CACHE * FROM t2, t1 WHERE t1.b = t2.b OR t2.b IS NULL;
 a	b	a	b
 1	NULL	1	1
 1	NULL	2	1
 1	NULL	4	10
 2	10	4	10
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 DROP TABLE IF EXISTS t1,t2;
 CREATE TABLE t1 (key1 float default NULL, UNIQUE KEY key1 (key1));
 CREATE TABLE t2 (key2 float default NULL, UNIQUE KEY key2 (key2));

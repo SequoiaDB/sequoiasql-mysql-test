@@ -1897,3 +1897,66 @@ FOUND_ROWS()
 2
 DROP TABLE t1;
 #End of test for Bug#22602381
+#
+# Bug #27068222 CREATE TABLE USING SELECT WITH UNION
+#               FAILS FOR DATE COLUMN
+#
+CREATE TABLE `t1` (`date` date NOT NULL);
+INSERT INTO t1 VALUES ('2017-03-02'), ('2017-06-22');
+CREATE TABLE IF NOT EXISTS t2 AS
+SELECT * FROM t1
+UNION
+SELECT * FROM t1;
+DESC t2;
+Field	Type	Null	Key	Default	Extra
+date	date	NO		NULL	
+SELECT * FROM t2;
+date
+2017-03-02
+2017-06-22
+DROP TABLE t1, t2;
+CREATE TABLE t1 (
+i1 INT NOT NULL,
+i2 INT NOT NULL DEFAULT '1234',
+# non-specified nullability => i3 is nullable
+i3 INT,
+i4 INT DEFAULT NULL,
+i5 INT DEFAULT '5678',
+d1 date NOT NULL,
+d2 date NOT NULL DEFAULT '2018-01-25',
+d3 date,
+d4 date DEFAULT NULL,
+d5 date DEFAULT '2017-11-14'
+# g1 geometry NOT NULL
+);
+SHOW CREATE TABLE t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `i1` int(11) NOT NULL,
+  `i2` int(11) NOT NULL DEFAULT '1234',
+  `i3` int(11) DEFAULT NULL,
+  `i4` int(11) DEFAULT NULL,
+  `i5` int(11) DEFAULT '5678',
+  `d1` date NOT NULL,
+  `d2` date NOT NULL DEFAULT '2018-01-25',
+  `d3` date DEFAULT NULL,
+  `d4` date DEFAULT NULL,
+  `d5` date DEFAULT '2017-11-14'
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+DROP TABLE t1;
+#
+# Bug#27197235 USER VARIABLE + UINON + DECIMAL COLUMN RETURNS
+#              WRONG VALUES
+#
+SET NAMES utf8;
+SET @advertAcctId = 1000003;
+select @advertAcctId as a from dual union all select 1.0 from dual;
+a
+1000003.0
+1.0
+SET NAMES latin1;
+SET @advertAcctId = 1000003;
+select @advertAcctId as a from dual union all select 1.0 from dual;
+a
+1000003.0
+1.0

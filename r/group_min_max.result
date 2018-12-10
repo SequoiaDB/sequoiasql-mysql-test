@@ -1763,3 +1763,134 @@ SET optimizer_trace=DEFAULT;
 SET end_markers_in_json=DEFAULT;
 DROP TABLE t;
 # End of test for Bug#18109609
+#
+# Bug#24423143 - WRONG RESULTS FOR AGGREGATE QUERY
+#
+# Test index merge tree scenario
+CREATE TABLE a (
+aggr_col int,
+group_by_col int,
+KEY aggr_col_key (aggr_col),
+KEY group_by_col_key (group_by_col, aggr_col)
+) ENGINE=SequoiaDB;
+set optimizer_trace_max_mem_size=1048576;
+set @@session.optimizer_trace='enabled=on';
+set end_markers_in_json=on;
+INSERT INTO a VALUES (2,3),(5,6),(6,3),(7,NULL),(9,NULL),(10,6);
+SELECT group_by_col, MIN(aggr_col) FROM a
+WHERE (group_by_col IN (70, 9)) OR (aggr_col > 2) GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)
+NULL	7
+3	6
+6	5
+SELECT group_by_col, MAX(aggr_col) FROM a
+WHERE (group_by_col IN (70, 9)) OR (aggr_col < 9) GROUP BY group_by_col;
+group_by_col	MAX(aggr_col)
+NULL	7
+3	6
+6	5
+# Test IMPOSSIBLE TREE scenario
+ALTER TABLE a DROP KEY aggr_col_key;
+SELECT group_by_col, MIN(aggr_col) FROM a
+WHERE (group_by_col IN (70 ,9)) OR (aggr_col > 2) GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)
+NULL	7
+3	6
+6	5
+SELECT group_by_col, MAX(aggr_col) FROM a
+WHERE (group_by_col IN (70, 9)) OR (aggr_col < 9) GROUP BY group_by_col;
+group_by_col	MAX(aggr_col)
+NULL	7
+3	6
+6	5
+# Scenario 3: aggregate field used as equal expression.
+SELECT group_by_col, MIN(aggr_col), MAX(aggr_col) FROM a
+WHERE (group_by_col IN (3, 9)) OR (aggr_col = 9) GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)	MAX(aggr_col)
+NULL	9	9
+3	2	6
+# Scenario 4: non aggregate field used as equal expression.
+SELECT group_by_col, MIN(aggr_col), MAX(aggr_col) FROM a
+WHERE (group_by_col = 3) OR (aggr_col > 8) GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)	MAX(aggr_col)
+NULL	9	9
+3	2	6
+6	10	10
+# Scenario 5: aggregate field used as non-zero expression.
+INSERT INTO a VALUES(0, 3);
+INSERT INTO a VALUES(0, 9);
+INSERT INTO a VALUES(8, 0);
+SELECT group_by_col, MIN(aggr_col), MAX(aggr_col) FROM a
+WHERE (group_by_col = 9) OR aggr_col GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)	MAX(aggr_col)
+NULL	7	9
+0	8	8
+3	2	6
+6	5	10
+9	0	0
+# Scenario 6: non aggregate field used as non-zero expression.
+SELECT group_by_col, MIN(aggr_col), MAX(aggr_col) FROM a
+WHERE group_by_col OR (aggr_col < 9) GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)	MAX(aggr_col)
+NULL	7	7
+0	8	8
+3	0	6
+6	5	10
+9	0	0
+# Scenario 7: aggregate field used in equal exp without a CONST
+INSERT INTO a VALUES(1,1),(1,2),(2,1);
+SELECT group_by_col, MIN(aggr_col), MAX(aggr_col) FROM a
+WHERE aggr_col = group_by_col GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)	MAX(aggr_col)
+1	1	1
+# Scenario 8: aggregate field used in a non-eq exp without a CONST
+SELECT group_by_col, MIN(aggr_col), MAX(aggr_col) FROM a
+WHERE aggr_col < group_by_col GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)	MAX(aggr_col)
+2	1	1
+3	0	2
+6	5	5
+9	0	0
+# Scenario 8
+INSERT INTO a VALUES(0,1),(1,0),(0,0);
+SELECT group_by_col, MIN(aggr_col), MAX(aggr_col) FROM a
+WHERE aggr_col OR group_by_col GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)	MAX(aggr_col)
+NULL	7	9
+0	1	8
+1	0	2
+2	1	1
+3	0	6
+6	5	10
+9	0	0
+# Scenario 9
+SELECT group_by_col, MIN(aggr_col), MAX(aggr_col) FROM a
+WHERE aggr_col AND group_by_col GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)	MAX(aggr_col)
+1	1	2
+2	1	1
+3	2	6
+6	5	10
+# Scenario 10: Added for completion. This fix does not have an impact.
+SELECT group_by_col, MIN(aggr_col), MAX(aggr_col) FROM a
+WHERE aggr_col<>0 AND group_by_col<>0 GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)	MAX(aggr_col)
+1	1	2
+2	1	1
+3	2	6
+6	5	10
+# Scenario 11: ITEM_FUNC as an argument of ITEM_FUNC
+SELECT group_by_col, MIN(aggr_col), MAX(aggr_col) FROM a
+WHERE group_by_col OR (group_by_col < (aggr_col = 1)) GROUP BY group_by_col;
+group_by_col	MIN(aggr_col)	MAX(aggr_col)
+0	1	1
+1	0	2
+2	1	1
+3	0	6
+6	5	10
+9	0	0
+SET optimizer_trace_max_mem_size=DEFAULT;
+SET optimizer_trace=DEFAULT;
+SET end_markers_in_json=DEFAULT;
+DROP TABLE a;
+# End of test for Bug#24423143

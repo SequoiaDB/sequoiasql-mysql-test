@@ -706,39 +706,61 @@ INSERT INTO t1 VALUES (127),(254),(0),(1),(255);
 SELECT SQL_NO_CACHE COUNT(*) FROM t1 WHERE f1 < 256;
 COUNT(*)
 5
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 SELECT SQL_NO_CACHE COUNT(*) FROM t1 WHERE f1 < 256.0;
 COUNT(*)
 5
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 SELECT SQL_NO_CACHE COUNT(*) FROM t1 WHERE f1 < 255;
 COUNT(*)
 4
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 SELECT SQL_NO_CACHE COUNT(*) FROM t1 WHERE f1 < -1;
 COUNT(*)
 0
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 SELECT SQL_NO_CACHE COUNT(*) FROM t1 WHERE f1 > -1;
 COUNT(*)
 5
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 DROP TABLE t1;
 CREATE TABLE t1 ( f1 TINYINT(11) NOT NULL, PRIMARY KEY (f1));
 INSERT INTO t1 VALUES (127),(126),(0),(-128),(-127);
 SELECT SQL_NO_CACHE COUNT(*) FROM t1 WHERE f1 < 128;
 COUNT(*)
 5
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 SELECT SQL_NO_CACHE COUNT(*) FROM t1 WHERE f1 < 128.0;
 COUNT(*)
 5
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 SELECT SQL_NO_CACHE COUNT(*) FROM t1 WHERE f1 < 127;
 COUNT(*)
 4
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 SELECT SQL_NO_CACHE COUNT(*) FROM t1 WHERE f1 > -129;
 COUNT(*)
 5
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 SELECT SQL_NO_CACHE COUNT(*) FROM t1 WHERE f1 > -129.0;
 COUNT(*)
 5
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 SELECT SQL_NO_CACHE COUNT(*) FROM t1 WHERE f1 > -128;
 COUNT(*)
 4
+Warnings:
+Warning	1681	'SQL_NO_CACHE' is deprecated and will be removed in a future release.
 DROP TABLE t1;
 create table t1 (a int);
 insert into t1 values (0),(1),(2),(3),(4),(5),(6),(7),(8),(9);
@@ -1705,4 +1727,52 @@ DROP TABLE t1;
 # Bug #23259872: OPTIMIZER CHOOSES TO USE NON PRIMARY
 #                INDEX, EVEN THOUGH COST IS HIGHER
 #
+#
+# Bug #26727773: OPTIMIZER CHOSES COMPOSITE INDEX FOR REF OVER RANGE
+#
+CREATE TABLE transactions (
+app_trans_id INT DEFAULT NULL,
+id INT NOT NULL,
+tbl INT NOT NULL DEFAULT 1,
+created TIMESTAMP NOT NULL DEFAULT '2017-01-01 01:01:01',
+trans_type INT NOT NULL,
+description BLOB,
+source_lvl1 INT DEFAULT NULL,
+source_lvl2 INT DEFAULT NULL,
+KEY tbl_id_idx (tbl,id),
+KEY created_idx (created),
+KEY trans_type_created_idx (trans_type,created),
+KEY app_trans_id_idx (app_trans_id)
+) ENGINE=SEQUOIADB ;
+CREATE TABLE t1 (c1 INT);
+INSERT INTO t1 VALUES (1), (1000), (2000), (3000), (4000), (5000), (6000),
+(7000), (8000), (9000);
+CREATE PROCEDURE p()
+BEGIN
+SET @x = 1;
+REPEAT
+INSERT IGNORE INTO transactions(id,trans_type, description)
+SELECT c1 + @x, @x , 'abcd'
+  FROM t1;
+SET @x =  @x + 1;
+UNTIL @x > 300 END REPEAT;
+END $
+CALL p();
+SELECT count(*) FROM transactions;
+count(*)
+3000
+INSERT IGNORE INTO transactions(id,trans_type, description, created)
+SELECT 3, 3 , 'abcd', '2018-01-01 01:01:01'
+  FROM dual;
+SET optimizer_trace="enabled=on";
+SELECT '2017-10-23 01:01:01', HOUR(created), source_lvl1, source_lvl2,
+COUNT(DISTINCT(app_trans_id))
+FROM transactions
+WHERE created > '2017-10-23 01:01:01' AND tbl = 1 AND trans_type in (3)
+GROUP BY '2017-10-23 01:01:01', HOUR(created), source_lvl1, source_lvl2;
+2017-10-23 01:01:01	HOUR(created)	source_lvl1	source_lvl2	COUNT(DISTINCT(app_trans_id))
+2017-10-23 01:01:01	1	NULL	NULL	0
+SET optimizer_trace="enabled=off";
+DROP PROCEDURE p;
+DROP TABLE t1, transactions;
 set optimizer_switch=default;

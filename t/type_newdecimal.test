@@ -1799,4 +1799,10 @@ DROP TABLE t1, t2;
 SELECT -1 DIV LEAST(1,JSON_INSERT(1, '$[1]','','',''));
 SELECT -1 DIV LEAST(1, JSON_EXTRACT('1', '$.abc'));
 
+--echo #
+--echo # Bug#25685958 ASSERTION FAILED:
+--echo #              RETVAL == 0 IN ITEM_SUM_HYBRID::VAL_DECIMAL()
+--echo #
+do 1 div nullif(min(from_days(1)),_utf8'1');
+
 --source include/uninstall_sequoiadb.inc
