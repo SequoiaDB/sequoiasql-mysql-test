@@ -7440,7 +7440,7 @@ SET timestamp=DEFAULT;
 --echo #
 --echo # Bug#13365131 - VALGRIND: CONDITIONAL JUMP OR MOVE DEPENDS ON UNINITIALISED IN MY_TIME_COMPARE
 --echo #
-#Bug #SEQUOIASQLMAINSTREAM-172,modify the expect result
+#Bug #SEQUOIASQLMAINSTREAM-172
 CREATE TABLE t1 (
   col_time_not_null_key time not null,
   col_timestamp_6_not_null_key timestamp(6) not null NULL DEFAULT 0,
