@@ -2056,6 +2056,12 @@ json_object
 ;
 received_type
 DATETIME
+select id, extract_date( raw_message ) extracted_date
+from messages order by id;
+id	extracted_date
+1	2015-05-11 09:30:05
+2	2015-05-11 09:45:05
+3	2015-05-11 09:50:05
 create function show_received_type( message json )
 returns tinytext
 language sql deterministic no sql

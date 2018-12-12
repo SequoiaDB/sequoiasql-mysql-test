@@ -1234,8 +1234,8 @@ select json_type
 ;
 
 #Bug #SEQUOIASQLMAINSTREAM-186
-#select id, extract_date( raw_message ) extracted_date
-#from messages order by id;
+select id, extract_date( raw_message ) extracted_date
+from messages order by id;
 
 create function show_received_type( message json )
 returns tinytext
