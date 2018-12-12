@@ -92,7 +92,7 @@ let $query=SELECT * FROM t2 where i = j;
 #eval EXPLAIN $query;
 
 #Bug #SEQUOIASQLMAINSTREAM-197
-#eval $query;
+eval $query;
 DROP TABLE t2;
 
 # Create a table full of JSON numeric scalars to verify that the JSON
