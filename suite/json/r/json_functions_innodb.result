@@ -2095,6 +2095,12 @@ timestamp( '2015-05-11 09:30:05' ),
 ) received_type;
 received_type
 DATETIME
+select id, show_received_type( raw_message ) received_type
+from messages order by id;
+id	received_type
+1	DATETIME
+2	DATETIME
+3	DATETIME
 drop function show_received_type;
 drop function make_message;
 drop function extract_date;

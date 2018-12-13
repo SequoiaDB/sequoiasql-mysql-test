@@ -1270,8 +1270,8 @@ select show_received_type
 
 # should be DATETIME
 #Bug #SEQUOIASQLMAINSTREAM-189
-#select id, show_received_type( raw_message ) received_type
-#from messages order by id;
+select id, show_received_type( raw_message ) received_type
+from messages order by id;
 
 drop function show_received_type;
 drop function make_message;
