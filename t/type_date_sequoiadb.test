@@ -115,5 +115,29 @@ insert into t1 values ('10000-01-01 00:00:00.000000');
 --error 1292
 insert into t1 values ('a');
 drop table t1;
+
+#set time_zone='+00:00',Bug #SEQUOIASQLMAINSTREAM-176, add testcase
+set time_zone='+00:00';
+create table t1(a date);
+insert into t1 values ("2001-01-10");
+insert into t1 values ("2001-01-11");
+insert into t1 values ("2001-01-12");
+select * from t1 where a = ADDDATE("2001-01-01", 10);
+drop table t1;
+
+create table t1(a datetime(6));
+insert into t1 values ("2001-01-01 10:00:00.123456");
+insert into t1 values ("2001-01-01 10:00:00");
+select * from t1 where a = ADDTIME("2001-01-01 00:00:00", "10:00:00");
+drop table t1;
+
+create table t1(a time(6));
+insert into t1 values ("11:00:00.123456");
+insert into t1 values ("11:00:00");
+select * from t1 where a = ADDTIME("01:00:00", "10:00:00");
+drop table t1;
+
+set time_zone=default;
+
 --source include/uninstall_sequoiadb.inc
 
