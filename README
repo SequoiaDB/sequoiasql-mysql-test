@@ -76,6 +76,6 @@ and attach the archive to the bug report.
 *
 
 1. execute mysql-test-run.pl under mysql-test directory, with some options:
-> ./mtr --suite=main --big-test --force --parallel=4 --xml-report=/opt/mysqltest/report.xml
+$ ./mtr --suite=main,json --big-test --force --parallel=4 --xml-report=/opt/mysqltest/report.xml
 
 2. parts of testcases are related to transactions, please turn on transactions in SequoiaDB before running testcases.
