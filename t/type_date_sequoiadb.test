@@ -3,6 +3,8 @@
 # (#Case #13091: Check DataType date)
 # (#Case #13092: Check DataType timestamp)
 # (#Case #14430: Check DataType datetime)
+# (#Case #16813: set time_zone,use date function)
+
 --source include/have_sequoiadb.inc
 
 --disable_warnings
