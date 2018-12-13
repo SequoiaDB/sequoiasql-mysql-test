@@ -173,3 +173,27 @@ ERROR 22007: Incorrect datetime value: '10000-01-01 00:00:00.000000' for column 
 insert into t1 values ('a');
 ERROR 22007: Incorrect datetime value: 'a' for column 't' at row 1
 drop table t1;
+set time_zone='+00:00';
+create table t1(a date);
+insert into t1 values ("2001-01-10");
+insert into t1 values ("2001-01-11");
+insert into t1 values ("2001-01-12");
+select * from t1 where a = ADDDATE("2001-01-01", 10);
+a
+2001-01-11
+drop table t1;
+create table t1(a datetime(6));
+insert into t1 values ("2001-01-01 10:00:00.123456");
+insert into t1 values ("2001-01-01 10:00:00");
+select * from t1 where a = ADDTIME("2001-01-01 00:00:00", "10:00:00");
+a
+2001-01-01 10:00:00.000000
+drop table t1;
+create table t1(a time(6));
+insert into t1 values ("11:00:00.123456");
+insert into t1 values ("11:00:00");
+select * from t1 where a = ADDTIME("01:00:00", "10:00:00");
+a
+11:00:00.000000
+drop table t1;
+set time_zone=default;
