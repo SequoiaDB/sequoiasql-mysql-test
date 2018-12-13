@@ -4704,6 +4704,11 @@ JSON_CONTAINS('[1, 2, [4,5] ]', '[111111111111111111]')
 CREATE TABLE t1(j JSON, i INT);
 INSERT INTO t1 VALUES
 ('0', 0), ('1', 1), ('1.0', 2), ('[1,2,3]', 3), ('{}', 4), ('"abc"', 5);
+SELECT * FROM t1 WHERE j > i ORDER BY i;
+j	i
+[1, 2, 3]	3
+{}	4
+"abc"	5
 SELECT * FROM t1 AS a, t1 AS b WHERE a.j > b.i ORDER BY b.i, a.i;
 j	i	j	i
 1	1	0	0
@@ -4728,6 +4733,11 @@ j	i	j	i
 "abc"	5	"abc"	5
 # Create an index on the INT column and verify that it is not used.
 CREATE INDEX t1_idx ON t1(i);
+SELECT * FROM t1 WHERE j > i ORDER BY i;
+j	i
+[1, 2, 3]	3
+{}	4
+"abc"	5
 SELECT * FROM t1 AS a, t1 AS b WHERE a.j > b.i ORDER BY b.i, a.i;
 j	i	j	i
 1	1	0	0
