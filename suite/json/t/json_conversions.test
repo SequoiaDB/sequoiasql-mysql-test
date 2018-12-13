@@ -6709,11 +6709,11 @@ select concat('From JSON subselect ',c, ' as UNSIGNED'), cast((select j from t w
 select concat('From JSON subselect ',c, ' as UNSIGNED'), cast(j as UNSIGNED) from t where c='opaque_mysql_type_set';
 select concat('From JSON subselect ',c, ' as UNSIGNED'), cast((select j from t where c='opaque_mysql_type_enum') as UNSIGNED) from t where c='opaque_mysql_type_enum';
 
-#Bug #SEQUOIASQLMAINSTREAM-190,modify expect result
+#Bug #SEQUOIASQLMAINSTREAM-190
 select concat('From JSON subselect ',c, ' as UNSIGNED'), cast(j as UNSIGNED) from t where c='opaque_mysql_type_date';
 select concat('From JSON subselect ',c, ' as UNSIGNED'), cast((select j from t where c='opaque_mysql_type_time') as UNSIGNED) from t where c='opaque_mysql_type_time';
 
-#Bug #SEQUOIASQLMAINSTREAM-190,modify expect result
+#Bug #SEQUOIASQLMAINSTREAM-190
 select concat('From JSON subselect ',c, ' as UNSIGNED'), cast(j as UNSIGNED) from t where c='opaque_mysql_type_datetime';
 
 #Sequoiadb not support
@@ -6745,11 +6745,11 @@ select concat('From JSON subselect ',c, ' as SIGNED'), cast((select j from t whe
 select concat('From JSON subselect ',c, ' as SIGNED'), cast(j as SIGNED) from t where c='opaque_mysql_type_set';
 select concat('From JSON subselect ',c, ' as SIGNED'), cast((select j from t where c='opaque_mysql_type_enum') as SIGNED) from t where c='opaque_mysql_type_enum';
 
-#Bug #SEQUOIASQLMAINSTREAM-190,modify expect result
+#Bug #SEQUOIASQLMAINSTREAM-190
 select concat('From JSON subselect ',c, ' as SIGNED'), cast(j as SIGNED) from t where c='opaque_mysql_type_date';
 select concat('From JSON subselect ',c, ' as SIGNED'), cast((select j from t where c='opaque_mysql_type_time') as SIGNED) from t where c='opaque_mysql_type_time';
 
-#Bug #SEQUOIASQLMAINSTREAM-190,modify expect result
+#Bug #SEQUOIASQLMAINSTREAM-190
 select concat('From JSON subselect ',c, ' as SIGNED'), cast(j as SIGNED) from t where c='opaque_mysql_type_datetime';
 
 #Sequoiadb not support
