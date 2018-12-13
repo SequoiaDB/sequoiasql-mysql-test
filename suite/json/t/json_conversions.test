@@ -115,7 +115,7 @@ drop table enum;
 drop table sett;
 drop table varchar_binary;
 
-#Bug #SEQUOIASQLMAINSTREAM-189,modify result because the bug
+#Bug #SEQUOIASQLMAINSTREAM-189
 select c, json_type(j), j from t;
 
 --echo # Auxiliary table containing columns of MySQL types

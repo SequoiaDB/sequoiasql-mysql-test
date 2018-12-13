@@ -117,7 +117,7 @@ execute ps2 using @f;
 execute ps2 using @g;
 
 #Bug #SEQUOIASQLMAINSTREAM-189
-#select json_type(j), j from pt1 order by j;
+select json_type(j), j from pt1 order by j;
 select json_type(j), j from pt2 order by j;
 
 drop prepare ps1;
