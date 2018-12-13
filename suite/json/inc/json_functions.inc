@@ -2955,7 +2955,7 @@ let $query2=SELECT * FROM t1 AS a, t1 AS b WHERE a.j > b.i ORDER BY b.i, a.i;
 #eval EXPLAIN $query2;
 
 #Bug #SEQUOIASQLMAINSTREAM-195
-#eval $query1;
+eval $query1;
 eval $query2;
 --echo # Create an index on the INT column and verify that it is not used.
 CREATE INDEX t1_idx ON t1(i);
@@ -2964,7 +2964,7 @@ CREATE INDEX t1_idx ON t1(i);
 #eval EXPLAIN $query2;
 
 #Bug #SEQUOIASQLMAINSTREAM-195
-#eval $query1;
+eval $query1;
 eval $query2;
 CREATE TABLE t2(i INT, vc VARCHAR(10))
 ENGINE=SequoiaDB CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin';
