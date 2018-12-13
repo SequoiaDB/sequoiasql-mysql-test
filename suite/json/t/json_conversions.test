@@ -6817,8 +6817,8 @@ insert into jj select DISTINCT(CAST(_vch as JSON)) from at
 where _vch is not NULL and cast(_vch as JSON) not in ( select col from jj);
 
 #bug #SEQUOIASQLMAINSTREAM-188
-#insert into jj select DISTINCT(CAST(_bin as JSON)) from at
-#where _bin is not NULL and cast(_bin as JSON) not in ( select col from jj);
+insert into jj select DISTINCT(CAST(_bin as JSON)) from at
+where _bin is not NULL and cast(_bin as JSON) not in ( select col from jj);
 insert into jj select DISTINCT(CAST(_vbn as JSON)) from at
 where _vbn is not NULL and cast(_vbn as JSON) not in ( select col from jj);
 insert into jj select DISTINCT(CAST(_tbl as JSON)) from at
@@ -6901,8 +6901,8 @@ insert into jj select DISTINCT(CAST(_vch as JSON)) from at
 where _vch is not NULL and cast(_vch as JSON) not in ( select col from jj);
 
 #bug #SEQUOIASQLMAINSTREAM-188
-#insert into jj select DISTINCT(CAST(_bin as JSON)) from at
-#where _bin is not NULL and cast(_bin as JSON) not in ( select col from jj);
+insert into jj select DISTINCT(CAST(_bin as JSON)) from at
+where _bin is not NULL and cast(_bin as JSON) not in ( select col from jj);
 insert into jj select DISTINCT(CAST(_vbn as JSON)) from at
 where _vbn is not NULL and cast(_vbn as JSON) not in ( select col from jj);
 insert into jj select DISTINCT(CAST(_tbl as JSON)) from at
