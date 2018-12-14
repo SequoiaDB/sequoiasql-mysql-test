@@ -79,7 +79,7 @@ let $default_engine = `select @@SESSION.default_storage_engine`;
 # not concern replace engine, just testing for SequoiaDB
 #--replace_result $default_engine default_engine
 SHOW CREATE TABLE t1;
-# Bug #SEQUOIASQLMAINSTREAM-146: UPDATE IGNORE failed
+# Bug #SEQUOIASQLMAINSTREAM-146
 UPDATE IGNORE t1 SET a=unhex(code) ORDER BY code;
 SELECT COUNT(*) FROM t1 WHERE a<>'';
 #

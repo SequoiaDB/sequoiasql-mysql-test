@@ -78,7 +78,7 @@ insert into t1 (word) values ('ss'),(0xDF),(0xE4),('ae');
 update t1 set word2=word;
 select word, word=binary 0xdf as t from t1 having t > 0;
 select word, word=cast(0xdf AS CHAR) as t from t1 having t > 0;
-#Bug #SEQUOIADBMAINSTREAM-3568, create index may cause wrong results
+#Bug #SEQUOIADBMAINSTREAM-3568
 #select * from t1 where word=binary 0xDF;
 #select * from t1 where word=CAST(0xDF as CHAR);
 #select * from t1 where word2=binary 0xDF;
@@ -132,7 +132,7 @@ DROP TABLE t1;
 # '=' behaved wrong for latin1_german2_ci as well.
 # Let's check it does not work incorrect anymore.
 #
-#Bug #SEQUOIADBMAINSTREAM-3568, create index may cause wrong results 
+#Bug #SEQUOIADBMAINSTREAM-3568 
 #SET NAMES latin1;
 #CREATE TABLE t1 (
 #  col1 varchar(255) NOT NULL default ''

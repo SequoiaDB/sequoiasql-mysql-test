@@ -80,7 +80,7 @@ DROP TABLE t1;
 --echo # euckr valid codes are now [81..FE][41..5A,61..7A,81..FE]
 --echo #
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
-#Bug #SEQUOIADBMAINSTREAM-3571, binary should not be allowed to create index
+#Bug #SEQUOIADBMAINSTREAM-3571
 # NOW SequoiaDB not support index of binary and varbinary
 #CREATE TABLE t1 (a binary(1), key(a));
 CREATE TABLE t1 (a binary(1));

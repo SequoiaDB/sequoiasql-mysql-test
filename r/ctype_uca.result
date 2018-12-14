@@ -3386,7 +3386,7 @@ aaaaa
 drop table t1;
 create table t1 (
 a varchar(255),
-key a(a)
+key (a)
 ) character set utf8 collate utf8_spanish2_ci;
 insert into t1 values ('aaaaa'),('lllll'),('zzzzz');
 select a as like_l from t1 where a like 'l%';

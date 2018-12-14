@@ -198,7 +198,7 @@ drop table t1;
 #
 # Test bug with monthname() and NULL
 #
-#Bug #SEQUOIADBMAINSTREAM-3583, when insert "0000-00-00" will cause wrong results
+#Bug #SEQUOIADBMAINSTREAM-3583
 create table t1 (id int);
 create table t2 (id int, date date);
 insert into t1 values (1);
@@ -222,7 +222,7 @@ drop table t1;
 # Check that functions work identically on 0000-00-00 as a constant and on a
 # column
 #
-#Bug #SEQUOIADBMAINSTREAM-3583, when insert "0000-00-00" will cause wrong results
+#Bug #SEQUOIADBMAINSTREAM-3583
 create table t1 (d date, dt datetime, t timestamp, c char(10));
 insert ignore into t1 values ("0000-00-00", "0000-00-00", "0000-00-00", "0000-00-00");
 select dayofyear("0000-00-00"),dayofyear(d),dayofyear(dt),dayofyear(t),dayofyear(c) from t1;
@@ -480,7 +480,7 @@ select f1 from t1 where f1 between cast("2006-1-1" as date) and cast("2006.1.1" 
 select f1 from t1 where date(f1) between cast("2006-1-1" as date) and cast("2006.1.1" as date);
 select f2 from t1 where f2 between cast("12:1:2" as time) and cast("12:2:2" as time);
 select f2 from t1 where time(f2) between cast("12:1:2" as time) and cast("12:2:2" as time);
-#Bug #SEQUOIADBMAINSTREAM-3592, query with cast(... as datetime) will cause wrong results
+#Bug #SEQUOIADBMAINSTREAM-3592
 select f3 from t1 where f3 between cast("2006-1-1 12:1:1" as datetime) and cast("2006-1-1 12:1:2" as datetime);
 select f3 from t1 where timestamp(f3) between cast("2006-1-1 12:1:1" as datetime) and cast("2006-1-1 12:1:2" as datetime);
 select f1 from t1 where cast("2006-1-1" as date) between f1 and f3;
@@ -999,24 +999,24 @@ query_vertical SELECT
 SET sql_mode = default;
 --echo End of 5.1 tests
 
-#--echo #
-#--echo # BUG#43578 "SequoiaDB&Maria gives wrong rows with range access
-#--echo # ORDER BY DESC on date index"
-#--echo #
-# NOW not support index of Date
-#CREATE TABLE t1(c1 DATE NOT NULL PRIMARY KEY, c2 DATE NULL, c3 INT,
-#INDEX idx2(c2));
-#SET TIMESTAMP=1235553613; #'2009-02-25'
-#INSERT INTO t1 VALUES(NOW(),NOW(),3),
-#(ADDTIME(NOW(),'1 01:01:01'),ADDTIME(NOW(),'1 01:01:01'),4),
-#(ADDTIME(NOW(),'2 01:01:01'),ADDTIME(NOW(),'2 01:01:01'),5),
-#(ADDTIME(NOW(),'3 01:01:01'),ADDTIME(NOW(),'3 01:01:01'),6);
-#SELECT * FROM t1;
+--echo #
+--echo # BUG#43578 "SequoiaDB&Maria gives wrong rows with range access
+--echo # ORDER BY DESC on date index"
+--echo #
+CREATE TABLE t1(c1 DATE NOT NULL PRIMARY KEY, c2 DATE NULL, c3 INT,
+INDEX idx2(c2));
+SET TIMESTAMP=1235553613; #'2009-02-25'
+#modify warnings result as same as innodb
+INSERT INTO t1 VALUES(NOW(),NOW(),3),
+(ADDTIME(NOW(),'1 01:01:01'),ADDTIME(NOW(),'1 01:01:01'),4),
+(ADDTIME(NOW(),'2 01:01:01'),ADDTIME(NOW(),'2 01:01:01'),5),
+(ADDTIME(NOW(),'3 01:01:01'),ADDTIME(NOW(),'3 01:01:01'),6);
+SELECT * FROM t1;
 
 # bug was that 3 rows were returned
-#SELECT * FROM t1 WHERE c1 > ADDTIME(NOW(),'1 01:01:01') ORDER BY c1 DESC;
+SELECT * FROM t1 WHERE c1 > ADDTIME(NOW(),'1 01:01:01') ORDER BY c1 DESC;
 
-#drop table t1;
+drop table t1;
 
 --echo End of 5.5 tests
 

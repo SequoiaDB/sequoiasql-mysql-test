@@ -1250,7 +1250,7 @@ update t1 set name='User defined range #2' where ujis >= 0x8FF5A1 and ujis <= 0x
 # Other characters are not assigned
 update t1 set name='UNASSIGNED' where name='';
 
-# Bug #SEQUOIASQLMAINSTREAM-146: UPDATE IGNORE failed
+# Bug #SEQUOIASQLMAINSTREAM-146
 update ignore t1 set ucs2=ujis, ujis2=ucs2;
 --echo Characters with safe Unicode round trip
 select hex(ujis), hex(ucs2), hex(ujis2), name from t1 where ujis=ujis2 order by ujis;
@@ -1291,7 +1291,7 @@ drop table t1;
 #
 # Unicode characters which are not in x-eucjp-unicode-0.9
 #
-# Bug #SEQUOIASQLMAINSTREAM-146: UPDATE IGNORE failed
+# Bug #SEQUOIASQLMAINSTREAM-146
 create table t1 (
   ujis char(1) character set ujis,
   ucs2 char(1) character set ucs2,

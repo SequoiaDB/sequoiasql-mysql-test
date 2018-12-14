@@ -22,7 +22,7 @@ create table t1 (
 insert into t1 values (1,'Aa');
 insert into t1 values (2,'Aas');
 alter table t1 add primary key aaa(tt);
-#Bug #SEQUOIADBMAINSTRAM-3593, select ... like with index will cause wrong results
+#Bug #SEQUOIADBMAINSTRAM-3593
 #select * from t1 where tt like 'Aa%';
 select * from t1 ignore index (primary) where tt like 'Aa%';
 select * from t1 where tt like '%Aa%';
@@ -94,7 +94,7 @@ drop table t1;
 #
 # Bug#33791 Wrong ORDER BY with latin2_czech_cs
 #
-#Bug #SEQUOIADBMAINSTREAM-3568, query varchar with index will cause wrong result
+#Bug #SEQUOIADBMAINSTREAM-3568
 set names utf8;
 #create table t1 (
 #ch varchar(1),

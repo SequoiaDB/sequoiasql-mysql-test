@@ -242,7 +242,7 @@ drop table t2;
 # Bug 4521: unique key prefix interacts poorly with utf8
 # SequoiaDB: keys with prefix compression, case insensitive collation.
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3607
 create table t1 (c varchar(30) character set utf8, unique(c(10)));
 insert into t1 values ('1'),('2'),('3'),('x'),('y'),('z');
 insert into t1 values ('aaaaaaaaaa');
@@ -265,7 +265,7 @@ drop table t1;
 # Bug 4521: unique key prefix interacts poorly with utf8
 # SequoiaDB: keys with prefix compression, case insensitive collation.
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3607
 create table t1 (c varchar(30) character set utf8, unique(c(10))) engine=sequoiadb;
 insert into t1 values ('1'),('2'),('3'),('x'),('y'),('z');
 insert into t1 values ('aaaaaaaaaa');
@@ -287,7 +287,7 @@ drop table t1;
 # Bug 4521: unique key prefix interacts poorly with utf8
 # SequoiaDB: fixed length keys, case insensitive collation
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3607
 create table t1 (c char(3) character set utf8, unique (c(2)));
 insert into t1 values ('1'),('2'),('3'),('4'),('x'),('y'),('z');
 insert into t1 values ('a');
@@ -315,7 +315,7 @@ drop table t1;
 # Bug 4521: unique key prefix interacts poorly with utf8
 # SequoiaDB: fixed length keys, case insensitive collation
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3607
 create table t1 (c char(3) character set utf8, unique (c(2))) engine=sequoiadb;
 insert into t1 values ('1'),('2'),('3'),('4'),('x'),('y'),('z');
 insert into t1 values ('a');
@@ -343,8 +343,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8
 # Check SEQUOIADB+HASH, case insensitive collation
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
-#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
+#Bug #SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3568
 #create table t1 (
 #c char(10) character set utf8,
 #unique key a using hash (c(1))
@@ -369,8 +369,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8
 # Check SEQUOIADB+BTREE, case insensitive collation
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
-#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
+#Bug #SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3568
 #create table t1 (
 #c char(10) character set utf8,
 #unique key a using btree (c(1))
@@ -395,8 +395,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8
 # Check BDB, case insensitive collation
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
-#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
+#Bug #SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3568
 #create table t1 (
 #c char(10) character set utf8,
 #unique key a (c(1))
@@ -420,7 +420,7 @@ drop table t1;
 # Bug 4521: unique key prefix interacts poorly with utf8
 # SequoiaDB: keys with prefix compression, binary collation.
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3607
 create table t1 (c varchar(30) character set utf8 collate utf8_bin, unique(c(10)));
 insert into t1 values ('1'),('2'),('3'),('x'),('y'),('z');
 insert into t1 values ('aaaaaaaaaa');
@@ -443,7 +443,7 @@ drop table t1;
 # Bug 4521: unique key prefix interacts poorly with utf8
 # SequoiaDB: fixed length keys, binary collation
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
+#Bug #SEQUOIADBMAINSTREAM-3607
 create table t1 (c char(3) character set utf8 collate utf8_bin, unique (c(2)));
 insert into t1 values ('1'),('2'),('3'),('4'),('x'),('y'),('z');
 insert into t1 values ('a');
@@ -472,8 +472,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8
 # Check SEQUOIADB+HASH, binary collation
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
-#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
+#Bug #SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3568
 #create table t1 (
 #c char(10) character set utf8 collate utf8_bin,
 #unique key a using hash (c(1))
@@ -498,8 +498,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8
 # Check SEQUOIADB+BTREE, binary collation
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
-#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
+#Bug #SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3568
 #create table t1 (
 #c char(10) character set utf8 collate utf8_bin,
 #unique key a using btree (c(1))
@@ -524,8 +524,8 @@ drop table t1;
 # Bug 4531: unique key prefix interacts poorly with utf8
 # Check BDB, binary collation
 #
-#Bug #SEQUOIADBMAINSTREAM-3607, when create unique index with length, insert duplicate key will succeed
-#Bug #SEQUOIADBMAINSTREAM-3568, when char index length is larger than record length, query will return wrong result
+#Bug #SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3568
 #create table t1 (
 #c char(10) character set utf8 collate utf8_bin,
 #unique key a (c(1))
@@ -776,7 +776,7 @@ select ifnull(NULL, _utf8'string');
 #
 # Bug#9509 Optimizer: wrong result after AND with comparisons
 #
-#Bug #SEQUOIADBMAINSTREAM-3633, part of characters may cause some wrong query results
+#Bug #SEQUOIADBMAINSTREAM-3633
 #NOW SequoiaDB not support COLLATE utf8mb4_lithuanian_ci, just work for utf8mb4_bin
 #set names utf8;
 #create table t1 (s1 char(5) character set utf8 collate utf8_lithuanian_ci);
@@ -805,7 +805,7 @@ drop table t1;
 # Bug#10253 compound index length and utf8 char set
 # produces invalid query results
 #
-#Bug #SEQUOIADBMAINSTREAM-3568, when varchar record exists space, query will cause wrong results
+#Bug #SEQUOIADBMAINSTREAM-3568
 create table t1 (
  id int not null,
  city varchar(20) not null,
@@ -894,7 +894,7 @@ set names utf8;
 select 'a\\' like 'a\\';
 select 'aa\\' like 'a%\\';
 
-#Bug #SEQUOIADBMAINSTREAM-3593, select...like will cause wrong result when exists index
+#Bug #SEQUOIADBMAINSTREAM-3593
 #create table t1 (a char(10), key(a)) character set utf8;
 #insert into t1 values ("a"),("abc"),("abcd"),("hello"),("test");
 #select * from t1 where a like "abc%";
@@ -996,7 +996,7 @@ DROP TABLE t1;
 #
 # Bug#20471 LIKE search fails with indexed utf8 char column
 #
-#Bug #SEQUOIADBMAINSTREAM-3593, select...like will cause wrong result when exists index
+#Bug #SEQUOIADBMAINSTREAM-3593
 #set names utf8;
 #create table t1 (s1 char(5) character set utf8);
 #insert into t1 values
@@ -1028,7 +1028,7 @@ DROP TABLE t1;
 #drop table t1;
 
 # additional tests from duplicate bug#20744 MySQL return no result
-#Bug #SEQUOIADBMAINSTREAM-3593, select...like will cause wrong result when exists index
+#Bug #SEQUOIADBMAINSTREAM-3593
 #set names utf8;
 #create table t1 (a varchar(30) not null primary key)
 #engine=sequoiadb  default character set utf8 collate utf8_general_ci;
@@ -1087,7 +1087,7 @@ DROP TABLE t1;
 #
 # Bug#16674: LIKE predicate for a utf8 character set column
 #
-#Bug #SEQUOIADBMAINSTREAM-3593, select...like will cause wrong result when exists index
+#Bug #SEQUOIADBMAINSTREAM-3593
 #SET NAMES utf8;
 #
 #CREATE TABLE t1 (
@@ -1145,7 +1145,7 @@ DROP TABLE t1;
 # Bug#18359: LIKE predicate for a 'utf8' text column with a partial index
 #            (see bug #16674 as well)
 #
-#Bug #SEQUOIADBMAINSTREAM-3593, select...like will cause wrong result when exists index
+#Bug #SEQUOIADBMAINSTREAM-3593
 #SET NAMES latin2;
 #
 #CREATE TABLE t1 (
