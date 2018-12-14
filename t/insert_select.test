@@ -119,7 +119,7 @@ insert into t2 values (2,"t2:2"), (3,"t2:3");
 insert into t1 select * from t2;
 select * from t1;
 # REPLACE .. SELECT is not yet supported by PS
-# Bug #SEQUOIASQLMAINSTREAM-90: replace into fail
+# Bug #SEQUOIASQLMAINSTREAM-90
 #replace into t1 select * from t2;
 #select * from t1;
 drop table t1,t2;
@@ -138,15 +138,13 @@ drop table t1,t2;
 # Another problem from Bug #2012
 #
 # NOW SequoiaDB not support auto_increment
-# NOW SequoiaDB not support index of date
 CREATE TABLE t1(
  Month date NOT NULL,
 # Type tinyint(3) unsigned NOT NULL auto_increment,
  Type tinyint(3) unsigned NOT NULL,
  Field int(10) unsigned NOT NULL,
  Count int(10) unsigned NOT NULL,
-# UNIQUE KEY Month (Month,Type,Field)
- UNIQUE KEY Month (Type,Field)
+ UNIQUE KEY Month (Month,Type,Field)
 )engine=sequoiadb;
 	  
 insert into t1 Values
@@ -186,7 +184,7 @@ drop table t1, t2;
 #
 # Bug#10886 - Have to restore default values after update ON DUPLICATE KEY
 #
-# Bug #SEQUOIADBMAINSTREAM-3640: insert duplicate key update failed
+# Bug #SEQUOIADBMAINSTREAM-3640
 #create table t1 (f1 int);
 #create table t2 (ff1 int unique, ff2 int default 1);
 #insert into t1 values (1),(1),(2);
@@ -199,7 +197,7 @@ drop table t1, t2;
 #      #8147 - 'a column proclaimed ambigous in INSERT ... SELECT .. ON
 #      DUPLICATE'
 #
-# Bug #SEQUOIADBMAINSTREAM-3640: insert duplicate key update failed
+# Bug #SEQUOIADBMAINSTREAM-3640
 #create table t1 (a int unique);
 #create table t2 (a int, b int);
 #create table t3 (c int, d int);
@@ -240,7 +238,7 @@ drop table t1;
 #
 # Bug #13392 values() fails with 'ambiguous' or returns NULL 
 #            with ON DUPLICATE and SELECT
-# Bug #SEQUOIADBMAINSTREAM-3640: insert duplicate key update failed
+# Bug #SEQUOIADBMAINSTREAM-3640
 #create table t1(x int, y int);
 #create table t2(x int, z int);
 #insert into t1(x,y) select x,z from t2 on duplicate key update x=values(x);
@@ -328,7 +326,7 @@ USE test_insert_select;
 # Bug#19978: INSERT .. ON DUPLICATE erroneously reports some records were
 #            updated.
 #
-# Bug #SEQUOIADBMAINSTREAM-3640: insert duplicate key update failed
+# Bug #SEQUOIADBMAINSTREAM-3640
 #create table t1(f1 int primary key, f2 int);
 #--enable_info
 #insert into t1 values (1,1);
@@ -341,7 +339,7 @@ USE test_insert_select;
 #
 # Bug#16630: wrong result, when INSERT t1 SELECT ... FROM t1 ON DUPLICATE
 #
-# Bug #SEQUOIADBMAINSTREAM-3640: insert duplicate key update failed
+# Bug #SEQUOIADBMAINSTREAM-3640
 #CREATE TABLE t1 (f1 INT, f2 INT );
 #CREATE TABLE t2  (f1 INT PRIMARY KEY, f2 INT);
 #INSERT INTO t1 VALUES (1,1),(2,2),(10,10);

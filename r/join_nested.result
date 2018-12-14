@@ -1854,7 +1854,7 @@ INSERT INTO t1 VALUES
 CREATE TABLE t2 (
 scan_date date default NULL,
 package_id int default NULL,
-#  INDEX scan_date(scan_date),
+INDEX scan_date(scan_date),
 INDEX package_id(package_id)
 );
 INSERT INTO t2 VALUES

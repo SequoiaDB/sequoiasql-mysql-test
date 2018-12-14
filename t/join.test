@@ -40,7 +40,7 @@ insert into t1 values (79);
 insert into t1 values (78);
 insert into t1 values (77);
 replace into t1 values (76);
-#Bug #SEQUOIADBMAINSTREAM-3573, insert failed when use replace
+#Bug #SEQUOIADBMAINSTREAM-3573
 #replace into t1 values (76);
 insert into t1 values (104);
 insert into t1 values (103);
@@ -153,7 +153,7 @@ DROP TABLE t1, t2;
 #
 # TEST LEFT JOIN with DATE columns
 #
-#Bug #SQUOIODBMAINSTREAM-3583, insert type of Date '0000-00-00' will cause wrong result when query
+#Bug #SQUOIODBMAINSTREAM-3583
 # Insert '0000-00-00' in MyISAM will success, but InnoDB and SequoiaDB fail, so add sql_mode='' here
 --disable_query_log
 SET sql_mode = '';
@@ -174,7 +174,7 @@ DROP TABLE t1,t2;
 #
 # Problem with reference from const tables
 #
-#Bug #SEQUOIADBMAINSTREAM-3603, when query multi tables with primary key, it will return wrong results
+#Bug #SEQUOIADBMAINSTREAM-3603
 CREATE TABLE t1 (
   Document_ID varchar(50) NOT NULL default '',
   Contractor_ID varchar(6) NOT NULL default '',
