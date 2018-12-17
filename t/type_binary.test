@@ -1,6 +1,3 @@
-# (#case 15437: insert/update/query/delete binary)
-# (#case 15439: insert/update/query/delete varbinary)
-
 --source include/have_sequoiadb.inc
 
  #Get deafult engine value
@@ -196,35 +193,5 @@ SELECT * FROM v1;
 --echo # Literals should be entirely printed:
 SHOW CREATE VIEW v1;
 DROP VIEW v1;
-
-# supply border verification for type of binary and varbinary
---error 1074
-CREATE TABLE t1 (a binary(256));
---error 1074
-CREATE TABLE t1 (a varbinary(65536));
-
-# Compatible with parallel > 1, disable warning
---disable_warnings 
-DROP TABLE IF EXISTS t1;
---enable_warnings
-CREATE TABLE t1 (a binary(255));
-CREATE TABLE t2 (a varbinary(65530));
---error 1406
-INSERT INTO t1 VALUES (repeat('a', 256));
-INSERT INTO t1 VALUES (repeat('a', 255));
---error 1406
-INSERT INTO t2 VALUES (repeat('a', 65531));
-INSERT INTO t2 VALUES (repeat('a', 65530));
-SELECT * FROM t1;
-SELECT * FROM t2;
-UPDATE t1 set a = null;
-UPDATE t2 set a = null;
-SELECT * FROM t1;
-SELECT * FROM t2;
-DELETE FROM t1 WHERE a IS NULL;
-DELETE FROM t2 WHERE a IS NULL;
-SELECT * FROM t1;
-SELECT * FROM t2;
-DROP TABLE t1,t2;
 
 --source include/uninstall_sequoiadb.inc

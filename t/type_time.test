@@ -71,19 +71,17 @@ drop table t1;
 #
 # Bug#29729: Wrong conversion error led to an empty result set.
 #
-#Sequoiadb not support create index on date
-#CREATE TABLE  t1 (
-#  f2 date NOT NULL,
-#  f3 int(11) unsigned NOT NULL default '0',
-#  PRIMARY KEY  (f3, f2)
-#);
-#insert into t1 values('2007-07-01', 1);
-#insert into t1 values('2007-07-01', 2);
-#insert into t1 values('2007-07-02', 1);
-#insert into t1 values('2007-07-02', 2);
-#SELECT sum(f3) FROM t1 where f2='2007-07-01 00:00:00' group by f2;
-#drop table t1;
-
+CREATE TABLE  t1 (
+  f2 date NOT NULL,
+  f3 int(11) unsigned NOT NULL default '0',
+  PRIMARY KEY  (f3, f2)
+);
+insert into t1 values('2007-07-01', 1);
+insert into t1 values('2007-07-01', 2);
+insert into t1 values('2007-07-02', 1);
+insert into t1 values('2007-07-02', 2);
+SELECT sum(f3) FROM t1 where f2='2007-07-01 00:00:00' group by f2;
+drop table t1;
 
 --echo #
 --echo # Bug #44792: valgrind warning when casting from time to time
@@ -275,109 +273,106 @@ DROP TABLE t1;
 --echo # Systematic testing of ref access and range scan
 
 SET TIMESTAMP=UNIX_TIMESTAMP('2012-01-31 10:14:35');
-
-#Sequoiadb not support create index on time and hint this index
-#CREATE TABLE t1 (col_time_key TIME, KEY(col_time_key)) ENGINE=Sequoiadb;
-#CREATE TABLE t1 (col_time_key TIME) ENGINE=Sequoiadb;
-#INSERT INTO t1 VALUES ('00:00:00'),('-24:00:00'),('-48:00:00'),('24:00:00'),('48:00:00');
-#CREATE TABLE t2 (col_datetime_key DATETIME, KEY(col_datetime_key)) ENGINE=Sequoiadb;
-#INSERT INTO t2 SELECT * FROM t1;
+CREATE TABLE t1 (col_time_key TIME, KEY(col_time_key)) ENGINE=Sequoiadb;
+INSERT INTO t1 VALUES ('00:00:00'),('-24:00:00'),('-48:00:00'),('24:00:00'),('48:00:00');
+CREATE TABLE t2 (col_datetime_key DATETIME, KEY(col_datetime_key)) ENGINE=Sequoiadb;
+INSERT INTO t2 SELECT * FROM t1;
 
 #-- disable_result_log
 #ANALYZE TABLE t1;
 #ANALYZE TABLE t2;
 #-- enable_result_log
 
-#let $cnt_0=5;
-#let $operator= =;
-## For operator in =, >=, >, <=, <
-#while ($cnt_0)
-#{  
-#  let $cnt_1=2;
-#  let $first_table=t1;
-#  # for table in t1,t2
-#  while ($cnt_1)
-#  {
-#    if ($first_table==t1)
-#    {
-#      let $first_index=col_time_key;
-#      let $second_table=t2;
-#      let $second_index=col_datetime_key;
-#    }
-#    if ($first_table==t2)
-#    {
-#      let $first_index=col_datetime_key;
-#      let $second_table=t1;
-#      let $second_index=col_time_key;
-#    }
-#    let $cnt_2=2;
-#    let $first_index_hint=ignore;
-#    # for first_index_hint in ignore,force
-#    while ($cnt_2)
-#    {
-#      let $cnt_3=2;
-#      let $second_index_hint=ignore;
-#      # for second_index_hint in ignore, force
-#      while ($cnt_3)
-#      {
-#        let $cnt_4=2;
-#        let $first_operand=col_time_key;
-#        # for first_operand in col_time_key, col_datetime_key
-#        while ($cnt_4)
-#        {
-#          if ($first_operand==col_time_key)
-#          {
-#            let $second_operand=col_datetime_key;
-#          }
-#          if ($first_operand==col_datetime_key)
-#          {
-#            let $second_operand=col_time_key;
-#          }
-#  
+let $cnt_0=5;
+let $operator= =;
+# For operator in =, >=, >, <=, <
+while ($cnt_0)
+{  
+  let $cnt_1=2;
+  let $first_table=t1;
+  # for table in t1,t2
+  while ($cnt_1)
+  {
+    if ($first_table==t1)
+    {
+      let $first_index=col_time_key;
+      let $second_table=t2;
+      let $second_index=col_datetime_key;
+    }
+    if ($first_table==t2)
+    {
+      let $first_index=col_datetime_key;
+      let $second_table=t1;
+      let $second_index=col_time_key;
+    }
+    let $cnt_2=2;
+    let $first_index_hint=ignore;
+    # for first_index_hint in ignore,force
+    while ($cnt_2)
+    {
+      let $cnt_3=2;
+      let $second_index_hint=ignore;
+      # for second_index_hint in ignore, force
+      while ($cnt_3)
+      {
+        let $cnt_4=2;
+        let $first_operand=col_time_key;
+        # for first_operand in col_time_key, col_datetime_key
+        while ($cnt_4)
+        {
+          if ($first_operand==col_time_key)
+          {
+            let $second_operand=col_datetime_key;
+          }
+          if ($first_operand==col_datetime_key)
+          {
+            let $second_operand=col_time_key;
+          }
+  
 #          eval EXPLAIN EXTENDED SELECT * FROM
 #               $first_table $first_index_hint INDEX ($first_index)
 #               STRAIGHT_JOIN
 #               $second_table $second_index_hint INDEX ($second_index)
 #               WHERE $first_operand $operator $second_operand;
-#          --sorted_result
-#          eval SELECT * FROM
-#               $first_table $first_index_hint INDEX ($first_index)
-#               STRAIGHT_JOIN
-#               $second_table $second_index_hint INDEX ($second_index)
-#               WHERE $first_operand $operator $second_operand;
-#  
-#          let $first_operand=col_datetime_key;
-#          dec $cnt_4;
-#        }
-#        let $second_index_hint=force;
-#        dec $cnt_3;
-#      }
-#      let $first_index_hint=force;
-#      dec $cnt_2;
-#    }
-#    let $first_table=t2;
-#    dec $cnt_1;
-#  }
-#  if ($cnt_0==5)
-#  {
-#    let $operator= >=;
-#  }
-#  if ($cnt_0==4)
-#  {
-#    let $operator= >;
-#  }
-#  if ($cnt_0==3)
-#  {
-#    let $operator= <=;
-#  }
-#  if ($cnt_0==2)
-#  {
-#    let $operator= <;
-#  }
-#  dec $cnt_0;
-#}
+          --sorted_result
+          eval SELECT * FROM
+               $first_table $first_index_hint INDEX ($first_index)
+               STRAIGHT_JOIN
+               $second_table $second_index_hint INDEX ($second_index)
+               WHERE $first_operand $operator $second_operand;
+  
+          let $first_operand=col_datetime_key;
+          dec $cnt_4;
+        }
+        let $second_index_hint=force;
+        dec $cnt_3;
+      }
+      let $first_index_hint=force;
+      dec $cnt_2;
+    }
+    let $first_table=t2;
+    dec $cnt_1;
+  }
+  if ($cnt_0==5)
+  {
+    let $operator= >=;
+  }
+  if ($cnt_0==4)
+  {
+    let $operator= >;
+  }
+  if ($cnt_0==3)
+  {
+    let $operator= <=;
+  }
+  if ($cnt_0==2)
+  {
+    let $operator= <;
+  }
+  dec $cnt_0;
+}
 
-#DROP TABLE t1,t2;
+DROP TABLE t1,t2;
 
 --echo
 --echo # Original test of the bug report

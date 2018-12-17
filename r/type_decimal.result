@@ -12,8 +12,8 @@ max_value decimal(20,10) DEFAULT '0.0000000000' NOT NULL,
 valuename varchar(20),
 forecolor int(11),
 backcolor int(11),
-PRIMARY KEY (id)
-#UNIQUE datatype_id (datatype_id, min_value, max_value)
+PRIMARY KEY (id),
+UNIQUE datatype_id (datatype_id, min_value, max_value)
 );
 INSERT INTO t1 VALUES ( '1', '4', '0.0000000000', '0.0000000000', 'Ei saja', '0', '16776960');
 INSERT INTO t1 VALUES ( '2', '4', '1.0000000000', '1.0000000000', 'Sajab', '16777215', '255');
@@ -824,8 +824,8 @@ group_concat(f1)	group_concat(f2)
 drop table t1;
 create table t1 (
 ua_id decimal(22,0) not null,
-ua_invited_by_id decimal(22,0) default NULL
-#primary key(ua_id)
+ua_invited_by_id decimal(22,0) default NULL,
+primary key(ua_id)
 );
 insert into t1 values (123, NULL), (456, NULL);
 this must not produce error 1048: 

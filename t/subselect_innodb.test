@@ -422,12 +422,11 @@ DROP TABLE t1,t2,t3;
 --echo # Bug #58756
 --echo # Crash in heap_rrnd on query with HAVING ... IN (subquery) + LIMIT
 --echo #
-# NOW SequoiaDB not support index of time
 CREATE TABLE t1 (
   col_time_key time DEFAULT NULL,
   col_datetime_key datetime DEFAULT NULL,
   col_varchar_nokey varchar(1) DEFAULT NULL,
-#  KEY col_time_key (col_time_key),
+  KEY col_time_key (col_time_key),
   KEY col_datetime_key (col_datetime_key)
 ) ENGINE=Sequoiadb DEFAULT CHARSET=latin1;
 
@@ -443,12 +442,11 @@ INSERT INTO t1 VALUES ('13:02:46',NULL,'x');
 INSERT INTO t1 VALUES ('21:44:25','2001-04-25 01:26:12','m');
 INSERT INTO t1 VALUES ('22:43:58','2000-12-27 00:00:00','c');
 
-#Sequoiadb not support create index of time
 CREATE TABLE t2 (
   col_time_key time DEFAULT NULL,
   col_datetime_key datetime DEFAULT NULL,
   col_varchar_nokey varchar(1) DEFAULT NULL,
-  #KEY col_time_key (col_time_key),
+  KEY col_time_key (col_time_key),
   KEY col_datetime_key (col_datetime_key)
 ) ENGINE=Sequoiadb DEFAULT CHARSET=latin1;
 
@@ -470,10 +468,9 @@ DROP TABLE t2;
 --echo #
 --echo # Bug#60085 crash in Item::save_in_field() with time data type
 --echo #
-
-#Sequoiadb not support create index on date
+#Sequoiadb not support create index on the same key
 #CREATE TABLE t1(a date, b int, unique(b), unique(a), key(b)) engine=Sequoiadb;
-CREATE TABLE t1(a date, b int, unique(b)) engine=Sequoiadb;
+CREATE TABLE t1(a date, b int, unique(b), unique(a)) engine=Sequoiadb;
 INSERT INTO t1 VALUES ('2011-05-13', 0);
 SELECT * FROM t1 WHERE b < (SELECT CAST(a as date) FROM t1 GROUP BY a); 
 DROP TABLE t1;

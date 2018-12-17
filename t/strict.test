@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS t1, t2;
 --enable_warnings
 
 # Test INSERT with DATE
-#Bug #SEQUOIASQLMAINSTREAM-152: insert date out of range, query result is not expectation
+#Bug #SEQUOIASQLMAINSTREAM-152
 CREATE TABLE t1 (col1 date);
 INSERT INTO t1 VALUES('2004-01-01'),('2004-02-29');
 INSERT INTO t1 VALUES('0000-10-31');
@@ -71,7 +71,7 @@ INSERT IGNORE INTO t1 VALUES('2004-02-29'),('2004-13-15'),('0000-00-00');
 select * from t1;
 drop table t1;
 
-#Bug #SEQUOIASQLMAINSTREAM-179: insert date ouf range, query result wrong
+#Bug #SEQUOIASQLMAINSTREAM-179
 # Test Sequoiadb tables
 set @@sql_mode='strict_trans_tables';
 CREATE TABLE t1 (col1 date) engine=Sequoiadb;

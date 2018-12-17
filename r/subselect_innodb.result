@@ -358,7 +358,7 @@ CREATE TABLE t1 (
 col_time_key time DEFAULT NULL,
 col_datetime_key datetime DEFAULT NULL,
 col_varchar_nokey varchar(1) DEFAULT NULL,
-#  KEY col_time_key (col_time_key),
+KEY col_time_key (col_time_key),
 KEY col_datetime_key (col_datetime_key)
 ) ENGINE=Sequoiadb DEFAULT CHARSET=latin1;
 INSERT INTO t1 VALUES ('17:53:30','2005-11-10 12:40:29','h');
@@ -376,7 +376,7 @@ CREATE TABLE t2 (
 col_time_key time DEFAULT NULL,
 col_datetime_key datetime DEFAULT NULL,
 col_varchar_nokey varchar(1) DEFAULT NULL,
-#KEY col_time_key (col_time_key),
+KEY col_time_key (col_time_key),
 KEY col_datetime_key (col_datetime_key)
 ) ENGINE=Sequoiadb DEFAULT CHARSET=latin1;
 INSERT INTO t2 VALUES ('11:28:45','2004-10-11 18:13:16','w');
@@ -394,7 +394,7 @@ DROP TABLE t2;
 #
 # Bug#60085 crash in Item::save_in_field() with time data type
 #
-CREATE TABLE t1(a date, b int, unique(b)) engine=Sequoiadb;
+CREATE TABLE t1(a date, b int, unique(b), unique(a)) engine=Sequoiadb;
 INSERT INTO t1 VALUES ('2011-05-13', 0);
 SELECT * FROM t1 WHERE b < (SELECT CAST(a as date) FROM t1 GROUP BY a);
 a	b

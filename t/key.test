@@ -14,7 +14,7 @@ SET SQL_WARNINGS=1;
 #
 # This failed for Elizabeth Mattijsen
 #
-#Bug #SEQUOIADBMAINSTREAM-3568, query char when length of index larger than length of record, it will cause wrong results
+#Bug #SEQUOIADBMAINSTREAM-3568
 #CREATE TABLE t1 (
 #  ID CHAR(32) NOT NULL,
 #  name CHAR(32) NOT NULL,
@@ -42,7 +42,7 @@ SET SQL_WARNINGS=1;
 #
 # NOW SequoiaDB not support index of enum, when create index of type enum, it will causes error 1112: Table uses an extension that doesn't exist in MySQL version while 
 # executing select
-#Bug #SEQUOIADBMAINSTREAM-3571, select type of enum with index will cause wrong results
+#Bug #SEQUOIADBMAINSTREAM-3571
 CREATE TABLE t1 (
   price int(5) DEFAULT '0' NOT NULL,
   area varchar(40) DEFAULT '' NOT NULL,
@@ -148,27 +148,26 @@ drop table t1;
 #
 # Test bug with long primary key
 #
-# NOW SequoiaDB not support index of numeric(decimal)
-#create table t1
-#(
-#   SEQNO                         numeric(12 ) not null,
-#   MOTYPEID                 numeric(12 ) not null,
-#   MOINSTANCEID     numeric(12 ) not null,
-#   ATTRID                       numeric(12 ) not null,
-#   VALUE                         varchar(120) not null,
-#   primary key (SEQNO, MOTYPEID, MOINSTANCEID, ATTRID, VALUE ) 
-#);
-#INSERT INTO t1 VALUES (1, 1, 1, 1, 'a'); 
-#INSERT INTO t1 VALUES (1, 1, 1, 1, 'b'); 
-#--error ER_DUP_ENTRY
-#INSERT INTO t1 VALUES (1, 1, 1, 1, 'a');
-#drop table t1;
+create table t1
+(
+   SEQNO                         numeric(12 ) not null,
+   MOTYPEID                 numeric(12 ) not null,
+   MOINSTANCEID     numeric(12 ) not null,
+   ATTRID                       numeric(12 ) not null,
+   VALUE                         varchar(120) not null,
+   primary key (SEQNO, MOTYPEID, MOINSTANCEID, ATTRID, VALUE ) 
+);
+INSERT INTO t1 VALUES (1, 1, 1, 1, 'a'); 
+INSERT INTO t1 VALUES (1, 1, 1, 1, 'b'); 
+--error 1022
+INSERT INTO t1 VALUES (1, 1, 1, 1, 'a');
+drop table t1;
 
 #
 # Test with blob + tinyint key
 # (Failed for Greg Valure)
 #
-#Bug #SEQUOIADBMAINSTREAM-3556, insert type unsigned with primary index, it will causes error 1112 when query
+#Bug #SEQUOIADBMAINSTREAM-3556
 CREATE TABLE t1 (
   a tinytext NOT NULL,
   b tinyint(3) unsigned NOT NULL default '0',
@@ -407,7 +406,7 @@ drop table t1;
 # and check the trace file.
 #
 # Create a table with named and unnamed indexes.
-# NOW SequoiaDB not support index of timestamp
+#SequoiaDB not support create duplicate index on the same key
 #create table t1 (
 #    c1 int,
 #    c2 char(12),
@@ -425,7 +424,7 @@ drop table t1;
 ## Some simple tests.
 #alter table t1 drop index c1;
 #alter table t1 add index (c1);
-## This creates index 'c1_2'.
+#This creates index 'c1_2'.
 #alter table t1 add index (c1);
 #alter table t1 drop index i3;
 #alter table t1 add index i3 (c3);
@@ -463,7 +462,8 @@ drop table t1;
 #
 # Bug #20604: Test for disabled keys with aggregate functions and FORCE INDEX.
 #
-#Bug #SEQUOIADBMAINSTREAM-3556, when query max with index will causes error -1
+#Bug #SEQUOIADBMAINSTREAM-3556
+#Sequoiadb not support disable keys
 #CREATE TABLE t1( a TINYINT, KEY(a) ) ENGINE=SequoiaDB;
 #INSERT INTO t1 VALUES( 1 );
 #ALTER TABLE t1 DISABLE KEYS;

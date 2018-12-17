@@ -2812,21 +2812,20 @@ let $column2_type_name = DOUBLE;
 let $column2_value = 3;
 --source include/trigger_17864349.inc
 
-#Sequoiadb not support bit¡¢enum¡¢set
-#let $column1_type_name = BIT;
-#let $column2_type_name = BIT;
-#let $column2_value = 1;
-#--source include/trigger_17864349.inc
+let $column1_type_name = BIT;
+let $column2_type_name = BIT;
+let $column2_value = 1;
+--source include/trigger_17864349.inc
 
-#let $column1_type_name = ENUM('a', 'b', 'c');
-#let $column2_type_name = ENUM('a', 'b', 'c');
-#let $column2_value = 'b';
-#--source include/trigger_17864349.inc
+let $column1_type_name = ENUM('a', 'b', 'c');
+let $column2_type_name = ENUM('a', 'b', 'c');
+let $column2_value = 'b';
+--source include/trigger_17864349.inc
 
-#let $column1_type_name = SET('a', 'b', 'c');
-#let $column2_type_name = SET('a', 'b', 'c');
-#let $column2_value = 'b';
-#--source include/trigger_17864349.inc
+let $column1_type_name = SET('a', 'b', 'c');
+let $column2_type_name = SET('a', 'b', 'c');
+let $column2_value = 'b';
+--source include/trigger_17864349.inc
 
 let $column1_type_name = VARBINARY(10);
 let $column2_type_name = VARBINARY(10);

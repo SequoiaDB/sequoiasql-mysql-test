@@ -46,8 +46,8 @@ select hex(a) from t1;
 # It is not deterministic which duplicate will be seen first
 --replace_regex /(.*Duplicate entry )'.*'( for key.*)/\1''\2/
 
-#Sequoiadb not support create index on bit
-#--error ER_DUP_ENTRY
+#Bug #SEQUOIASQLMAINSTREAM-203
+#--error 1062
 #alter table t1 add unique (a);
 drop table t1;
 
@@ -55,8 +55,7 @@ create table t1 (a bit(2)) engine=sequoiadb;
 insert ignore into t1 values (b'00'), (b'01'), (b'10'), (b'100');
 select a+0 from t1;
 
-#Sequoiadb not support create index on bit
-#alter table t1 add key (a);
+alter table t1 add key (a);
 #-- disable_result_log
 #analyze table t1;
 #-- enable_result_log
@@ -64,9 +63,7 @@ select a+0 from t1;
 select a+0 from t1;
 drop table t1;
 
-#Sequoiadb not support create index on bit
-#create table t1 (a bit(7), b bit(9), key(a, b)) engine=sequoiadb;
-create table t1 (a bit(7), b bit(9)) engine=sequoiadb;
+create table t1 (a bit(7), b bit(9), key(a, b)) engine=sequoiadb;
 insert into t1 values 
 (94, 46), (31, 438), (61, 152), (78, 123), (88, 411), (122, 118), (0, 177),    
 (75, 42), (108, 67), (79, 349), (59, 188), (68, 206), (49, 345), (118, 380),   
@@ -97,9 +94,7 @@ select hex(min(b)) from t1;
 select hex(min(a)), hex(max(a)), hex(min(b)), hex(max(b)) from t1;
 drop table t1;
 
-#Sequoiadb not support create index on bit
-#create table t1 (a int not null, b bit, c bit(9), key(a, b, c)) engine=sequoiadb;
-create table t1 (a int not null, b bit, c bit(9), key(a)) engine=sequoiadb;
+create table t1 (a int not null, b bit, c bit(9), key(a, b, c)) engine=sequoiadb;
 insert into t1 values
 (4, NULL, 1), (4, 0, 3), (2, 1, 4), (1, 1, 100), (4, 0, 23), (4, 0, 54),
 (56, 0, 22), (4, 1, 100), (23, 0, 1), (4, 0, 34);
@@ -122,10 +117,7 @@ select a+0, b+0 from t1;
 drop table t1;
 
 # Some magic numbers
-
-#Sequoiadb not support create index on bit
-#create table t1 (a bit(7), key(a)) engine=sequoiadb;
-create table t1 (a bit(7)) engine=sequoiadb;
+create table t1 (a bit(7), key(a)) engine=sequoiadb;
 insert into t1 values (44), (57);
 select a+0 from t1;
 drop table t1;
@@ -142,16 +134,13 @@ drop table t1;
 #
 # Bug #9571: problem with primary key creation
 #
-
-#Sequoiadb not support create index on bit
-#create table t1(a int, b bit not null) engine=sequoiadb;
-#alter table t1 add primary key (a);
-#drop table t1;
+create table t1(a int, b bit not null) engine=sequoiadb;
+alter table t1 add primary key (a);
+drop table t1;
 
 #
 # altering tables
 #
-
 create table t1 (a bit, b bit(10)) engine=sequoiadb;
 show create table t1;
 alter table t1 engine=heap;
