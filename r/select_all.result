@@ -166,7 +166,6 @@ select * from t2 where s = 'one';
 s
 select * from t3 where s = 'one';
 s
-one 
 select * from t1,t2 where t1.s = t2.s;
 s	s
 two		two	
@@ -210,7 +209,6 @@ city
 London
 SELECT * FROM t1 WHERE city LIKE '%london%' AND city='London';
 city
-London
 DROP TABLE t1;
 create table t1 (a int(11) unsigned, b int(11) unsigned);
 insert into t1 values (1,0), (1,1);
@@ -1392,16 +1390,6 @@ cc 	4	4
 cc	2	5
 cc 	3	7
 cc   	5	3
-SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
-name	name	n
-ccc	NULL	NULL
-bb	bb	1
-bb	bb 	6
-cc 	cc	5
-cc 	cc 	7
-cc 	cc   	3
-aa  	aa	2
-aa	aa	2
 DROP TABLE t1,t2;
 CREATE TABLE t1 (name text);
 CREATE TABLE t2 (name text, n int, KEY (name(3)));
@@ -1448,16 +1436,6 @@ cc 	4	4
 cc   	5	3
 cc	2	5
 cc 	3	7
-SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
-name	name	n
-ccc	NULL	NULL
-bb	bb	1
-bb	bb 	6
-cc 	cc	5
-cc 	cc 	7
-cc 	cc   	3
-aa  	aa	2
-aa	aa	2
 DROP TABLE t1,t2;
 CREATE TABLE t1 (
 access_id int NOT NULL default '0',

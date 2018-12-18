@@ -11,8 +11,6 @@ abc
 abcd
 select * from t1 where a like "ABC%";
 a
-abc
-abcd
 select * from t1 where a like "test%";
 a
 test
@@ -86,7 +84,6 @@ Pojazdy Szynowe PESA Bydgoszcz SA Holding
 Pojazdy Szynowe PESA Bydgoszcz S A Holding
 select * from t1 where a like '%PES%';
 a
-Techni Tapes Sp. z o.o.
 Pojazdy Szynowe PESA Bydgoszcz SA Holding
 AKAPESTER 1 P.P.H.U.
 Pojazdy Szynowe PESA Bydgoszcz S A Holding

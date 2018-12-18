@@ -18,6 +18,7 @@ insert into t1 values ("a"),("abc"),("abcd"),("hello"),("test");
 #explain extended select * from t1 where a like concat('abc','%');
 select * from t1 where a like "abc%";
 select * from t1 where a like concat("abc","%");
+# SEQUOIASQLMAINSTREAM-204
 select * from t1 where a like "ABC%";
 select * from t1 where a like "test%";
 select * from t1 where a like "te_t";
@@ -93,6 +94,7 @@ INSERT INTO t1 VALUES
 
 select * from t1 where a like '%PESA%';
 select * from t1 where a like '%PESA %';
+# SEQUOIASQLMAINSTREAM-204
 select * from t1 where a like '%PES%';
 select * from t1 where a like '%PESKA%';
 select * from t1 where a like '%ESKA%';

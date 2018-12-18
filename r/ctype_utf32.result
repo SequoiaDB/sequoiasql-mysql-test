@@ -138,8 +138,6 @@ abc
 abcd
 select * from t1 where a like "ABC%";
 a
-abc
-abcd
 select * from t1 where a like "test%";
 a
 test

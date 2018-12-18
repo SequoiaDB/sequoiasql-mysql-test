@@ -79,11 +79,9 @@ unlock tables;
 select t from t1 where t like "hello";
 t
 hello
-HELLO
 select c from t1 where c like "hello";
 c
 hello
-HELLO
 select b from t1 where b like "hello";
 b
 hello
@@ -99,12 +97,10 @@ d
 hello
 select t from t1 where t like "%HELLO%";
 t
-hello
 HELLO
 HELLO MY
 select c from t1 where c like "%HELLO%";
 c
-hello
 HELLO
 HELLO MY
 select b from t1 where b like "%HELLO%";
