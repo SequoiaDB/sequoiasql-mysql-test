@@ -1735,7 +1735,7 @@ DROP TABLE t1;
 --echo #
 --echo # Bug#58190 BETWEEN no longer uses indexes for date or datetime fields
 --echo #
-# NOW SequoiaDB not support index of Date
+# NOW SequoiaDB not support alter
 #SELECT @@collation_connection;
 #CREATE TABLE t1 (
 #  id INT(11) DEFAULT NULL,

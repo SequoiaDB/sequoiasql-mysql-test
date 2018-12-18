@@ -116,9 +116,7 @@ drop table t1, t2;
 --echo
 --echo BUG#42740: crash in optimize_semijoin_nests
 --echo
-#Sequoiadb not support create index on timestamp
-#create table t1 (c6 timestamp,key (c6)) engine=Sequoiadb;
-create table t1 (c6 timestamp) engine=Sequoiadb;
+create table t1 (c6 timestamp,key (c6)) engine=Sequoiadb;
 create table t2 (c2 double) engine=Sequoiadb;
 #explain select 1 from t2 where c2 = any (select log10(null) from t1 where c6 <null)  ;
 drop table t1, t2;

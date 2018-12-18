@@ -6,8 +6,8 @@ Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be r
 CREATE TABLE t1 (
 event_date date DEFAULT '0000-00-00' NOT NULL,
 type int(11) DEFAULT '0' NOT NULL,
-event_id int(11) DEFAULT '0' NOT NULL
-#  PRIMARY KEY (event_date,type,event_id)
+event_id int(11) DEFAULT '0' NOT NULL,
+PRIMARY KEY (event_date,type,event_id)
 );
 INSERT INTO t1 VALUES ('1999-07-10',100100,24), ('1999-07-11',100100,25),
 ('1999-07-13',100600,0), ('1999-07-13',100600,4), ('1999-07-13',100600,26),
@@ -50,8 +50,8 @@ PAPER_ID smallint(6) DEFAULT '0' NOT NULL,
 YEAR smallint(6) DEFAULT '0' NOT NULL,
 ISSUE smallint(6) DEFAULT '0' NOT NULL,
 CLOSED tinyint(4) DEFAULT '0' NOT NULL,
-ISS_DATE date DEFAULT '0000-00-00' NOT NULL
-#  PRIMARY KEY (PAPER_ID,YEAR,ISSUE)
+ISS_DATE date DEFAULT '0000-00-00' NOT NULL,
+PRIMARY KEY (PAPER_ID,YEAR,ISSUE)
 );
 INSERT INTO t1 VALUES (3,1999,34,0,'1999-07-12'), (1,1999,111,0,'1999-03-23'),
 (1,1999,222,0,'1999-03-23'), (3,1999,33,0,'1999-07-12'),
@@ -914,7 +914,7 @@ DROP TABLE t1;
 #
 # Bug#47925: regression of range optimizer and date comparison in 5.1.39!
 #
-CREATE TABLE t1 ( a DATE );
+CREATE TABLE t1 ( a DATE,     KEY ( a ) );
 CREATE TABLE t2 ( a DATETIME, KEY ( a ) );
 # Make optimizer choose range scan
 INSERT INTO t1 VALUES ('2009-09-22'), ('2009-09-22'), ('2009-09-22');
@@ -1256,7 +1256,7 @@ AAAA	AAAA	AAAA
 AAAAA	AAAAA	AAAAA
 DROP TABLE t1;
 End of 5.1 tests
-CREATE TABLE t1 (c1 DECIMAL(10,0));
+CREATE TABLE t1 (c1 DECIMAL(10,0),INDEX(c1));
 INSERT INTO t1 VALUES (1),(2),(3);
 SELECT c1 FROM t1 WHERE c1 >= 'A' GROUP BY 1;
 c1
@@ -1264,6 +1264,7 @@ c1
 2
 3
 Warnings:
+Warning	1366	Incorrect decimal value: 'A' for column 'c1' at row 1
 Warning	1292	Truncated incorrect DECIMAL value: 'A'
 DROP TABLE t1;
 create table t1 (a int,b int,key (b),key (a),key (b,a));
@@ -1469,7 +1470,7 @@ DROP TABLE t1;
 # Bug#18715670
 # CRASH IN DECIMAL_ACTUAL_FRACTION COMPARING DECIMAL TO NULLS
 # 
-CREATE TABLE t1(n DECIMAL(39,19) NOT NULL) engine=sequoiadb;
+CREATE TABLE t1(n DECIMAL(39,19) NOT NULL, KEY(n)) engine=sequoiadb;
 INSERT INTO t1 SET n=0;
 SELECT 1 FROM t1 WHERE n NOT IN(NULL, NULL);
 1

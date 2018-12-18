@@ -150,7 +150,7 @@ FROM t1 ORDER BY c, BINARY c;
 # are set properly
 # Also check that LIKE is case insensitive for supplementary characters
 #
-#Bug #SEQUOIADBMAINSTREAM-3593, when select ... like with index of varchar, will return wrong results
+#Bug #SEQUOIADBMAINSTREAM-3593
 #INSERT INTO t1 VALUES ('a');
 #INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0xFFFF));
 #INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0x10FFFF));

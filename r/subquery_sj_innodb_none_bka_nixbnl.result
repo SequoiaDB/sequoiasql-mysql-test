@@ -115,7 +115,7 @@ drop table t1, t2;
 
 BUG#42740: crash in optimize_semijoin_nests
 
-create table t1 (c6 timestamp) engine=Sequoiadb;
+create table t1 (c6 timestamp,key (c6)) engine=Sequoiadb;
 create table t2 (c2 double) engine=Sequoiadb;
 drop table t1, t2;
 # 

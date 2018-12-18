@@ -49,8 +49,8 @@ INSERT INTO t1 VALUES (_latin1 0x9C), (_latin1 0x8C);
 select s1, hex(s1) from t1 order by s1, binary s1;
 select group_concat(s1 order by binary s1) from t1 group by s1;
 
-#Bug #SEQUOIADBMAINSTREAM-3633, select will return wrong results when set `ucs2_german2_ci`
-#Bug #SEQUOIASQLMAINSTREAM-3373, bug of case sensitive
+#Bug #SEQUOIADBMAINSTREAM-3633
+#Bug #SEQUOIASQLMAINSTREAM-3373
 SELECT s1, hex(s1), hex(weight_string(s1)) FROM t1 ORDER BY s1, BINARY(s1);
 SELECT s1, hex(s1) FROM t1 WHERE s1='ae' ORDER BY s1, BINARY(s1);
 

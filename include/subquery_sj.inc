@@ -332,16 +332,13 @@ drop table x2;
 # process should unpack column value not to SCOL but rather to PCOL, as 
 # substitute_best_equal has made all conditions to refer to PCOL.
 #
-
 #Bug #SEQUOIADBMAINSTREAM-3654
-#Sequoiadb not support index on datetime
 CREATE TABLE t1 (
   a int(11) NOT NULL,
   b int(11) NOT NULL,
   c datetime default NULL,
   PRIMARY KEY  (a),
-  KEY  (b)
-#  KEY idx_bc (b,c)
+  KEY idx_bc (b,c)
 );
 
 INSERT INTO t1 VALUES 

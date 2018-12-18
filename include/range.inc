@@ -6,13 +6,11 @@
 drop table if exists t1, t2, t3;
 --enable_warnings
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
-
-#Sequoiadb not support index of date type
 CREATE TABLE t1 (
   event_date date DEFAULT '0000-00-00' NOT NULL,
   type int(11) DEFAULT '0' NOT NULL,
-  event_id int(11) DEFAULT '0' NOT NULL
-#  PRIMARY KEY (event_date,type,event_id)
+  event_id int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (event_date,type,event_id)
 );
 
 INSERT INTO t1 VALUES ('1999-07-10',100100,24), ('1999-07-11',100100,25),
@@ -39,14 +37,13 @@ select event_date,type,event_id from t1 WHERE event_date >= "1999-07-01" AND eve
 select event_date,type,event_id from t1 WHERE event_date >= "1999-07-01" AND event_date <= "1999-07-15" AND (type=100600 OR type=100100) or event_date >= "1999-07-01" AND event_date <= "1999-07-15" AND type=100099;
 drop table t1;
 
-#Sequoiadb not support index on year
 CREATE TABLE t1 (
   PAPER_ID smallint(6) DEFAULT '0' NOT NULL,
   YEAR smallint(6) DEFAULT '0' NOT NULL,
   ISSUE smallint(6) DEFAULT '0' NOT NULL,
   CLOSED tinyint(4) DEFAULT '0' NOT NULL,
-  ISS_DATE date DEFAULT '0000-00-00' NOT NULL
-#  PRIMARY KEY (PAPER_ID,YEAR,ISSUE)
+  ISS_DATE date DEFAULT '0000-00-00' NOT NULL,
+  PRIMARY KEY (PAPER_ID,YEAR,ISSUE)
 );
 INSERT INTO t1 VALUES (3,1999,34,0,'1999-07-12'), (1,1999,111,0,'1999-03-23'),
                       (1,1999,222,0,'1999-03-23'), (3,1999,33,0,'1999-07-12'),
@@ -1212,9 +1209,7 @@ DROP TABLE t1;
 --echo #
 --echo # Bug#47925: regression of range optimizer and date comparison in 5.1.39!
 --echo #
-#sequoiadb not support index on date 
-#CREATE TABLE t1 ( a DATE,     KEY ( a ) );
-CREATE TABLE t1 ( a DATE );
+CREATE TABLE t1 ( a DATE,     KEY ( a ) );
 CREATE TABLE t2 ( a DATETIME, KEY ( a ) );
 
 --echo # Make optimizer choose range scan
@@ -1505,10 +1500,7 @@ DROP TABLE t1;
 #
 # BUG#32262 fix: crash with decimal column...
 #
-
-#Sequoiadb not support index on decimal
-#CREATE TABLE t1 (c1 DECIMAL(10,0),INDEX(c1));
-CREATE TABLE t1 (c1 DECIMAL(10,0));
+CREATE TABLE t1 (c1 DECIMAL(10,0),INDEX(c1));
 INSERT INTO t1 VALUES (1),(2),(3);
 SELECT c1 FROM t1 WHERE c1 >= 'A' GROUP BY 1;
 DROP TABLE t1;
@@ -2113,10 +2105,7 @@ DROP TABLE t1;
 --echo # Bug#18715670
 --echo # CRASH IN DECIMAL_ACTUAL_FRACTION COMPARING DECIMAL TO NULLS
 --echo # 
-
-#Sequoiadb not support index on decimal
-#CREATE TABLE t1(n DECIMAL(39,19) NOT NULL, KEY(n)) engine=sequoiadb;
-CREATE TABLE t1(n DECIMAL(39,19) NOT NULL) engine=sequoiadb;
+CREATE TABLE t1(n DECIMAL(39,19) NOT NULL, KEY(n)) engine=sequoiadb;
 INSERT INTO t1 SET n=0;
 SELECT 1 FROM t1 WHERE n NOT IN(NULL, NULL);
 DROP TABLE t1;

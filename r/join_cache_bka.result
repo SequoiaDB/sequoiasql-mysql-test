@@ -1602,8 +1602,8 @@ CREATE TABLE t2 (
 `pk` int(11) NOT NULL,
 `int_nokey` int(11) NOT NULL,
 `time_key` time NOT NULL,
-PRIMARY KEY (`pk`)
-#  KEY `time_key` (`time_key`)
+PRIMARY KEY (`pk`),
+KEY `time_key` (`time_key`)
 );
 INSERT INTO t2 VALUES (10,9,'22:36:46'),(11,0,'08:46:46');
 SELECT DISTINCT t1.`pk`
@@ -1715,8 +1715,8 @@ col282 timestamp
 )  ;
 INSERT INTO t6 VALUES ('2010-11-07 01:04:45'),('2010-12-13 01:36:32');
 CREATE TABLE t7 (
-col319 timestamp NOT NULL
-#  UNIQUE KEY idx263 (col319)
+col319 timestamp NOT NULL,
+UNIQUE KEY idx263 (col319)
 )  ;
 insert into t7 values("2000-01-01"),("2000-01-02");
 CREATE TABLE t3 (
@@ -1875,8 +1875,8 @@ CREATE TABLE t1 (
 col_int_key int(11) NOT NULL,
 col_datetime_key datetime NOT NULL,
 col_varchar_nokey varchar(1) NOT NULL,
-KEY col_int_key (col_int_key)
-#KEY col_datetime_key (col_datetime_key)
+KEY col_int_key (col_int_key),
+KEY col_datetime_key (col_datetime_key)
 );
 INSERT INTO t1 VALUES (7,'2004-06-06 04:22:12','v');
 INSERT INTO t1 VALUES (0,'2005-11-13 01:12:31','s');

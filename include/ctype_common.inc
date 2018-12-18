@@ -24,7 +24,7 @@ SET collation_server= @test_collation;
 #
 # Bug 1883: LIKE did not work in some cases with a key.
 #
-#Bug #SEQUOIADBMAINSTREAM-3593, select with like will return wrong results when exists index in varchar
+#Bug #SEQUOIADBMAINSTREAM-3593
 #--disable_warnings
 #CREATE TABLE t1 (c CHAR(10), KEY(c));
 #--enable_warnings

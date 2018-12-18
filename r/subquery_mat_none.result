@@ -1012,8 +1012,8 @@ CREATE TABLE t2 (
 col_int_key INT,
 col_time_key TIME,
 col_datetime_nokey DATETIME,
-KEY col_int_key (col_int_key)
-#  KEY col_time_key (col_time_key)
+KEY col_int_key (col_int_key),
+KEY col_time_key (col_time_key)
 );
 INSERT INTO t2 VALUES
 (7,'14:03:03','2001-11-28 00:50:27'), (1,'01:46:09','2007-10-09 19:53:04');
@@ -1043,7 +1043,7 @@ Warnings:
 Warning	1366	Incorrect integer value: '' for column 'c4' at row 1
 Warning	1366	Incorrect integer value: '' for column 'cminnuk' at row 1
 CREATE TABLE t3
-(c4 int,pk INT,c1 bigint,cyk year,cy year)
+(c4 int,pk INT,c1 bigint,cyk year,cy year,key (cyk))
 ENGINE=Sequoiadb;
 INSERT INTO t3 VALUES(0,8,'',0,'');
 Warnings:

@@ -67,7 +67,7 @@ select * from t1 where a in (b);
 select * from t1 where a in (b,c);
 --error 1271
 select * from t1 where 'a' in (a,b,c);
-#Bug #SEQUOIADBMAINSTREAM-3373, not case sensitive
+#Bug #SEQUOIADBMAINSTREAM-3373
 select * from t1 where 'a' in (a);
 select * from t1 where a in ('a');
 select * from t1 where 'a' collate latin1_general_ci in (a,b,c);
@@ -205,13 +205,10 @@ insert into t2 values ('fon', '1'), ('fop','1'), ('barbaq','1'),
 
 drop table t2;
 
-# NOW SequoiaDB not support index of decimal
 #
 # Repeat for DECIMAL
 #
-#create table t2 (a decimal(10,5), filler char(200), key(a));
-create table t2 (a decimal(10,5), filler char(200));
-
+create table t2 (a decimal(10,5), filler char(200), key(a));
 insert into t2 select 345.67890, 'no' from t1 A, t1 B;
 insert into t2 select 43245.34, 'no' from t1 A, t1 B;
 insert into t2 select 64224.56344, 'no' from t1 A, t1 B;
@@ -415,9 +412,7 @@ drop table t1, t2;
 #
 # Bug #31075: crash in get_func_mm_tree
 #
-# NOW SequoiaDB not support index of time
-#create table t1 (a time, key(a));
-create table t1 (a time);
+create table t1 (a time, key(a));
 insert into t1 values (),(),(),(),(),(),(),(),(),();
 select a from t1 where a not in (a,a,a) group by a;
 drop table t1;
@@ -463,7 +458,7 @@ SELECT SUM( DISTINCT e ) FROM t1 GROUP BY b,c,d HAVING (b,c,d) IN
   ((AVG( 1 ), 1 + c, 1 + d), (AVG( 1 ), 2 + c, 2 + d));
 DROP TABLE t1;
 
-# NOW SequoiaDB not support bit, as well as not support index of date, decimal etc..
+# NOW SequoiaDB not support explain
 #--echo #
 #--echo # Bug #44139: Table scan when NULL appears in IN clause
 #--echo #

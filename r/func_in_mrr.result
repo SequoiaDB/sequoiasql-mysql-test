@@ -272,7 +272,7 @@ insert into t2 select 'bazbazbaz', 'no' from t1 A, t1 B;
 insert into t2 values ('fon', '1'), ('fop','1'), ('barbaq','1'), 
 ('barbas','1'), ('bazbazbay', '1'),('zz','1');
 drop table t2;
-create table t2 (a decimal(10,5), filler char(200));
+create table t2 (a decimal(10,5), filler char(200), key(a));
 insert into t2 select 345.67890, 'no' from t1 A, t1 B;
 insert into t2 select 43245.34, 'no' from t1 A, t1 B;
 insert into t2 select 64224.56344, 'no' from t1 A, t1 B;
@@ -501,7 +501,7 @@ f2
 Warnings:
 Warning	1292	Truncated incorrect DOUBLE value: 'b'
 drop table t1, t2;
-create table t1 (a time);
+create table t1 (a time, key(a));
 insert into t1 values (),(),(),(),(),(),(),(),(),();
 select a from t1 where a not in (a,a,a) group by a;
 a
