@@ -98,13 +98,17 @@ lock tables t1 WRITE;
 show full fields from t1;
 unlock tables;
 
+# SEQUOIASQLMAINSTREAM-204
 select t from t1 where t like "hello";
+# SEQUOIASQLMAINSTREAM-204
 select c from t1 where c like "hello";
 select b from t1 where b like "hello";
 select d from t1 where d like "hello";
 select c from t1 having c like "hello";
 select d from t1 having d like "hello";
+# SEQUOIASQLMAINSTREAM-204
 select t from t1 where t like "%HELLO%";
+# SEQUOIASQLMAINSTREAM-204
 select c from t1 where c like "%HELLO%";
 select b from t1 where b like "%HELLO%";
 select d from t1 where d like "%HELLO%";
