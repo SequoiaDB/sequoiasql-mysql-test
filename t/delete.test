@@ -497,50 +497,50 @@ DROP DATABASE db2_delete;
 DROP PROCEDURE count_rows;
 DROP TABLE t1, t2;
 
-#--echo #
-#--echo # Bug#46958: Assertion in Diagnostics_area::set_ok_status, trigger, 
-#--echo # merge table
-#--echo #
-# NOW not support trigger
-#CREATE TABLE t1 ( a INT );
-#CREATE TABLE t2 ( a INT );
-#CREATE TABLE t3 ( a INT );
-#
-#INSERT INTO t1 VALUES (1), (2);
-#INSERT INTO t2 VALUES (1), (2);
-#INSERT INTO t3 VALUES (1), (2);
-#
-#CREATE TRIGGER tr1 BEFORE DELETE ON t2
-#FOR EACH ROW INSERT INTO no_such_table VALUES (1);
-#
-#--error ER_NO_SUCH_TABLE
-#DELETE t1, t2, t3 FROM t1, t2, t3;
-#
-#SELECT * FROM t1;
-#SELECT * FROM t2;
-#SELECT * FROM t3;
-#
-#DROP TABLE t1, t2, t3;
-#
-#CREATE TABLE t1 ( a INT );
-#CREATE TABLE t2 ( a INT );
-#CREATE TABLE t3 ( a INT );
-#
-#INSERT INTO t1 VALUES (1), (2);
-#INSERT INTO t2 VALUES (1), (2);
-#INSERT INTO t3 VALUES (1), (2);
+--echo #
+--echo # Bug#46958: Assertion in Diagnostics_area::set_ok_status, trigger, 
+--echo # merge table
+--echo #
+#modify result as same as innodb
+CREATE TABLE t1 ( a INT );
+CREATE TABLE t2 ( a INT );
+CREATE TABLE t3 ( a INT );
 
-#CREATE TRIGGER tr1 AFTER DELETE ON t2
-#FOR EACH ROW INSERT INTO no_such_table VALUES (1);
+INSERT INTO t1 VALUES (1), (2);
+INSERT INTO t2 VALUES (1), (2);
+INSERT INTO t3 VALUES (1), (2);
 
-#--error ER_NO_SUCH_TABLE
-#DELETE t1, t2, t3 FROM t1, t2, t3;
-#
-#SELECT * FROM t1;
-#SELECT * FROM t2;
-#SELECT * FROM t3;
-#
-#DROP TABLE t1, t2, t3;
+CREATE TRIGGER tr1 BEFORE DELETE ON t2
+FOR EACH ROW INSERT INTO no_such_table VALUES (1);
+
+--error ER_NO_SUCH_TABLE
+DELETE t1, t2, t3 FROM t1, t2, t3;
+
+SELECT * FROM t1;
+SELECT * FROM t2;
+SELECT * FROM t3;
+
+DROP TABLE t1, t2, t3;
+
+CREATE TABLE t1 ( a INT );
+CREATE TABLE t2 ( a INT );
+CREATE TABLE t3 ( a INT );
+
+INSERT INTO t1 VALUES (1), (2);
+INSERT INTO t2 VALUES (1), (2);
+INSERT INTO t3 VALUES (1), (2);
+
+CREATE TRIGGER tr1 AFTER DELETE ON t2
+FOR EACH ROW INSERT INTO no_such_table VALUES (1);
+
+--error ER_NO_SUCH_TABLE
+DELETE t1, t2, t3 FROM t1, t2, t3;
+
+SELECT * FROM t1;
+SELECT * FROM t2;
+SELECT * FROM t3;
+
+DROP TABLE t1, t2, t3;
 
 --echo #
 --echo # Bug #46425 crash in Diagnostics_area::set_ok_status, 
