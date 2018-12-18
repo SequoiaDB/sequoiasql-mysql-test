@@ -1938,6 +1938,7 @@ insert into t2 values ('one\r'), ('two\t');
 insert into t3 values ('one '), ('two\t');
 select * from t1 where s = 'one';
 select * from t2 where s = 'one';
+# SEQUOIASQLMAINSTREAM-204
 select * from t3 where s = 'one';
 #Bug #SEQUOIADBMAINSTREAM-3567
 select * from t1,t2 where t1.s = t2.s;
@@ -2005,6 +2006,7 @@ SELECT * FROM t1 WHERE city='london';
 #EXPLAIN SELECT * FROM t1 WHERE city='London' AND city='london';
 SELECT * FROM t1 WHERE city='London' AND city='london';
 #EXPLAIN SELECT * FROM t1 WHERE city LIKE '%london%' AND city='London';
+# SEQUOIASQLMAINSTREAM-204
 SELECT * FROM t1 WHERE city LIKE '%london%' AND city='London';
 
 DROP TABLE t1;
@@ -3308,9 +3310,9 @@ SELECT * FROM t1 LEFT JOIN t2 ON (t1.a=t2.a) WHERE t1.a=30
   AND t1.ts BETWEEN "2006-01-01" AND "2006-12-31";
 
 DROP TABLE t1,t2;
-#
 # Bug #22026: Warning when using IF statement and large unsigned bigint
 #
+
 create table t1 (a bigint unsigned);
 insert into t1 values
   (if(1, 9223372036854775808, 1)),
@@ -3355,7 +3357,8 @@ SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%' ORDER BY name;
 #EXPLAIN SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
 
 #Bug #SEQUOIADBMAINSTREAM-3643
-SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
+#Bug #SEQUOIASQLMAINSTREAM-206
+#SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
 
 DROP TABLE t1,t2;
 
@@ -3380,7 +3383,8 @@ SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%' ORDER BY name;
 #EXPLAIN SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
 
 #Bug #SEQUOIADBMAINSTREAM-3643
-SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
+#Bug #SEQUOIASQLMAINSTREAM-206
+#SELECT * FROM t1 LEFT JOIN t2 ON t1.name=t2.name;
 
 DROP TABLE t1,t2;
 

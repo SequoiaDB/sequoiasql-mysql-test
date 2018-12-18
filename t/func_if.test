@@ -21,6 +21,7 @@ INSERT INTO t1 VALUES ('a',1),('A',1),('aa',1),('AA',1),('a',1),('aaa',0),('BBB'
 select if(1,st,st) s from t1 order by s;
 select if(u=1,st,st) s from t1 order by s;
 select if(u=1,binary st,st) s from t1 order by s;
+# SEQUOIASQLMAINSTREAM-204
 select if(u=1,st,binary st) s from t1 where st like "%a%" order by s;
 #analyze table t1;
 #explain extended select if(u=1,st,binary st) s from t1 where st like "%a%" order by s;
