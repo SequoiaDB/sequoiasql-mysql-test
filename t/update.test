@@ -30,7 +30,6 @@ use test_update;
 #select * from t1;
 #drop table t1;
 
-#Sequoiadb not support create index on timestamp
 CREATE TABLE t1
  (
  place_id int (10) unsigned NOT NULL,
@@ -41,8 +40,7 @@ CREATE TABLE t1
  iclicks int(10) unsigned DEFAULT '0' NOT NULL,
  uclicks int(10) unsigned DEFAULT '0' NOT NULL,
  ts timestamp,
- PRIMARY KEY (place_id)
- #PRIMARY KEY (place_id,ts)
+ PRIMARY KEY (place_id,ts)
  );
 
 INSERT INTO t1 (place_id,shows,ishows,ushows,clicks,iclicks,uclicks,ts)
@@ -376,14 +374,13 @@ drop table t1;
 # Bug #24010: INSERT INTO ... SELECT fails on unique constraint with data it 
 # doesn't select
 #
-#Sequoiadb not support create index on decimal
 CREATE TABLE t1 (
 
   a INT(11),
   quux decimal( 31, 30 ),
 
-  UNIQUE KEY bar (a)
-  #KEY quux (quux)
+  UNIQUE KEY bar (a),
+  KEY quux (quux)
 );
 
 INSERT INTO

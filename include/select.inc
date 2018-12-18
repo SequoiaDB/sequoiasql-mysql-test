@@ -1640,7 +1640,7 @@ select distinct 1 from t4 group by companynr;
 #
 
 #select sum(fld1),fld3 from t2 where fld3="Romans" group by fld1 limit 10;
-#Bug #SEQUOIADBMAINSTREAM-3568, query will return wrong result with index of char
+#Bug #SEQUOIADBMAINSTREAM-3568
 #select name,count(*) from t3 where name='cloakroom' group by name;
 #select name,count(*) from t3 where name='cloakroom' and price>10 group by name;
 #select count(*) from t3 where name='cloakroom' and price2=823742;
@@ -3289,29 +3289,28 @@ DROP TABLE t1;
 #
 # Bug #22344: InnoDB keys act strange on datetime vs timestamp comparison
 #
-# NOW SequoiaDB not support index of Timestamp
-#CREATE TABLE t1 (a INT, ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, KEY ts(ts));
-#INSERT INTO t1 VALUES (30,"2006-01-03 23:00:00"), (31,"2006-01-03 23:00:00");
+CREATE TABLE t1 (a INT, ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, KEY ts(ts));
+INSERT INTO t1 VALUES (30,"2006-01-03 23:00:00"), (31,"2006-01-03 23:00:00");
 #ANALYZE TABLE t1;
-#
-#CREATE TABLE t2 (a INT, dt1 DATETIME, dt2 DATETIME, PRIMARY KEY (a));
-#INSERT INTO t2 VALUES (30, "2006-01-01 00:00:00", "2999-12-31 00:00:00");
-#INSERT INTO t2 SELECT a+1,dt1,dt2 FROM t2;
+
+CREATE TABLE t2 (a INT, dt1 DATETIME, dt2 DATETIME, PRIMARY KEY (a));
+INSERT INTO t2 VALUES (30, "2006-01-01 00:00:00", "2999-12-31 00:00:00");
+INSERT INTO t2 SELECT a+1,dt1,dt2 FROM t2;
 #ANALYZE TABLE t2;
-#
+
 #EXPLAIN
 #SELECT * FROM t1 LEFT JOIN t2 ON (t1.a=t2.a) WHERE t1.a=30
 #  AND t1.ts BETWEEN t2.dt1 AND t2.dt2
 #  AND t1.ts BETWEEN "2006-01-01" AND "2006-12-31";
+
+SELECT * FROM t1 LEFT JOIN t2 ON (t1.a=t2.a) WHERE t1.a=30
+  AND t1.ts BETWEEN t2.dt1 AND t2.dt2
+  AND t1.ts BETWEEN "2006-01-01" AND "2006-12-31";
+
+DROP TABLE t1,t2;
 #
-#SELECT * FROM t1 LEFT JOIN t2 ON (t1.a=t2.a) WHERE t1.a=30
-#  AND t1.ts BETWEEN t2.dt1 AND t2.dt2
-#  AND t1.ts BETWEEN "2006-01-01" AND "2006-12-31";
-#
-#DROP TABLE t1,t2;
 # Bug #22026: Warning when using IF statement and large unsigned bigint
 #
-
 create table t1 (a bigint unsigned);
 insert into t1 values
   (if(1, 9223372036854775808, 1)),

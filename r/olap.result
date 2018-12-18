@@ -273,8 +273,8 @@ NULL	NULL	2
 drop table t1,t2;
 CREATE TABLE user_day(
 user_id INT NOT NULL,
-date DATE NOT NULL
-#UNIQUE INDEX user_date (user_id, date)
+date DATE NOT NULL,
+UNIQUE INDEX user_date (user_id, date)
 );
 INSERT INTO user_day VALUES
 (1, '2004-06-06' ),

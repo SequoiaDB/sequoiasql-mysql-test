@@ -7,8 +7,8 @@ type varchar(40) DEFAULT '' NOT NULL,
 transityes enum('Y','N') DEFAULT 'Y' NOT NULL,
 shopsyes enum('Y','N') DEFAULT 'Y' NOT NULL,
 schoolsyes enum('Y','N') DEFAULT 'Y' NOT NULL,
-petsyes enum('Y','N') DEFAULT 'Y' NOT NULL
-#KEY price (price,area,type,transityes,shopsyes,schoolsyes,petsyes) ## Not Sure if it is a problem
+petsyes enum('Y','N') DEFAULT 'Y' NOT NULL,
+KEY price (price,area,type,transityes,shopsyes,schoolsyes,petsyes)
 );
 INSERT INTO t1 VALUES (900,'Vancouver','Shared/Roomate','N','N','N','N');
 INSERT INTO t1 VALUES (900,'Vancouver','Shared/Roomate','N','N','N','N');
@@ -50,7 +50,7 @@ scs varchar(255),
 capacity decimal(10,0),
 userISP varchar(50),
 CCident varchar(50) DEFAULT '' NOT NULL,
-PRIMARY KEY (name,author) ## field 'category' cannot be created into index
+PRIMARY KEY (name,author,category)
 );
 INSERT INTO t1 VALUES
 ('patnom','patauteur',0,'p.favre@cryo-networks.fr',NULL,NULL,'#p2sndnq6ae5g1u6t','essai salut','scol://195.242.78.119:patauteur.patnom',NULL,NULL,NULL,950036174,-882087474,NULL,3,0,3,'1','Pub/patnom/futur_divers.scs',NULL,'pat','CC1');
@@ -59,6 +59,20 @@ INSERT INTO t1 VALUES
 select * from t1 where name='patnom' and author='patauteur' and category=0;
 name	author	category	email	password	proxy	bitmap	msg	urlscol	urlhttp	timeout	nbcnx	creation	livinguntil	lang	type	subcat	subtype	reg	scs	capacity	userISP	CCident
 patnom	patauteur	0	p.favre@cryo-networks.fr	NULL	NULL	#p2sndnq6ae5g1u6t	essai salut	scol://195.242.78.119:patauteur.patnom	NULL	NULL	NULL	950036174	-882087474	NULL	3	0	3	1	Pub/patnom/futur_divers.scs	NULL	pat	CC1
+drop table t1;
+create table t1
+(
+SEQNO                         numeric(12 ) not null,
+MOTYPEID                 numeric(12 ) not null,
+MOINSTANCEID     numeric(12 ) not null,
+ATTRID                       numeric(12 ) not null,
+VALUE                         varchar(120) not null,
+primary key (SEQNO, MOTYPEID, MOINSTANCEID, ATTRID, VALUE ) 
+);
+INSERT INTO t1 VALUES (1, 1, 1, 1, 'a');
+INSERT INTO t1 VALUES (1, 1, 1, 1, 'b');
+INSERT INTO t1 VALUES (1, 1, 1, 1, 'a');
+ERROR 23000: Can't write; duplicate key in table 't1'
 drop table t1;
 CREATE TABLE t1 (
 a tinytext NOT NULL,

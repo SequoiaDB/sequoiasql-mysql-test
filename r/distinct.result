@@ -522,8 +522,8 @@ CREATE TABLE t1 (
 ID int(11) NOT NULL,
 x varchar(20) default NULL,
 y decimal(10,0) default NULL,
-PRIMARY KEY  (ID)
-#  KEY (y)
+PRIMARY KEY  (ID),
+KEY (y)
 ) ENGINE=SequoiaDB DEFAULT CHARSET=latin1;
 INSERT INTO t1 VALUES
 (1,'ba','-1'),
@@ -759,9 +759,9 @@ CREATE TABLE t1 (
 col_int_key int(11) NOT NULL,
 col_time_key time NOT NULL,
 col_datetime_key datetime NOT NULL,
-KEY col_int_key (col_int_key)
-#  KEY col_time_key (col_time_key),
-#  KEY col_datetime_key (col_datetime_key)
+KEY col_int_key (col_int_key),
+KEY col_time_key (col_time_key),
+KEY col_datetime_key (col_datetime_key)
 ) ENGINE=SequoiaDB;
 INSERT INTO t1 VALUES (7,'06:17:39','2003-08-21 00:00:00');
 SELECT DISTINCT col_int_key

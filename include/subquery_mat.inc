@@ -1363,8 +1363,6 @@ DROP TABLE t1,t2,t3,t4;
 --echo #
 --echo # Bug#13727407: Assert !item->const_item() || !item->not_null_tables()
 --echo #
-
-#Sequoiadb not support key on timestamp
 CREATE TABLE t1 (
   col_int_key INT,
   KEY col_int_key (col_int_key)
@@ -1376,8 +1374,8 @@ CREATE TABLE t2 (
   col_int_key INT,
   col_time_key TIME,
   col_datetime_nokey DATETIME,
-  KEY col_int_key (col_int_key)
-#  KEY col_time_key (col_time_key)
+  KEY col_int_key (col_int_key),
+  KEY col_time_key (col_time_key)
 );
 
 INSERT INTO t2 VALUES
@@ -1408,12 +1406,8 @@ ENGINE=Sequoiadb;
 INSERT INTO t1 VALUES (763078661862588416,0,1,'',1,'');
 CREATE TABLE t2 (c4k int,c4 int,cminnuk INT,key (cminnuk)) ENGINE=Sequoiadb;
 INSERT INTO t2 VALUES(0,'','');
-#Sequoiadb not support index on year
-#CREATE TABLE t3
-#(c4 int,pk INT,c1 bigint,cyk year,cy year,key (cyk))
-#ENGINE=Sequoiadb;
 CREATE TABLE t3
-(c4 int,pk INT,c1 bigint,cyk year,cy year)
+(c4 int,pk INT,c1 bigint,cyk year,cy year,key (cyk))
 ENGINE=Sequoiadb;
 INSERT INTO t3 VALUES(0,8,'',0,'');
 let $query=

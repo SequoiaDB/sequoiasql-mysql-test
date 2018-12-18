@@ -170,35 +170,34 @@ SET sql_mode=default;
 #
 # Bug#31221: Optimizer incorrectly identifies impossible WHERE clause
 #
-# NOW not support index of Date
-#CREATE TABLE t1 (a DATE, b INT, PRIMARY KEY (a,b));
-## The current sub test could fail (difference to expected result) if we
-## have just reached midnight.
-## (Bug#41776 type_date.test may fail if run around midnight)
-## Therefore we sleep a bit if we are too close to midnight.
-## The complete test itself needs in average less than 1 second.
-## Therefore a time_distance to midnight of 5 seconds should be sufficient.
+CREATE TABLE t1 (a DATE, b INT, PRIMARY KEY (a,b));
+# The current sub test could fail (difference to expected result) if we
+# have just reached midnight.
+# (Bug#41776 type_date.test may fail if run around midnight)
+# Therefore we sleep a bit if we are too close to midnight.
+# The complete test itself needs in average less than 1 second.
+# Therefore a time_distance to midnight of 5 seconds should be sufficient.
 if (`SELECT CURTIME() > SEC_TO_TIME(24 * 3600 - 5)`)
 {
    # We are here when CURTIME() is between '23:59:56' and '23:59:59'.
    # So a sleep time of 5 seconds brings us between '00:00:01' and '00:00:04'.
    --real_sleep 5
 }
-#INSERT INTO t1 VALUES (DATE(NOW()), 1);
-#SELECT COUNT(*) FROM t1 WHERE a = NOW();
+INSERT INTO t1 VALUES (DATE(NOW()), 1);
+SELECT COUNT(*) FROM t1 WHERE a = NOW();
 #EXPLAIN SELECT COUNT(*) FROM t1 WHERE a = NOW();
-#INSERT INTO t1 VALUES (DATE(NOW()), 2);
-#SELECT COUNT(*) FROM t1 WHERE a = NOW();
+INSERT INTO t1 VALUES (DATE(NOW()), 2);
+SELECT COUNT(*) FROM t1 WHERE a = NOW();
 #EXPLAIN SELECT COUNT(*) FROM t1 WHERE a = NOW();
-#--disable_warnings
-#SELECT COUNT(*) FROM t1 WHERE a = NOW() AND b = 1;
+--disable_warnings
+SELECT COUNT(*) FROM t1 WHERE a = NOW() AND b = 1;
 #EXPLAIN SELECT COUNT(*) FROM t1 WHERE a = NOW() AND b = 1;
-#--enable_warnings
-#ALTER TABLE t1 DROP PRIMARY KEY;
-#SELECT COUNT(*) FROM t1 WHERE a = NOW();
+--enable_warnings
+ALTER TABLE t1 DROP PRIMARY KEY;
+SELECT COUNT(*) FROM t1 WHERE a = NOW();
 #EXPLAIN SELECT COUNT(*) FROM t1 WHERE a = NOW();
-#
-#DROP TABLE t1;
+
+DROP TABLE t1;
 
 #
 # Bug#28687: Search fails on '0000-00-00' date after sql_mode change
@@ -206,8 +205,7 @@ if (`SELECT CURTIME() > SEC_TO_TIME(24 * 3600 - 5)`)
 #Bug #SEQUOIASQLMAINSTREAM-167
 CREATE TABLE t1 (a DATE);
 CREATE TABLE t2 (a DATE);
-# NOW not support index of date
-#CREATE INDEX i ON t1 (a);
+CREATE INDEX i ON t1 (a);
 INSERT IGNORE INTO t1 VALUES ('0000-00-00'),('0000-00-00');
 INSERT IGNORE INTO t2 VALUES ('0000-00-00'),('0000-00-00');
 SELECT * FROM t1 WHERE a = '0000-00-00';
@@ -227,8 +225,7 @@ DROP TABLE t1,t2;
 
 CREATE TABLE t1 (a DATE);
 CREATE TABLE t2 (a DATE);
-# NOW not support inex of date
-#CREATE INDEX i ON t1 (a);
+CREATE INDEX i ON t1 (a);
 INSERT IGNORE INTO t1 VALUES ('1000-00-00'),('1000-00-00');
 INSERT IGNORE INTO t2 VALUES ('1000-00-00'),('1000-00-00');
 SELECT * FROM t1 WHERE a = '1000-00-00';
@@ -254,7 +251,8 @@ DROP TABLE t1;
 
 #
 # Bug#32021: Using Date 000-00-01 in WHERE causes wrong result
-# NOW not support index of date
+#
+#test for memory,not support on storage engine sequoiadb
 #create table t1 (a date, primary key (a))engine=sequoiadb;
 #insert into t1 values ('0000-01-01'), ('0000-00-01'), ('0001-01-01');
 #select * from t1 where a between '0000-00-01' and '0000-00-02';
@@ -283,11 +281,7 @@ DROP VIEW v1;
 --echo #
 --echo # Bug#59685 crash in String::length with date types
 --echo #
-
-
-# NOW not support index of date
-#CREATE TABLE t1(a DATE, b YEAR, KEY(a));
-CREATE TABLE t1(a DATE, b YEAR);
+CREATE TABLE t1(a DATE, b YEAR, KEY(a));
 INSERT INTO t1 VALUES ('2011-01-01',2011);
 
 SELECT b = CONVERT(a, DATE) FROM t1;
@@ -476,19 +470,18 @@ SET @@sql_mode='NO_ZERO_IN_DATE,STRICT_ALL_TABLES';
 ALTER TABLE t1 ADD c2 DATE DEFAULT '2012-02-00';
 
 --echo #Alter table in non-strict mode but with NO_ZERO_DATE/NO_ZERO_IN_DATE
-# NOW SequoiaDB not support index of DATE	
-#SET @@sql_mode='NO_ZERO_DATE';
-#ALTER TABLE t1 ADD c2 DATE DEFAULT 0;
-#ALTER TABLE t1 ADD c3 DATE DEFAULT '0000-00-00';
-#SET @@sql_mode='NO_ZERO_IN_DATE';
-#ALTER TABLE t1 ADD c4 DATE DEFAULT '2012-02-00';
-#DROP TABLE t1;
-#CREATE TABLE t1 (c1 int);
-#--echo #Alter table with out any SQL modes
-#SET @@sql_mode='';
-#ALTER TABLE t1 ADD c2 DATE DEFAULT 0;
-#ALTER TABLE t1 ADD c3 DATE DEFAULT '0000-00-00';
-#ALTER TABLE t1 ADD c4 DATE DEFAULT '2012-02-00';
+SET @@sql_mode='NO_ZERO_DATE';
+ALTER TABLE t1 ADD c2 DATE DEFAULT 0;
+ALTER TABLE t1 ADD c3 DATE DEFAULT '0000-00-00';
+SET @@sql_mode='NO_ZERO_IN_DATE';
+ALTER TABLE t1 ADD c4 DATE DEFAULT '2012-02-00';
+DROP TABLE t1;
+CREATE TABLE t1 (c1 int);
+--echo #Alter table with out any SQL modes
+SET @@sql_mode='';
+ALTER TABLE t1 ADD c2 DATE DEFAULT 0;
+ALTER TABLE t1 ADD c3 DATE DEFAULT '0000-00-00';
+ALTER TABLE t1 ADD c4 DATE DEFAULT '2012-02-00';
 DROP TABLE t1;
 
 SET @@sql_mode= @org_mode;

@@ -1818,6 +1818,39 @@ CREATE TRIGGER t2_bu BEFORE UPDATE ON t2 FOR EACH ROW SET @b = 1;
 UPDATE t1, t2 SET t2.b = t1.b;
 ERROR 23000: Column 'b' cannot be null
 DROP TABLE t1, t2;
+# t1 column type name: BIT
+# t2 column type name: BIT
+# t2 column value: 1
+CREATE TABLE t1(a INT, b BIT);
+CREATE TABLE t2(a INT, b BIT NOT NULL);
+INSERT INTO t1 VALUES (1, NULL);
+INSERT INTO t2 VALUES (1, 1);
+CREATE TRIGGER t2_bu BEFORE UPDATE ON t2 FOR EACH ROW SET @b = 1;
+UPDATE t1, t2 SET t2.b = t1.b;
+ERROR 23000: Column 'b' cannot be null
+DROP TABLE t1, t2;
+# t1 column type name: ENUM('a', 'b', 'c')
+# t2 column type name: ENUM('a', 'b', 'c')
+# t2 column value: 'b'
+CREATE TABLE t1(a INT, b ENUM('a', 'b', 'c'));
+CREATE TABLE t2(a INT, b ENUM('a', 'b', 'c') NOT NULL);
+INSERT INTO t1 VALUES (1, NULL);
+INSERT INTO t2 VALUES (1, 'b');
+CREATE TRIGGER t2_bu BEFORE UPDATE ON t2 FOR EACH ROW SET @b = 1;
+UPDATE t1, t2 SET t2.b = t1.b;
+ERROR 23000: Column 'b' cannot be null
+DROP TABLE t1, t2;
+# t1 column type name: SET('a', 'b', 'c')
+# t2 column type name: SET('a', 'b', 'c')
+# t2 column value: 'b'
+CREATE TABLE t1(a INT, b SET('a', 'b', 'c'));
+CREATE TABLE t2(a INT, b SET('a', 'b', 'c') NOT NULL);
+INSERT INTO t1 VALUES (1, NULL);
+INSERT INTO t2 VALUES (1, 'b');
+CREATE TRIGGER t2_bu BEFORE UPDATE ON t2 FOR EACH ROW SET @b = 1;
+UPDATE t1, t2 SET t2.b = t1.b;
+ERROR 23000: Column 'b' cannot be null
+DROP TABLE t1, t2;
 # t1 column type name: VARBINARY(10)
 # t2 column type name: VARBINARY(10)
 # t2 column value: 'binary'

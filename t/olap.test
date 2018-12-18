@@ -99,12 +99,10 @@ SELECT t1.i, t2.i, COUNT(*) FROM t1,t2 GROUP BY t1.i,t2.i WITH ROLLUP;
 drop table t1,t2;
 
 #bug #4767: ROLLUP with LEFT JOIN 
-
-#Sequoiadb not support index on the type of date
 CREATE TABLE user_day(
   user_id INT NOT NULL,
-  date DATE NOT NULL
-  #UNIQUE INDEX user_date (user_id, date)
+  date DATE NOT NULL,
+  UNIQUE INDEX user_date (user_id, date)
 );
 
 INSERT INTO user_day VALUES

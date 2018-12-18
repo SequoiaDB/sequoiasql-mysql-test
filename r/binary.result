@@ -157,8 +157,8 @@ DROP TABLE t1;
 CREATE TABLE t1 (
 id numeric(20) NOT NULL,
 lang varchar(8) NOT NULL,
-msg varchar(32) NOT NULL
-#  PRIMARY KEY (id,lang)
+msg varchar(32) NOT NULL,
+PRIMARY KEY (id,lang)
 );
 INSERT INTO t1 VALUES (33, 'en', 'zzzzzzz');
 INSERT INTO t1 VALUES (31, 'en', 'xxxxxxx');

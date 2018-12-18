@@ -24,9 +24,7 @@ let $default_engine = `select @@SESSION.default_storage_engine`;
 # result for '=' , '<=>' operators
 --replace_result $default_engine <default_engine>
 
-#Sequoiadb not support create index on bit type
-#eval CREATE TABLE t5(c1  BIT(2) PRIMARY KEY) ENGINE = $default_engine;
-eval CREATE TABLE t5(c1  BIT(2)) ENGINE = $default_engine;
+eval CREATE TABLE t5(c1  BIT(2) PRIMARY KEY) ENGINE = $default_engine;
 INSERT INTO t5 VALUES (0), (1), (2);
 SELECT HEX(c1) FROM t5 ORDER BY c1;
 # Enable Following two select after Bug#11766521 fix
@@ -152,9 +150,7 @@ DROP TABLE t5;
 
 # NUMERIC Datatype
 --replace_result $default_engine <default_engine>
-# NOW SequoiaDB not support index of NUMERIC
-#eval CREATE TABLE t5(c1 NUMERIC(5,2) PRIMARY KEY) ENGINE = $default_engine;
-eval CREATE TABLE t5(c1 NUMERIC(5,2)) ENGINE = $default_engine;
+eval CREATE TABLE t5(c1 NUMERIC(5,2) PRIMARY KEY) ENGINE = $default_engine;
 INSERT INTO t5 VALUES (95.95), (11.11),(5),(-908.92);
 SELECT c1 FROM t5 ORDER BY c1;
 # Compare with string literal
@@ -169,9 +165,7 @@ DROP TABLE t5;
 
 # DECIMAL Datatype
 --replace_result $default_engine <default_engine>
-# NOW SequoiaDB not support index of DECIMAL
-#eval CREATE TABLE t5(c1 DECIMAL(5,2)  PRIMARY KEY) ENGINE = $default_engine;
-eval CREATE TABLE t5(c1 DECIMAL(5,2)) ENGINE = $default_engine;
+eval CREATE TABLE t5(c1 DECIMAL(5,2)  PRIMARY KEY) ENGINE = $default_engine;
 INSERT INTO t5 VALUES (95.95), (11.11),(5),(-908.92);
 SELECT c1 FROM t5 ORDER BY c1;
 # Compare with string literal

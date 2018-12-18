@@ -243,7 +243,7 @@ select a2, min(c), max(c) from t1 group by a1,a2,b;
 #--replace_column 10 #
 #explain select a1,  max(c)           from t2 where a1 in ('a','b','d') group by a1,a2,b;
 
-#Bug #SEQUOIADBMAINSTREAM-3568, query with index may cause wrong result
+#Bug #SEQUOIADBMAINSTREAM-3568
 # queries
 select a1,a2,b,min(c),max(c) from t1 where a1 < 'd' group by a1,a2,b;
 #select a1,a2,b,min(c),max(c) from t1 where a1 >= 'b' group by a1,a2,b;

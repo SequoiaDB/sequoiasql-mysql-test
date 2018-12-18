@@ -41,7 +41,7 @@ CREATE TABLE t (
 c char(20) NOT NULL
 ) ENGINE=SequoiaDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 INSERT INTO t VALUES ('a'),('ab'),('aba');
-#Bug #SEQUOIADBMAINSTREAM-3568, create char index with length will cause wrong results
+#Bug #SEQUOIADBMAINSTREAM-3568
 #ALTER TABLE t ADD INDEX (c);
 #SELECT c FROM t WHERE c LIKE 'a%';
 #should find 3 rows but only found 2
@@ -453,7 +453,7 @@ drop table t1;
 # Bug #SEQUOIADBMAINSTREAM-3564
 create table t1 (
   a varchar(255),
-  key a(a)
+  key (a)
 ) character set utf8 collate utf8_spanish2_ci;
 insert into t1 values ('aaaaa'),('lllll'),('zzzzz');
 select a as like_l from t1 where a like 'l%';
@@ -500,7 +500,7 @@ set names utf8;
 #
 SET collation_connection=utf8_czech_ci;
 --source include/ctype_czech.inc
-#Bug #SEQUOIADBMAINSTREAM-3593, select...like with char index will cause wrong result
+#Bug #SEQUOIADBMAINSTREAM-3593
 #--source include/ctype_like_ignorable.inc
 SET collation_connection=ucs2_czech_ci;
 --source include/ctype_czech.inc
@@ -607,8 +607,6 @@ call mtr.add_suppression("Shift expected at '' for COLLATION : utf8_test");
 --copy_file $MYSQLTEST_VARDIR/temp.xml $MYSQL_CHARSETSDIR/Index.xml
 --remove_file $MYSQLTEST_VARDIR/temp.xml
 -- source include/restart_mysqld.inc
-# NOW not concern myisam engine
-#--source include/have_myisam.inc
 --source include/uninstall_sequoiadb.inc
 --echo #
 --echo # End of 5.6 tests

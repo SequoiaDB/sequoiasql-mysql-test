@@ -53,15 +53,12 @@ create table t1 (a bit(2));
 insert into t1 values (b'00'), (b'01'), (b'10');
 select a+0 from t1;
 
-#Sequoiadb not support create index on bit
-#alter table t1 add key (a);
+alter table t1 add key (a);
 #explain select a+0 from t1;
-#select a+0 from t1;
+select a+0 from t1;
 drop table t1;
 
-#Sequoiadb not support create index on bit
-#create table t1 (a bit(7), b bit(9), key(a, b));
-create table t1 (a bit(7), b bit(9));
+create table t1 (a bit(7), b bit(9), key(a, b));
 insert into t1 values 
 (94, 46), (31, 438), (61, 152), (78, 123), (88, 411), (122, 118), (0, 177),    
 (75, 42), (108, 67), (79, 349), (59, 188), (68, 206), (49, 345), (118, 380),   
@@ -89,9 +86,7 @@ select hex(min(b)) from t1;
 select hex(min(a)), hex(max(a)), hex(min(b)), hex(max(b)) from t1;
 drop table t1;
 
-#Sequoiadb not support create index on bit
-#create table t1 (a int not null, b bit, c bit(9), key(a, b, c));
-create table t1 (a int not null, b bit, c bit(9), key(a));
+create table t1 (a int not null, b bit, c bit(9), key(a, b, c));
 insert into t1 values
 (4, NULL, 1), (4, 0, 3), (2, 1, 4), (1, 1, 100), (4, 0, 23), (4, 0, 54),
 (56, 0, 22), (4, 1, 100), (23, 0, 1), (4, 0, 34);
@@ -115,9 +110,7 @@ drop table t1;
 
 # Some magic numbers
 
-#Sequoiadb not support create index on bit
-#create table t1 (a bit(7), key(a));
-create table t1 (a bit(7));
+create table t1 (a bit(7), key(a));
 insert into t1 values (44), (57);
 select a+0 from t1;
 drop table t1;
@@ -135,10 +128,9 @@ drop table t1;
 # Bug #9571: problem with primary key creation
 #
 
-#Sequoiadb not support create index on bit
-#create table t1(a int, b bit not null);
-#alter table t1 add primary key (a);
-#drop table t1;
+create table t1(a int, b bit not null);
+alter table t1 add primary key (a);
+drop table t1;
 
 #
 # myisam <-> heap
@@ -285,9 +277,7 @@ drop table t1;
 #
 # type was not properly initalized, which caused key_copy to fail
 #
-#Sequoiadb not support create index on bit
-#create table t1(bit_field bit(2), int_field int, key a(bit_field));
-create table t1(bit_field bit(2), int_field int);
+create table t1(bit_field bit(2), int_field int, key a(bit_field));
 insert into t1 values (1,2);
 #Sequoiadb not support handler
 #handler t1 open as t1;
@@ -345,9 +335,7 @@ DROP TABLE t2;
 # BUG#32556 assert in "using index for group-by" : is_last_prefix <= 0,
 #           file .\opt_range.cc
 
-#Sequoiadb not support create index on bit
-#CREATE TABLE t1(a BIT(13), KEY(a));
-CREATE TABLE t1(a BIT(13));
+CREATE TABLE t1(a BIT(13), KEY(a));
 --disable_warnings
 INSERT IGNORE INTO t1(a) VALUES (65535),(65525),(65535),(65535),(65535),
                                 (65535),(65535),(65535),(65535),(65535),
@@ -437,9 +425,7 @@ drop table t1bit7, t2bit7;
 --echo # Bug42803: Field_bit does not have unsigned_flag field, 
 --echo # can lead to bad memory access
 --echo #
-#Sequoiadb not support create index on bit
-#CREATE TABLE t1 (a BIT(7), b BIT(9), KEY(a, b));
-CREATE TABLE t1 (a BIT(7), b BIT(9));
+CREATE TABLE t1 (a BIT(7), b BIT(9), KEY(a, b));
 INSERT INTO t1 VALUES(0, 0), (5, 3), (5, 6), (6, 4), (7, 0);
 #EXPLAIN SELECT a+0, b+0 FROM t1 WHERE a > 4 and b < 7 ORDER BY 2;
 DROP TABLE t1;
@@ -456,8 +442,7 @@ alter table t1 modify column a bit(8);
 select hex(a) from t1;
 insert into t1 values(0x80);
 select hex(a) from t1;
-#Sequoiadb not support create index on bit
-#create index a on t1(a);
+create index a on t1(a);
 insert into t1 values(0x81);
 select hex(a) from t1;
 show create table t1;

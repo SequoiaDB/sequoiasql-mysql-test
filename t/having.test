@@ -805,7 +805,7 @@ DEALLOCATE PREPARE stmt;
 INSERT INTO t1 SELECT * FROM t1;
 ALTER TABLE t1 ADD KEY(t, u);
 #ANALYZE TABLE t1;
-# Bug #SEQUOIADBMAIN-3586: query min with index will return wrong results
+# Bug #SEQUOIADBMAIN-3586
 SELECT next_seq_value() r, MIN(u) FROM t1 GROUP BY t HAVING r = 1;
 
 # Cleanup

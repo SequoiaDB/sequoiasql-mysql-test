@@ -532,8 +532,7 @@ Month date NOT NULL,
 Type tinyint(3) unsigned NOT NULL,
 Field int(10) unsigned NOT NULL,
 Count int(10) unsigned NOT NULL,
-# UNIQUE KEY Month (Month,Type,Field)
-UNIQUE KEY Month (Type,Field)
+UNIQUE KEY Month (Month,Type,Field)
 )engine=sequoiadb;
 insert into t1 Values
 (20030901, 1, 1, 100),

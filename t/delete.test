@@ -234,7 +234,7 @@ drop table t1,t2,t3;
 #
 # Bug #8143: deleting '0000-00-00' values using IS NULL
 #
-#Bug #SEQUOIADBMAINSTREAM-3583, insert invalid record into Date will cause wrong query result
+#Bug #SEQUOIADBMAINSTREAM-3583
 # Insert '0000-00-00' in MyISAM will success, but InnoDB and SequoiaDB fail, so add sql_mode='' here
 --disable_query_log
 SET sql_mode = '';
@@ -331,7 +331,7 @@ DROP FUNCTION f1;
 --echo # Bug #49552 : sql_buffer_result cause crash + not found records 
 --echo #   in multitable delete/subquery
 --echo #
-#Bug #SEQUOIADBMAINSTREAM-3641, delete with sub-query will cause wrong query results
+#Bug #SEQUOIADBMAINSTREAM-3641
 CREATE TABLE t1(a INT);
 INSERT INTO t1 VALUES (1),(2),(3);
 SET SESSION SQL_BUFFER_RESULT=1;

@@ -10,8 +10,7 @@ clicks int(10) unsigned DEFAULT '0' NOT NULL,
 iclicks int(10) unsigned DEFAULT '0' NOT NULL,
 uclicks int(10) unsigned DEFAULT '0' NOT NULL,
 ts timestamp,
-PRIMARY KEY (place_id)
-#PRIMARY KEY (place_id,ts)
+PRIMARY KEY (place_id,ts)
 );
 INSERT INTO t1 (place_id,shows,ishows,ushows,clicks,iclicks,uclicks,ts)
 VALUES (1,0,0,0,0,0,0,20000928174434);
@@ -197,8 +196,8 @@ drop table t1;
 CREATE TABLE t1 (
 a INT(11),
 quux decimal( 31, 30 ),
-UNIQUE KEY bar (a)
-#KEY quux (quux)
+UNIQUE KEY bar (a),
+KEY quux (quux)
 );
 INSERT INTO
 t1 ( a, quux )

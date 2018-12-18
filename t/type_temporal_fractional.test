@@ -502,9 +502,7 @@ SELECT * FROM t1 WHERE a='01:02:03.45670';
 SELECT * FROM t1 WHERE a='01:02:03.456700';
 SELECT * FROM t1 WHERE a BETWEEN '01:02:00' AND '01:03:00';
 SELECT * FROM t1 WHERE a BETWEEN TIME'01:02:03.456' AND TIME'01:02:03.45678';
-
-#SEQUOIADB not support create index on time
-#ALTER TABLE t1 ADD KEY(a);
+ALTER TABLE t1 ADD KEY(a);
 # Testing key order
 SELECT * FROM t1 ORDER BY a;
 SELECT * FROM t1 ORDER BY a DESC;
@@ -655,8 +653,7 @@ SELECT * FROM t1 WHERE a IN (0.000001, -990000.000001, 990000.000001);
 --echo #
 --echo # Testing IN with index: field->store_packed
 --echo #
-#equoiaDB not support create index on time
-#ALTER TABLE t1 ADD KEY(a);
+ALTER TABLE t1 ADD KEY(a);
 SELECT * FROM t1 WHERE a IN ('00:00:00', '-99:00:00.000001', '99:00:00.000002');
 SELECT * FROM t1 WHERE a IN (0, -990000, 990000);
 SELECT * FROM t1 WHERE a IN (0.000001, -990000.000001, 990000.000001);
@@ -691,13 +688,11 @@ INSERT INTO t1 VALUES ('00:01:03.123456');
 CREATE TABLE t2 (a TIME(6));
 INSERT INTO t2 SELECT * FROM t1;
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
-
-#SEQUOIADB not support create index on time
-#ALTER TABLE t1 ADD KEY(a);
+ALTER TABLE t1 ADD KEY(a);
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
-#ALTER TABLE t2 ADD KEY(a);
+ALTER TABLE t2 ADD KEY(a);
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
-#ALTER TABLE t1 DROP KEY a;
+ALTER TABLE t1 DROP KEY a;
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
 DROP TABLE t2;
 DROP TABLE t1;
@@ -721,19 +716,15 @@ INSERT INTO t2 VALUES ('10:11:13');
 INSERT INTO t2 VALUES ('-836:59:59');
 INSERT INTO t2 VALUES ('836:59:59');
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
-
-#SEQUOIADB not support create index on time
-#ALTER TABLE t1 ADD KEY(a);
-#ALTER TABLE t2 ADD KEY(a);
+ALTER TABLE t1 ADD KEY(a);
+ALTER TABLE t2 ADD KEY(a);
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
 DROP TABLE t2, t1;
 
 --echo #
 --echo # Testing unique index
 --echo #
-#SEQUOIADB not support create index on time
-#CREATE TABLE t1 (a TIME(6), UNIQUE(a));
-CREATE TABLE t1 (a TIME(6));
+CREATE TABLE t1 (a TIME(6), UNIQUE(a));
 INSERT INTO t1 VALUES ('00:01:02');
 INSERT INTO t1 VALUES ('00:01:02.1');
 INSERT INTO t1 VALUES ('00:01:02.12');
@@ -4536,8 +4527,7 @@ SELECT * FROM t1 WHERE a IN (0e0, 0.000001e0);
 --echo #
 --echo # Testing IN with index: involves field->store_packed()
 --echo #
-#SEQUOIADB not support create index on timestamp
-#ALTER TABLE t1 ADD KEY(a);
+ALTER TABLE t1 ADD KEY(a);
 SELECT * FROM t1 WHERE a IN ('2000-01-01 00:00:00', '0000-00-00 00:00:00.000001', '2000-01-01 23:00:00.000002');
 SELECT * FROM t1 WHERE a IN (0, 20000101000000, 20000101230000);
 SELECT * FROM t1 WHERE a IN (0.000001, 20000101000000.000001, 20000101230000.000001);
@@ -4575,13 +4565,11 @@ INSERT INTO t1 VALUES ('2000-01-01 00:01:03.123456');
 CREATE TABLE t2 (a TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6));
 INSERT INTO t2 SELECT * FROM t1;
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
-
-#SEQUOIADB not support create index on timestamp
-#ALTER TABLE t1 ADD KEY(a);
+ALTER TABLE t1 ADD KEY(a);
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
-#ALTER TABLE t2 ADD KEY(a);
+ALTER TABLE t2 ADD KEY(a);
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
-#ALTER TABLE t1 DROP KEY a;
+ALTER TABLE t1 DROP KEY a;
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
 DROP TABLE t2;
 DROP TABLE t1;
@@ -4605,26 +4593,23 @@ INSERT INTO t2 VALUES ('2000-01-01 10:11:13');
 INSERT INTO t2 VALUES ('0000-00-00 23:59:59');
 INSERT INTO t2 VALUES ('2000-01-01 23:59:59');
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
-
-#SEQUOIADB not support create index on timestamp 
-#ALTER TABLE t1 ADD KEY(a);
-#ALTER TABLE t2 ADD KEY(a);
+ALTER TABLE t1 ADD KEY(a);
+ALTER TABLE t2 ADD KEY(a);
 SELECT * FROM t1, t2 WHERE t1.a=t2.a ORDER BY t1.a, t2.a;
 DROP TABLE t2, t1;
 
 --echo #
 --echo # Testing unique index
 --echo #
-#CREATE TABLE t1 (a TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), UNIQUE(a));
-CREATE TABLE t1 (a TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6));
+CREATE TABLE t1 (a TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), UNIQUE(a));
 INSERT INTO t1 VALUES ('2000-01-01 00:01:02');
 INSERT INTO t1 VALUES ('2000-01-01 00:01:02.1');
 INSERT INTO t1 VALUES ('2000-01-01 00:01:02.12');
 INSERT INTO t1 VALUES ('2000-01-01 00:01:02.123');
 INSERT INTO t1 VALUES ('2000-01-01 00:01:02.1234');
 INSERT INTO t1 VALUES ('2000-01-01 00:01:02.12345');
-#--error ER_DUP_ENTRY
-#INSERT INTO t1 VALUES ('2000-01-01 00:01:02.12345');
+--error 1022
+INSERT INTO t1 VALUES ('2000-01-01 00:01:02.12345');
 DROP TABLE t1;
 
 --echo #
@@ -4867,13 +4852,11 @@ INSERT INTO t2 VALUES ('2001-01-01 11:22:33.0000');
 INSERT INTO t2 VALUES ('2001-01-01 11:22:33.00000');
 INSERT INTO t2 VALUES ('2001-01-01 11:22:33.000000');
 SELECT * FROM t1, t2 WHERE a=b ORDER BY BINARY a, BINARY b;
-
-#SEQUOIADB not support create index on timestamp
-#ALTER TABLE t1 ADD KEY (a);
+ALTER TABLE t1 ADD KEY (a);
 SELECT * FROM t1, t2 WHERE a=b ORDER BY BINARY a, BINARY b;
 ALTER TABLE t2 ADD KEY (b);
 SELECT * FROM t1, t2 WHERE a=b ORDER BY BINARY a, BINARY b;
-#ALTER TABLE t1 DROP KEY a;
+ALTER TABLE t1 DROP KEY a;
 SELECT * FROM t1, t2 WHERE a=b ORDER BY BINARY a, BINARY b;
 DROP TABLE t1, t2;
 
@@ -6400,11 +6383,10 @@ SET TIMESTAMP=DEFAULT;
 --echo #
 --echo # bug7
 --echo #
-#SequoaiDB not support create index on timestamp
 CREATE TABLE t1 (
   col_timestamp_2_not_null_key timestamp(2) NULL DEFAULT '0000-00-00 00:00:00.00',
   col_datetime_4_not_null_key datetime(4) NOT NULL,
-#  KEY col_timestamp_2_not_null_key (col_timestamp_2_not_null_key),
+  KEY col_timestamp_2_not_null_key (col_timestamp_2_not_null_key),
   KEY col_datetime_4_not_null_key (col_datetime_4_not_null_key));
 UPDATE t1 SET col_datetime_4_not_null_key = 9
 WHERE col_timestamp_2_not_null_key !=9;
@@ -6417,7 +6399,7 @@ DROP TABLE t1;
 CREATE TABLE t1 (
   col_time_3_not_null_key time(3) NOT NULL,
   col_datetime_4_not_null_key datetime(4) NOT NULL,
-#  KEY col_time_3_not_null_key (col_time_3_not_null_key),
+  KEY col_time_3_not_null_key (col_time_3_not_null_key),
   KEY col_datetime_4_not_null_key (col_datetime_4_not_null_key));
 SELECT col_time_3_not_null_key 
 FROM t1 
@@ -6427,9 +6409,7 @@ DROP TABLE t1;
 --echo #
 --echo # bug9
 --echo #
-#SEQUOIADB not support create index on time
-#CREATE TABLE t1 (  col_time_3_key time(3) DEFAULT NULL,  col_datetime_5_not_null datetime(5) NOT NULL,  pk datetime(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',  PRIMARY KEY (pk),  KEY col_time_3_key (col_time_3_key));
-CREATE TABLE t1 (  col_time_3_key time(3) DEFAULT NULL,  col_datetime_5_not_null datetime(5) NOT NULL,  pk datetime(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',  PRIMARY KEY (pk));
+CREATE TABLE t1 (  col_time_3_key time(3) DEFAULT NULL,  col_datetime_5_not_null datetime(5) NOT NULL,  pk datetime(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',  PRIMARY KEY (pk),  KEY col_time_3_key (col_time_3_key));
 INSERT INTO t1 VALUES 
   (NULL,'2003-02-10 18:14:45.03977','2011-07-16 20:53:44.979841'),
   ('07:57:19.051','0000-00-00 00:00:00.00000','2011-07-16 20:53:45.979841'),
@@ -6555,7 +6535,6 @@ DROP TABLE t1;
 --echo #
 --echo # bug13
 --echo #
-#SEQUOIADB not support create index on time
 SET timestamp=UNIX_TIMESTAMP('2011-07-31 10:00:00');
 CREATE TABLE t1 (
   col_datetime_2_not_null_key datetime(2) NOT NULL,
@@ -6564,8 +6543,8 @@ CREATE TABLE t1 (
   col_time_not_null time NOT NULL,
   pk datetime(5) NOT NULL DEFAULT '0000-00-00 00:00:00.00000',
   PRIMARY KEY (pk),
-  KEY col_datetime_2_not_null_key (col_datetime_2_not_null_key));
-#  KEY col_time_key (col_time_key)
+  KEY col_datetime_2_not_null_key (col_datetime_2_not_null_key),
+  KEY col_time_key (col_time_key));
 INSERT INTO t1 VALUES
   ('2001-10-20 00:00:00.00','2001-09-20 11:18:18.03630','03:00:10','00:20:01','2011-07-19 17:37:06.26725'),
   ('0000-00-00 00:00:00.00','0000-00-00 00:00:00.00000','08:30:41','00:20:01','2011-07-19 17:37:07.26725'),
@@ -6593,12 +6572,11 @@ SET timestamp=DEFAULT;
 --echo #
 --echo # bug15
 --echo #
-#SEQUOIADB not support create index on time
 CREATE TABLE t1 (
   col_datetime_5 datetime(5) DEFAULT NULL,
   col_timestamp_6_key timestamp(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',
-  col_time_2_not_null time(2) NOT NULL)
-#  KEY col_timestamp_6_key (col_timestamp_6_key)
+  col_time_2_not_null time(2) NOT NULL,
+  KEY col_timestamp_6_key (col_timestamp_6_key))
   ENGINE=SEQUOIADB DEFAULT CHARSET=latin1;
 INSERT INTO t1 VALUES (current_timestamp(5),current_timestamp(6),current_time(6));
 SELECT col_datetime_5 AS c1 FROM t1
@@ -6939,7 +6917,6 @@ SET @@timestamp=DEFAULT;
 # Bug#30
 #
 #SET @@timestamp=UNIX_TIMESTAMP('2011-09-21 10:20:30.123456');
-#SEQUOIADB not support create index on timestamp
 #CREATE TABLE t1 (
 #  col_time_1_not_null TIME(1) NOT NULL,
 #  col_time_6 TIME(6) DEFAULT NULL,
@@ -6981,7 +6958,6 @@ SET @@timestamp=DEFAULT;
 # Bug#31
 #
 SET @@timestamp=UNIX_TIMESTAMP('2011-09-21 10:20:30.123456');
-#SEQUOIADB not support create index on timestamp
 CREATE TABLE t1 (
   col_timestamp_2 TIMESTAMP(2) NOT NULL DEFAULT '0000-00-00 00:00:00.00',
   col_datetime_5 DATETIME(5) DEFAULT NULL,
@@ -6991,9 +6967,9 @@ CREATE TABLE t1 (
   col_timestamp_5_key TIMESTAMP(5) NOT NULL DEFAULT '0000-00-00 00:00:00.00000',
   col_time_1_not_null_key TIME(1) NOT NULL,
   col_datetime DATETIME DEFAULT NULL,
-  col_timestamp_4 TIMESTAMP(4) NOT NULL DEFAULT '0000-00-00 00:00:00.0000'
-#  KEY col_timestamp_5_key (col_timestamp_5_key),
-#  KEY col_time_1_not_null_key (col_time_1_not_null_key)
+  col_timestamp_4 TIMESTAMP(4) NOT NULL DEFAULT '0000-00-00 00:00:00.0000',
+  KEY col_timestamp_5_key (col_timestamp_5_key),
+  KEY col_time_1_not_null_key (col_time_1_not_null_key)
 );
 INSERT INTO t1 VALUES (
   CURRENT_TIMESTAMP(2),
@@ -7036,16 +7012,15 @@ SET @@timestamp=DEFAULT;
 # Bug#32
 #
 SET @@timestamp=UNIX_TIMESTAMP('2011-09-21 10:20:30.123456');
-#SEQUOIADB not support create index on time and timestamp
 CREATE TABLE t1 (
   col_time_4_key TIME(4) DEFAULT NULL,
   col_datetime_4_not_null DATETIME(4) NOT NULL,
   col_timestamp_5 TIMESTAMP(5) NOT NULL DEFAULT '0000-00-00 00:00:00.00000',
   col_datetime_not_null_key DATETIME NOT NULL,
   col_timestamp_key TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-#  KEY col_time_4_key (col_time_4_key),
-  KEY col_datetime_not_null_key (col_datetime_not_null_key)
-#  KEY col_timestamp_key (col_timestamp_key)
+  KEY col_time_4_key (col_time_4_key),
+  KEY col_datetime_not_null_key (col_datetime_not_null_key),
+  KEY col_timestamp_key (col_timestamp_key)
 );
 INSERT INTO t1 VALUES ('00:20:08.0000','0000-00-00 00:00:00.0000','0000-00-00 00:00:00.00000','0000-00-00 00:00:00','2006-10-24 21:00:00'),('19:24:23.0232','2006-12-11 22:04:06.0393','2004-12-08 21:00:00.00000','2009-06-04 03:01:35','2003-08-19 21:00:00');
 SELECT UNIX_TIMESTAMP(col_datetime_4_not_null) AS c1
@@ -7158,9 +7133,9 @@ CREATE TABLE t1 (
   pk datetime(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',
   PRIMARY KEY (pk),
   KEY col_datetime_4_not_null_key (col_datetime_4_not_null_key),
-  KEY col_datetime_key (col_datetime_key));
-#  KEY col_time_1_key (col_time_1_key),
-#  KEY col_timestamp_6_not_null_key (col_timestamp_6_not_null_key)
+  KEY col_datetime_key (col_datetime_key),
+  KEY col_time_1_key (col_time_1_key),
+  KEY col_timestamp_6_not_null_key (col_timestamp_6_not_null_key));
 INSERT INTO t1 VALUES ('12:52:24.022','0000-00-00 00:00:00.0000','2003-05-24 00:00:00','00:20:09.0','15:11:20.03463','0000-00-00 00:00:00.000000','2011-11-07 12:01:35.111932');
 INSERT INTO t1 VALUES ('18:52:49.043','2000-10-13 00:00:00.0000','2005-07-22 00:00:00',NULL,'08:19:02.03845','2000-09-20 03:26:09.009008','2011-11-07 12:01:36.111932');
 INSERT INTO t1 VALUES ('23:46:05.010','2005-12-27 04:06:15.0087','0000-00-00 00:00:00','23:40:13.0','08:30:24.03114','0000-00-00 00:00:00.000000','2011-11-07 12:01:37.111932');
@@ -7194,8 +7169,8 @@ SET timestamp=DEFAULT;
 SET timestamp=UNIX_TIMESTAMP('2011-11-01 17:48:00');
 CREATE TABLE t1 (
   pk time(6) NOT NULL DEFAULT '00:00:00.000000',
-  col_date_not_null date NOT NULL
-#  PRIMARY KEY (pk)
+  col_date_not_null date NOT NULL,
+  PRIMARY KEY (pk)
 );
 INSERT INTO t1 VALUES ('00:00:00.000000','2001-09-10');
 INSERT INTO t1 VALUES ('12:07:41.148239','2000-05-23');
@@ -7206,11 +7181,9 @@ SET timestamp=DEFAULT;
 --echo #
 --echo # BUG 13385275 - ASSERT FAILURE IN TIME_FROM_LONGLONG_PACKED 
 --echo #
-#CREATE TABLE t1 (
-#  col_date_not_null_key date NOT NULL
-#  KEY col_date_not_null_key (col_date_not_null_key));
 CREATE TABLE t1 (
-  col_date_not_null_key date NOT NULL);
+  col_date_not_null_key date NOT NULL,
+  KEY col_date_not_null_key (col_date_not_null_key));
 INSERT INTO t1 VALUES ('0000-00-00'), ('2000-11-20'); 
 SELECT ADDTIME(GREATEST(col_date_not_null_key, '2007-03-11 08:51:19.009408'),
                '12:20:40.029940')
@@ -7225,8 +7198,8 @@ CREATE TABLE t1 (
   col_datetime_4 datetime(4) DEFAULT NULL,
   col_timestamp_1_not_null_key timestamp(1) NULL DEFAULT '0000-00-00 00:00:00.0',
   col_datetime_3_not_null_key datetime(3) NOT NULL,
-#  KEY col_time_5_not_null_key (col_time_5_not_null_key),
-#  KEY col_timestamp_1_not_null_key (col_timestamp_1_not_null_key),
+  KEY col_time_5_not_null_key (col_time_5_not_null_key),
+  KEY col_timestamp_1_not_null_key (col_timestamp_1_not_null_key),
   KEY col_datetime_3_not_null_key (col_datetime_3_not_null_key));
 INSERT INTO t1 VALUES ('15:01:38.00004','0000-00-00 00:00:00.0000','2005-06-08 16:51:23.0','0000-00-00 00:00:00.000');
 SELECT col_datetime_4 
@@ -7254,8 +7227,8 @@ CREATE TABLE t1 (
   col_datetime_1 datetime(1) DEFAULT NULL,
   col_timestamp_4_not_null timestamp(4) NULL DEFAULT '0000-00-00 00:00:00.0000',  
   col_timestamp_6_not_null_key timestamp(6) NULL DEFAULT '0000-00-00 00:00:00.000000',
-  col_date date DEFAULT NULL);
-#  KEY col_timestamp_6_not_null_key (col_timestamp_6_not_null_key)
+  col_date date DEFAULT NULL,
+  KEY col_timestamp_6_not_null_key (col_timestamp_6_not_null_key));
 DELETE FROM t1;
 INSERT INTO t1 VALUES ('00:20:09.00','2008-02-09 00:19:47.1','0000-00-00 00:00:00.0','2009-03-13 00:56:44.0401','2008-10-17 09:43:02.051040','2000-11-13');
 INSERT INTO t1 VALUES ('00:20:04.00','0000-00-00 00:00:00.0','0000-00-00 00:00:00.0','0000-00-00 00:00:00.0000','0000-00-00 00:00:00.000000','2006-11-14');
@@ -7294,8 +7267,8 @@ SET timestamp=DEFAULT;
 --echo #
 CREATE TABLE t1 (
   pk timestamp(2) NOT NULL DEFAULT '0000-00-00 00:00:00.00',
-  col_datetime_6 datetime(6) DEFAULT NULL);
-#  PRIMARY KEY (pk)
+  col_datetime_6 datetime(6) DEFAULT NULL,
+  PRIMARY KEY (pk));
 INSERT INTO t1 VALUES ('2011-11-11 17:59:41.12','0000-00-00 00:00:00.000000');
 SELECT col_datetime_6, CAST(col_datetime_6 AS DATETIME(2)) AS c1 FROM t1;
 CREATE TABLE t2 AS SELECT CAST(col_datetime_6 AS DATETIME(2)) AS c1 FROM t1;
@@ -7328,8 +7301,8 @@ DROP TABLE t1;
 --echo #
 CREATE TABLE t1 (
   pk timestamp(2) NOT NULL DEFAULT '0000-00-00 00:00:00.00',
-  col_datetime_6 datetime(6) DEFAULT NULL);
-#  PRIMARY KEY (pk)
+  col_datetime_6 datetime(6) DEFAULT NULL,
+  PRIMARY KEY (pk));
 INSERT INTO t1 VALUES ('2011-11-11 17:59:41.12','0000-00-00 00:00:00.000000');
 CREATE TABLE t2 SELECT CAST(col_datetime_6 AS DATETIME) AS c1 FROM t1;
 UPDATE t2 SET c1=(SELECT CAST(col_datetime_6 AS DATETIME) AS c1 FROM t1)
@@ -7340,8 +7313,8 @@ SELECT COUNT(*) FROM t2;
 DROP TABLE t1, t2;
 CREATE TABLE t1 (
   pk timestamp(2) NOT NULL DEFAULT '0000-00-00 00:00:00.00',
-  col_date date DEFAULT NULL);
-#  PRIMARY KEY (pk)
+  col_date date DEFAULT NULL,
+  PRIMARY KEY (pk));
 INSERT INTO t1 VALUES ('2011-11-11 17:59:41.12','0000-00-00');
 CREATE TABLE t2 SELECT CAST(col_date AS DATE) AS c1 FROM t1;
 UPDATE t2 SET c1=(SELECT CAST(col_date AS DATE) AS c1 FROM t1)
@@ -7365,9 +7338,9 @@ SET timestamp=UNIX_TIMESTAMP('2011-11-16 17:28:30');
 #DROP TABLE IF EXISTS t1;
 CREATE TABLE t1 (
   col_timestamp_2_not_null_key timestamp(2) NULL DEFAULT '0000-00-00 00:00:00.00',
-  pk time NOT NULL DEFAULT '00:00:00');
-#  PRIMARY KEY (pk),
-#  KEY col_timestamp_2_not_null_key (col_timestamp_2_not_null_key)
+  pk time NOT NULL DEFAULT '00:00:00',
+  PRIMARY KEY (pk),
+  KEY col_timestamp_2_not_null_key (col_timestamp_2_not_null_key));
 INSERT INTO t1 VALUES ('0000-00-00 00:00:00.00','18:49:56');
 INSERT INTO t1 VALUES ('0000-00-00 00:00:00.00','18:49:58');
 INSERT INTO t1 VALUES ('0000-00-00 00:00:00.00','18:50:00');
@@ -7548,7 +7521,7 @@ CREATE TABLE t1 (
   col_datetime_1_key datetime(1) DEFAULT NULL,
   col_datetime_6_not_null_key datetime(6) NOT NULL,
   col_datetime_2_not_null datetime(2) NOT NULL,
-#  PRIMARY KEY (pk),
+  PRIMARY KEY (pk),
   KEY col_datetime_1_key (col_datetime_1_key),
   KEY col_datetime_6_not_null_key (col_datetime_6_not_null_key))
 ENGINE=SEQUOIADB DEFAULT CHARSET=latin1;
@@ -7578,9 +7551,9 @@ SET timestamp=DEFAULT;
 CREATE TABLE t1 (
   pk time,
   c_timestamp timestamp NULL DEFAULT 0,
-  c_time time
-#  primary key (pk),
-#  key (c_timestamp)
+  c_time time,
+  primary key (pk),
+  key (c_timestamp)
 ) ENGINE=SEQUOIADB;  
 INSERT INTO t1 VALUES
 (SEC_TO_TIME(2),'20000627024305.040518','00:00:00.000000'),      

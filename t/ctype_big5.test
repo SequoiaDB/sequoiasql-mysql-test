@@ -19,15 +19,13 @@ SET @test_collation= 'big5_chinese_ci';
 SET NAMES big5;
 SET collation_connection='big5_chinese_ci';
 -- source include/ctype_filesort.inc
-# NOW not concert the opperation of innodb
-#-- source include/ctype_innodb_like.inc
+-- source include/ctype_innodb_like.inc
 -- source include/ctype_like_escape.inc
 -- source include/ctype_like_range_f1f2.inc
 -- source include/ctype_ascii_order.inc
 SET collation_connection='big5_bin';
 -- source include/ctype_filesort.inc
-# NOW not concert the opperation of innodb
-#-- source include/ctype_innodb_like.inc
+-- source include/ctype_innodb_like.inc
 -- source include/ctype_like_escape.inc
 -- source include/ctype_like_range_f1f2.inc
 
@@ -135,7 +133,7 @@ let $default_engine = `select @@SESSION.default_storage_engine`;
 --replace_result $default_engine default_engine
 SHOW CREATE TABLE t1;
 SELECT COUNT(*) FROM t1;
-# Bug #SEQUOIASQLMAINSTREAM-146: UPDATE IGNORE failed
+# Bug #SEQUOIASQLMAINSTREAM-146
 UPDATE IGNORE t1 SET a=unhex(code) ORDER BY code;
 SELECT COUNT(*) FROM t1 WHERE a<>'';
 #

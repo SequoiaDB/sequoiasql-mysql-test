@@ -1334,7 +1334,7 @@ CREATE TABLE t2 (
 
 INSERT INTO t2 VALUES (1,'x'),(2,'y');
 
-#Bug #SEQUOIADBMAINSTREAM-3553, select max() with index will cause error -1
+#Bug #SEQUOIADBMAINSTREAM-3553
 --echo
 
 SELECT MAX(t1.i) 
@@ -1471,14 +1471,13 @@ CREATE TABLE t3 (
 INSERT INTO t3 VALUES
 (1),(2),(3),(4),(5),(6),(7),(8),(9),(10),(11),(12),(13),(14),(15),
 (16),(17),(18),(19),(20);
-# NOW SequoiaDB not support index of time
 CREATE TABLE t2 (
 #  `pk` int(11) NOT NULL AUTO_INCREMENT,
    `pk` int(11) NOT NULL,
   `int_nokey` int(11) NOT NULL,
   `time_key` time NOT NULL,
-  PRIMARY KEY (`pk`)
-#  KEY `time_key` (`time_key`)
+  PRIMARY KEY (`pk`),
+  KEY `time_key` (`time_key`)
 );
 INSERT INTO t2 VALUES (10,9,'22:36:46'),(11,0,'08:46:46');
 
@@ -1628,10 +1627,9 @@ CREATE TABLE t6 (
 )  ;
 INSERT INTO t6 VALUES ('2010-11-07 01:04:45'),('2010-12-13 01:36:32');
 
-# NOW SequoiaDB not support index of timestamp
 CREATE TABLE t7 (
-  col319 timestamp NOT NULL
-#  UNIQUE KEY idx263 (col319)
+  col319 timestamp NOT NULL,
+  UNIQUE KEY idx263 (col319)
 )  ;
 # zero rows would do, if there was no const-table optimization
 insert into t7 values("2000-01-01"),("2000-01-02");
@@ -1854,8 +1852,8 @@ CREATE TABLE t1 (
 col_int_key int(11) NOT NULL,
 col_datetime_key datetime NOT NULL,
 col_varchar_nokey varchar(1) NOT NULL,
-KEY col_int_key (col_int_key)
-#KEY col_datetime_key (col_datetime_key)
+KEY col_int_key (col_int_key),
+KEY col_datetime_key (col_datetime_key)
 );
 INSERT INTO t1 VALUES (7,'2004-06-06 04:22:12','v');
 INSERT INTO t1 VALUES (0,'2005-11-13 01:12:31','s');

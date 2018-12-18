@@ -301,8 +301,7 @@ CREATE TABLE `t1` (
 `topic` mediumint(8) unsigned NOT NULL default '0',
 `date` date NOT NULL default '0000-00-00',
 `pseudo` varchar(35) character set latin1 NOT NULL default '',
-#  PRIMARY KEY  (`pseudo`,`date`,`topic`),
-PRIMARY KEY  (`pseudo`,`topic`),
+PRIMARY KEY  (`pseudo`,`date`,`topic`),
 KEY `topic` (`topic`)
 ) ENGINE=SequoiaDB ROW_FORMAT=DYNAMIC;
 INSERT INTO t1 (topic,date,pseudo) VALUES
@@ -729,10 +728,8 @@ CREATE TABLE `t1` (
 `topic` mediumint(8) unsigned NOT NULL default '0',
 `date` date NOT NULL default '0000-00-00',
 `pseudo` varchar(35) character set latin1 NOT NULL default '',
-#  PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
-PRIMARY KEY  (`mot`,`pseudo`,`topic`),
-#  KEY `pseudo` (`pseudo`,`date`,`topic`),
-KEY `pseudo` (`pseudo`,`topic`),
+PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
+KEY `pseudo` (`pseudo`,`date`,`topic`),
 KEY `topic` (`topic`)
 ) ENGINE=SequoiaDB CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 CREATE TABLE `t2` (
@@ -740,10 +737,8 @@ CREATE TABLE `t2` (
 `topic` mediumint(8) unsigned NOT NULL default '0',
 `date` date NOT NULL default '0000-00-00',
 `pseudo` varchar(35) character set latin1 NOT NULL default '',
-#  PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
-PRIMARY KEY  (`mot`,`pseudo`,`topic`),
-#  KEY `pseudo` (`pseudo`,`date`,`topic`),
-KEY `pseudo` (`pseudo`,`topic`),
+PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
+KEY `pseudo` (`pseudo`,`date`,`topic`),
 KEY `topic` (`topic`)
 ) ENGINE=SequoiaDB CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 CREATE TABLE `t3` (
@@ -2111,8 +2106,7 @@ create table t1 (
 retailerID varchar(8) NOT NULL,
 statusID   int(10) unsigned NOT NULL,
 changed    datetime NOT NULL,
-#  UNIQUE KEY retailerID (retailerID, statusID, changed)
-UNIQUE KEY retailerID (retailerID, statusID)
+UNIQUE KEY retailerID (retailerID, statusID, changed)
 );
 INSERT INTO t1 VALUES("0026", "1", "2005-12-06 12:18:56");
 INSERT INTO t1 VALUES("0026", "2", "2006-01-06 12:25:53");
@@ -2594,6 +2588,33 @@ i
 10000000000000000000
 DROP TABLE t1;
 DROP TABLE t2;
+CREATE TABLE t1 (
+i1 int(11) NOT NULL default '0',
+i2 int(11) NOT NULL default '0',
+t datetime NOT NULL default '0000-00-00 00:00:00',
+PRIMARY KEY  (i1,i2,t)
+);
+INSERT INTO t1 VALUES
+(24,1,'2005-03-03 16:31:31'),(24,1,'2005-05-27 12:40:07'),
+(24,1,'2005-05-27 12:40:08'),(24,1,'2005-05-27 12:40:10'),
+(24,1,'2005-05-27 12:40:25'),(24,1,'2005-05-27 12:40:30'),
+(24,2,'2005-03-03 13:43:05'),(24,2,'2005-03-03 16:23:31'),
+(24,2,'2005-03-03 16:31:30'),(24,2,'2005-05-27 12:37:02'),
+(24,2,'2005-05-27 12:40:06');
+CREATE TABLE t2 (
+i1 int(11) NOT NULL default '0',
+i2 int(11) NOT NULL default '0',
+t datetime default NULL,
+PRIMARY KEY  (i1)
+);
+INSERT INTO t2 VALUES (24,1,'2006-06-20 12:29:40');
+SELECT * FROM t1,t2
+WHERE t1.t = (SELECT t1.t FROM t1
+WHERE t1.t < t2.t  AND t1.i2=1 AND t2.i1=t1.i1
+ORDER BY t1.t DESC LIMIT 1);
+i1	i2	t	i1	i2	t
+24	1	2005-05-27 12:40:30	24	1	2006-06-20 12:29:40
+DROP TABLE t1, t2;
 CREATE TABLE t1 (i INT);
 (SELECT i FROM t1) UNION (SELECT i FROM t1);
 i
@@ -5272,8 +5293,8 @@ INSERT INTO cc VALUES (11,1,'r');
 CREATE TABLE bb (
 pk INT,
 col_date_key DATE,
-PRIMARY KEY (pk)
-#  KEY col_date_key (col_date_key)
+PRIMARY KEY (pk),
+KEY col_date_key (col_date_key)
 ) ENGINE=SequoiaDB;
 INSERT INTO bb VALUES (10,'2002-02-21');
 CREATE TABLE c (
@@ -5562,7 +5583,7 @@ col_varchar_key varchar(1) NOT NULL,
 col_varchar_nokey varchar(1) NOT NULL,
 PRIMARY KEY (pk),
 KEY col_int_key (col_int_key),
-#  KEY col_time_key (col_time_key),
+KEY col_time_key (col_time_key),
 KEY col_varchar_key (col_varchar_key,col_int_key)
 ) ENGINE=SequoiaDB;
 CREATE TABLE t2 (
@@ -5575,7 +5596,7 @@ col_varchar_key varchar(1) NOT NULL,
 col_varchar_nokey varchar(1) NOT NULL,
 PRIMARY KEY (pk),
 KEY col_int_key (col_int_key),
-#  KEY col_time_key (col_time_key),
+KEY col_time_key (col_time_key),
 KEY col_varchar_key (col_varchar_key,col_int_key)
 ) ENGINE=SequoiaDB;
 INSERT INTO t2 VALUES (1,4,4,'00:00:00','b','b');
@@ -5993,8 +6014,8 @@ col_int_nokey INTEGER,
 col_int_key INTEGER,
 col_datetime_key DATETIME,
 PRIMARY KEY (pk),
-KEY (col_int_key)
-#KEY (col_datetime_key)
+KEY (col_int_key),
+KEY (col_datetime_key)
 )  ENGINE=SequoiaDB;
 INSERT INTO t1 VALUES (1, 1, 7, '2001-11-04 19:07:55.051133');
 CREATE TABLE t2(field1 INT, field2 INT) ENGINE=SequoiaDB;

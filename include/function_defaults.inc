@@ -130,7 +130,7 @@ SELECT * FROM t1;
 
 DROP TABLE t1;
 
-# Bug #SEQUOIADBMAINSTREAM-3640: insert ... on duplicate key update failed
+# Bug #SEQUOIADBMAINSTREAM-3640
 #--echo #
 #--echo # Test of ON DUPLICATE KEY UPDATE
 #--echo #
@@ -186,7 +186,7 @@ SELECT * FROM t1;
 UPDATE t1 SET c = '2004-04-04 04:04:04.444444' WHERE a = 4;
 SELECT * FROM t1;
 
-# Bug #SEQUOIADBMAINSTREAM-3640: insert ... on duplicate key update failed
+# Bug #SEQUOIADBMAINSTREAM-3640
 #INSERT INTO t1 ( a ) VALUES ( 3 ), ( 5 ) ON DUPLICATE KEY UPDATE b = 3, c = c;
 #SELECT * FROM t1;
 #
@@ -199,7 +199,7 @@ SELECT * FROM t1;
 
 DROP TABLE t1;
 
-# Bug #SEQUOIASQLMAINSTREAM-90: replace into failed
+# Bug #SEQUOIASQLMAINSTREAM-90
 #--echo #
 #--echo # Test of REPLACE INTO executed as UPDATE.
 #--echo #
@@ -1091,7 +1091,7 @@ SELECT * FROM v1;
 
 SET TIMESTAMP = 1.126789;
 
-# Bug #SEQUOIADBMAINSTREAM-3640: insert ... on duplicate key update failed
+# Bug #SEQUOIADBMAINSTREAM-3640
 #--echo Logically, there should be an ER_VIEW_CHECK_FAILED here.
 #INSERT INTO v1 ( c ) VALUES ( 1 ) ON DUPLICATE KEY UPDATE c = 2;
 #
@@ -1100,7 +1100,6 @@ SET TIMESTAMP = 1.126789;
 DROP VIEW v1;
 DROP TABLE t1;
 
-# NOW SequoiaDB not support index of timestamp
 --echo #
 --echo # Bug 13095459 - MULTI-TABLE UPDATE MODIFIES A ROW TWICE
 --echo #
@@ -1108,8 +1107,7 @@ eval CREATE TABLE t1 (
   a INT,
   b INT,
   ts $timestamp NOT NULL DEFAULT $current_timestamp ON UPDATE $current_timestamp,
-#  PRIMARY KEY ( a, ts )
-  PRIMARY KEY ( a )
+  PRIMARY KEY ( a, ts )
 );
 INSERT INTO t1( a, b, ts ) VALUES ( 1, 0, '2000-09-28 17:44:34' );
 

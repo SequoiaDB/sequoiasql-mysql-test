@@ -1430,6 +1430,19 @@ f1	MIN(f2)	MAX(f2)
 2	0001-01-01	2004-05-19
 3	2004-04-10	2004-04-10
 DROP TABLE t1;
+CREATE TABLE t1 ( f1 int, f2 time);
+INSERT INTO t1 VALUES (1,'01:27:35'), (1,'06:11:01'), (2,'19:53:05'),
+(2,'21:44:25'), (3,'10:55:12'), (3,'05:45:11'), (4,'00:25:00');
+SELECT MIN(f2),MAX(f2) FROM t1;
+MIN(f2)	MAX(f2)
+00:25:00	21:44:25
+SELECT f1,MIN(f2),MAX(f2) FROM t1 GROUP BY 1;
+f1	MIN(f2)	MAX(f2)
+1	01:27:35	06:11:01
+2	19:53:05	21:44:25
+3	05:45:11	10:55:12
+4	00:25:00	00:25:00
+DROP TABLE t1;
 SET sql_mode=@save_sql_mode;
 Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.

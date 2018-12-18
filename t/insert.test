@@ -228,7 +228,7 @@ insert ignore into t1 values (1, 1);
 select row_count();
 
 # Reports that 2 rows are affected (1 deleted + 1 inserted)
-#Bug #SEQUOIADBMAINSTERAM-3573, replace into fail
+#Bug #SEQUOIADBMAINSTERAM-3573
 #replace into t1 values (1, 11);
 #select row_count();
 #replace into t1 values (4, 4);
@@ -236,7 +236,7 @@ select row_count();
 # Reports that 2 rows are affected. This conforms to documentation.
 # (Useful for differentiating inserts from updates).
 
-#Bug #SEQUOIADBMAINSTERAM-3640, insert on duplcate key fail
+#Bug #SEQUOIADBMAINSTERAM-3640
 #insert into t1 values (2, 2) on duplicate key update data= data + 10;
 #select row_count();
 #insert into t1 values (5, 5) on duplicate key update data= data + 10;
@@ -456,7 +456,7 @@ CREATE TABLE t1(a INTEGER);
 INSERT INTO t1(a) values();
 DROP TABLE t1;
 
-#Bug #SEQUOIADBMAINSTERAM-3583, insert '0000-00-00' into Date will cause wrong results
+#Bug #SEQUOIADBMAINSTERAM-3583
 --echo #
 --echo # Bug#11745889 Traditional: INSERT accepts invalid date from default val
 --echo #
@@ -580,7 +580,7 @@ DROP VIEW v;
 DROP TABLE t1, t2;
 
 # Check that ON DUPLICATE KEY UPDATE works too:
-#Bug #SEQUOIADBMAINSTERAM-3640, insert on duplcate key fail
+#Bug #SEQUOIADBMAINSTERAM-3640
 #CREATE TABLE t1(a1 INTEGER PRIMARY KEY, b1 INTEGER);
 #CREATE TABLE t2(a2 INTEGER PRIMARY KEY, b2 INTEGER);
 #CREATE VIEW v AS SELECT * FROM t1 JOIN t2 ON TRUE;

@@ -1524,13 +1524,8 @@ DROP PROCEDURE test_proc;
 --echo # Bug #48370  Absolutely wrong calculations with GROUP BY and 
 --echo # decimal fields when using IF
 --echo #
-
-#Sequoiadb not support create index on decimal
-#CREATE TABLE currencies (id int, rate decimal(16,4), 
-#  PRIMARY KEY (id), KEY (rate));
 CREATE TABLE currencies (id int, rate decimal(16,4), 
-  PRIMARY KEY (id));
-
+  PRIMARY KEY (id), KEY (rate));
 INSERT INTO currencies VALUES (11,0.7028);
 INSERT INTO currencies VALUES (1,1);
 
@@ -1667,10 +1662,8 @@ DROP TABLE t1;
 --echo #
 --echo # Bug#18563112 SELECT INTO VARIABLE CRASH IN USER_VAR_ENTRY::STORE
 --echo #
-
-#Sequoiadb not support create index on decimal
 CREATE TABLE t1(
-a DECIMAL(25,20) UNSIGNED#, KEY(a)
+a DECIMAL(25,20) UNSIGNED, KEY(a)
 );
 
 INSERT INTO t1 VALUES (1), (NULL);
@@ -1718,8 +1711,7 @@ set @a=100000000000000000000002;
 EXECUTE stmt using @a;
 DEALLOCATE PREPARE stmt;
 
-#Sequoiadb not support create index on decimal
-#ALTER TABLE t1 ADD INDEX value (value);
+ALTER TABLE t1 ADD INDEX value (value);
 SELECT * FROM t1 WHERE value = '100000000000000000000002';
 DROP TABLE t1;
 

@@ -191,13 +191,11 @@ SELECT pseudo FROM t8 WHERE pseudo=(SELECT pseudo FROM t8 WHERE pseudo LIKE '%jo
 drop table if exists t1,t2,t3,t4,t5,t6,t7,t8;
 
 #searchconthardwarefr3 forumconthardwarefr7
-# NOW SequoiaDB not support index on Date
 CREATE TABLE `t1` (
   `topic` mediumint(8) unsigned NOT NULL default '0',
   `date` date NOT NULL default '0000-00-00',
   `pseudo` varchar(35) character set latin1 NOT NULL default '',
-#  PRIMARY KEY  (`pseudo`,`date`,`topic`),
-   PRIMARY KEY  (`pseudo`,`topic`),
+  PRIMARY KEY  (`pseudo`,`date`,`topic`),
   KEY `topic` (`topic`)
 ) ENGINE=SequoiaDB ROW_FORMAT=DYNAMIC;
 INSERT INTO t1 (topic,date,pseudo) VALUES
@@ -329,7 +327,7 @@ select * from t1;
 update t1 set b= (select b from t1);
 -- error ER_SUBQUERY_NO_1_ROW
 update t1 set b= (select b from t2);
-#Bug #SEQUOIADBMAINSTREAM-3611, update set=null will not ok
+#Bug #SEQUOIADBMAINSTREAM-3611
 update t1 set b= (select b from t2 where t1.a = t2.a);
 select * from t1;
 drop table t1, t2;
@@ -438,7 +436,7 @@ drop table t2, t1;
 
 #NULL test
 #Bug #SEQUOIADBMAINSTREAM-3585
-#Bug #SEQUOIADBMAINSTREAM-3611, update set=null will not ok
+#Bug #SEQUOIADBMAINSTREAM-3611
 create table t1 (a int);
 insert into t1 values (1),(2),(3);
 select 1 IN (SELECT * from t1);
@@ -586,16 +584,13 @@ CREATE TABLE t1 (a int(1));
 #EXPLAIN EXTENDED SELECT (SELECT BENCHMARK(1,1) FROM t1) FROM t1;
 drop table t1;
 
-# NOW SequoiaDB not support index of Date
 CREATE TABLE `t1` (
   `mot` varchar(30) character set latin1 NOT NULL default '',
   `topic` mediumint(8) unsigned NOT NULL default '0',
   `date` date NOT NULL default '0000-00-00',
   `pseudo` varchar(35) character set latin1 NOT NULL default '',
-#  PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
-   PRIMARY KEY  (`mot`,`pseudo`,`topic`),
-#  KEY `pseudo` (`pseudo`,`date`,`topic`),
-   KEY `pseudo` (`pseudo`,`topic`),
+  PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
+  KEY `pseudo` (`pseudo`,`date`,`topic`),
   KEY `topic` (`topic`)
 ) ENGINE=SequoiaDB CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
@@ -604,10 +599,8 @@ CREATE TABLE `t2` (
   `topic` mediumint(8) unsigned NOT NULL default '0',
   `date` date NOT NULL default '0000-00-00',
   `pseudo` varchar(35) character set latin1 NOT NULL default '',
-#  PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
-   PRIMARY KEY  (`mot`,`pseudo`,`topic`),
-#  KEY `pseudo` (`pseudo`,`date`,`topic`),
-   KEY `pseudo` (`pseudo`,`topic`),
+  PRIMARY KEY  (`mot`,`pseudo`,`date`,`topic`),
+  KEY `pseudo` (`pseudo`,`date`,`topic`),
   KEY `topic` (`topic`)
 ) ENGINE=SequoiaDB CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
@@ -1870,13 +1863,11 @@ drop table t1;
 #
 # Bug#16255 Subquery in where
 #
-# NOW SequoiaDB not support index on Datetime
 create table t1 (
   retailerID varchar(8) NOT NULL,
   statusID   int(10) unsigned NOT NULL,
   changed    datetime NOT NULL,
-#  UNIQUE KEY retailerID (retailerID, statusID, changed)
-  UNIQUE KEY retailerID (retailerID, statusID)
+  UNIQUE KEY retailerID (retailerID, statusID, changed)
 );
 
 INSERT INTO t1 VALUES("0026", "1", "2005-12-06 12:18:56");
@@ -2413,41 +2404,39 @@ DROP TABLE t2;
 #
 # Bug#20869 subselect with range access by DESC
 #
-# NOW SequoiaDB not support index on DateTime
-#CREATE TABLE t1 (
-#  i1 int(11) NOT NULL default '0',
-#  i2 int(11) NOT NULL default '0',
-#  t datetime NOT NULL default '0000-00-00 00:00:00',
-#  PRIMARY KEY  (i1,i2,t)
-#);
-#INSERT INTO t1 VALUES
-#(24,1,'2005-03-03 16:31:31'),(24,1,'2005-05-27 12:40:07'),
-#(24,1,'2005-05-27 12:40:08'),(24,1,'2005-05-27 12:40:10'),
-#(24,1,'2005-05-27 12:40:25'),(24,1,'2005-05-27 12:40:30'),
-#(24,2,'2005-03-03 13:43:05'),(24,2,'2005-03-03 16:23:31'),
-#(24,2,'2005-03-03 16:31:30'),(24,2,'2005-05-27 12:37:02'),
-#(24,2,'2005-05-27 12:40:06');
-#
-#CREATE TABLE t2 (
-#  i1 int(11) NOT NULL default '0',
-#  i2 int(11) NOT NULL default '0'
-#  t datetime default NULL,
-#  PRIMARY KEY  (i1)
-#);
-#INSERT INTO t2 VALUES (24,1,'2006-06-20 12:29:40');
-#
+CREATE TABLE t1 (
+  i1 int(11) NOT NULL default '0',
+  i2 int(11) NOT NULL default '0',
+  t datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (i1,i2,t)
+);
+INSERT INTO t1 VALUES
+(24,1,'2005-03-03 16:31:31'),(24,1,'2005-05-27 12:40:07'),
+(24,1,'2005-05-27 12:40:08'),(24,1,'2005-05-27 12:40:10'),
+(24,1,'2005-05-27 12:40:25'),(24,1,'2005-05-27 12:40:30'),
+(24,2,'2005-03-03 13:43:05'),(24,2,'2005-03-03 16:23:31'),
+(24,2,'2005-03-03 16:31:30'),(24,2,'2005-05-27 12:37:02'),
+(24,2,'2005-05-27 12:40:06');
+
+CREATE TABLE t2 (
+  i1 int(11) NOT NULL default '0',
+  i2 int(11) NOT NULL default '0',
+  t datetime default NULL,
+  PRIMARY KEY  (i1)
+);
+INSERT INTO t2 VALUES (24,1,'2006-06-20 12:29:40');
+
 #EXPLAIN
 #SELECT * FROM t1,t2
 #  WHERE t1.t = (SELECT t1.t FROM t1
 #                  WHERE t1.t < t2.t  AND t1.i2=1 AND t2.i1=t1.i1
 #                    ORDER BY t1.t DESC LIMIT 1);
-#SELECT * FROM t1,t2
-#  WHERE t1.t = (SELECT t1.t FROM t1
-#                  WHERE t1.t < t2.t  AND t1.i2=1 AND t2.i1=t1.i1
-#                    ORDER BY t1.t DESC LIMIT 1);
-#
-#DROP TABLE t1, t2;
+SELECT * FROM t1,t2
+  WHERE t1.t = (SELECT t1.t FROM t1
+                  WHERE t1.t < t2.t  AND t1.i2=1 AND t2.i1=t1.i1
+                    ORDER BY t1.t DESC LIMIT 1);
 
+DROP TABLE t1, t2;
 
 #
 # Bug#14654 Cannot select from the same table twice within a UNION statement
@@ -5402,7 +5391,6 @@ DROP TABLE t1;
 --echo #
 --echo # BUG#58561: Server Crash with correlated subquery and SequoiaDB tables 
 --echo #
-# NOW SequoiaDB not support index of Date
 CREATE TABLE cc (
   pk INT,
   col_int_key INT,
@@ -5417,8 +5405,8 @@ INSERT INTO cc VALUES (11,1,'r');
 CREATE TABLE bb (
   pk INT,
   col_date_key DATE,
-  PRIMARY KEY (pk)
-#  KEY col_date_key (col_date_key)
+  PRIMARY KEY (pk),
+  KEY col_date_key (col_date_key)
 ) ENGINE=SequoiaDB;
 INSERT INTO bb VALUES (10,'2002-02-21');
 
@@ -5835,7 +5823,7 @@ DROP TABLE t1, t2;
 --echo # Bug#13651009 WRONG RESULT FROM DERIVED TABLE IF THE SUBQUERY
 --echo # HAS AN EMPTY RESULT
 --echo #
-# NOW SequoiaDB not support index of Date And AUTO_INCREMENT
+# NOW SequoiaDB not support AUTO_INCREMENT
 CREATE TABLE t1 (
   pk int NOT NULL,
   col_int_nokey int NOT NULL,
@@ -5845,7 +5833,7 @@ CREATE TABLE t1 (
   col_varchar_nokey varchar(1) NOT NULL,
   PRIMARY KEY (pk),
   KEY col_int_key (col_int_key),
-#  KEY col_time_key (col_time_key),
+  KEY col_time_key (col_time_key),
   KEY col_varchar_key (col_varchar_key,col_int_key)
 ) ENGINE=SequoiaDB;
 
@@ -5859,7 +5847,7 @@ CREATE TABLE t2 (
   col_varchar_nokey varchar(1) NOT NULL,
   PRIMARY KEY (pk),
   KEY col_int_key (col_int_key),
-#  KEY col_time_key (col_time_key),
+  KEY col_time_key (col_time_key),
   KEY col_varchar_key (col_varchar_key,col_int_key)
 ) ENGINE=SequoiaDB;
 
@@ -6331,15 +6319,14 @@ DROP TABLE t1;
 --echo #
 --echo # Bug#19224430 	ASSERT FAILED IN JOIN::REPLACE_INDEX_SUBQUERY
 --echo #
-# NOW SequoiaDB not support index on Datetime
 CREATE TABLE t1 (
 pk INTEGER,
 col_int_nokey INTEGER,
 col_int_key INTEGER,
 col_datetime_key DATETIME,
 PRIMARY KEY (pk),
-KEY (col_int_key)
-#KEY (col_datetime_key)
+KEY (col_int_key),
+KEY (col_datetime_key)
 )  ENGINE=SequoiaDB;
 
 INSERT INTO t1 VALUES (1, 1, 7, '2001-11-04 19:07:55.051133');
