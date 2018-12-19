@@ -148,10 +148,9 @@ CREATE TABLE t2(b INTEGER);
 INSERT INTO t2 VALUES(10),(20);
 
 SET SESSION sql_safe_updates=1;
-#EXPLAIN DELETE t2 FROM t1 JOIN t2 WHERE t1.a = 10;
 
 -- error ER_UPDATE_WITHOUT_KEY_IN_SAFE_MODE
-DELETE t2 FROM t1 JOIN t2 WHERE t1.a = 10;
+DELETE t1 FROM t1 JOIN t2 WHERE t1.a = 10;
 
 SET SESSION sql_safe_updates=default;
 
@@ -501,7 +500,7 @@ DROP TABLE t1, t2;
 --echo # Bug#46958: Assertion in Diagnostics_area::set_ok_status, trigger, 
 --echo # merge table
 --echo #
-#modify result as same as innodb
+#modify result as the same as innodb
 CREATE TABLE t1 ( a INT );
 CREATE TABLE t2 ( a INT );
 CREATE TABLE t3 ( a INT );
