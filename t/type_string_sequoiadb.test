@@ -11,7 +11,6 @@
 # (#Case #15444: Check DataType mediumblob)
 # (#Case #15445: Check DataType longblob)
 # (#Case #15440: Check DataType tinytext)
-# (#Case #15440: Check DataType tinytext)
 --source include/have_sequoiadb.inc
 
 --disable_warnings
