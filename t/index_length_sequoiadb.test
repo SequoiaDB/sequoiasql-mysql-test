@@ -1,0 +1,104 @@
+#Check index length 
+#Case 15395#Case 14871#Case 14706
+-- source include/have_sequoiadb.inc
+
+--disable_warnings
+DROP TABLE IF EXISTS t1;
+--enable_warnings
+
+#CHAR
+create table t1(a char(255))default charset =utf8;
+insert into t1 values(repeat('a',255));
+insert into t1 values('a');
+insert into t1 values('aaa');
+create index a on t1(a);
+select * from t1 where a = 'aaa';
+drop index a on t1;
+create index a on t1(a);
+insert into t1 values(repeat('a',255));
+insert into t1 values('a');
+insert into t1 values('aaa');
+select * from t1 where a = 'aaa';
+drop table t1;
+
+#VARCHAR
+create table t1(a varchar(1024));
+insert into t1 values(repeat('a',986));
+insert into t1 values('a');
+insert into t1 values('aaa');
+create index a on t1(a(1000));
+
+--error 1030
+insert into t1 values(repeat('a',987));
+select * from t1 where a = 'aaa';
+drop index a on t1;
+create index a on t1(a(1000));
+insert into t1 values(repeat('a',986));
+
+--error 1030
+insert into t1 values(repeat('a',987));
+insert into t1 values('a');
+insert into t1 values('aaa');
+select * from t1 where a = 'aaa';
+
+--error ER_TOO_LONG_KEY
+create index a on t1(a(1001));
+drop table t1;
+
+#TEXT
+create table t1(a text);
+insert into t1 values(repeat('a',986));
+insert into t1 values('a');
+insert into t1 values('aaa');
+create index a on t1(a(1000));
+
+--error 1030
+insert into t1 values(repeat('a',987));
+select * from t1 where a = 'aaa';
+drop index a on t1;
+create index a on t1(a(1000));
+insert into t1 values(repeat('a',986));
+
+--error 1030
+insert into t1 values(repeat('a',987));
+insert into t1 values('a');
+insert into t1 values('aaa');
+select * from t1 where a = 'aaa';
+
+--error ER_TOO_LONG_KEY
+create index a on t1(a(1001));
+drop table t1;
+
+--error ER_TOO_LONG_KEY
+CREATE TABLE t1 (a char,b varchar(1000),KEY (a,b))engine=sequoiadb;
+
+#Bug #SEQUOIASQLMAINSTREAM-203
+#BLOB
+#create table t1(a blob);
+#--error 138
+#create index a on t1(a(1000));
+#drop table t1;
+
+#BINARY
+#create table t1(a binary);
+#--error 138
+#create index a on t1(a);
+#drop table t1;
+
+#VARBINARY
+#create table t1(a varbinary(1000));
+#--error 138
+#create index a on t1(a);
+#drop table t1;
+
+create table t1(a text);
+--error 1059
+create index aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa on t1(a(1000));
+create index aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa on t1(a(1000));
+insert into t1 values(repeat('a',10));
+insert into t1 values('a');
+insert into t1 values(repeat('a',3));
+select * from t1 where a = 'aaa';
+drop table t1;
+
+--source include/uninstall_sequoiadb.inc

@@ -1,0 +1,80 @@
+DROP TABLE IF EXISTS t1;
+create table t1(a char(255))default charset =utf8;
+insert into t1 values(repeat('a',255));
+insert into t1 values('a');
+insert into t1 values('aaa');
+create index a on t1(a);
+select * from t1 where a = 'aaa';
+a
+aaa
+drop index a on t1;
+create index a on t1(a);
+insert into t1 values(repeat('a',255));
+insert into t1 values('a');
+insert into t1 values('aaa');
+select * from t1 where a = 'aaa';
+a
+aaa
+aaa
+drop table t1;
+create table t1(a varchar(1024));
+insert into t1 values(repeat('a',986));
+insert into t1 values('a');
+insert into t1 values('aaa');
+create index a on t1(a(1000));
+insert into t1 values(repeat('a',987));
+ERROR HY000: Got error 40039 from storage engine
+select * from t1 where a = 'aaa';
+a
+aaa
+drop index a on t1;
+create index a on t1(a(1000));
+insert into t1 values(repeat('a',986));
+insert into t1 values(repeat('a',987));
+ERROR HY000: Got error 40039 from storage engine
+insert into t1 values('a');
+insert into t1 values('aaa');
+select * from t1 where a = 'aaa';
+a
+aaa
+aaa
+create index a on t1(a(1001));
+ERROR 42000: Specified key was too long; max key length is 1000 bytes
+drop table t1;
+create table t1(a text);
+insert into t1 values(repeat('a',986));
+insert into t1 values('a');
+insert into t1 values('aaa');
+create index a on t1(a(1000));
+insert into t1 values(repeat('a',987));
+ERROR HY000: Got error 40039 from storage engine
+select * from t1 where a = 'aaa';
+a
+aaa
+drop index a on t1;
+create index a on t1(a(1000));
+insert into t1 values(repeat('a',986));
+insert into t1 values(repeat('a',987));
+ERROR HY000: Got error 40039 from storage engine
+insert into t1 values('a');
+insert into t1 values('aaa');
+select * from t1 where a = 'aaa';
+a
+aaa
+aaa
+create index a on t1(a(1001));
+ERROR 42000: Specified key was too long; max key length is 1000 bytes
+drop table t1;
+CREATE TABLE t1 (a char,b varchar(1000),KEY (a,b))engine=sequoiadb;
+ERROR 42000: Specified key was too long; max key length is 1000 bytes
+create table t1(a text);
+create index aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa on t1(a(1000));
+ERROR 42000: Identifier name 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' is too long
+create index aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa on t1(a(1000));
+insert into t1 values(repeat('a',10));
+insert into t1 values('a');
+insert into t1 values(repeat('a',3));
+select * from t1 where a = 'aaa';
+a
+aaa
+drop table t1;
