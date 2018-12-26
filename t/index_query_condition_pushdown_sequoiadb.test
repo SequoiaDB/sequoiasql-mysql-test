@@ -2403,24 +2403,24 @@ drop table t1;
 # SEQUOIASQLMAINSTREAM-204
 # check type of tinytext/mediumtext/text/longtext
 #
-CREATE TABLE t1(a tinytext, b mediumtext, c text, d longtext);
-INSERT INTO t1 VALUES ("hello", "hello", "hello", "hello");
-INSERT INTO t1 VALUES ("HELLO", "HELLO", "HELLO", "HELLO");
-INSERT INTO t1 VALUES ("hello ", "hello ", "hello ", "hello ");
-INSERT INTO t1 VALUES ("HELLO ", "HELLO ", "HELLO ", "HELLO ");
-INSERT INTO t1 VALUES (" hello", " hello", " hello", " hello");
-INSERT INTO t1 VALUES (" HELLO", " HELLO", " HELLO", " HELLO");
-INSERT INTO t1 VALUES (" hello ", " hello ", " hello ", " hello ");
-INSERT INTO t1 VALUES (" HELLO ", " HELLO ", " HELLO ", " HELLO ");
-INSERT INTO t1 VALUES ("hello1", "hello1", "hello1", "hello1");
-INSERT INTO t1 VALUES ("HELLO1", "HELLO1", "HELLO1", "HELLO1");
-INSERT INTO t1 VALUES ("hello1 ", "hello1 ", "hello1 ", "hello1 ");
-INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ");
-INSERT INTO t1 VALUES (" hello1", " hello1", " hello1", " hello1");
-INSERT INTO t1 VALUES (" HELLO1", " HELLO1", " HELLO1", " HELLO1");
-INSERT INTO t1 VALUES (" hello1 ", " hello1 ", " hello1 ", " hello1 ");
-INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ", " HELLO1 ", " HELLO1 ");
-INSERT INTO t1 VALUES ("hello2 ", "hello2 ", "hello2 ", "hello2 ");
+CREATE TABLE t1(a tinytext, b mediumtext, c text, d longtext, e varchar(16));
+INSERT INTO t1 VALUES ("hello", "hello", "hello", "hello", "hello");
+INSERT INTO t1 VALUES ("HELLO", "HELLO", "HELLO", "HELLO", "HELLO");
+INSERT INTO t1 VALUES ("hello ", "hello ", "hello ", "hello ", "hello ");
+INSERT INTO t1 VALUES ("HELLO ", "HELLO ", "HELLO ", "HELLO ", "HELLO ");
+INSERT INTO t1 VALUES (" hello", " hello", " hello", " hello", " hello");
+INSERT INTO t1 VALUES (" HELLO", " HELLO", " HELLO", " HELLO", " HELLO");
+INSERT INTO t1 VALUES (" hello ", " hello ", " hello ", " hello ", " hello ");
+INSERT INTO t1 VALUES (" HELLO ", " HELLO ", " HELLO ", " HELLO ", " HELLO ");
+INSERT INTO t1 VALUES ("hello1", "hello1", "hello1", "hello1", "hello1");
+INSERT INTO t1 VALUES ("HELLO1", "HELLO1", "HELLO1", "HELLO1", "HELLO1");
+INSERT INTO t1 VALUES ("hello1 ", "hello1 ", "hello1 ", "hello1 ", "hello1 ");
+INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ");
+INSERT INTO t1 VALUES (" hello1", " hello1", " hello1", " hello1", " hello1");
+INSERT INTO t1 VALUES (" HELLO1", " HELLO1", " HELLO1", " HELLO1", " HELLO1");
+INSERT INTO t1 VALUES (" hello1 ", " hello1 ", " hello1 ", " hello1 ", " hello1 ");
+INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ", " HELLO1 ", " HELLO1 ", " HELLO1 ");
+INSERT INTO t1 VALUES ("hello2 ", "hello2 ", "hello2 ", "hello2 ", "hello2 ");
 # tinytext
 --sorted_result
 SELECT * FROM t1 WHERE a IS NULL;
@@ -2429,38 +2429,64 @@ SELECT * FROM t1 WHERE a IS NOT NULL;
 --sorted_result
 SELECT * FROM t1 WHERE a = "hello";
 --sorted_result
+SELECT * FROM t1 WHERE a = "HELLO";
+--sorted_result
 SELECT * FROM t1 WHERE a = "hello ";
 --sorted_result
+SELECT * FROM t1 WHERE a = "HELLO ";
+--sorted_result
 SELECT * FROM t1 WHERE a = " hello";
+--sorted_result
+SELECT * FROM t1 WHERE a = " HELLO";
 --sorted_result
 SELECT * FROM t1 WHERE a = " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE a = " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE a = b;
+SELECT * FROM t1 WHERE a = e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE a != "hello";
 #--sorted_result
-#SELECT * FROM t1 WHERE a < "hello ;
+#SELECT * FROM t1 WHERE a != "HELLO";
 #--sorted_result
-#SELECT * FROM t1 WHERE a <= "hello ;
+#SELECT * FROM t1 WHERE a != "hello ";
 #--sorted_result
-#SELECT * FROM t1 WHERE a > "hello ;
+#SELECT * FROM t1 WHERE a != "HELLO ";
 #--sorted_result
-#SELECT * FROM t1 WHERE a >= "hello ;
+#SELECT * FROM t1 WHERE a < "hello";
+#--sorted_result
+#SELECT * FROM t1 WHERE a < "HELLO";
+#--sorted_result
+#SELECT * FROM t1 WHERE a <= "hello ";
+#--sorted_result
+#SELECT * FROM t1 WHERE a <= "HELLO ";
+#--sorted_result
+#SELECT * FROM t1 WHERE a > "hello";
+#--sorted_result
+#SELECT * FROM t1 WHERE a > "HELLO";
+#--sorted_result
+#SELECT * FROM t1 WHERE a >= "hello ";
+#--sorted_result
+#SELECT * FROM t1 WHERE a >= "HELLO ";
 --sorted_result
 SELECT * FROM t1 WHERE a <=> "hello";
 --sorted_result
+SELECT * FROM t1 WHERE a <=> "HELLO";
+--sorted_result
 SELECT * FROM t1 WHERE a <=> "hello ";
 --sorted_result
+SELECT * FROM t1 WHERE a <=> "HELLO ";
+--sorted_result
 SELECT * FROM t1 WHERE a <=> " hello";
+--sorted_result
+SELECT * FROM t1 WHERE a <=> " HELLO";
 --sorted_result
 SELECT * FROM t1 WHERE a <=> " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE a <=> " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE a <=> b;
+SELECT * FROM t1 WHERE a <=> e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE a BETWEEN "hello " AND "hello1 ";
@@ -2474,6 +2500,10 @@ SELECT * FROM t1 WHERE a <=> b;
 SELECT * FROM t1 WHERE a IN ("hello", "hello1");
 --sorted_result
 SELECT * FROM t1 WHERE a IN ("HELLO", "HELLO1");
+--sorted_result
+SELECT * FROM t1 WHERE a IN ("hello ", "hello1 ");
+--sorted_result
+SELECT * FROM t1 WHERE a IN ("HELLO ", "HELLO1 ");
 --sorted_result
 SELECT * FROM t1 WHERE a IN (" hello", " hello1");
 --sorted_result
@@ -2516,7 +2546,7 @@ SELECT * FROM t1 WHERE b = " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE b = " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE b = c;
+SELECT * FROM t1 WHERE b = e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE b != "hello";
@@ -2539,7 +2569,7 @@ SELECT * FROM t1 WHERE b <=> " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE b <=> " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE b <=> c;
+SELECT * FROM t1 WHERE b <=> e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE b BETWEEN "hello " AND "hello1 ";
@@ -2558,21 +2588,21 @@ SELECT * FROM t1 WHERE b IN (" hello", " hello1");
 --sorted_result
 SELECT * FROM t1 WHERE b IN (" HELLO ", " HELLO1 ");
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%hello";
+SELECT * FROM t1 WHERE b LIKE "%hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
+SELECT * FROM t1 WHERE b LIKE "%HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello%";
+SELECT * FROM t1 WHERE b LIKE "hello%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
+SELECT * FROM t1 WHERE b LIKE "HELLO%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_hello";
+SELECT * FROM t1 WHERE b LIKE "_hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
+SELECT * FROM t1 WHERE b LIKE "_HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello_";
+SELECT * FROM t1 WHERE b LIKE "hello_";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
+SELECT * FROM t1 WHERE b LIKE "HELLO_";
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE b REGEXP "HELLO";
@@ -2595,7 +2625,7 @@ SELECT * FROM t1 WHERE c = " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE c = " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE c = d;
+SELECT * FROM t1 WHERE c = e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE c != "hello";
@@ -2618,7 +2648,7 @@ SELECT * FROM t1 WHERE c <=> " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE c <=> " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE c <=> d;
+SELECT * FROM t1 WHERE c <=> e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE c cETWEEN "hello " AND "hello1 ";
@@ -2637,21 +2667,21 @@ SELECT * FROM t1 WHERE c IN (" hello", " hello1");
 --sorted_result
 SELECT * FROM t1 WHERE c IN (" HELLO ", " HELLO1 ");
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%hello";
+SELECT * FROM t1 WHERE c LIKE "%hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
+SELECT * FROM t1 WHERE c LIKE "%HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello%";
+SELECT * FROM t1 WHERE c LIKE "hello%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
+SELECT * FROM t1 WHERE c LIKE "HELLO%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_hello";
+SELECT * FROM t1 WHERE c LIKE "_hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
+SELECT * FROM t1 WHERE c LIKE "_HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello_";
+SELECT * FROM t1 WHERE c LIKE "hello_";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
+SELECT * FROM t1 WHERE c LIKE "HELLO_";
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE c REGEXP "HELLO";
@@ -2712,21 +2742,21 @@ SELECT * FROM t1 WHERE d IN (" hello", " hello1");
 --sorted_result
 SELECT * FROM t1 WHERE d IN (" HELLO ", " HELLO1 ");
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%hello";
+SELECT * FROM t1 WHERE d LIKE "%hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
+SELECT * FROM t1 WHERE d LIKE "%HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello%";
+SELECT * FROM t1 WHERE d LIKE "hello%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
+SELECT * FROM t1 WHERE d LIKE "HELLO%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_hello";
+SELECT * FROM t1 WHERE d LIKE "_hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
+SELECT * FROM t1 WHERE d LIKE "_HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello_";
+SELECT * FROM t1 WHERE d LIKE "hello_";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
+SELECT * FROM t1 WHERE d LIKE "HELLO_";
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE d REGEXP "HELLO";
@@ -2738,6 +2768,7 @@ CREATE INDEX a ON t1(a(16));
 CREATE INDEX b ON t1(b(16));
 CREATE INDEX c ON t1(c(16));
 CREATE INDEX d ON t1(d(16));
+CREATE INDEX e ON t1(e(16));
 # tinytext
 --sorted_result
 SELECT * FROM t1 WHERE a IS NULL;
@@ -2746,38 +2777,64 @@ SELECT * FROM t1 WHERE a IS NOT NULL;
 --sorted_result
 SELECT * FROM t1 WHERE a = "hello";
 --sorted_result
+SELECT * FROM t1 WHERE a = "HELLO";
+--sorted_result
 SELECT * FROM t1 WHERE a = "hello ";
 --sorted_result
+SELECT * FROM t1 WHERE a = "HELLO ";
+--sorted_result
 SELECT * FROM t1 WHERE a = " hello";
+--sorted_result
+SELECT * FROM t1 WHERE a = " HELLO";
 --sorted_result
 SELECT * FROM t1 WHERE a = " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE a = " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE a = b;
+SELECT * FROM t1 WHERE a = e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE a != "hello";
 #--sorted_result
-#SELECT * FROM t1 WHERE a < "hello ;
+#SELECT * FROM t1 WHERE a != "HELLO";
 #--sorted_result
-#SELECT * FROM t1 WHERE a <= "hello ;
+#SELECT * FROM t1 WHERE a != "hello ";
 #--sorted_result
-#SELECT * FROM t1 WHERE a > "hello ;
+#SELECT * FROM t1 WHERE a != "HELLO ";
 #--sorted_result
-#SELECT * FROM t1 WHERE a >= "hello ;
+#SELECT * FROM t1 WHERE a < "hello";
+#--sorted_result
+#SELECT * FROM t1 WHERE a < "HELLO";
+#--sorted_result
+#SELECT * FROM t1 WHERE a <= "hello ";
+#--sorted_result
+#SELECT * FROM t1 WHERE a <= "HELLO ";
+#--sorted_result
+#SELECT * FROM t1 WHERE a > "hello";
+#--sorted_result
+#SELECT * FROM t1 WHERE a > "HELLO";
+#--sorted_result
+#SELECT * FROM t1 WHERE a >= "hello ";
+#--sorted_result
+#SELECT * FROM t1 WHERE a >= "HELLO ";
 --sorted_result
 SELECT * FROM t1 WHERE a <=> "hello";
 --sorted_result
+SELECT * FROM t1 WHERE a <=> "HELLO";
+--sorted_result
 SELECT * FROM t1 WHERE a <=> "hello ";
 --sorted_result
+SELECT * FROM t1 WHERE a <=> "HELLO ";
+--sorted_result
 SELECT * FROM t1 WHERE a <=> " hello";
+--sorted_result
+SELECT * FROM t1 WHERE a <=> " HELLO";
 --sorted_result
 SELECT * FROM t1 WHERE a <=> " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE a <=> " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE a <=> b;
+SELECT * FROM t1 WHERE a <=> e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE a BETWEEN "hello " AND "hello1 ";
@@ -2791,6 +2848,10 @@ SELECT * FROM t1 WHERE a <=> b;
 SELECT * FROM t1 WHERE a IN ("hello", "hello1");
 --sorted_result
 SELECT * FROM t1 WHERE a IN ("HELLO", "HELLO1");
+--sorted_result
+SELECT * FROM t1 WHERE a IN ("hello ", "hello1 ");
+--sorted_result
+SELECT * FROM t1 WHERE a IN ("HELLO ", "HELLO1 ");
 --sorted_result
 SELECT * FROM t1 WHERE a IN (" hello", " hello1");
 --sorted_result
@@ -2833,7 +2894,7 @@ SELECT * FROM t1 WHERE b = " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE b = " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE b = c;
+SELECT * FROM t1 WHERE b = e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE b != "hello";
@@ -2856,7 +2917,7 @@ SELECT * FROM t1 WHERE b <=> " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE b <=> " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE b <=> c;
+SELECT * FROM t1 WHERE b <=> e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE b BETWEEN "hello " AND "hello1 ";
@@ -2875,21 +2936,21 @@ SELECT * FROM t1 WHERE b IN (" hello", " hello1");
 --sorted_result
 SELECT * FROM t1 WHERE b IN (" HELLO ", " HELLO1 ");
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%hello";
+SELECT * FROM t1 WHERE b LIKE "%hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
+SELECT * FROM t1 WHERE b LIKE "%HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello%";
+SELECT * FROM t1 WHERE b LIKE "hello%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
+SELECT * FROM t1 WHERE b LIKE "HELLO%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_hello";
+SELECT * FROM t1 WHERE b LIKE "_hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
+SELECT * FROM t1 WHERE b LIKE "_HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello_";
+SELECT * FROM t1 WHERE b LIKE "hello_";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
+SELECT * FROM t1 WHERE b LIKE "HELLO_";
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE b REGEXP "HELLO";
@@ -2912,7 +2973,7 @@ SELECT * FROM t1 WHERE c = " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE c = " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE c = d;
+SELECT * FROM t1 WHERE c = e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE c != "hello";
@@ -2935,7 +2996,7 @@ SELECT * FROM t1 WHERE c <=> " hello ";
 --sorted_result
 SELECT * FROM t1 WHERE c <=> " HELLO ";
 --sorted_result
-SELECT * FROM t1 WHERE c <=> d;
+SELECT * FROM t1 WHERE c <=> e;
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE c cETWEEN "hello " AND "hello1 ";
@@ -2954,21 +3015,21 @@ SELECT * FROM t1 WHERE c IN (" hello", " hello1");
 --sorted_result
 SELECT * FROM t1 WHERE c IN (" HELLO ", " HELLO1 ");
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%hello";
+SELECT * FROM t1 WHERE c LIKE "%hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
+SELECT * FROM t1 WHERE c LIKE "%HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello%";
+SELECT * FROM t1 WHERE c LIKE "hello%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
+SELECT * FROM t1 WHERE c LIKE "HELLO%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_hello";
+SELECT * FROM t1 WHERE c LIKE "_hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
+SELECT * FROM t1 WHERE c LIKE "_HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello_";
+SELECT * FROM t1 WHERE c LIKE "hello_";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
+SELECT * FROM t1 WHERE c LIKE "HELLO_";
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE c REGEXP "HELLO";
@@ -3029,21 +3090,21 @@ SELECT * FROM t1 WHERE d IN (" hello", " hello1");
 --sorted_result
 SELECT * FROM t1 WHERE d IN (" HELLO ", " HELLO1 ");
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%hello";
+SELECT * FROM t1 WHERE d LIKE "%hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
+SELECT * FROM t1 WHERE d LIKE "%HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello%";
+SELECT * FROM t1 WHERE d LIKE "hello%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
+SELECT * FROM t1 WHERE d LIKE "HELLO%";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_hello";
+SELECT * FROM t1 WHERE d LIKE "_hello";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
+SELECT * FROM t1 WHERE d LIKE "_HELLO";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "hello_";
+SELECT * FROM t1 WHERE d LIKE "hello_";
 --sorted_result
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
+SELECT * FROM t1 WHERE d LIKE "HELLO_";
 # SEQUOIASQLMAINSTREAM-206
 #--sorted_result
 #SELECT * FROM t1 WHERE d REGEXP "HELLO";
@@ -3068,30 +3129,42 @@ INSERT INTO t1 VALUES ("str", " str", " str", " str");
 INSERT INTO t1 VALUES (" abc", " abc", " abc", " abc");
 INSERT INTO t1 VALUES ("abc ", "abc ", "abc ", "abc ");
 INSERT INTO t1 VALUES ("a", "a", "a", "a");
+--sorted_result
 SELECT * FROM t1 WHERE a = "ABCD";
+--sorted_result
 SELECT * FROM t1 WHERE a >= "ab";
 # SEQUOIASQLMAINSTREAM-206
+#--sorted_result
 #SELECT * FROM t1 WHERE a REGEXP "abcd";
 # SEQUOIASQLMAINSTREAM-212
 #SELECT * FROM t1 WHERE a < "ab" ORDER BY a DESC;
 SELECT * FROM t1 WHERE a < "str" ORDER BY a LIMIT 3 OFFSET 2;
+--sorted_result
 SELECT * FROM t1 WHERE b = "ABCD";
+--sorted_result
 SELECT * FROM t1 WHERE b >= "ab";
 # SEQUOIASQLMAINSTREAM-206
+#--sorted_result
 #SELECT * FROM t1 WHERE b REGEXP "abcd";
 # SEQUOIASQLMAINSTREAM-212
 #SELECT * FROM t1 WHERE b < "ab" ORDER BY b DESC;
 SELECT * FROM t1 WHERE b < "str" ORDER BY b LIMIT 3 OFFSET 2;
+--sorted_result
 SELECT * FROM t1 WHERE c = "ABCD";
+--sorted_result
 SELECT * FROM t1 WHERE c >= "ab";
 # SEQUOIASQLMAINSTREAM-206
+#--sorted_result
 #SELECT * FROM t1 WHERE c REGEXP "abcd";
 # SEQUOIASQLMAINSTREAM-212
 #SELECT * FROM t1 WHERE c < "ab" ORDER BY c DESC;
 SELECT * FROM t1 WHERE c < "str" ORDER BY c LIMIT 3 OFFSET 2;
+--sorted_result
 SELECT * FROM t1 WHERE d = "ABCD";
+--sorted_result
 SELECT * FROM t1 WHERE d >= "ab";
 # SEQUOIASQLMAINSTREAM-206
+#--sorted_result
 #SELECT * FROM t1 WHERE d REGEXP "abcd";
 # SEQUOIASQLMAINSTREAM-212
 #SELECT * FROM t1 WHERE d < "ab" ORDER BY d DESC;
@@ -3307,10 +3380,14 @@ INSERT INTO t1 VALUES ("str", " str");
 INSERT INTO t1 VALUES (" abc", " abc");
 INSERT INTO t1 VALUES ("abc ", "abc ");
 INSERT INTO t1 VALUES ("a", "a");
+--sorted_result
 SELECT * FROM t1 WHERE a = "ABCD";
+--sorted_result
 SELECT * FROM t1 WHERE a >= "ab";
+--sorted_result
 SELECT * FROM t1 WHERE a <=> b;
 # SEQUOIASQLMAINSTREAM-206
+#--sorted_result
 #SELECT * FROM t1 WHERE a REGEXP "abcd";
 # SEQUOIASQLMAINSTREAM-212
 #SELECT * FROM t1 WHERE a < "ab" ORDER BY a DESC;
@@ -3510,7 +3587,6 @@ DROP TABLE t1;
 #
 CREATE TABLE t1(a char(255), b char(255));
 CREATE INDEX a ON t1(a(3));
-CREATE INDEX b ON t1(b(3));
 INSERT INTO t1 VALUES ("abcd", "abcd");
 INSERT INTO t1 VALUES ("ABCD", "ABCD");
 INSERT INTO t1 VALUES ("hello", "hello");
@@ -3520,10 +3596,14 @@ INSERT INTO t1 VALUES ("str", " str");
 INSERT INTO t1 VALUES (" abc", " abc");
 INSERT INTO t1 VALUES ("abc ", "abc ");
 INSERT INTO t1 VALUES ("a", "a");
+--sorted_result
 SELECT * FROM t1 WHERE a = "ABCD";
+--sorted_result
 SELECT * FROM t1 WHERE a >= "ab";
+--sorted_result
 SELECT * FROM t1 WHERE a <=> b;
 # SEQUOIASQLMAINSTREAM-206
+#--sorted_result
 #SELECT * FROM t1 WHERE a REGEXP "abcd";
 # SEQUOIASQLMAINSTREAM-212
 #SELECT * FROM t1 WHERE a < "ab" ORDER BY a DESC;
