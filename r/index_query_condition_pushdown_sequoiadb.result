@@ -4833,1072 +4833,1125 @@ select * from t1 order by a limit 1 offset 2;
 a	b	c
 999.97	3	999.99
 drop table t1;
-CREATE TABLE t1(a tinytext, b mediumtext, c text, d longtext);
-INSERT INTO t1 VALUES ("hello", "hello", "hello", "hello");
-INSERT INTO t1 VALUES ("HELLO", "HELLO", "HELLO", "HELLO");
-INSERT INTO t1 VALUES ("hello ", "hello ", "hello ", "hello ");
-INSERT INTO t1 VALUES ("HELLO ", "HELLO ", "HELLO ", "HELLO ");
-INSERT INTO t1 VALUES (" hello", " hello", " hello", " hello");
-INSERT INTO t1 VALUES (" HELLO", " HELLO", " HELLO", " HELLO");
-INSERT INTO t1 VALUES (" hello ", " hello ", " hello ", " hello ");
-INSERT INTO t1 VALUES (" HELLO ", " HELLO ", " HELLO ", " HELLO ");
-INSERT INTO t1 VALUES ("hello1", "hello1", "hello1", "hello1");
-INSERT INTO t1 VALUES ("HELLO1", "HELLO1", "HELLO1", "HELLO1");
-INSERT INTO t1 VALUES ("hello1 ", "hello1 ", "hello1 ", "hello1 ");
-INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ");
-INSERT INTO t1 VALUES (" hello1", " hello1", " hello1", " hello1");
-INSERT INTO t1 VALUES (" HELLO1", " HELLO1", " HELLO1", " HELLO1");
-INSERT INTO t1 VALUES (" hello1 ", " hello1 ", " hello1 ", " hello1 ");
-INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ", " HELLO1 ", " HELLO1 ");
-INSERT INTO t1 VALUES ("hello2 ", "hello2 ", "hello2 ", "hello2 ");
+CREATE TABLE t1(a tinytext, b mediumtext, c text, d longtext, e varchar(16));
+INSERT INTO t1 VALUES ("hello", "hello", "hello", "hello", "hello");
+INSERT INTO t1 VALUES ("HELLO", "HELLO", "HELLO", "HELLO", "HELLO");
+INSERT INTO t1 VALUES ("hello ", "hello ", "hello ", "hello ", "hello ");
+INSERT INTO t1 VALUES ("HELLO ", "HELLO ", "HELLO ", "HELLO ", "HELLO ");
+INSERT INTO t1 VALUES (" hello", " hello", " hello", " hello", " hello");
+INSERT INTO t1 VALUES (" HELLO", " HELLO", " HELLO", " HELLO", " HELLO");
+INSERT INTO t1 VALUES (" hello ", " hello ", " hello ", " hello ", " hello ");
+INSERT INTO t1 VALUES (" HELLO ", " HELLO ", " HELLO ", " HELLO ", " HELLO ");
+INSERT INTO t1 VALUES ("hello1", "hello1", "hello1", "hello1", "hello1");
+INSERT INTO t1 VALUES ("HELLO1", "HELLO1", "HELLO1", "HELLO1", "HELLO1");
+INSERT INTO t1 VALUES ("hello1 ", "hello1 ", "hello1 ", "hello1 ", "hello1 ");
+INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ");
+INSERT INTO t1 VALUES (" hello1", " hello1", " hello1", " hello1", " hello1");
+INSERT INTO t1 VALUES (" HELLO1", " HELLO1", " HELLO1", " HELLO1", " HELLO1");
+INSERT INTO t1 VALUES (" hello1 ", " hello1 ", " hello1 ", " hello1 ", " hello1 ");
+INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ", " HELLO1 ", " HELLO1 ", " HELLO1 ");
+INSERT INTO t1 VALUES ("hello2 ", "hello2 ", "hello2 ", "hello2 ", "hello2 ");
 SELECT * FROM t1 WHERE a IS NULL;
-a	b	c	d
+a	b	c	d	e
 SELECT * FROM t1 WHERE a IS NOT NULL;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE a = "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
+SELECT * FROM t1 WHERE a = "HELLO";
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
 SELECT * FROM t1 WHERE a = "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+SELECT * FROM t1 WHERE a = "HELLO ";
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
 SELECT * FROM t1 WHERE a = " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+SELECT * FROM t1 WHERE a = " HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
 SELECT * FROM t1 WHERE a = " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE a = " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE a = b;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE a = e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE a <=> "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
+SELECT * FROM t1 WHERE a <=> "HELLO";
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
 SELECT * FROM t1 WHERE a <=> "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+SELECT * FROM t1 WHERE a <=> "HELLO ";
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
 SELECT * FROM t1 WHERE a <=> " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+SELECT * FROM t1 WHERE a <=> " HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
 SELECT * FROM t1 WHERE a <=> " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE a <=> " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE a <=> b;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE a <=> e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE a IN ("hello", "hello1");
-a	b	c	d
-hello	hello	hello	hello
-hello1	hello1	hello1	hello1
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello1	hello1	hello1	hello1	hello1
 SELECT * FROM t1 WHERE a IN ("HELLO", "HELLO1");
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+SELECT * FROM t1 WHERE a IN ("hello ", "hello1 ");
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+hello1 	hello1 	hello1 	hello1 	hello1 
+SELECT * FROM t1 WHERE a IN ("HELLO ", "HELLO1 ");
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
 SELECT * FROM t1 WHERE a IN (" hello", " hello1");
-a	b	c	d
- hello	 hello	 hello	 hello
- hello1	 hello1	 hello1	 hello1
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+ hello1	 hello1	 hello1	 hello1	 hello1
 SELECT * FROM t1 WHERE a IN (" HELLO ", " HELLO1 ");
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
 SELECT * FROM t1 WHERE a LIKE "%hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-hello	hello	hello	hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE a LIKE "%HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-HELLO	HELLO	HELLO	HELLO
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+HELLO	HELLO	HELLO	HELLO	HELLO
 SELECT * FROM t1 WHERE a LIKE "hello%";
-a	b	c	d
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE a LIKE "HELLO%";
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
 SELECT * FROM t1 WHERE a LIKE "_hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE a LIKE "_HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
 SELECT * FROM t1 WHERE a LIKE "hello_";
-a	b	c	d
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
 SELECT * FROM t1 WHERE a LIKE "HELLO_";
-a	b	c	d
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE b IS NULL;
-a	b	c	d
+a	b	c	d	e
 SELECT * FROM t1 WHERE b IS NOT NULL;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE b = "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE b = "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE b = " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE b = " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE b = " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE b = c;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE b = e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE b <=> "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE b <=> "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE b <=> " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE b <=> " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE b <=> " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE b <=> c;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE b <=> e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE b IN ("hello", "hello1");
-a	b	c	d
-hello	hello	hello	hello
-hello1	hello1	hello1	hello1
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello1	hello1	hello1	hello1	hello1
 SELECT * FROM t1 WHERE b IN ("HELLO", "HELLO1");
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE b IN (" hello", " hello1");
-a	b	c	d
- hello	 hello	 hello	 hello
- hello1	 hello1	 hello1	 hello1
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+ hello1	 hello1	 hello1	 hello1	 hello1
 SELECT * FROM t1 WHERE b IN (" HELLO ", " HELLO1 ");
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
-SELECT * FROM t1 WHERE a LIKE "%hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-hello	hello	hello	hello
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-HELLO	HELLO	HELLO	HELLO
-SELECT * FROM t1 WHERE a LIKE "hello%";
-a	b	c	d
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-SELECT * FROM t1 WHERE a LIKE "_hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-SELECT * FROM t1 WHERE a LIKE "hello_";
-a	b	c	d
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
-a	b	c	d
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+SELECT * FROM t1 WHERE b LIKE "%hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+hello	hello	hello	hello	hello
+SELECT * FROM t1 WHERE b LIKE "%HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+HELLO	HELLO	HELLO	HELLO	HELLO
+SELECT * FROM t1 WHERE b LIKE "hello%";
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
+SELECT * FROM t1 WHERE b LIKE "HELLO%";
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+SELECT * FROM t1 WHERE b LIKE "_hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+SELECT * FROM t1 WHERE b LIKE "_HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+SELECT * FROM t1 WHERE b LIKE "hello_";
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+SELECT * FROM t1 WHERE b LIKE "HELLO_";
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE c IS NULL;
-a	b	c	d
+a	b	c	d	e
 SELECT * FROM t1 WHERE c IS NOT NULL;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE c = "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE c = "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE c = " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE c = " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE c = " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE c = d;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE c = e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE c <=> "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE c <=> "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE c <=> " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE c <=> " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE c <=> " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE c <=> d;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE c <=> e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE c IN ("hello", "hello1");
-a	b	c	d
-hello	hello	hello	hello
-hello1	hello1	hello1	hello1
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello1	hello1	hello1	hello1	hello1
 SELECT * FROM t1 WHERE c IN ("HELLO", "HELLO1");
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE c IN (" hello", " hello1");
-a	b	c	d
- hello	 hello	 hello	 hello
- hello1	 hello1	 hello1	 hello1
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+ hello1	 hello1	 hello1	 hello1	 hello1
 SELECT * FROM t1 WHERE c IN (" HELLO ", " HELLO1 ");
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
-SELECT * FROM t1 WHERE a LIKE "%hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-hello	hello	hello	hello
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-HELLO	HELLO	HELLO	HELLO
-SELECT * FROM t1 WHERE a LIKE "hello%";
-a	b	c	d
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-SELECT * FROM t1 WHERE a LIKE "_hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-SELECT * FROM t1 WHERE a LIKE "hello_";
-a	b	c	d
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
-a	b	c	d
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+SELECT * FROM t1 WHERE c LIKE "%hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+hello	hello	hello	hello	hello
+SELECT * FROM t1 WHERE c LIKE "%HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+HELLO	HELLO	HELLO	HELLO	HELLO
+SELECT * FROM t1 WHERE c LIKE "hello%";
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
+SELECT * FROM t1 WHERE c LIKE "HELLO%";
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+SELECT * FROM t1 WHERE c LIKE "_hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+SELECT * FROM t1 WHERE c LIKE "_HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+SELECT * FROM t1 WHERE c LIKE "hello_";
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+SELECT * FROM t1 WHERE c LIKE "HELLO_";
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE d IS NULL;
-a	b	c	d
+a	b	c	d	e
 SELECT * FROM t1 WHERE d IS NOT NULL;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE d = "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE d = "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE d = " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE d = " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE d = " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
 SELECT * FROM t1 WHERE d <=> "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE d <=> "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE d <=> " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE d <=> " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE d <=> " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
 SELECT * FROM t1 WHERE d IN ("hello", "hello1");
-a	b	c	d
-hello	hello	hello	hello
-hello1	hello1	hello1	hello1
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello1	hello1	hello1	hello1	hello1
 SELECT * FROM t1 WHERE d IN ("HELLO", "HELLO1");
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE d IN (" hello", " hello1");
-a	b	c	d
- hello	 hello	 hello	 hello
- hello1	 hello1	 hello1	 hello1
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+ hello1	 hello1	 hello1	 hello1	 hello1
 SELECT * FROM t1 WHERE d IN (" HELLO ", " HELLO1 ");
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
-SELECT * FROM t1 WHERE a LIKE "%hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-hello	hello	hello	hello
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-HELLO	HELLO	HELLO	HELLO
-SELECT * FROM t1 WHERE a LIKE "hello%";
-a	b	c	d
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-SELECT * FROM t1 WHERE a LIKE "_hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-SELECT * FROM t1 WHERE a LIKE "hello_";
-a	b	c	d
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
-a	b	c	d
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+SELECT * FROM t1 WHERE d LIKE "%hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+hello	hello	hello	hello	hello
+SELECT * FROM t1 WHERE d LIKE "%HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+HELLO	HELLO	HELLO	HELLO	HELLO
+SELECT * FROM t1 WHERE d LIKE "hello%";
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
+SELECT * FROM t1 WHERE d LIKE "HELLO%";
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+SELECT * FROM t1 WHERE d LIKE "_hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+SELECT * FROM t1 WHERE d LIKE "_HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+SELECT * FROM t1 WHERE d LIKE "hello_";
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+SELECT * FROM t1 WHERE d LIKE "HELLO_";
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 CREATE INDEX a ON t1(a(16));
 CREATE INDEX b ON t1(b(16));
 CREATE INDEX c ON t1(c(16));
 CREATE INDEX d ON t1(d(16));
+CREATE INDEX e ON t1(e(16));
 SELECT * FROM t1 WHERE a IS NULL;
-a	b	c	d
+a	b	c	d	e
 SELECT * FROM t1 WHERE a IS NOT NULL;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE a = "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
+SELECT * FROM t1 WHERE a = "HELLO";
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
 SELECT * FROM t1 WHERE a = "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+SELECT * FROM t1 WHERE a = "HELLO ";
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
 SELECT * FROM t1 WHERE a = " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+SELECT * FROM t1 WHERE a = " HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
 SELECT * FROM t1 WHERE a = " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE a = " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE a = b;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE a = e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE a <=> "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
+SELECT * FROM t1 WHERE a <=> "HELLO";
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
 SELECT * FROM t1 WHERE a <=> "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+SELECT * FROM t1 WHERE a <=> "HELLO ";
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
 SELECT * FROM t1 WHERE a <=> " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+SELECT * FROM t1 WHERE a <=> " HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
 SELECT * FROM t1 WHERE a <=> " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE a <=> " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE a <=> b;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE a <=> e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE a IN ("hello", "hello1");
-a	b	c	d
-hello	hello	hello	hello
-hello1	hello1	hello1	hello1
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello1	hello1	hello1	hello1	hello1
 SELECT * FROM t1 WHERE a IN ("HELLO", "HELLO1");
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+SELECT * FROM t1 WHERE a IN ("hello ", "hello1 ");
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+hello1 	hello1 	hello1 	hello1 	hello1 
+SELECT * FROM t1 WHERE a IN ("HELLO ", "HELLO1 ");
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
 SELECT * FROM t1 WHERE a IN (" hello", " hello1");
-a	b	c	d
- hello	 hello	 hello	 hello
- hello1	 hello1	 hello1	 hello1
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+ hello1	 hello1	 hello1	 hello1	 hello1
 SELECT * FROM t1 WHERE a IN (" HELLO ", " HELLO1 ");
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
 SELECT * FROM t1 WHERE a LIKE "%hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-hello	hello	hello	hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE a LIKE "%HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-HELLO	HELLO	HELLO	HELLO
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+HELLO	HELLO	HELLO	HELLO	HELLO
 SELECT * FROM t1 WHERE a LIKE "hello%";
-a	b	c	d
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE a LIKE "HELLO%";
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
 SELECT * FROM t1 WHERE a LIKE "_hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE a LIKE "_HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
 SELECT * FROM t1 WHERE a LIKE "hello_";
-a	b	c	d
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
 SELECT * FROM t1 WHERE a LIKE "HELLO_";
-a	b	c	d
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE b IS NULL;
-a	b	c	d
+a	b	c	d	e
 SELECT * FROM t1 WHERE b IS NOT NULL;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE b = "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE b = "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE b = " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE b = " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE b = " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE b = c;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE b = e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE b <=> "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE b <=> "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE b <=> " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE b <=> " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE b <=> " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE b <=> c;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE b <=> e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE b IN ("hello", "hello1");
-a	b	c	d
-hello	hello	hello	hello
-hello1	hello1	hello1	hello1
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello1	hello1	hello1	hello1	hello1
 SELECT * FROM t1 WHERE b IN ("HELLO", "HELLO1");
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE b IN (" hello", " hello1");
-a	b	c	d
- hello	 hello	 hello	 hello
- hello1	 hello1	 hello1	 hello1
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+ hello1	 hello1	 hello1	 hello1	 hello1
 SELECT * FROM t1 WHERE b IN (" HELLO ", " HELLO1 ");
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
-SELECT * FROM t1 WHERE a LIKE "%hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-hello	hello	hello	hello
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-HELLO	HELLO	HELLO	HELLO
-SELECT * FROM t1 WHERE a LIKE "hello%";
-a	b	c	d
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-SELECT * FROM t1 WHERE a LIKE "_hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-SELECT * FROM t1 WHERE a LIKE "hello_";
-a	b	c	d
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
-a	b	c	d
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+SELECT * FROM t1 WHERE b LIKE "%hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+hello	hello	hello	hello	hello
+SELECT * FROM t1 WHERE b LIKE "%HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+HELLO	HELLO	HELLO	HELLO	HELLO
+SELECT * FROM t1 WHERE b LIKE "hello%";
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
+SELECT * FROM t1 WHERE b LIKE "HELLO%";
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+SELECT * FROM t1 WHERE b LIKE "_hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+SELECT * FROM t1 WHERE b LIKE "_HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+SELECT * FROM t1 WHERE b LIKE "hello_";
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+SELECT * FROM t1 WHERE b LIKE "HELLO_";
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE c IS NULL;
-a	b	c	d
+a	b	c	d	e
 SELECT * FROM t1 WHERE c IS NOT NULL;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE c = "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE c = "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE c = " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE c = " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE c = " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE c = d;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE c = e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE c <=> "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE c <=> "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE c <=> " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE c <=> " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE c <=> " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
-SELECT * FROM t1 WHERE c <=> d;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+SELECT * FROM t1 WHERE c <=> e;
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE c IN ("hello", "hello1");
-a	b	c	d
-hello	hello	hello	hello
-hello1	hello1	hello1	hello1
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello1	hello1	hello1	hello1	hello1
 SELECT * FROM t1 WHERE c IN ("HELLO", "HELLO1");
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE c IN (" hello", " hello1");
-a	b	c	d
- hello	 hello	 hello	 hello
- hello1	 hello1	 hello1	 hello1
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+ hello1	 hello1	 hello1	 hello1	 hello1
 SELECT * FROM t1 WHERE c IN (" HELLO ", " HELLO1 ");
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
-SELECT * FROM t1 WHERE a LIKE "%hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-hello	hello	hello	hello
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-HELLO	HELLO	HELLO	HELLO
-SELECT * FROM t1 WHERE a LIKE "hello%";
-a	b	c	d
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-SELECT * FROM t1 WHERE a LIKE "_hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-SELECT * FROM t1 WHERE a LIKE "hello_";
-a	b	c	d
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
-a	b	c	d
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+SELECT * FROM t1 WHERE c LIKE "%hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+hello	hello	hello	hello	hello
+SELECT * FROM t1 WHERE c LIKE "%HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+HELLO	HELLO	HELLO	HELLO	HELLO
+SELECT * FROM t1 WHERE c LIKE "hello%";
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
+SELECT * FROM t1 WHERE c LIKE "HELLO%";
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+SELECT * FROM t1 WHERE c LIKE "_hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+SELECT * FROM t1 WHERE c LIKE "_HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+SELECT * FROM t1 WHERE c LIKE "hello_";
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+SELECT * FROM t1 WHERE c LIKE "HELLO_";
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE d IS NULL;
-a	b	c	d
+a	b	c	d	e
 SELECT * FROM t1 WHERE d IS NOT NULL;
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1	 HELLO1	 HELLO1	 HELLO1
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
- hello	 hello	 hello	 hello
- hello 	 hello 	 hello 	 hello 
- hello1	 hello1	 hello1	 hello1
- hello1 	 hello1 	 hello1 	 hello1 
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1	 HELLO1	 HELLO1	 HELLO1	 HELLO1
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+ hello	 hello	 hello	 hello	 hello
+ hello 	 hello 	 hello 	 hello 	 hello 
+ hello1	 hello1	 hello1	 hello1	 hello1
+ hello1 	 hello1 	 hello1 	 hello1 	 hello1 
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
 SELECT * FROM t1 WHERE d = "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE d = "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE d = " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE d = " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE d = " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
 SELECT * FROM t1 WHERE d <=> "hello";
-a	b	c	d
-hello	hello	hello	hello
+a	b	c	d	e
+hello	hello	hello	hello	hello
 SELECT * FROM t1 WHERE d <=> "hello ";
-a	b	c	d
-hello 	hello 	hello 	hello 
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
 SELECT * FROM t1 WHERE d <=> " hello";
-a	b	c	d
- hello	 hello	 hello	 hello
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
 SELECT * FROM t1 WHERE d <=> " hello ";
-a	b	c	d
- hello 	 hello 	 hello 	 hello 
+a	b	c	d	e
+ hello 	 hello 	 hello 	 hello 	 hello 
 SELECT * FROM t1 WHERE d <=> " HELLO ";
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
 SELECT * FROM t1 WHERE d IN ("hello", "hello1");
-a	b	c	d
-hello	hello	hello	hello
-hello1	hello1	hello1	hello1
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello1	hello1	hello1	hello1	hello1
 SELECT * FROM t1 WHERE d IN ("HELLO", "HELLO1");
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 SELECT * FROM t1 WHERE d IN (" hello", " hello1");
-a	b	c	d
- hello	 hello	 hello	 hello
- hello1	 hello1	 hello1	 hello1
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+ hello1	 hello1	 hello1	 hello1	 hello1
 SELECT * FROM t1 WHERE d IN (" HELLO ", " HELLO1 ");
-a	b	c	d
- HELLO 	 HELLO 	 HELLO 	 HELLO 
- HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
-SELECT * FROM t1 WHERE a LIKE "%hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-hello	hello	hello	hello
-SELECT * FROM t1 WHERE a LIKE "%HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-HELLO	HELLO	HELLO	HELLO
-SELECT * FROM t1 WHERE a LIKE "hello%";
-a	b	c	d
-hello	hello	hello	hello
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-hello1 	hello1 	hello1 	hello1 
-hello2 	hello2 	hello2 	hello2 
-SELECT * FROM t1 WHERE a LIKE "HELLO%";
-a	b	c	d
-HELLO	HELLO	HELLO	HELLO
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
-HELLO1 	HELLO1 	HELLO1 	HELLO1 
-SELECT * FROM t1 WHERE a LIKE "_hello";
-a	b	c	d
- hello	 hello	 hello	 hello
-SELECT * FROM t1 WHERE a LIKE "_HELLO";
-a	b	c	d
- HELLO	 HELLO	 HELLO	 HELLO
-SELECT * FROM t1 WHERE a LIKE "hello_";
-a	b	c	d
-hello 	hello 	hello 	hello 
-hello1	hello1	hello1	hello1
-SELECT * FROM t1 WHERE a LIKE "HELLO_";
-a	b	c	d
-HELLO 	HELLO 	HELLO 	HELLO 
-HELLO1	HELLO1	HELLO1	HELLO1
+a	b	c	d	e
+ HELLO 	 HELLO 	 HELLO 	 HELLO 	 HELLO 
+ HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 	 HELLO1 
+SELECT * FROM t1 WHERE d LIKE "%hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+hello	hello	hello	hello	hello
+SELECT * FROM t1 WHERE d LIKE "%HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+HELLO	HELLO	HELLO	HELLO	HELLO
+SELECT * FROM t1 WHERE d LIKE "hello%";
+a	b	c	d	e
+hello	hello	hello	hello	hello
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+hello1 	hello1 	hello1 	hello1 	hello1 
+hello2 	hello2 	hello2 	hello2 	hello2 
+SELECT * FROM t1 WHERE d LIKE "HELLO%";
+a	b	c	d	e
+HELLO	HELLO	HELLO	HELLO	HELLO
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
+HELLO1 	HELLO1 	HELLO1 	HELLO1 	HELLO1 
+SELECT * FROM t1 WHERE d LIKE "_hello";
+a	b	c	d	e
+ hello	 hello	 hello	 hello	 hello
+SELECT * FROM t1 WHERE d LIKE "_HELLO";
+a	b	c	d	e
+ HELLO	 HELLO	 HELLO	 HELLO	 HELLO
+SELECT * FROM t1 WHERE d LIKE "hello_";
+a	b	c	d	e
+hello 	hello 	hello 	hello 	hello 
+hello1	hello1	hello1	hello1	hello1
+SELECT * FROM t1 WHERE d LIKE "HELLO_";
+a	b	c	d	e
+HELLO 	HELLO 	HELLO 	HELLO 	HELLO 
+HELLO1	HELLO1	HELLO1	HELLO1	HELLO1
 DROP TABLE t1;
 CREATE TABLE t1(a tinytext, b mediumtext, c text, d longtext);
 CREATE INDEX a ON t1(a(3));
@@ -6321,14 +6374,14 @@ hello	hello
 str	 str
 SELECT * FROM t1 WHERE a <=> b;
 a	b
-abcd	abcd
-ABCD	ABCD
-hello	hello
-HELLO	HELLO
-12345	12345
  abc	 abc
-abc 	abc 
+12345	12345
+ABCD	ABCD
+HELLO	HELLO
 a	a
+abc 	abc 
+abcd	abcd
+hello	hello
 SELECT * FROM t1 WHERE a < "str" ORDER BY a LIMIT 3 OFFSET 2;
 a	b
 a	a
@@ -6756,7 +6809,6 @@ HELLO1	HELLO1
 DROP TABLE t1;
 CREATE TABLE t1(a char(255), b char(255));
 CREATE INDEX a ON t1(a(3));
-CREATE INDEX b ON t1(b(3));
 INSERT INTO t1 VALUES ("abcd", "abcd");
 INSERT INTO t1 VALUES ("ABCD", "ABCD");
 INSERT INTO t1 VALUES ("hello", "hello");
@@ -6777,14 +6829,14 @@ hello	hello
 str	 str
 SELECT * FROM t1 WHERE a <=> b;
 a	b
-abcd	abcd
-ABCD	ABCD
-hello	hello
-HELLO	HELLO
-12345	12345
  abc	 abc
-abc	abc
+12345	12345
+ABCD	ABCD
+HELLO	HELLO
 a	a
+abc	abc
+abcd	abcd
+hello	hello
 SELECT * FROM t1 WHERE a < "str" ORDER BY a LIMIT 3 OFFSET 2;
 a	b
 a	a
