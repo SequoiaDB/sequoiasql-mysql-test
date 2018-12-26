@@ -501,7 +501,7 @@ set names utf8;
 SET collation_connection=utf8_czech_ci;
 --source include/ctype_czech.inc
 #Bug #SEQUOIADBMAINSTREAM-3593
-#--source include/ctype_like_ignorable.inc
+--source include/ctype_like_ignorable.inc
 SET collation_connection=ucs2_czech_ci;
 --source include/ctype_czech.inc
 --source include/ctype_like_ignorable.inc
