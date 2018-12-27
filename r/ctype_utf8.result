@@ -29,14 +29,14 @@ locate('LO','hello',2)
 select locate('HE','hello' collate utf8_bin);
 locate('HE','hello' collate utf8_bin)
 0
-selemain.ctype_utf8                          w1 [ pass ]  81019
---------------------------------------------------------------------------
-The servers were restarted 0 times
-Spent 81.019 of 85 seconds executing testcases
-
-Completed: All 1 tests were successful.
-
-0D0B1D0B2)
+select locate('HE','hello' collate utf8_bin,2);
+locate('HE','hello' collate utf8_bin,2)
+0
+select locate('LO','hello' collate utf8_bin,2);
+locate('LO','hello' collate utf8_bin,2)
+0
+select locate(_utf8 0xD0B1, _utf8 0xD0B0D0B1D0B2);
+locate(_utf8 0xD0B1, _utf8 0xD0B0D0B1D0B2)
 2
 select locate(_utf8 0xD091, _utf8 0xD0B0D0B1D0B2);
 locate(_utf8 0xD091, _utf8 0xD0B0D0B1D0B2)
