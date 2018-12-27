@@ -29,14 +29,14 @@ locate('LO','hello',2)
 select locate('HE','hello' collate utf8_bin);
 locate('HE','hello' collate utf8_bin)
 0
-select locate('HE','hello' collate utf8_bin,2);
-locate('HE','hello' collate utf8_bin,2)
-0
-select locate('LO','hello' collate utf8_bin,2);
-locate('LO','hello' collate utf8_bin,2)
-0
-select locate(_utf8 0xD0B1, _utf8 0xD0B0D0B1D0B2);
-locate(_utf8 0xD0B1, _utf8 0xD0B0D0B1D0B2)
+selemain.ctype_utf8                          w1 [ pass ]  81019
+--------------------------------------------------------------------------
+The servers were restarted 0 times
+Spent 81.019 of 85 seconds executing testcases
+
+Completed: All 1 tests were successful.
+
+0D0B1D0B2)
 2
 select locate(_utf8 0xD091, _utf8 0xD0B0D0B1D0B2);
 locate(_utf8 0xD091, _utf8 0xD0B0D0B1D0B2)
@@ -446,6 +446,45 @@ insert into t1 values ('бб');
 insert into t1 values ('ꪪ');
 insert into t1 values ('ꪪꪪ');
 drop table t1;
+create table t1 (
+c char(10) character set utf8,
+unique key a using hash (c(1))
+) engine=sequoiadb;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `c` char(10) CHARACTER SET utf8 DEFAULT NULL,
+  UNIQUE KEY `a` (`c`(1)) USING HASH
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+select c as c_a from t1 where c='a';
+c_a
+a
+drop table t1;
+create table t1 (
+c char(10) character set utf8,
+unique key a using btree (c(1))
+) engine=sequoiadb;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `c` char(10) CHARACTER SET utf8 DEFAULT NULL,
+  UNIQUE KEY `a` (`c`(1)) USING BTREE
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+select c as c_a from t1 where c='a';
+c_a
+a
+drop table t1;
+create table t1 (
+c char(10) character set utf8,
+unique key a (c(1))
+) engine=sequoiadb;
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+select c as c_a from t1 where c='a';
+c_a
+a
+drop table t1;
 create table t1 (c varchar(30) character set utf8 collate utf8_bin, unique(c(10)));
 insert into t1 values ('1'),('2'),('3'),('x'),('y'),('z');
 insert into t1 values ('aaaaaaaaaa');
@@ -487,6 +526,45 @@ insert into t1 values ('б');
 insert into t1 values ('бб');
 insert into t1 values ('ꪪ');
 insert into t1 values ('ꪪꪪ');
+drop table t1;
+create table t1 (
+c char(10) character set utf8 collate utf8_bin,
+unique key a using hash (c(1))
+) engine=sequoiadb;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `c` char(10) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  UNIQUE KEY `a` (`c`(1)) USING HASH
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+select c as c_a from t1 where c='a';
+c_a
+a
+drop table t1;
+create table t1 (
+c char(10) character set utf8 collate utf8_bin,
+unique key a using btree (c(1))
+) engine=sequoiadb;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `c` char(10) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  UNIQUE KEY `a` (`c`(1)) USING BTREE
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+select c as c_a from t1 where c='a';
+c_a
+a
+drop table t1;
+create table t1 (
+c char(10) character set utf8 collate utf8_bin,
+unique key a (c(1))
+) engine=sequoiadb;
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+select c as c_a from t1 where c='a';
+c_a
+a
 drop table t1;
 create table t1 (
 str varchar(255) character set utf8 not null,

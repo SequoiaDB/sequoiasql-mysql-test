@@ -357,25 +357,25 @@ drop table t1;
 #
 #Bug #SEQUOIADBMAINSTREAM-3607
 #Bug #SEQUOIADBMAINSTREAM-3568
-#create table t1 (
-#c char(10) character set utf8mb4,
-#unique key a using hash (c(1))
-#) engine=sequoiadb;
-#show create table t1;
-#insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+create table t1 (
+c char(10) character set utf8mb4,
+unique key a using hash (c(1))
+) engine=sequoiadb;
+show create table t1;
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aa');
+insert into t1 values ('aa');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aaa');
-#insert into t1 values ('б');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('бб');
+insert into t1 values ('бб');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('ббб');
-#select c as c_all from t1 order by c;
-#select c as c_a from t1 where c='a';
-#select c as c_a from t1 where c='б';
-#drop table t1;
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+select c as c_a from t1 where c='a';
+select c as c_a from t1 where c='б';
+drop table t1;
 
 #
 # Bug 4531: unique key prefix interacts poorly with utf8mb4
@@ -383,25 +383,25 @@ drop table t1;
 #
 #Bug #SEQUOIADBMAINSTREAM-3607
 #Bug #SEQUOIADBMAINSTREAM-3568
-#create table t1 (
-#c char(10) character set utf8mb4,
-#unique key a using btree (c(1))
-#) engine=sequoiadb;
-#show create table t1;
-#insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+create table t1 (
+c char(10) character set utf8mb4,
+unique key a using btree (c(1))
+) engine=sequoiadb;
+show create table t1;
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aa');
+insert into t1 values ('aa');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aaa');
-#insert into t1 values ('б');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('бб');
+insert into t1 values ('бб');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('ббб');
-#select c as c_all from t1 order by c;
-#select c as c_a from t1 where c='a';
-#select c as c_a from t1 where c='б';
-#drop table t1;
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+select c as c_a from t1 where c='a';
+select c as c_a from t1 where c='б';
+drop table t1;
 
 #
 # Bug 4531: unique key prefix interacts poorly with utf8mb4
@@ -410,25 +410,25 @@ drop table t1;
 #Bug #SEQUOIADBMAINSTREAM-3607
 #Bug #SEQUOIADBMAINSTREAM-3568
 #--disable_warnings
-#create table t1 (
-#c char(10) character set utf8mb4,
-#unique key a (c(1))
-#) engine=sequoiadb;
+create table t1 (
+c char(10) character set utf8mb4,
+unique key a (c(1))
+) engine=sequoiadb;
 #--enable_warnings
-#insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aa');
+insert into t1 values ('aa');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aaa');
-#insert into t1 values ('б');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('бб');
+insert into t1 values ('бб');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('ббб');
-#select c as c_all from t1 order by c;
-#select c as c_a from t1 where c='a';
-#select c as c_a from t1 where c='б';
-#drop table t1;
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+select c as c_a from t1 where c='a';
+select c as c_a from t1 where c='б';
+drop table t1;
 
 #
 # Bug 4521: unique key prefix interacts poorly with utf8mb4
@@ -488,25 +488,25 @@ drop table t1;
 #
 #Bug #SEQUOIADBMAINSTREAM-3607
 #Bug #SEQUOIADBMAINSTREAM-3568
-#create table t1 (
-#c char(10) character set utf8mb4 collate utf8mb4_bin,
-#unique key a using hash (c(1))
-#) engine=sequoiadb;
-#show create table t1;
-#insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+create table t1 (
+c char(10) character set utf8mb4 collate utf8mb4_bin,
+unique key a using hash (c(1))
+) engine=sequoiadb;
+show create table t1;
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aa');
+insert into t1 values ('aa');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aaa');
-#insert into t1 values ('б');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('бб');
+insert into t1 values ('бб');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('ббб');
-#select c as c_all from t1 order by c;
-#select c as c_a from t1 where c='a';
-#select c as c_a from t1 where c='б';
-#drop table t1;
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+select c as c_a from t1 where c='a';
+select c as c_a from t1 where c='б';
+drop table t1;
 
 #
 # Bug 4531: unique key prefix interacts poorly with utf8mb4
@@ -514,25 +514,25 @@ drop table t1;
 #
 #Bug #SEQUOIADBMAINSTREAM-3607
 #Bug #SEQUOIADBMAINSTREAM-3568
-#create table t1 (
-#c char(10) character set utf8mb4 collate utf8mb4_bin,
-#unique key a using btree (c(1))
-#) engine=sequoiadb;
-#show create table t1;
-#insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+create table t1 (
+c char(10) character set utf8mb4 collate utf8mb4_bin,
+unique key a using btree (c(1))
+) engine=sequoiadb;
+show create table t1;
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aa');
+insert into t1 values ('aa');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aaa');
-#insert into t1 values ('б');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('бб');
+insert into t1 values ('бб');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('ббб');
-#select c as c_all from t1 order by c;
-#select c as c_a from t1 where c='a';
-#select c as c_a from t1 where c='б';
-#drop table t1;
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+select c as c_a from t1 where c='a';
+select c as c_a from t1 where c='б';
+drop table t1;
 
 #
 # Bug 4531: unique key prefix interacts poorly with utf8mb4
@@ -541,25 +541,25 @@ drop table t1;
 #Bug #SEQUOIADBMAINSTREAM-3607
 #Bug #SEQUOIADBMAINSTREAM-3568
 #--disable_warnings
-#create table t1 (
-#c char(10) character set utf8mb4 collate utf8mb4_bin,
-#unique key a (c(1))
-#) engine=sequoiadb;
+create table t1 (
+c char(10) character set utf8mb4 collate utf8mb4_bin,
+unique key a (c(1))
+) engine=sequoiadb;
 #--enable_warnings
-#insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aa');
+insert into t1 values ('aa');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('aaa');
-#insert into t1 values ('б');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('бб');
+insert into t1 values ('бб');
 #--error ER_DUP_ENTRY
-#insert into t1 values ('ббб');
-#select c as c_all from t1 order by c;
-#select c as c_a from t1 where c='a';
-#select c as c_a from t1 where c='б';
-#drop table t1;
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+select c as c_a from t1 where c='a';
+select c as c_a from t1 where c='б';
+drop table t1;
 
 
 # Bug#4594: column index make = failed for gbk, but like works
@@ -842,7 +842,7 @@ create table t1 (
 insert into t1 values (1,'Durban North');
 insert into t1 values (2,'Durban');
 select * from t1 where city = 'Durban';
-#select * from t1 where city = 'Durban ';
+select * from t1 where city = 'Durban ';
 drop table t1;
 
 #

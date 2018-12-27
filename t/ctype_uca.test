@@ -42,8 +42,8 @@ c char(20) NOT NULL
 ) ENGINE=SequoiaDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 INSERT INTO t VALUES ('a'),('ab'),('aba');
 #Bug #SEQUOIADBMAINSTREAM-3568
-#ALTER TABLE t ADD INDEX (c);
-#SELECT c FROM t WHERE c LIKE 'a%';
+ALTER TABLE t ADD INDEX (c);
+SELECT c FROM t WHERE c LIKE 'a%';
 #should find 3 rows but only found 2
 DROP TABLE t;
 
@@ -501,7 +501,7 @@ set names utf8;
 SET collation_connection=utf8_czech_ci;
 --source include/ctype_czech.inc
 #Bug #SEQUOIADBMAINSTREAM-3593
---source include/ctype_like_ignorable.inc
+#--source include/ctype_like_ignorable.inc
 SET collation_connection=ucs2_czech_ci;
 --source include/ctype_czech.inc
 --source include/ctype_like_ignorable.inc
