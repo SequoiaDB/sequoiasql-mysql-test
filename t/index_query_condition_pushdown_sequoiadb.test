@@ -226,20 +226,20 @@ select * from t1 where a in('1970-01-01 00:00:01.000000','2038-01-19 03:14:07.99
 select * from t1 where a='a1';
 
 #Bug #SEQUOIASQLMAINSTREAM-175
-#--sorted_result
-#select * from t1 where a=c;
+--sorted_result
+select * from t1 where a=c;
 --sorted_result
 select * from t1 where a!=c;
-#--sorted_result
-#select * from t1 where a<=>c;
-#--sorted_result
-#select * from t1 where a>c;
-#--sorted_result
-#select * from t1 where a>=c;
-#--sorted_result
-#select * from t1 where a<c;
-#--sorted_result
-#select * from t1 where a<=c;
+--sorted_result
+select * from t1 where a<=>c;
+--sorted_result
+select * from t1 where a>c;
+--sorted_result
+select * from t1 where a>=c;
+--sorted_result
+select * from t1 where a<c;
+--sorted_result
+select * from t1 where a<=c;
 
 --sorted_result
 select * from t1 where year(a)=2012; 
@@ -284,20 +284,20 @@ select * from t1 where a in('1970-01-01 00:00:01.000000','2038-01-19 03:14:07.99
 select * from t1 where a='a1';
 
 #Bug #SEQUOIASQLMAINSTREAM-175
-#--sorted_result
-#select * from t1 where a=c;
-#--sorted_result
-#select * from t1 where a!=c;
-#--sorted_result
-#select * from t1 where a<=>c;
-#--sorted_result
-#select * from t1 where a>c;
-#--sorted_result
-#select * from t1 where a>=c;
-#--sorted_result
-#select * from t1 where a<c;
-#--sorted_result
-#select * from t1 where a<=c;
+--sorted_result
+select * from t1 where a=c;
+--sorted_result
+select * from t1 where a!=c;
+--sorted_result
+select * from t1 where a<=>c;
+--sorted_result
+select * from t1 where a>c;
+--sorted_result
+select * from t1 where a>=c;
+--sorted_result
+select * from t1 where a<c;
+--sorted_result
+select * from t1 where a<=c;
 
 --sorted_result
 select * from t1 where year(a)=2012;
