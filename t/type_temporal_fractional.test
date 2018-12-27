@@ -3323,8 +3323,8 @@ SET @@timestamp=UNIX_TIMESTAMP('2001-01-01 10:20:30.123');
 CREATE TABLE t1 (a TIME, b DATETIME, a6 TIME(6), b6 DATETIME(6));
 INSERT INTO t1 VALUES
 (current_time, current_timestamp, current_time(6), current_timestamp(6));
-#SELECT a, b FROM t1 WHERE a=b;
-#SELECT a6, b6 FROM t1 WHERE a6=b6;
+SELECT a, b FROM t1 WHERE a=b;
+SELECT a6, b6 FROM t1 WHERE a6=b6;
 --echo # In this query both expressions make DATETIME data type
 SELECT LEAST(a,b), LEAST(b,a) FROM t1;
 SELECT CONCAT(LEAST(a,b)), CONCAT(LEAST(b,a)) FROM t1;
