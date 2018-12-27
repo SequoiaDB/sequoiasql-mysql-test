@@ -2004,8 +2004,8 @@ select * from t1 where a is null;
 select * from t1 where a is not null;
 
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a = -999.99;
+--sorted_result
+select * from t1 where a = -999.99;
 --sorted_result
 select * from t1 where a != -999.99;
 --sorted_result
@@ -2015,8 +2015,8 @@ select * from t1 where a < 999.99 and a >= -999.97;
 --sorted_result
 select * from t1 where a <= 999.99 and a > -999.97;
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a <=> -999.99;
+--sorted_result
+select * from t1 where a <=> -999.99;
 
 --sorted_result
 select * from t1 where a between -999.99 and 999.97;
@@ -2026,8 +2026,8 @@ select * from t1 where a in(999.99,-999.99,129);
 select * from t1 where a = 'a1';
 
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a = c;
+--sorted_result
+select * from t1 where a = c;
 --sorted_result
 select * from t1 where a != c;
 
@@ -2052,8 +2052,8 @@ select * from t1 where a is null;
 select * from t1 where a is not null;
 
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a = -999.99;
+--sorted_result
+select * from t1 where a = -999.99;
 --sorted_result
 select * from t1 where a != -999.99;
 --sorted_result
@@ -2063,8 +2063,8 @@ select * from t1 where a < 999.99 and a >= -999.97;
 --sorted_result
 select * from t1 where a <= 999.99 and a > -999.97;
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a <=> -999.99;
+--sorted_result
+select * from t1 where a <=> -999.99;
 
 --sorted_result
 select * from t1 where a between -999.99 and 999.97;
@@ -2074,8 +2074,8 @@ select * from t1 where a in(999.99,-999.99,129);
 select * from t1 where a = 'a1';
 
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a = c;
+--sorted_result
+select * from t1 where a = c;
 --sorted_result
 select * from t1 where a != c;
 
@@ -2108,8 +2108,8 @@ select * from t1 where a is null;
 select * from t1 where a is not null;
 
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a = 999.97;
+--sorted_result
+select * from t1 where a = 999.97;
 --sorted_result
 select * from t1 where a != 999.97;
 --sorted_result
@@ -2119,8 +2119,8 @@ select * from t1 where a < 999.97 and a >= 0;
 --sorted_result
 select * from t1 where a <= 999.97 and a > 0;
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a <=> 999.97;
+--sorted_result
+select * from t1 where a <=> 999.97;
 
 --sorted_result
 select * from t1 where a between 0 and 999.97;
@@ -2130,8 +2130,8 @@ select * from t1 where a in(0,999.97,129);
 select * from t1 where a = 'a1';
 
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a = c;
+--sorted_result
+select * from t1 where a = c;
 --sorted_result
 select * from t1 where a != c;
 
@@ -2156,8 +2156,8 @@ select * from t1 where a is null;
 select * from t1 where a is not null;
 
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a = 999.97;
+--sorted_result
+select * from t1 where a = 999.97;
 --sorted_result
 select * from t1 where a != 999.97;
 --sorted_result
@@ -2167,8 +2167,8 @@ select * from t1 where a < 999.97 and a >= 0;
 --sorted_result
 select * from t1 where a <= 999.97 and a > 0;
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a <=> 999.97;
+--sorted_result
+select * from t1 where a <=> 999.97;
 
 --sorted_result
 select * from t1 where a between 0 and 999.97;
@@ -2178,8 +2178,8 @@ select * from t1 where a in(0,999.97,129);
 select * from t1 where a = 'a1';
 
 #Bug #SEQUOIASQLMAINSTREAM-213
-#--sorted_result
-#select * from t1 where a = c;
+--sorted_result
+select * from t1 where a = c;
 --sorted_result
 select * from t1 where a != c;
 
