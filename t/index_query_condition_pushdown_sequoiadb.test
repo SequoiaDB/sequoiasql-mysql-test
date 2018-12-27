@@ -629,10 +629,10 @@ select * from t1 where a is null;
 select * from t1 where a is not null;
 
 #Bug #SEQUOIASQLMAINSTREAM-209
-#--sorted_result
-#select * from t1 where a = '-838:59:58.0002';
-#--sorted_result
-#select * from t1 where a = '838:59:58.0002';
+--sorted_result
+select * from t1 where a = '-838:59:58.0002';
+--sorted_result
+select * from t1 where a = '838:59:58.0002';
 --sorted_result
 select * from t1 where a != '-838:59:58.0002';
 --sorted_result
@@ -643,17 +643,17 @@ select * from t1 where a < '838:59:58.0002' and a >= '-838:59:58.0002';
 select * from t1 where a <= '838:59:58.0002' and a > '-838:59:58.0002';
 
 #Bug #SEQUOIASQLMAINSTREAM-209
-#--sorted_result
-#select * from t1 where a <=> '-838:59:58.0002';
+--sorted_result
+select * from t1 where a <=> '-838:59:58.0002';
 --sorted_result
 select * from t1 where a between '-838:59:58.0002' and '838:59:58.0002';
-#--sorted_result
-#select * from t1 where a in('-838:59:59.0000','838:59:58.0002','-837:59:58.0002');
+--sorted_result
+select * from t1 where a in('-838:59:59.0000','838:59:58.0002','-837:59:58.0002');
 
 --sorted_result
 select * from t1 where a='a1';
 
-#Bug #SEQUOIASQLMAINSTREAM-209
+#Bug #SEQUOIASQLMAINSTREAM-214
 #--sorted_result
 #select * from t1 where a<'-839:59:59.0000';
 
@@ -685,10 +685,10 @@ select * from t1 where a is null;
 select * from t1 where a is not null;
 
 #Bug #SEQUOIASQLMAINSTREAM-209
-#--sorted_result
-#select * from t1 where a = '-838:59:58.0002';
-#--sorted_result
-#select * from t1 where a = '838:59:58.0002';
+--sorted_result
+select * from t1 where a = '-838:59:58.0002';
+--sorted_result
+select * from t1 where a = '838:59:58.0002';
 --sorted_result
 select * from t1 where a != '-838:59:58.0002';
 --sorted_result
@@ -699,19 +699,19 @@ select * from t1 where a < '838:59:58.0002' and a >= '-838:59:58.0002';
 select * from t1 where a <= '838:59:58.0002' and a > '-838:59:58.0002';
 
 #Bug #SEQUOIASQLMAINSTREAM-209
-#--sorted_result
-#select * from t1 where a <=> '-838:59:58.0002';
+--sorted_result
+select * from t1 where a <=> '-838:59:58.0002';
 --sorted_result
 select * from t1 where a between '-838:59:58.0002' and '838:59:58.0002';
 
 #Bug #SEQUOIASQLMAINSTREAM-209
-#--sorted_result
-#select * from t1 where a in('-838:59:59.0000','838:59:58.0002','-837:59:58.0002');
+--sorted_result
+select * from t1 where a in('-838:59:59.0000','838:59:58.0002','-837:59:58.0002');
 
 --sorted_result
 select * from t1 where a='a1';
 
-#Bug #SEQUOIASQLMAINSTREAM-209
+#Bug #SEQUOIASQLMAINSTREAM-214
 #--sorted_result
 #select * from t1 where a<'-839:59:59.0000';
 
