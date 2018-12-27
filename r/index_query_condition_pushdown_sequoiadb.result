@@ -4202,6 +4202,9 @@ a	b	c
 999.97	4	999.98
 999.98	3	999.97
 999.99	0	999.99
+select * from t1 where a = -999.99;
+a	b	c
+-999.99	0	-999.99
 select * from t1 where a != -999.99;
 a	b	c
 -999.98	1	-999.97
@@ -4229,6 +4232,9 @@ a	b	c
 999.97	4	999.98
 999.98	3	999.97
 999.99	0	999.99
+select * from t1 where a <=> -999.99;
+a	b	c
+-999.99	0	-999.99
 select * from t1 where a between -999.99 and 999.97;
 a	b	c
 -999.98	1	-999.97
@@ -4243,6 +4249,11 @@ a	b	c
 0.00	7	0.00
 Warning	1292	Truncated incorrect DOUBLE value: 'a1'
 Warnings:
+select * from t1 where a = c;
+a	b	c
+-999.99	0	-999.99
+0.00	7	0.00
+999.99	0	999.99
 select * from t1 where a != c;
 a	b	c
 -999.98	1	-999.97
@@ -4280,6 +4291,9 @@ a	b	c
 999.97	4	999.98
 999.98	3	999.97
 999.99	0	999.99
+select * from t1 where a = -999.99;
+a	b	c
+-999.99	0	-999.99
 select * from t1 where a != -999.99;
 a	b	c
 -999.98	1	-999.97
@@ -4307,6 +4321,9 @@ a	b	c
 999.97	4	999.98
 999.98	3	999.97
 999.99	0	999.99
+select * from t1 where a <=> -999.99;
+a	b	c
+-999.99	0	-999.99
 select * from t1 where a between -999.99 and 999.97;
 a	b	c
 -999.98	1	-999.97
@@ -4321,6 +4338,11 @@ a	b	c
 0.00	7	0.00
 Warning	1292	Truncated incorrect DOUBLE value: 'a1'
 Warnings:
+select * from t1 where a = c;
+a	b	c
+-999.99	0	-999.99
+0.00	7	0.00
+999.99	0	999.99
 select * from t1 where a != c;
 a	b	c
 -999.98	1	-999.97
@@ -4371,6 +4393,9 @@ a	b	c
 999.97	3	999.99
 999.98	4	999.97
 999.99	2	999.99
+select * from t1 where a = 999.97;
+a	b	c
+999.97	3	999.99
 select * from t1 where a != 999.97;
 a	b	c
 0.00	1	0
@@ -4387,6 +4412,9 @@ a	b	c
 select * from t1 where a <= 999.97 and a > 0;
 a	b	c
 999.97	3	999.99
+select * from t1 where a <=> 999.97;
+a	b	c
+999.97	3	999.99
 select * from t1 where a between 0 and 999.97;
 a	b	c
 0.00	1	0
@@ -4399,6 +4427,9 @@ a	b	c
 0.00	1	0
 Warning	1292	Truncated incorrect DOUBLE value: 'a1'
 Warnings:
+select * from t1 where a = c;
+a	b	c
+0.00	1	0
 select * from t1 where a != c;
 a	b	c
 999.97	3	999.99
@@ -4430,6 +4461,9 @@ a	b	c
 999.97	3	999.99
 999.98	4	999.97
 999.99	2	999.99
+select * from t1 where a = 999.97;
+a	b	c
+999.97	3	999.99
 select * from t1 where a != 999.97;
 a	b	c
 0.00	1	0
@@ -4446,6 +4480,9 @@ a	b	c
 select * from t1 where a <= 999.97 and a > 0;
 a	b	c
 999.97	3	999.99
+select * from t1 where a <=> 999.97;
+a	b	c
+999.97	3	999.99
 select * from t1 where a between 0 and 999.97;
 a	b	c
 0.00	1	0
@@ -4458,6 +4495,9 @@ a	b	c
 0.00	1	0
 Warning	1292	Truncated incorrect DOUBLE value: 'a1'
 Warnings:
+select * from t1 where a = c;
+a	b	c
+0.00	1	0
 select * from t1 where a != c;
 a	b	c
 999.97	3	999.99
