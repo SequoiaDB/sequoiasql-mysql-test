@@ -165,6 +165,14 @@ SELECT a, length(a), a='', a=' ', a='  ' FROM t1;
 a	length(a)	a=''	a=' '	a='  '
 	0	1	1	1
 DROP TABLE t1;
+set names cp1250;
+create table t1 (a varchar(15) collate cp1250_czech_cs NOT NULL, primary key(a));
+insert into t1 values("abcdefgh·");
+insert into t1 values("··ËË");
+select a from t1 where a like "abcdefgh·";
+a
+abcdefgh·
+drop table t1;
 set names cp1250 collate cp1250_czech_cs;
 SELECT strcmp('a','a ');
 strcmp('a','a ')

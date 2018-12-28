@@ -1,6 +1,26 @@
 drop table if exists t1,t2,t3;
 SET SQL_WARNINGS=1;
 CREATE TABLE t1 (
+ID CHAR(32) NOT NULL,
+name CHAR(32) NOT NULL,
+value CHAR(255),
+INDEX indexIDname (ID(8),name(8))
+) ;
+INSERT INTO t1 VALUES
+('keyword','indexdir','/export/home/local/www/database/indexes/keyword');
+INSERT INTO t1 VALUES ('keyword','urlprefix','text/ /text');
+INSERT INTO t1 VALUES ('keyword','urlmap','/text/ /');
+INSERT INTO t1 VALUES ('keyword','attr','personal employee company');
+INSERT INTO t1 VALUES
+('emailgids','indexdir','/export/home/local/www/database/indexes/emailgids');
+INSERT INTO t1 VALUES ('emailgids','urlprefix','text/ /text');
+INSERT INTO t1 VALUES ('emailgids','urlmap','/text/ /');
+INSERT INTO t1 VALUES ('emailgids','attr','personal employee company');
+SELECT value FROM t1 WHERE ID='emailgids' AND name='attr';
+value
+personal employee company
+drop table t1;
+CREATE TABLE t1 (
 price int(5) DEFAULT '0' NOT NULL,
 area varchar(40) DEFAULT '' NOT NULL,
 type varchar(40) DEFAULT '' NOT NULL,
