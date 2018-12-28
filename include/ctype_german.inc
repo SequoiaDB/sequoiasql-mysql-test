@@ -51,6 +51,7 @@ select group_concat(s1 order by binary s1) from t1 group by s1;
 
 #Bug #SEQUOIADBMAINSTREAM-3633
 #Bug #SEQUOIASQLMAINSTREAM-3373
+# SequoiaDB convert all charsets to utf8mb4
 SELECT s1, hex(s1), hex(weight_string(s1)) FROM t1 ORDER BY s1, BINARY(s1);
 SELECT s1, hex(s1) FROM t1 WHERE s1='ae' ORDER BY s1, BINARY(s1);
 

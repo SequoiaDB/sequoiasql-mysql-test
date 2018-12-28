@@ -1641,11 +1641,12 @@ select distinct 1 from t4 group by companynr;
 
 #select sum(fld1),fld3 from t2 where fld3="Romans" group by fld1 limit 10;
 #Bug #SEQUOIADBMAINSTREAM-3568
-#select name,count(*) from t3 where name='cloakroom' group by name;
-#select name,count(*) from t3 where name='cloakroom' and price>10 group by name;
-#select count(*) from t3 where name='cloakroom' and price2=823742;
-#select name,count(*) from t3 where name='cloakroom' and price2=823742 group by name;
-#select name,count(*) from t3 where name >= "extramarital" and price <= 39654943 group by name;
+# For SEQUOIADB: TABLE t3 only have 10 records 
+select name,count(*) from t3 where name='cloakroom' group by name;
+select name,count(*) from t3 where name='cloakroom' and price>10 group by name;
+select count(*) from t3 where name='cloakroom' and price2=823742;
+select name,count(*) from t3 where name='cloakroom' and price2=823742 group by name;
+select name,count(*) from t3 where name >= "extramarital" and price <= 39654943 group by name;
 
 # We see the functional dependency implied by WHERE!
 
@@ -1668,8 +1669,8 @@ select companynr|0,companyname from t4 group by 1;
 #
 
 select sum(Period)/count(*) from t1;
-#select companynr,count(price) as "count",sum(price) as "sum" ,abs(sum(price)/count(price)-avg(price)) as "diff",(0+count(price))*companynr as func from t3 group by companynr;
-#select companynr,sum(price)/count(price) as avg from t3 group by companynr having avg > 70000000 order by avg;
+select companynr,count(price) as "count",sum(price) as "sum" ,abs(sum(price)/count(price)-avg(price)) as "diff",(0+count(price))*companynr as func from t3 group by companynr;
+select companynr,sum(price)/count(price) as avg from t3 group by companynr having avg > 70000000 order by avg;
 
 #
 # Group with order on not first table
@@ -1744,8 +1745,8 @@ select sum(Period)/count(*) from t1;
 #select min(fld1) from t2 where fld1>= 098024;
 #--enable_ps_protocol
 #select max(fld1) from t2 where fld1>= 098024;
-#select count(*) from t3 where price2=76234234;
-#select count(*) from t3 where companynr=512 and price2=76234234;
+select count(*) from t3 where price2=76234234;
+select count(*) from t3 where companynr=512 and price2=76234234;
 #explain select min(fld1),max(fld1),count(*) from t2;
 # PS does correct pre-zero here. MySQL can't do it as it returns a number.
 #--disable_ps_protocol
@@ -3349,7 +3350,8 @@ SELECT name, LENGTH(name), n FROM t2 ORDER BY name;
 #EXPLAIN SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 
 #Bug #SEQUOIADBMAINSTREAM-3568
-#SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
+# SEQUOIASQLMAINSTSREAM-204
+SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%' ORDER BY name;
@@ -3375,7 +3377,8 @@ SELECT name, LENGTH(name), n FROM t2 ORDER BY name;
 #EXPLAIN SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 
 #Bug #SEQUOIADBMAINSTREAM-3568
-#SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
+# SEQUOIASQLMAINSTSREAM-204
+SELECT name, LENGTH(name), n FROM t2 WHERE name='cc '; 
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 #EXPLAIN SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%' ORDER BY name;
