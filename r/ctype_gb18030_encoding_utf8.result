@@ -72,7 +72,7 @@ SHOW CREATE TABLE `㐇㐈㐉`;
 Table	Create Table
 㐇㐈㐉	CREATE TEMPORARY TABLE `㐇㐈㐉` (
   `㐐㐐㐐` char(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=SEQUOIADB DEFAULT CHARSET=utf8mb4
 DROP TABLE `表格`, `模式`, `隞嗷㐁`, `㐅㐅㐅`, `㐇㐈㐉`;
 'Test for INSERT/UPDATE/DELETE'
 CREATE TABLE `表一` (`字段一` char(5)) DEFAULT CHARSET = utf8mb4;

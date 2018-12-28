@@ -1985,60 +1985,59 @@ SHOW CREATE TABLE t1;
  #We'll test non-strict then strict mode
 let $c=2;
 
-#Sequoiadb not support temporary table
-#SET SQL_MODE='';
-#
-#while ($c)
-#{
-#
-#  dec $c;
-#
-#  SELECT @@SQL_MODE;
-#
-#  CREATE TEMPORARY TABLE t2 AS
-#  SELECT * FROM t1;
-#
-#  --echo # we see that with CREATE SELECT (no UNION), defaults are inherited.
-#
-#  SHOW CREATE TABLE t2;
-#
-#  DROP TEMPORARY TABLE t2;
-#
-#  CREATE TEMPORARY TABLE t2 AS
-#  SELECT * FROM t1
-#  UNION
-#  SELECT * FROM t1;
-#
-#  SHOW CREATE TABLE t2;
-#
-#  DROP TEMPORARY TABLE t2;
-#
-#  CREATE TEMPORARY TABLE t2 AS
-#  SELECT * FROM t1
-#  UNION ALL
-#  SELECT * FROM t1;
-#
-#  SHOW CREATE TABLE t2;
-#
-#--echo # With UNION and UNION ALL, defaults are not inherited; every
-#--echo # column gets, as default, NULL (if nullable) or 0 (if not
-#--echo # nullable). Exception: if strict mode and a date type,
-#--echo # 0000-00-00 isn't given as default
-#
-## In strict mode, t2.d1 has no DEFAULT, so cannot insert;
-## in non-strict mode, no problem.
-#  if ($c)
-#  {
-#    INSERT INTO t2 VALUES();
-#  }
-#
-#  SELECT * FROM t2;
-#
-#  DROP TEMPORARY TABLE t2;
-#
-#  SET SQL_MODE=DEFAULT;
-#
-#}
+SET SQL_MODE='';
+
+while ($c)
+{
+
+  dec $c;
+
+  SELECT @@SQL_MODE;
+
+  CREATE TEMPORARY TABLE t2 AS
+  SELECT * FROM t1;
+
+  --echo # we see that with CREATE SELECT (no UNION), defaults are inherited.
+
+  SHOW CREATE TABLE t2;
+
+  DROP TEMPORARY TABLE t2;
+
+  CREATE TEMPORARY TABLE t2 AS
+  SELECT * FROM t1
+  UNION
+  SELECT * FROM t1;
+
+  SHOW CREATE TABLE t2;
+
+  DROP TEMPORARY TABLE t2;
+
+  CREATE TEMPORARY TABLE t2 AS
+  SELECT * FROM t1
+  UNION ALL
+  SELECT * FROM t1;
+
+  SHOW CREATE TABLE t2;
+
+--echo # With UNION and UNION ALL, defaults are not inherited; every
+--echo # column gets, as default, NULL (if nullable) or 0 (if not
+--echo # nullable). Exception: if strict mode and a date type,
+--echo # 0000-00-00 isn't given as default
+
+# In strict mode, t2.d1 has no DEFAULT, so cannot insert;
+# in non-strict mode, no problem.
+  if ($c)
+  {
+    INSERT INTO t2 VALUES();
+  }
+
+  SELECT * FROM t2;
+
+  DROP TEMPORARY TABLE t2;
+
+  SET SQL_MODE=DEFAULT;
+
+}
 
 DROP TABLE t1;
 

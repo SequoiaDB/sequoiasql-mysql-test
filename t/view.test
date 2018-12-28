@@ -4279,16 +4279,15 @@ DROP TABLE t1;
 --echo #               TL_READ' FAILED | MYSQL_LOCK_TABLES
 --echo #
 
-#Sequoiadb throw an error -1
-#--disable_warnings
-#DROP TABLE IF EXISTS t1;
-#--enable_warnings
+--disable_warnings
+DROP TABLE IF EXISTS t1;
+--enable_warnings
 
-#CREATE TEMPORARY TABLE t1 (a INT) engine=Sequoiadb;
-#CREATE VIEW t1 AS SELECT 1;
+CREATE TEMPORARY TABLE t1 (a INT) engine=Sequoiadb;
+CREATE VIEW t1 AS SELECT 1;
 
-#DROP VIEW t1;
-#DROP TEMPORARY TABLE t1;
+DROP VIEW t1;
+DROP TEMPORARY TABLE t1;
 
 
 --echo #

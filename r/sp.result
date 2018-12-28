@@ -1987,39 +1987,6 @@ s1
 32767
 drop procedure bug2780|
 drop table t3|
-create table t3 (content varchar(10) )|
-insert into t3 values ("test1")|
-insert into t3 values ("test2")|
-create table t4 (f1 int, rc int, t3 int)|
-drop procedure if exists bug1863|
-create procedure bug1863(in1 int)
-begin 
-declare ind int default 0;
-declare t1 int;
-declare t2 int;
-declare t3 int;
-declare rc int default 0;
-declare continue handler for 1065 set rc = 1;
-drop temporary table if exists temp_t1;
-create temporary table temp_t1 (
-f1 int auto_increment, f2 varchar(20), primary key (f1)
-);
-insert into temp_t1 (f2) select content from t3;
-select f2 into t3 from temp_t1 where f1 = 10;
-if (rc) then
-insert into t4 values (1, rc, t3);
-end if;
-insert into t4 values (2, rc, t3);
-end|
-call bug1863(10)|
-call bug1863(10)|
-select * from t4|
-f1	rc	t3
-2	0	NULL
-2	0	NULL
-drop procedure bug1863|
-drop temporary table temp_t1;
-drop table t3, t4|
 create table t3 ( 
 OrderID  int not null,
 MarketID int,
@@ -3410,6 +3377,52 @@ call bug12979_2()|
 internal_var
 NULL
 drop procedure bug12979_2|
+drop procedure if exists bug12589_1|
+drop procedure if exists bug12589_2|
+drop procedure if exists bug12589_3|
+create procedure bug12589_1()
+begin
+declare spv1 decimal(3,3);
+set spv1= 123.456;
+set spv1 = 'test';
+create temporary table tm1 as select spv1;
+show create table tm1;
+drop temporary table tm1;
+end|
+create procedure bug12589_2()
+begin
+declare spv1 decimal(6,3);
+set spv1= 123.456;
+create temporary table tm1 as select spv1;
+show create table tm1;
+drop temporary table tm1;
+end|
+create procedure bug12589_3()
+begin
+declare spv1 decimal(6,3);
+set spv1= -123.456;
+create temporary table tm1 as select spv1;
+show create table tm1;
+drop temporary table tm1;
+end|
+call bug12589_1()|
+Table	Create Table
+tm1	CREATE TEMPORARY TABLE `tm1` (
+  `spv1` decimal(3,3) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+call bug12589_2()|
+Table	Create Table
+tm1	CREATE TEMPORARY TABLE `tm1` (
+  `spv1` decimal(6,3) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+call bug12589_3()|
+Table	Create Table
+tm1	CREATE TEMPORARY TABLE `tm1` (
+  `spv1` decimal(6,3) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+drop procedure bug12589_1|
+drop procedure bug12589_2|
+drop procedure bug12589_3|
 drop function if exists bug13941|
 drop procedure if exists bug13941|
 create function bug13941(p_input_str text)

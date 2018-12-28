@@ -239,6 +239,73 @@ create table t1 (a int,,b int);
 ERROR 42000: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'b int)' at line 1
 create table t1 (,b int);
 ERROR 42000: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'b int)' at line 1
+create table t1(id int not null, name char(20));
+insert into t1 values(10,'mysql'),(20,'monty- the creator');
+create table t2(id int not null);
+insert into t2 values(10),(20);
+create table t3 like t1;
+show create table t3;
+Table	Create Table
+t3	CREATE TABLE `t3` (
+  `id` int(11) NOT NULL,
+  `name` char(20) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+select * from t3;
+id	name
+create table if not exists t3 like t1;
+Warnings:
+Note	1050	Table 't3' already exists
+select @@warning_count;
+@@warning_count
+1
+create temporary table t3 like t2;
+show create table t3;
+Table	Create Table
+t3	CREATE TEMPORARY TABLE `t3` (
+  `id` int(11) NOT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+select * from t3;
+id
+drop table t3;
+show create table t3;
+Table	Create Table
+t3	CREATE TABLE `t3` (
+  `id` int(11) NOT NULL,
+  `name` char(20) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+select * from t3;
+id	name
+drop table t2, t3;
+create database mysqltest_create;
+create table mysqltest_create.t3 like t1;
+create temporary table t3 like mysqltest_create.t3;
+show create table t3;
+Table	Create Table
+t3	CREATE TEMPORARY TABLE `t3` (
+  `id` int(11) NOT NULL,
+  `name` char(20) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+create table t2 like t3;
+show create table t2;
+Table	Create Table
+t2	CREATE TABLE `t2` (
+  `id` int(11) NOT NULL,
+  `name` char(20) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+select * from t2;
+id	name
+create table t3 like t1;
+create table t3 like mysqltest_create.t3;
+ERROR 42S01: Table 't3' already exists
+create table non_existing_database.t1 like t1;
+ERROR 42000: Unknown database 'non_existing_database'
+create table t3 like non_existing_table;
+ERROR 42S02: Table 'test_create.non_existing_table' doesn't exist
+create temporary table t3 like t1;
+ERROR 42S01: Table 't3' already exists
+drop table if exists t1, t2, t3;
+drop table t3;
+drop database mysqltest_create;
 create table t1 (i int);
 create table t2 (j int);
 lock tables t1 read;
@@ -766,7 +833,7 @@ drop table if exists t2;
 Warnings:
 Note	1051	Unknown table 'test_create.t2'
 CREATE TEMPORARY TABLE t2 (primary key (a)) select * from t1;
-ERROR 23000: Duplicate entry '1' for key 'PRIMARY'
+ERROR 23000: Can't write; duplicate key in table 't2'
 drop table if exists t2;
 Warnings:
 Note	1051	Unknown table 'test_create.t2'
@@ -781,6 +848,12 @@ ERROR 23000: Can't write; duplicate key in table 't2'
 SELECT * from t2;
 a	b
 drop table t2;
+CREATE TEMPORARY TABLE t2 (a int, b int, primary key (a)) ENGINE=SequoiaDB;
+INSERT INTO t2 SELECT * FROM t1;
+ERROR 23000: Can't write; duplicate key in table 't2'
+SELECT * from t2;
+a	b
+drop table t1,t2;
 CREATE DATABASE aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
 ERROR 42000: Identifier name 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' is too long
 DROP DATABASE aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
@@ -789,20 +862,44 @@ USE aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 ERROR 42000: Identifier name 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' is too long
 SHOW CREATE DATABASE aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;
 ERROR 42000: Identifier name 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' is too long
-drop table if exists t1,t2,t3;
-drop function if exists f1;
-create function f1() returns int
-begin
-declare res int;
-create temporary table t3 select 1 i;
-set res:= (select count(*) from t1);
-drop temporary table t3;
-return res;
-end|
-create table t1 as select 1;
-create table t2 as select f1() from t1;
-drop table t1,t2;
-drop function f1;
+create table t1 like information_schema.processlist;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `ID` bigint(21) unsigned NOT NULL DEFAULT '0',
+  `USER` varchar(32) NOT NULL DEFAULT '',
+  `HOST` varchar(64) NOT NULL DEFAULT '',
+  `DB` varchar(64) DEFAULT NULL,
+  `COMMAND` varchar(16) NOT NULL DEFAULT '',
+  `TIME` int(7) NOT NULL DEFAULT '0',
+  `STATE` varchar(64) DEFAULT NULL,
+  `INFO` longtext
+) ENGINE=TMP_TABLE_ENGINE DEFAULT CHARSET=utf8
+drop table t1;
+create temporary table t1 like information_schema.processlist;
+show create table t1;
+Table	Create Table
+t1	CREATE TEMPORARY TABLE `t1` (
+  `ID` bigint(21) unsigned NOT NULL DEFAULT '0',
+  `USER` varchar(32) NOT NULL DEFAULT '',
+  `HOST` varchar(64) NOT NULL DEFAULT '',
+  `DB` varchar(64) DEFAULT NULL,
+  `COMMAND` varchar(16) NOT NULL DEFAULT '',
+  `TIME` int(7) NOT NULL DEFAULT '0',
+  `STATE` varchar(64) DEFAULT NULL,
+  `INFO` longtext
+) ENGINE=TMP_TABLE_ENGINE DEFAULT CHARSET=utf8
+drop table t1;
+create table t1 like information_schema.character_sets;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `CHARACTER_SET_NAME` varchar(32) NOT NULL DEFAULT '',
+  `DEFAULT_COLLATE_NAME` varchar(32) NOT NULL DEFAULT '',
+  `DESCRIPTION` varchar(60) NOT NULL DEFAULT '',
+  `MAXLEN` bigint(3) NOT NULL DEFAULT '0'
+) ENGINE=MEMORY DEFAULT CHARSET=utf8
+drop table t1;
 
 # --
 # -- Bug#21380: DEFAULT definition not always transfered by CREATE
@@ -1672,6 +1769,61 @@ t4	CREATE TABLE `t4` (
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1 ROW_FORMAT=FIXED
 SET GLOBAL innodb_default_row_format= 'DYNAMIC';
 SET SESSION show_create_table_verbosity= OFF;
+# Test with corresponding temporary tables.
+CREATE TEMPORARY TABLE t1(fld1 INT) ENGINE= SequoiaDB;
+CREATE TEMPORARY TABLE t2(fld1 INT) ENGINE= SequoiaDB, ROW_FORMAT= DEFAULT;
+SET GLOBAL innodb_default_row_format= 'COMPACT';
+CREATE TEMPORARY TABLE t3(fld1 INT) ENGINE= SequoiaDB;
+CREATE TEMPORARY TABLE t4(fl1 INT) ENGINE= SequoiaDB, ROW_FORMAT= COMPRESSED;
+# Test without show_create_table_verbosity enabled.
+# Row format used is not displayed for all tables
+# except t4 where it is explicitly specified.
+SHOW CREATE TABLE t1;
+Table	Create Table
+t1	CREATE TEMPORARY TABLE `t1` (
+  `fld1` int(11) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+SHOW CREATE TABLE t2;
+Table	Create Table
+t2	CREATE TEMPORARY TABLE `t2` (
+  `fld1` int(11) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+SHOW CREATE TABLE t3;
+Table	Create Table
+t3	CREATE TEMPORARY TABLE `t3` (
+  `fld1` int(11) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+SHOW CREATE TABLE t4;
+Table	Create Table
+t4	CREATE TEMPORARY TABLE `t4` (
+  `fl1` int(11) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED
+# Test with show_create_table_verbosity enabled.
+# Row format used is displayed for all tables.
+SET SESSION show_create_table_verbosity= ON;
+SHOW CREATE TABLE t1;
+Table	Create Table
+t1	CREATE TEMPORARY TABLE `t1` (
+  `fld1` int(11) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1 ROW_FORMAT=FIXED
+SHOW CREATE TABLE t2;
+Table	Create Table
+t2	CREATE TEMPORARY TABLE `t2` (
+  `fld1` int(11) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1 ROW_FORMAT=FIXED
+SHOW CREATE TABLE t3;
+Table	Create Table
+t3	CREATE TEMPORARY TABLE `t3` (
+  `fld1` int(11) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1 ROW_FORMAT=FIXED
+SHOW CREATE TABLE t4;
+Table	Create Table
+t4	CREATE TEMPORARY TABLE `t4` (
+  `fl1` int(11) DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1 ROW_FORMAT=FIXED
+# Clean up.
+DROP TABLE t1, t2, t3, t4;
+DROP TABLE t1, t2, t3, t4;
 SET GLOBAL innodb_default_row_format= @saved_innodb_default_row_format;
 SET SESSION show_create_table_verbosity= @saved_show_create_table_verbosity;
 DROP DATABASE test_create;

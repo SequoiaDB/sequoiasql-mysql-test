@@ -1943,6 +1943,143 @@ t1	CREATE TABLE `t1` (
   `d4` date DEFAULT NULL,
   `d5` date DEFAULT '2017-11-14'
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+SET SQL_MODE='';
+Warnings:
+Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
+SELECT @@SQL_MODE;
+@@SQL_MODE
+
+CREATE TEMPORARY TABLE t2 AS
+SELECT * FROM t1;
+# we see that with CREATE SELECT (no UNION), defaults are inherited.
+SHOW CREATE TABLE t2;
+Table	Create Table
+t2	CREATE TEMPORARY TABLE `t2` (
+  `i1` int(11) NOT NULL,
+  `i2` int(11) NOT NULL DEFAULT '1234',
+  `i3` int(11) DEFAULT NULL,
+  `i4` int(11) DEFAULT NULL,
+  `i5` int(11) DEFAULT '5678',
+  `d1` date NOT NULL,
+  `d2` date NOT NULL DEFAULT '2018-01-25',
+  `d3` date DEFAULT NULL,
+  `d4` date DEFAULT NULL,
+  `d5` date DEFAULT '2017-11-14'
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+DROP TEMPORARY TABLE t2;
+CREATE TEMPORARY TABLE t2 AS
+SELECT * FROM t1
+UNION
+SELECT * FROM t1;
+SHOW CREATE TABLE t2;
+Table	Create Table
+t2	CREATE TEMPORARY TABLE `t2` (
+  `i1` int(11) NOT NULL DEFAULT '0',
+  `i2` int(11) NOT NULL DEFAULT '0',
+  `i3` int(11) DEFAULT NULL,
+  `i4` int(11) DEFAULT NULL,
+  `i5` int(11) DEFAULT NULL,
+  `d1` date NOT NULL DEFAULT '0000-00-00',
+  `d2` date NOT NULL DEFAULT '0000-00-00',
+  `d3` date DEFAULT NULL,
+  `d4` date DEFAULT NULL,
+  `d5` date DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+DROP TEMPORARY TABLE t2;
+CREATE TEMPORARY TABLE t2 AS
+SELECT * FROM t1
+UNION ALL
+SELECT * FROM t1;
+SHOW CREATE TABLE t2;
+Table	Create Table
+t2	CREATE TEMPORARY TABLE `t2` (
+  `i1` int(11) NOT NULL DEFAULT '0',
+  `i2` int(11) NOT NULL DEFAULT '0',
+  `i3` int(11) DEFAULT NULL,
+  `i4` int(11) DEFAULT NULL,
+  `i5` int(11) DEFAULT NULL,
+  `d1` date NOT NULL DEFAULT '0000-00-00',
+  `d2` date NOT NULL DEFAULT '0000-00-00',
+  `d3` date DEFAULT NULL,
+  `d4` date DEFAULT NULL,
+  `d5` date DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+# With UNION and UNION ALL, defaults are not inherited; every
+# column gets, as default, NULL (if nullable) or 0 (if not
+# nullable). Exception: if strict mode and a date type,
+# 0000-00-00 isn't given as default
+INSERT INTO t2 VALUES();
+SELECT * FROM t2;
+i1	i2	i3	i4	i5	d1	d2	d3	d4	d5
+0	0	NULL	NULL	NULL	0000-00-00	0000-00-00	NULL	NULL	NULL
+DROP TEMPORARY TABLE t2;
+SET SQL_MODE=DEFAULT;
+SELECT @@SQL_MODE;
+@@SQL_MODE
+ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+CREATE TEMPORARY TABLE t2 AS
+SELECT * FROM t1;
+# we see that with CREATE SELECT (no UNION), defaults are inherited.
+SHOW CREATE TABLE t2;
+Table	Create Table
+t2	CREATE TEMPORARY TABLE `t2` (
+  `i1` int(11) NOT NULL,
+  `i2` int(11) NOT NULL DEFAULT '1234',
+  `i3` int(11) DEFAULT NULL,
+  `i4` int(11) DEFAULT NULL,
+  `i5` int(11) DEFAULT '5678',
+  `d1` date NOT NULL,
+  `d2` date NOT NULL DEFAULT '2018-01-25',
+  `d3` date DEFAULT NULL,
+  `d4` date DEFAULT NULL,
+  `d5` date DEFAULT '2017-11-14'
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+DROP TEMPORARY TABLE t2;
+CREATE TEMPORARY TABLE t2 AS
+SELECT * FROM t1
+UNION
+SELECT * FROM t1;
+SHOW CREATE TABLE t2;
+Table	Create Table
+t2	CREATE TEMPORARY TABLE `t2` (
+  `i1` int(11) NOT NULL DEFAULT '0',
+  `i2` int(11) NOT NULL DEFAULT '0',
+  `i3` int(11) DEFAULT NULL,
+  `i4` int(11) DEFAULT NULL,
+  `i5` int(11) DEFAULT NULL,
+  `d1` date NOT NULL,
+  `d2` date NOT NULL,
+  `d3` date DEFAULT NULL,
+  `d4` date DEFAULT NULL,
+  `d5` date DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+DROP TEMPORARY TABLE t2;
+CREATE TEMPORARY TABLE t2 AS
+SELECT * FROM t1
+UNION ALL
+SELECT * FROM t1;
+SHOW CREATE TABLE t2;
+Table	Create Table
+t2	CREATE TEMPORARY TABLE `t2` (
+  `i1` int(11) NOT NULL DEFAULT '0',
+  `i2` int(11) NOT NULL DEFAULT '0',
+  `i3` int(11) DEFAULT NULL,
+  `i4` int(11) DEFAULT NULL,
+  `i5` int(11) DEFAULT NULL,
+  `d1` date NOT NULL,
+  `d2` date NOT NULL,
+  `d3` date DEFAULT NULL,
+  `d4` date DEFAULT NULL,
+  `d5` date DEFAULT NULL
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+# With UNION and UNION ALL, defaults are not inherited; every
+# column gets, as default, NULL (if nullable) or 0 (if not
+# nullable). Exception: if strict mode and a date type,
+# 0000-00-00 isn't given as default
+SELECT * FROM t2;
+i1	i2	i3	i4	i5	d1	d2	d3	d4	d5
+DROP TEMPORARY TABLE t2;
+SET SQL_MODE=DEFAULT;
 DROP TABLE t1;
 #
 # Bug#27197235 USER VARIABLE + UINON + DECIMAL COLUMN RETURNS

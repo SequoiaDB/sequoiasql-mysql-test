@@ -2,17 +2,6 @@ create database test_flush;
 use test_flush;
 drop table if exists t1,t2;
 drop database if exists mysqltest_flush;
-create temporary table t1(n int not null primary key);
-create table t2(n int) engine = sequoiadb;
-insert into t2 values(3);
-select * from t1;
-n
-3
-flush tables with read lock;
-drop table t2;
-ERROR HY000: Can't execute the query because you have a conflicting read lock
-drop table t2;
-unlock tables;
 create database mysqltest_flush;
 create table mysqltest_flush.t1(n int) engine = sequoiadb;
 insert into mysqltest_flush.t1 values (23);
