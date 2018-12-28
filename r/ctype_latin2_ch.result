@@ -105,6 +105,38 @@ l1	l2	l3	l4	name
 1C01	3C01	7701	7700	LATIN CAPITAL LETTER U WITH DOUBLE ACUTE
 drop table t1;
 set names utf8;
+create table t1 (
+ch varchar(1),
+name varchar(64)
+) character set latin2 collate latin2_czech_cs;
+insert into t1 values (0x4F,'LATIN CAPITAL LETTER O');
+insert into t1 values (0xD3,'LATIN CAPITAL LETTER O WITH ACUTE');
+insert into t1 values (0xD4,'LATIN CAPITAL LETTER O WITH CURCUMFLEX');
+insert into t1 values (0xD6,'LATIN CAPITAL LETTER O WITH DIAERESIS');
+insert into t1 values (0xD5,'LATIN CAPITAL LETTER O WITH DOUBLE ACUTE');
+insert into t1 values (0x75,'LATIN _SMALL_ LETTER U');
+insert into t1 values (0xFA,'LATIN _SMALL_ LETTER U WITH ACUTE');
+insert into t1 values (0xF9,'LATIN _SMALL_ LETTER U WITH RING ABOVE');
+insert into t1 values (0xFC,'LATIN _SMALL_ LETTER U WITH DIAERESIS');
+insert into t1 values (0xFB,'LATIN _SMALL_ LETTER U WITH DOUBLE ACUTE');
+select ch,
+hex(weight_string(ch level 1)) l1,
+hex(weight_string(ch level 2)) l2,
+hex(weight_string(ch level 3)) l3,
+hex(weight_string(ch level 4)) l4,
+name from t1 order by ch;
+ch	l1	l2	l3	l4	name
+O	1401	2701	4D01	4D00	LATIN CAPITAL LETTER O
+Ó	1401	2801	4F01	4F00	LATIN CAPITAL LETTER O WITH ACUTE
+Ô	1401	2901	5101	5100	LATIN CAPITAL LETTER O WITH CURCUMFLEX
+Ö	1401	2A01	5301	5300	LATIN CAPITAL LETTER O WITH DIAERESIS
+Ő	1401	2B01	5501	5500	LATIN CAPITAL LETTER O WITH DOUBLE ACUTE
+u	1C01	3801	6E01	6E00	LATIN _SMALL_ LETTER U
+ú	1C01	3901	7001	7000	LATIN _SMALL_ LETTER U WITH ACUTE
+ů	1C01	3A01	7201	7200	LATIN _SMALL_ LETTER U WITH RING ABOVE
+ü	1C01	3B01	7401	7400	LATIN _SMALL_ LETTER U WITH DIAERESIS
+ű	1C01	3C01	7601	7600	LATIN _SMALL_ LETTER U WITH DOUBLE ACUTE
+drop table t1;
 SET collation_connection=latin2_czech_cs;
 CREATE TABLE t1 ENGINE=SEQUOIADB AS SELECT repeat('a', 5) AS s1 LIMIT 0;
 INSERT INTO t1 VALUES ('x'),('y'),('z'),('X'),('Y'),('Z');

@@ -79,18 +79,19 @@ update t1 set word2=word;
 select word, word=binary 0xdf as t from t1 having t > 0;
 select word, word=cast(0xdf AS CHAR) as t from t1 having t > 0;
 #Bug #SEQUOIADBMAINSTREAM-3568
-#select * from t1 where word=binary 0xDF;
-#select * from t1 where word=CAST(0xDF as CHAR);
-#select * from t1 where word2=binary 0xDF;
-#select * from t1 where word2=CAST(0xDF as CHAR);
-#select * from t1 where word='ae';
-#select * from t1 where word= 0xe4 or word=CAST(0xe4 as CHAR);
-#select * from t1 where word between binary 0xDF and binary 0xDF;
-#select * from t1 where word between CAST(0xDF AS CHAR) and CAST(0xDF AS CHAR);
-#select * from t1 where word like 'ae';
-#select * from t1 where word like 'AE';
-#select * from t1 where word like binary 0xDF;
-#select * from t1 where word like CAST(0xDF as CHAR);
+# SequoiaDB convert all charsets to utf8mb4
+select * from t1 where word=binary 0xDF;
+select * from t1 where word=CAST(0xDF as CHAR);
+select * from t1 where word2=binary 0xDF;
+select * from t1 where word2=CAST(0xDF as CHAR);
+select * from t1 where word='ae';
+select * from t1 where word= 0xe4 or word=CAST(0xe4 as CHAR);
+select * from t1 where word between binary 0xDF and binary 0xDF;
+select * from t1 where word between CAST(0xDF AS CHAR) and CAST(0xDF AS CHAR);
+select * from t1 where word like 'ae';
+select * from t1 where word like 'AE';
+select * from t1 where word like binary 0xDF;
+select * from t1 where word like CAST(0xDF as CHAR);
 drop table t1;
 
 #
@@ -133,14 +134,15 @@ DROP TABLE t1;
 # Let's check it does not work incorrect anymore.
 #
 #Bug #SEQUOIADBMAINSTREAM-3568 
-#SET NAMES latin1;
-#CREATE TABLE t1 (
-#  col1 varchar(255) NOT NULL default ''
-#) ENGINE=SequoiaDB DEFAULT CHARSET=latin1 collate latin1_german2_ci;
-#INSERT INTO t1 VALUES ('ß'),('ss'),('ss');
-#ALTER TABLE t1 ADD KEY ifword(col1);
-#SELECT * FROM t1 WHERE col1='ß' ORDER BY col1, BINARY col1;
-#DROP TABLE t1;
+SET NAMES latin1;
+CREATE TABLE t1 (
+  col1 varchar(255) NOT NULL default ''
+) ENGINE=SequoiaDB DEFAULT CHARSET=latin1 collate latin1_german2_ci;
+INSERT INTO t1 VALUES ('ß'),('ss'),('ss');
+ALTER TABLE t1 ADD KEY ifword(col1);
+# SequoiaDB convert all charsets to utf8mb4
+SELECT * FROM t1 WHERE col1='ß' ORDER BY col1, BINARY col1;
+DROP TABLE t1;
 
 # End of 4.1 tests
 
