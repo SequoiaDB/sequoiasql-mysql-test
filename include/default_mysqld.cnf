@@ -6,6 +6,7 @@ open-files-limit=           1024
 local-infile
 character-set-server=      latin1
 sequoiadb_use_bulk_insert=OFF
+default_tmp_storage_engine=SequoiaDB
 
 # Increase default connect_timeout to avoid intermittent
 # disconnects when test servers are put under load see BUG#28359

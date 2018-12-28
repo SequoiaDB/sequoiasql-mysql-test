@@ -2314,48 +2314,49 @@ drop table t3|
 #
 # BUG#1863
 #
-create table t3 (content varchar(10) )|
-insert into t3 values ("test1")|
-insert into t3 values ("test2")|
-create table t4 (f1 int, rc int, t3 int)|
-
---disable_warnings ONCE
-drop procedure if exists bug1863|
-create procedure bug1863(in1 int)
-begin 
-
-  declare ind int default 0;
-  declare t1 int;
-  declare t2 int;
-  declare t3 int;
-
-  declare rc int default 0;
-  declare continue handler for 1065 set rc = 1;
-
-  drop temporary table if exists temp_t1;
-  create temporary table temp_t1 (
-    f1 int auto_increment, f2 varchar(20), primary key (f1)
-  );
-
-  insert into temp_t1 (f2) select content from t3;
-
-  select f2 into t3 from temp_t1 where f1 = 10;
-
-  if (rc) then
-       insert into t4 values (1, rc, t3);
-  end if;
-
-  insert into t4 values (2, rc, t3);
-
-end|
-
-call bug1863(10)|
-call bug1863(10)|
-select * from t4|
-
-drop procedure bug1863|
-drop temporary table temp_t1;
-drop table t3, t4|
+#Sequoiadb not support auto_increment
+#create table t3 (content varchar(10) )|
+#insert into t3 values ("test1")|
+#insert into t3 values ("test2")|
+#create table t4 (f1 int, rc int, t3 int)|
+#
+#--disable_warnings ONCE
+#drop procedure if exists bug1863|
+#create procedure bug1863(in1 int)
+#begin 
+#
+#  declare ind int default 0;
+#  declare t1 int;
+#  declare t2 int;
+#  declare t3 int;
+#
+#  declare rc int default 0;
+#  declare continue handler for 1065 set rc = 1;
+#
+#  drop temporary table if exists temp_t1;
+#  create temporary table temp_t1 (
+#    f1 int auto_increment, f2 varchar(20), primary key (f1)
+#  );
+#
+#  insert into temp_t1 (f2) select content from t3;
+#
+#  select f2 into t3 from temp_t1 where f1 = 10;
+#
+#  if (rc) then
+#       insert into t4 values (1, rc, t3);
+#  end if;
+#
+#  insert into t4 values (2, rc, t3);
+#
+#end|
+#
+#call bug1863(10)|
+#call bug1863(10)|
+#select * from t4|
+#
+#drop procedure bug1863|
+#drop temporary table temp_t1;
+#drop table t3, t4|
 
 #
 # BUG#2656
@@ -4389,54 +4390,54 @@ drop procedure bug12979_2|
 #            variable
 #
 #Bug #SEQUOISQLMAINSTREAM-119
-#--disable_warnings
-#drop procedure if exists bug12589_1|
-#drop procedure if exists bug12589_2|
-#drop procedure if exists bug12589_3|
-#--enable_warnings
-#create procedure bug12589_1()
-#begin
-#  declare spv1 decimal(3,3);
-#  set spv1= 123.456;
-#
-#  set spv1 = 'test';
-#  create temporary table tm1 as select spv1;
-#  show create table tm1;
-#  drop temporary table tm1;
-#end|
-#
-#create procedure bug12589_2()
-#begin
-#  declare spv1 decimal(6,3);
-#  set spv1= 123.456;
-#
-#  create temporary table tm1 as select spv1;
-#  show create table tm1;
-#  drop temporary table tm1;
-#end|
-#
-#create procedure bug12589_3()
-#begin
-#  declare spv1 decimal(6,3);
-#  set spv1= -123.456;
-#
-#  create temporary table tm1 as select spv1;
-#  show create table tm1;
-#  drop temporary table tm1;
-#end|
-#
-## Note: The type of the field will match the value, not the declared
-##       type of the variable. (This is a type checking issue which
-##       might be changed later.)
-#
-## Warning expected from "set spv1 = 'test'", the value is set to decimal "0".
-#call bug12589_1()|
-## No warnings here
-#call bug12589_2()|
-#call bug12589_3()|
-#drop procedure bug12589_1|
-#drop procedure bug12589_2|
-#drop procedure bug12589_3|
+--disable_warnings
+drop procedure if exists bug12589_1|
+drop procedure if exists bug12589_2|
+drop procedure if exists bug12589_3|
+--enable_warnings
+create procedure bug12589_1()
+begin
+  declare spv1 decimal(3,3);
+  set spv1= 123.456;
+
+  set spv1 = 'test';
+  create temporary table tm1 as select spv1;
+  show create table tm1;
+  drop temporary table tm1;
+end|
+
+create procedure bug12589_2()
+begin
+  declare spv1 decimal(6,3);
+  set spv1= 123.456;
+
+  create temporary table tm1 as select spv1;
+  show create table tm1;
+  drop temporary table tm1;
+end|
+
+create procedure bug12589_3()
+begin
+  declare spv1 decimal(6,3);
+  set spv1= -123.456;
+
+  create temporary table tm1 as select spv1;
+  show create table tm1;
+  drop temporary table tm1;
+end|
+
+# Note: The type of the field will match the value, not the declared
+#       type of the variable. (This is a type checking issue which
+#       might be changed later.)
+
+# Warning expected from "set spv1 = 'test'", the value is set to decimal "0".
+call bug12589_1()|
+# No warnings here
+call bug12589_2()|
+call bug12589_3()|
+drop procedure bug12589_1|
+drop procedure bug12589_2|
+drop procedure bug12589_3|
 
 #
 # BUG#7049: Stored procedure CALL errors are ignored
