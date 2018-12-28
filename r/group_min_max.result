@@ -260,6 +260,130 @@ c	a	a	a311	d311
 c	a	b	e312	h312
 c	b	a	i321	l321
 c	b	b	m322	p322
+select a1,a2,b,min(c),max(c) from t1 where a1 >= 'b' group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+b	a	a	a211	d211
+b	a	b	e212	h212
+b	b	a	i221	l221
+b	b	b	m222	p222
+c	a	a	a311	d311
+c	a	b	e312	h312
+c	b	a	i321	l321
+c	b	b	m322	p322
+d	a	a	a411	d411
+d	a	b	e412	h412
+d	b	a	i421	l421
+d	b	b	m422	p422
+select a1,a2,b,       max(c) from t1 where a1 >= 'c' or a1 < 'b' group by a1,a2,b;
+a1	a2	b	max(c)
+a	a	a	d111
+a	a	b	h112
+a	b	a	l121
+a	b	b	p122
+c	a	a	d311
+c	a	b	h312
+c	b	a	l321
+c	b	b	p322
+d	a	a	d411
+d	a	b	h412
+d	b	a	l421
+d	b	b	p422
+select a1, max(c)            from t1 where a1 >= 'c' or a1 < 'b' group by a1,a2,b;
+a1	max(c)
+a	d111
+a	h112
+a	l121
+a	p122
+c	d311
+c	h312
+c	l321
+c	p322
+d	d411
+d	h412
+d	l421
+d	p422
+select a1,a2,b,min(c),max(c) from t1 where a1 >= 'c' or a2 < 'b' group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+a	a	a	a111	d111
+a	a	b	e112	h112
+b	a	a	a211	d211
+b	a	b	e212	h212
+c	a	a	a311	d311
+c	a	b	e312	h312
+c	b	a	i321	l321
+c	b	b	m322	p322
+d	a	a	a411	d411
+d	a	b	e412	h412
+d	b	a	i421	l421
+d	b	b	m422	p422
+select a1,a2,b,       max(c) from t1 where a1 = 'z' or a1 = 'b' or a1 = 'd' group by a1,a2,b;
+a1	a2	b	max(c)
+b	a	a	d211
+b	a	b	h212
+b	b	a	l221
+b	b	b	p222
+d	a	a	d411
+d	a	b	h412
+d	b	a	l421
+d	b	b	p422
+select a1,a2,b,min(c),max(c) from t1 where a1 = 'z' or a1 = 'b' or a1 = 'd' group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+b	a	a	a211	d211
+b	a	b	e212	h212
+b	b	a	i221	l221
+b	b	b	m222	p222
+d	a	a	a411	d411
+d	a	b	e412	h412
+d	b	a	i421	l421
+d	b	b	m422	p422
+select a1,a2,b,       max(c) from t1 where (a1 = 'b' or a1 = 'd' or a1 = 'a' or a1 = 'c') and (a2 > 'a') group by a1,a2,b;
+a1	a2	b	max(c)
+a	b	a	l121
+a	b	b	p122
+b	b	a	l221
+b	b	b	p222
+c	b	a	l321
+c	b	b	p322
+d	b	a	l421
+d	b	b	p422
+select a1,a2,b,min(c),max(c) from t1 where (a1 = 'b' or a1 = 'd' or a1 = 'a' or a1 = 'c') and (a2 > 'a') group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+a	b	a	i121	l121
+a	b	b	m122	p122
+b	b	a	i221	l221
+b	b	b	m222	p222
+c	b	a	i321	l321
+c	b	b	m322	p322
+d	b	a	i421	l421
+d	b	b	m422	p422
+select a1,min(c),max(c)      from t1 where a1 >= 'b' group by a1,a2,b;
+a1	min(c)	max(c)
+b	a211	d211
+b	e212	h212
+b	i221	l221
+b	m222	p222
+c	a311	d311
+c	e312	h312
+c	i321	l321
+c	m322	p322
+d	a411	d411
+d	e412	h412
+d	i421	l421
+d	m422	p422
+select a1,  max(c)           from t1 where a1 in ('a','b','d') group by a1,a2,b;
+a1	max(c)
+a	d111
+a	h112
+a	l121
+a	p122
+b	d211
+b	h212
+b	l221
+b	p222
+d	d411
+d	h412
+d	l421
+d	p422
 select a1,a2,b,       max(c) from t2 where a1 < 'd' group by a1,a2,b;
 a1	a2	b	max(c)
 a	a	NULL	a999
@@ -292,6 +416,256 @@ c	a	a	a311	d311
 c	a	b	e312	h312
 c	b	a	i321	l321
 c	b	b	m322	p322
+select a1,a2,b,min(c),max(c) from t2 where a1 >= 'b' group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+b	a	a	a211	d211
+b	a	b	e212	h212
+b	b	a	i221	l221
+b	b	b	m222	p222
+c	a	NULL	c777	c999
+c	a	a	a311	d311
+c	a	b	e312	h312
+c	b	a	i321	l321
+c	b	b	m322	p322
+d	a	a	a411	d411
+d	a	b	e412	h412
+d	b	a	i421	l421
+d	b	b	m422	p422
+e	a	a	NULL	NULL
+e	a	b	NULL	NULL
+select a1,a2,b,       max(c) from t2 where a1 >= 'c' or a1 < 'b' group by a1,a2,b;
+a1	a2	b	max(c)
+a	a	NULL	a999
+a	a	a	d111
+a	a	b	h112
+a	b	a	l121
+a	b	b	p122
+c	a	NULL	c999
+c	a	a	d311
+c	a	b	h312
+c	b	a	l321
+c	b	b	p322
+d	a	a	d411
+d	a	b	h412
+d	b	a	l421
+d	b	b	p422
+e	a	a	NULL
+e	a	b	NULL
+select a1, max(c)            from t2 where a1 >= 'c' or a1 < 'b' group by a1,a2,b;
+a1	max(c)
+a	a999
+a	d111
+a	h112
+a	l121
+a	p122
+c	c999
+c	d311
+c	h312
+c	l321
+c	p322
+d	d411
+d	h412
+d	l421
+d	p422
+e	NULL
+e	NULL
+select a1,a2,b,min(c),max(c) from t2 where a1 >= 'c' or a2 < 'b' group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+a	a	NULL	a777	a999
+a	a	a	a111	d111
+a	a	b	e112	h112
+b	a	a	a211	d211
+b	a	b	e212	h212
+c	a	NULL	c777	c999
+c	a	a	a311	d311
+c	a	b	e312	h312
+c	b	a	i321	l321
+c	b	b	m322	p322
+d	a	a	a411	d411
+d	a	b	e412	h412
+d	b	a	i421	l421
+d	b	b	m422	p422
+e	a	a	NULL	NULL
+e	a	b	NULL	NULL
+select a1,a2,b,       max(c) from t2 where a1 = 'z' or a1 = 'b' or a1 = 'd' group by a1,a2,b;
+a1	a2	b	max(c)
+b	a	a	d211
+b	a	b	h212
+b	b	a	l221
+b	b	b	p222
+d	a	a	d411
+d	a	b	h412
+d	b	a	l421
+d	b	b	p422
+select a1,a2,b,min(c),max(c) from t2 where a1 = 'z' or a1 = 'b' or a1 = 'd' group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+b	a	a	a211	d211
+b	a	b	e212	h212
+b	b	a	i221	l221
+b	b	b	m222	p222
+d	a	a	a411	d411
+d	a	b	e412	h412
+d	b	a	i421	l421
+d	b	b	m422	p422
+select a1,a2,b,       max(c) from t2 where (a1 = 'b' or a1 = 'd' or a1 = 'a' or a1 = 'c') and (a2 > 'a') group by a1,a2,b;
+a1	a2	b	max(c)
+a	b	a	l121
+a	b	b	p122
+b	b	a	l221
+b	b	b	p222
+c	b	a	l321
+c	b	b	p322
+d	b	a	l421
+d	b	b	p422
+select a1,a2,b,min(c),max(c) from t2 where (a1 = 'b' or a1 = 'd' or a1 = 'a' or a1 = 'c') and (a2 > 'a') group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+a	b	a	i121	l121
+a	b	b	m122	p122
+b	b	a	i221	l221
+b	b	b	m222	p222
+c	b	a	i321	l321
+c	b	b	m322	p322
+d	b	a	i421	l421
+d	b	b	m422	p422
+select a1,min(c),max(c)      from t2 where a1 >= 'b' group by a1,a2,b;
+a1	min(c)	max(c)
+b	a211	d211
+b	e212	h212
+b	i221	l221
+b	m222	p222
+c	c777	c999
+c	a311	d311
+c	e312	h312
+c	i321	l321
+c	m322	p322
+d	a411	d411
+d	e412	h412
+d	i421	l421
+d	m422	p422
+e	NULL	NULL
+e	NULL	NULL
+select a1,  max(c)           from t2 where a1 in ('a','b','d') group by a1,a2,b;
+a1	max(c)
+a	a999
+a	d111
+a	h112
+a	l121
+a	p122
+b	d211
+b	h212
+b	l221
+b	p222
+d	d411
+d	h412
+d	l421
+d	p422
+select a1,a2,b,max(c),min(c) from t1 where (a2 = 'a') and (b = 'b') group by a1;
+a1	a2	b	max(c)	min(c)
+a	a	b	h112	e112
+b	a	b	h212	e212
+c	a	b	h312	e312
+d	a	b	h412	e412
+select a1,max(c),min(c)      from t1 where (a2 = 'a') and (b = 'b') group by a1;
+a1	max(c)	min(c)
+a	h112	e112
+b	h212	e212
+c	h312	e312
+d	h412	e412
+select a1,a2,b,       max(c) from t1 where (b = 'b') group by a1,a2;
+a1	a2	b	max(c)
+a	a	b	h112
+a	b	b	p122
+b	a	b	h212
+b	b	b	p222
+c	a	b	h312
+c	b	b	p322
+d	a	b	h412
+d	b	b	p422
+select a1,a2,b,min(c),max(c) from t1 where (b = 'b') group by a1,a2;
+a1	a2	b	min(c)	max(c)
+a	a	b	e112	h112
+a	b	b	m122	p122
+b	a	b	e212	h212
+b	b	b	m222	p222
+c	a	b	e312	h312
+c	b	b	m322	p322
+d	a	b	e412	h412
+d	b	b	m422	p422
+select a1,a2, max(c)         from t1 where (b = 'b') group by a1,a2;
+a1	a2	max(c)
+a	a	h112
+a	b	p122
+b	a	h212
+b	b	p222
+c	a	h312
+c	b	p322
+d	a	h412
+d	b	p422
+select a1,a2,b,max(c),min(c) from t2 where (a2 = 'a') and (b = 'b') group by a1;
+a1	a2	b	max(c)	min(c)
+a	a	b	h112	e112
+b	a	b	h212	e212
+c	a	b	h312	e312
+d	a	b	h412	e412
+e	a	b	NULL	NULL
+select a1,max(c),min(c)      from t2 where (a2 = 'a') and (b = 'b') group by a1;
+a1	max(c)	min(c)
+a	h112	e112
+b	h212	e212
+c	h312	e312
+d	h412	e412
+e	NULL	NULL
+select a1,a2,b,       max(c) from t2 where (b = 'b') group by a1,a2;
+a1	a2	b	max(c)
+a	a	b	h112
+a	b	b	p122
+b	a	b	h212
+b	b	b	p222
+c	a	b	h312
+c	b	b	p322
+d	a	b	h412
+d	b	b	p422
+e	a	b	NULL
+select a1,a2,b,min(c),max(c) from t2 where (b = 'b') group by a1,a2;
+a1	a2	b	min(c)	max(c)
+a	a	b	e112	h112
+a	b	b	m122	p122
+b	a	b	e212	h212
+b	b	b	m222	p222
+c	a	b	e312	h312
+c	b	b	m322	p322
+d	a	b	e412	h412
+d	b	b	m422	p422
+e	a	b	NULL	NULL
+select a1,a2, max(c)         from t2 where (b = 'b') group by a1,a2;
+a1	a2	max(c)
+a	a	h112
+a	b	p122
+b	a	h212
+b	b	p222
+c	a	h312
+c	b	p322
+d	a	h412
+d	b	p422
+e	a	NULL
+select a1,a2,b,max(c),min(c) from t3 where (a2 = 'a') and (b = 'b') group by a1;
+a1	a2	b	max(c)	min(c)
+a	a	b	h112	e112
+b	a	b	h212	e212
+c	a	b	h312	e312
+select a1,max(c),min(c)      from t3 where (a2 = 'a') and (b = 'b') group by a1;
+a1	max(c)	min(c)
+a	h112	e112
+b	h212	e212
+c	h312	e312
+select a1,a2,b,min(c) from t2 where (a2 = 'a') and b is NULL group by a1;
+a1	a2	b	min(c)
+a	a	NULL	a777
+c	a	NULL	c777
+select a1,a2,b,max(c) from t2 where (a2 = 'a') and b is NULL group by a1;
+a1	a2	b	max(c)
+a	a	NULL	a999
+c	a	NULL	c999
 select a1,a2,b,min(c) from t2 where b is NULL group by a1,a2;
 a1	a2	b	min(c)
 a	a	NULL	a777
@@ -725,6 +1099,129 @@ c	a	a	b311	d311
 c	a	b	e312	h312
 d	a	a	b411	d411
 d	a	b	e412	h412
+select a1,a2,b,min(c),max(c) from t1 where (a1 >= 'c' or a2 < 'b') and (b > 'a') group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+a	a	b	e112	h112
+b	a	b	e212	h212
+c	a	b	e312	h312
+c	b	b	m322	p322
+d	a	b	e412	h412
+d	b	b	m422	p422
+select a1,a2,b,min(c),max(c) from t1 where (a1 >= 'c' or a2 < 'b') and (c > 'b111') group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+a	a	a	c111	d111
+a	a	b	e112	h112
+b	a	a	b211	d211
+b	a	b	e212	h212
+c	a	a	b311	d311
+c	a	b	e312	h312
+c	b	a	i321	l321
+c	b	b	m322	p322
+d	a	a	b411	d411
+d	a	b	e412	h412
+d	b	a	i421	l421
+d	b	b	m422	p422
+select a1,a2,b,min(c),max(c) from t1 where (a2 >= 'b') and (b = 'a') and (c > 'b111') group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+a	b	a	i121	l121
+b	b	a	i221	l221
+c	b	a	i321	l321
+d	b	a	i421	l421
+select a1,a2,b,min(c) from t1 where ((a1 > 'a') or (a1 < '9'))  and ((a2 >= 'b') and (a2 < 'z')) and (b = 'a') and ((c < 'h112') or (c = 'j121') or (c > 'k121' and c < 'm122') or (c > 'o122')) group by a1,a2,b;
+a1	a2	b	min(c)
+b	b	a	k221
+c	b	a	k321
+d	b	a	k421
+select a1,a2,b,min(c) from t1 where ((a1 > 'a') or (a1 < '9'))  and ((a2 >= 'b') and (a2 < 'z')) and (b = 'a') and ((c = 'j121') or (c > 'k121' and c < 'm122') or (c > 'o122') or (c < 'h112') or (c = 'c111')) group by a1,a2,b;
+a1	a2	b	min(c)
+b	b	a	k221
+c	b	a	k321
+d	b	a	k421
+select a1,a2,b,min(c) from t1 where (a1 > 'a') and (a2 > 'a') and (b = 'c') group by a1,a2,b;
+a1	a2	b	min(c)
+select a1,a2,b,min(c) from t1 where (ord(a1) > 97) and (ord(a2) + ord(a1) > 194) and (b = 'c') group by a1,a2,b;
+a1	a2	b	min(c)
+select a1,a2,b,min(c),max(c) from t2 where (a1 >= 'c' or a2 < 'b') and (b > 'a') group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+a	a	b	e112	h112
+b	a	b	e212	h212
+c	a	b	e312	h312
+c	b	b	m322	p322
+d	a	b	e412	h412
+d	b	b	m422	p422
+e	a	b	NULL	NULL
+select a1,a2,b,min(c),max(c) from t2 where (a1 >= 'c' or a2 < 'b') and (c > 'b111') group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+a	a	a	c111	d111
+a	a	b	e112	h112
+b	a	a	b211	d211
+b	a	b	e212	h212
+c	a	NULL	c777	c999
+c	a	a	b311	d311
+c	a	b	e312	h312
+c	b	a	i321	l321
+c	b	b	m322	p322
+d	a	a	b411	d411
+d	a	b	e412	h412
+d	b	a	i421	l421
+d	b	b	m422	p422
+select a1,a2,b,min(c),max(c) from t2 where (a2 >= 'b') and (b = 'a') and (c > 'b111') group by a1,a2,b;
+a1	a2	b	min(c)	max(c)
+a	b	a	i121	l121
+b	b	a	i221	l221
+c	b	a	i321	l321
+d	b	a	i421	l421
+select a1,a2,b,min(c) from t2 where ((a1 > 'a') or (a1 < '9'))  and ((a2 >= 'b') and (a2 < 'z')) and (b = 'a') and ((c < 'h112') or (c = 'j121') or (c > 'k121' and c < 'm122') or (c > 'o122')) group by a1,a2,b;
+a1	a2	b	min(c)
+b	b	a	k221
+c	b	a	k321
+d	b	a	k421
+select a1,a2,b,min(c) from t2 where ((a1 > 'a') or (a1 < '9'))  and ((a2 >= 'b') and (a2 < 'z')) and (b = 'a') and ((c = 'j121') or (c > 'k121' and c < 'm122') or (c > 'o122') or (c < 'h112') or (c = 'c111')) group by a1,a2,b;
+a1	a2	b	min(c)
+b	b	a	k221
+c	b	a	k321
+d	b	a	k421
+select a1,a2,b,min(c) from t2 where (a1 > 'a') and (a2 > 'a') and (b = 'c') group by a1,a2,b;
+a1	a2	b	min(c)
+select a1,a2,b from t1 where (a1 >= 'c' or a2 < 'b') and (b > 'a') group by a1,a2,b;
+a1	a2	b
+a	a	b
+b	a	b
+c	a	b
+c	b	b
+d	a	b
+d	b	b
+select a1,a2,b from t1 where (a2 >= 'b') and (b = 'a') group by a1,a2,b;
+a1	a2	b
+a	b	a
+b	b	a
+c	b	a
+d	b	a
+select a1,a2,b,c from t1 where (a2 >= 'b') and (b = 'a') and (c = 'i121') group by a1,a2,b;
+a1	a2	b	c
+a	b	a	i121
+select a1,a2,b from t1 where (a1 > 'a') and (a2 > 'a') and (b = 'c') group by a1,a2,b;
+a1	a2	b
+select a1,a2,b from t2 where (a1 >= 'c' or a2 < 'b') and (b > 'a') group by a1,a2,b;
+a1	a2	b
+a	a	b
+b	a	b
+c	a	b
+c	b	b
+d	a	b
+d	b	b
+e	a	b
+select a1,a2,b from t2 where (a2 >= 'b') and (b = 'a') group by a1,a2,b;
+a1	a2	b
+a	b	a
+b	b	a
+c	b	a
+d	b	a
+select a1,a2,b,c from t2 where (a2 >= 'b') and (b = 'a') and (c = 'i121') group by a1,a2,b;
+a1	a2	b	c
+a	b	a	i121
+select a1,a2,b from t2 where (a1 > 'a') and (a2 > 'a') and (b = 'c') group by a1,a2,b;
+a1	a2	b
 select distinct a1,a2,b from t1;
 a1	a2	b
 a	a	a

@@ -58,6 +58,26 @@ mod(companynr,10)
 select distinct 1 from t4 group by companynr;
 1
 1
+select name,count(*) from t3 where name='cloakroom' group by name;
+name	count(*)
+cloakroom	1
+select name,count(*) from t3 where name='cloakroom' and price>10 group by name;
+name	count(*)
+cloakroom	1
+select count(*) from t3 where name='cloakroom' and price2=823742;
+count(*)
+1
+select name,count(*) from t3 where name='cloakroom' and price2=823742 group by name;
+name	count(*)
+cloakroom	1
+select name,count(*) from t3 where name >= "extramarital" and price <= 39654943 group by name;
+name	count(*)
+extramarital	1
+gazer	1
+gems	1
+spates	1
+tucked	1
+violinist	1
 select companynr|0,companyname from t4 group by 1;
 companynr|0	companyname
 0	Unknown
@@ -75,6 +95,24 @@ companynr|0	companyname
 select sum(Period)/count(*) from t1;
 sum(Period)/count(*)
 9410.0000
+select companynr,count(price) as "count",sum(price) as "sum" ,abs(sum(price)/count(price)-avg(price)) as "diff",(0+count(price))*companynr as func from t3 group by companynr;
+companynr	count	sum	diff	func
+37	3	74000210	0.0000	111
+78	2	99165532	0.0000	156
+101	1	834598	0.0000	101
+154	1	983543950	0.0000	154
+311	1	234298	0.0000	311
+447	1	2374834	0.0000	447
+512	1	786542	0.0000	512
+select companynr,sum(price)/count(price) as avg from t3 group by companynr having avg > 70000000 order by avg;
+companynr	avg
+154	983543950.0000
+select count(*) from t3 where price2=76234234;
+count(*)
+1
+select count(*) from t3 where companynr=512 and price2=76234234;
+count(*)
+1
 select t1.period from t3 = t1 limit 1;
 period
 1001
@@ -1373,6 +1411,9 @@ cc 	4	4
 cc   	5	3
 cc	2	5
 cc 	3	7
+SELECT name, LENGTH(name), n FROM t2 WHERE name='cc ';
+name	LENGTH(name)	n
+cc 	3	7
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 name	LENGTH(name)	n
 cc	2	5
@@ -1418,6 +1459,9 @@ bb 	3	6
 cc 	4	4
 cc   	5	3
 cc	2	5
+cc 	3	7
+SELECT name, LENGTH(name), n FROM t2 WHERE name='cc ';
+name	LENGTH(name)	n
 cc 	3	7
 SELECT name , LENGTH(name), n FROM t2 WHERE name LIKE 'cc%';
 name	LENGTH(name)	n

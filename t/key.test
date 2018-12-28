@@ -15,31 +15,31 @@ SET SQL_WARNINGS=1;
 # This failed for Elizabeth Mattijsen
 #
 #Bug #SEQUOIADBMAINSTREAM-3568
-#CREATE TABLE t1 (
-#  ID CHAR(32) NOT NULL,
-#  name CHAR(32) NOT NULL,
-#  value CHAR(255),
-#  INDEX indexIDname (ID(8),name(8))
-#) ;
-#
-#INSERT INTO t1 VALUES
-#('keyword','indexdir','/export/home/local/www/database/indexes/keyword');
-#INSERT INTO t1 VALUES ('keyword','urlprefix','text/ /text');
-#INSERT INTO t1 VALUES ('keyword','urlmap','/text/ /');
-#INSERT INTO t1 VALUES ('keyword','attr','personal employee company');
-#INSERT INTO t1 VALUES
-#('emailgids','indexdir','/export/home/local/www/database/indexes/emailgids');
-#INSERT INTO t1 VALUES ('emailgids','urlprefix','text/ /text');
-#INSERT INTO t1 VALUES ('emailgids','urlmap','/text/ /');
-#INSERT INTO t1 VALUES ('emailgids','attr','personal employee company');
-#
-#SELECT value FROM t1 WHERE ID='emailgids' AND name='attr';
-#
-#drop table t1;
+CREATE TABLE t1 (
+  ID CHAR(32) NOT NULL,
+  name CHAR(32) NOT NULL,
+  value CHAR(255),
+  INDEX indexIDname (ID(8),name(8))
+) ;
+
+INSERT INTO t1 VALUES
+('keyword','indexdir','/export/home/local/www/database/indexes/keyword');
+INSERT INTO t1 VALUES ('keyword','urlprefix','text/ /text');
+INSERT INTO t1 VALUES ('keyword','urlmap','/text/ /');
+INSERT INTO t1 VALUES ('keyword','attr','personal employee company');
+INSERT INTO t1 VALUES
+('emailgids','indexdir','/export/home/local/www/database/indexes/emailgids');
+INSERT INTO t1 VALUES ('emailgids','urlprefix','text/ /text');
+INSERT INTO t1 VALUES ('emailgids','urlmap','/text/ /');
+INSERT INTO t1 VALUES ('emailgids','attr','personal employee company');
+SELECT value FROM t1 WHERE ID='emailgids' AND name='attr';
+drop table t1;
 
 #
 # Problem with many key parts and many or
 #
+# NOW SequoiaDB not support index of enum, when create index of type enum, it will causes error 1112: Table uses an extension that doesn't exist in MySQL version while 
+# executing select
 #Bug #SEQUOIADBMAINSTREAM-3571
 CREATE TABLE t1 (
   price int(5) DEFAULT '0' NOT NULL,
@@ -245,7 +245,7 @@ drop table t1;
 #
 # UNIQUE prefix keys and multi-byte charsets
 #
-#Bug #SEQUOIADBMAINSTREAM-3607
+#Bug #SEQUOIADBMAINSTREAM-3607, insert duplicate key not fail
 #create table t1 (c varchar(30) character set utf8, t text character set utf8, unique (c(2)), unique (t(3))) engine=sequoiadb;
 #show create table t1;
 #insert t1 values ('cccc', 'tttt'),
@@ -268,7 +268,7 @@ drop table t1;
 #
 # BUG#6151 - sequoiadb index corruption
 #
-#Bug #SEQUOIADBMAINSTREAM-3571
+#Bug #SEQUOIADBMAINSTREAM-3571, varbinary is variable binary, binary should not be allowed to create index
 # Compatible with parallel > 1, disable warnings
 --disable_warnings
 DROP TABLE IF EXISTS t1;
@@ -422,7 +422,7 @@ drop table t1;
 ## Some simple tests.
 #alter table t1 drop index c1;
 #alter table t1 add index (c1);
-## This creates index 'c1_2'.
+#This creates index 'c1_2'.
 #alter table t1 add index (c1);
 #alter table t1 drop index i3;
 #alter table t1 add index i3 (c3);
@@ -461,6 +461,7 @@ drop table t1;
 # Bug #20604: Test for disabled keys with aggregate functions and FORCE INDEX.
 #
 #Bug #SEQUOIADBMAINSTREAM-3556
+#Sequoiadb not support disable keys
 #CREATE TABLE t1( a TINYINT, KEY(a) ) ENGINE=SequoiaDB;
 #INSERT INTO t1 VALUES( 1 );
 #ALTER TABLE t1 DISABLE KEYS;

@@ -449,6 +449,108 @@ insert into t1 values ('бб');
 insert into t1 values ('ꪪ');
 insert into t1 values ('ꪪꪪ');
 drop table t1;
+create table t1 (
+c char(10) character set utf8mb4,
+unique key a using hash (c(1))
+) engine=sequoiadb;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `c` char(10) CHARACTER SET utf8mb4 DEFAULT NULL,
+  UNIQUE KEY `a` (`c`(1)) USING HASH
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+insert into t1 values ('aa');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
+insert into t1 values ('бб');
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+c_all
+a
+aa
+aaa
+b
+c
+d
+e
+f
+б
+бб
+ббб
+select c as c_a from t1 where c='a';
+c_a
+a
+select c as c_a from t1 where c='б';
+c_a
+б
+drop table t1;
+create table t1 (
+c char(10) character set utf8mb4,
+unique key a using btree (c(1))
+) engine=sequoiadb;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `c` char(10) CHARACTER SET utf8mb4 DEFAULT NULL,
+  UNIQUE KEY `a` (`c`(1)) USING BTREE
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+insert into t1 values ('aa');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
+insert into t1 values ('бб');
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+c_all
+a
+aa
+aaa
+b
+c
+d
+e
+f
+б
+бб
+ббб
+select c as c_a from t1 where c='a';
+c_a
+a
+select c as c_a from t1 where c='б';
+c_a
+б
+drop table t1;
+create table t1 (
+c char(10) character set utf8mb4,
+unique key a (c(1))
+) engine=sequoiadb;
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+insert into t1 values ('aa');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
+insert into t1 values ('бб');
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+c_all
+a
+aa
+aaa
+b
+c
+d
+e
+f
+б
+бб
+ббб
+select c as c_a from t1 where c='a';
+c_a
+a
+select c as c_a from t1 where c='б';
+c_a
+б
+drop table t1;
 create table t1 (c varchar(30) character set utf8mb4 collate utf8mb4_bin, unique(c(10)));
 insert into t1 values ('1'),('2'),('3'),('x'),('y'),('z');
 insert into t1 values ('aaaaaaaaaa');
@@ -490,6 +592,108 @@ insert into t1 values ('б');
 insert into t1 values ('бб');
 insert into t1 values ('ꪪ');
 insert into t1 values ('ꪪꪪ');
+drop table t1;
+create table t1 (
+c char(10) character set utf8mb4 collate utf8mb4_bin,
+unique key a using hash (c(1))
+) engine=sequoiadb;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `c` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  UNIQUE KEY `a` (`c`(1)) USING HASH
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+insert into t1 values ('aa');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
+insert into t1 values ('бб');
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+c_all
+a
+aa
+aaa
+b
+c
+d
+e
+f
+б
+бб
+ббб
+select c as c_a from t1 where c='a';
+c_a
+a
+select c as c_a from t1 where c='б';
+c_a
+б
+drop table t1;
+create table t1 (
+c char(10) character set utf8mb4 collate utf8mb4_bin,
+unique key a using btree (c(1))
+) engine=sequoiadb;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `c` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  UNIQUE KEY `a` (`c`(1)) USING BTREE
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+insert into t1 values ('aa');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
+insert into t1 values ('бб');
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+c_all
+a
+aa
+aaa
+b
+c
+d
+e
+f
+б
+бб
+ббб
+select c as c_a from t1 where c='a';
+c_a
+a
+select c as c_a from t1 where c='б';
+c_a
+б
+drop table t1;
+create table t1 (
+c char(10) character set utf8mb4 collate utf8mb4_bin,
+unique key a (c(1))
+) engine=sequoiadb;
+insert into t1 values ('a'),('b'),('c'),('d'),('e'),('f');
+insert into t1 values ('aa');
+insert into t1 values ('aaa');
+insert into t1 values ('б');
+insert into t1 values ('бб');
+insert into t1 values ('ббб');
+select c as c_all from t1 order by c;
+c_all
+a
+aa
+aaa
+b
+c
+d
+e
+f
+б
+бб
+ббб
+select c as c_a from t1 where c='a';
+c_a
+a
+select c as c_a from t1 where c='б';
+c_a
+б
 drop table t1;
 create table t1 (
 str varchar(255) character set utf8mb4 not null,
@@ -862,6 +1066,8 @@ insert into t1 values (2,'Durban');
 select * from t1 where city = 'Durban';
 id	city
 2	Durban
+select * from t1 where city = 'Durban ';
+id	city
 drop table t1;
 create table t1 (x set('A', 'B') default 0) character set utf8mb4;
 ERROR 42000: Invalid default value for 'x'
