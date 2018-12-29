@@ -3146,6 +3146,17 @@ SET @safe_character_set_client= @@character_set_client;
 SET @safe_character_set_results= @@character_set_results;
 SET character_set_server= @test_character_set;
 SET collation_server= @test_collation;
+CREATE TABLE t1 (c CHAR(10), KEY(c));
+SHOW FULL COLUMNS FROM t1;
+Field	Type	Collation	Null	Key	Default	Extra	Privileges	Comment
+c	char(10)	utf8_swedish_ci	YES	MUL	NULL			
+INSERT INTO t1 VALUES ('aaa'),('aaaa'),('aaaaa');
+SELECT c as want3results FROM t1 WHERE c LIKE 'aaa%';
+want3results
+aaa
+aaaa
+aaaaa
+DROP TABLE t1;
 CREATE TABLE t1 (c1 varchar(15), KEY c1 (c1(2)));
 SHOW FULL COLUMNS FROM t1;
 Field	Type	Collation	Null	Key	Default	Extra	Privileges	Comment
@@ -4611,6 +4622,35 @@ F0909086	F09090AE	F0909086	30D8	𐐆
 F09090AE	F09090AE	F0909086	30D8	𐐮
 F0909087	F09090AF	F0909087	30D9	𐐇
 F09090AF	F09090AF	F0909087	30D9	𐐯
+INSERT INTO t1 VALUES ('a');
+INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0xFFFF));
+INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0x10FFFF));
+INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0x10400));
+SELECT hex(c), hex(weight_string(c)) FROM t1 WHERE c LIKE 'a%' ORDER BY c;
+hex(c)	hex(weight_string(c))
+61	120F
+61F0909080	120F30D2
+61EFBFBF	120FFBC1FFFF
+61F48FBFBF	120FFBE1FFFF
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10400 ORDER BY c, BINARY c;
+hex(c)	hex(weight_string(c))	c
+F0909080	30D2	𐐀
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10428 ORDER BY c, BINARY c;
+hex(c)	hex(weight_string(c))	c
+F09090A8	30D2	𐐨
+ALTER TABLE t1 ADD KEY(c);
+SELECT hex(c), hex(weight_string(c)) FROM t1 WHERE c LIKE 'a%' ORDER BY c;
+hex(c)	hex(weight_string(c))
+61	120F
+61EFBFBF	120FFBC1FFFF
+61F0909080	120F30D2
+61F48FBFBF	120FFBE1FFFF
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10400 ORDER BY c, BINARY c;
+hex(c)	hex(weight_string(c))	c
+F0909080	30D2	𐐀
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10428 ORDER BY c, BINARY c;
+hex(c)	hex(weight_string(c))	c
+F09090A8	30D2	𐐨
 DROP TABLE t1;
 #
 # Bug #16204175 : COLLATION NAME MISSING FROM LOG MESSAGES

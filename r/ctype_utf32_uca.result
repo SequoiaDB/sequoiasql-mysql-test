@@ -2649,6 +2649,17 @@ SET @safe_character_set_client= @@character_set_client;
 SET @safe_character_set_results= @@character_set_results;
 SET character_set_server= @test_character_set;
 SET collation_server= @test_collation;
+CREATE TABLE t1 (c CHAR(10), KEY(c));
+SHOW FULL COLUMNS FROM t1;
+Field	Type	Collation	Null	Key	Default	Extra	Privileges	Comment
+c	char(10)	utf32_swedish_ci	YES	MUL	NULL			
+INSERT INTO t1 VALUES ('aaa'),('aaaa'),('aaaaa');
+SELECT c as want3results FROM t1 WHERE c LIKE 'aaa%';
+want3results
+aaa
+aaaa
+aaaaa
+DROP TABLE t1;
 CREATE TABLE t1 (c1 varchar(15), KEY c1 (c1(2)));
 SHOW FULL COLUMNS FROM t1;
 Field	Type	Collation	Null	Key	Default	Extra	Privileges	Comment
@@ -3574,6 +3585,35 @@ hex(c)	hex(lower(c))	hex(upper(c))	hex(weight_string(c))	c
 0001042E	0001042E	00010406	30D8	𐐮
 00010407	0001042F	00010407	30D9	𐐇
 0001042F	0001042F	00010407	30D9	𐐯
+INSERT INTO t1 VALUES ('a');
+INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0xFFFF));
+INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0x10FFFF));
+INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0x10400));
+SELECT hex(c), hex(weight_string(c)) FROM t1 WHERE c LIKE 'a%' ORDER BY c;
+hex(c)	hex(weight_string(c))
+00000061	120F
+0000006100010400	120F30D2
+000000610000FFFF	120FFBC1FFFF
+000000610010FFFF	120FFBE1FFFF
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10400 ORDER BY c, BINARY c;
+hex(c)	hex(weight_string(c))	c
+00010400	30D2	𐐀
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10428 ORDER BY c, BINARY c;
+hex(c)	hex(weight_string(c))	c
+00010428	30D2	𐐨
+ALTER TABLE t1 ADD KEY(c);
+SELECT hex(c), hex(weight_string(c)) FROM t1 WHERE c LIKE 'a%' ORDER BY c;
+hex(c)	hex(weight_string(c))
+00000061	120F
+000000610000FFFF	120FFBC1FFFF
+0000006100010400	120F30D2
+000000610010FFFF	120FFBE1FFFF
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10400 ORDER BY c, BINARY c;
+hex(c)	hex(weight_string(c))	c
+00010400	30D2	𐐀
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10428 ORDER BY c, BINARY c;
+hex(c)	hex(weight_string(c))	c
+00010428	30D2	𐐨
 DROP TABLE t1;
 #
 # End of 5.6 tests

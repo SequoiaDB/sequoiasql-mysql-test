@@ -1065,38 +1065,38 @@ drop table t1;
 
 # additional tests from duplicate bug#20744 MySQL return no result
 #Bug #SEQUOIADBMAINSTREAM-3593
-#set names utf8mb4;
-#--disable_warnings
-#create table t1 (a varchar(30) not null primary key)
-#engine=sequoiadb  default character set utf8mb4 collate utf8mb4_general_ci;
-#--enable_warnings
-#insert into t1 values ('あいうえおかきくけこさしすせそ');
-#insert into t1 values ('さしすせそかきくけこあいうえお');
-#select a as gci1 from t1 where a like 'さしすせそかきくけこあいうえお%';
-#select a as gci2 from t1 where a like 'あいうえおかきくけこさしすせそ';
-#drop table t1;
+set names utf8mb4;
+--disable_warnings
+create table t1 (a varchar(30) not null primary key)
+engine=sequoiadb  default character set utf8mb4 collate utf8mb4_general_ci;
+--enable_warnings
+insert into t1 values ('あいうえおかきくけこさしすせそ');
+insert into t1 values ('さしすせそかきくけこあいうえお');
+select a as gci1 from t1 where a like 'さしすせそかきくけこあいうえお%';
+select a as gci2 from t1 where a like 'あいうえおかきくけこさしすせそ';
+drop table t1;
 
-#set names utf8mb4;
-#--disable_warnings
-#create table t1 (a varchar(30) not null primary key)
-#engine=sequoiadb default character set utf8mb4 collate utf8mb4_unicode_ci;
-#--enable_warnings
-#insert into t1 values ('あいうえおかきくけこさしすせそ');
-#insert into t1 values ('さしすせそかきくけこあいうえお');
-#select a as uci1 from t1 where a like 'さしすせそかきくけこあいうえお%';
-#select a as uci2 from t1 where a like 'あいうえおかきくけこさしすせそ';
-#drop table t1;
+set names utf8mb4;
+--disable_warnings
+create table t1 (a varchar(30) not null primary key)
+engine=sequoiadb default character set utf8mb4 collate utf8mb4_unicode_ci;
+--enable_warnings
+insert into t1 values ('あいうえおかきくけこさしすせそ');
+insert into t1 values ('さしすせそかきくけこあいうえお');
+select a as uci1 from t1 where a like 'さしすせそかきくけこあいうえお%';
+select a as uci2 from t1 where a like 'あいうえおかきくけこさしすせそ';
+drop table t1;
 
-#set names utf8mb4;
-#--disable_warnings
-#create table t1 (a varchar(30) not null primary key)
-#engine=sequoiadb default character set utf8mb4 collate utf8mb4_bin;
-#--enable_warnings
-#insert into t1 values ('あいうえおかきくけこさしすせそ');
-#insert into t1 values ('さしすせそかきくけこあいうえお');
-#select a as bin1 from t1 where a like 'さしすせそかきくけこあいうえお%';
-#select a as bin2 from t1 where a like 'あいうえおかきくけこさしすせそ';
-#drop table t1;
+set names utf8mb4;
+--disable_warnings
+create table t1 (a varchar(30) not null primary key)
+engine=sequoiadb default character set utf8mb4 collate utf8mb4_bin;
+--enable_warnings
+insert into t1 values ('あいうえおかきくけこさしすせそ');
+insert into t1 values ('さしすせそかきくけこあいうえお');
+select a as bin1 from t1 where a like 'さしすせそかきくけこあいうえお%';
+select a as bin2 from t1 where a like 'あいうえおかきくけこさしすせそ';
+drop table t1;
 
 
 
@@ -1130,49 +1130,49 @@ DROP TABLE t1;
 # Bug#16674: LIKE predicate for a utf8mb4 character set column
 #
 #Bug #SEQUOIADBMAINSTREAM-3593
-#SET NAMES utf8mb4;
-#
-#CREATE TABLE t1 (
-#  a CHAR(13) DEFAULT '',
-#  INDEX(a)
-#) ENGINE=SequoiaDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-#INSERT INTO t1 VALUES 
-# ('Käli Käli 2-4'), ('Käli Käli 2-4'),
-# ('Käli Käli 2+4'), ('Käli Käli 2+4'),
-# ('Käli Käli 2-6'), ('Käli Käli 2-6');
-#INSERT INTO t1 SELECT * FROM t1;
-#
-#CREATE TABLE t2 (
-#  a CHAR(13) DEFAULT '',
-#  INDEX(a)
-#) ENGINE=SequoiaDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-#
-#INSERT INTO t2 VALUES
-# ('Kali Kali 2-4'), ('Kali Kali 2-4'),
-# ('Kali Kali 2+4'), ('Kali Kali 2+4'),
-# ('Kali Kali 2-6'), ('Kali Kali 2-6');
-#INSERT INTO t2 SELECT * FROM t2;
-#
-#SELECT a FROM t1 WHERE a LIKE 'Käli Käli 2+4';
-#SELECT a FROM t2 WHERE a LIKE 'Kali Kali 2+4';
-#
+SET NAMES utf8mb4;
+
+CREATE TABLE t1 (
+  a CHAR(13) DEFAULT '',
+  INDEX(a)
+) ENGINE=SequoiaDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO t1 VALUES 
+ ('Käli Käli 2-4'), ('Käli Käli 2-4'),
+ ('Käli Käli 2+4'), ('Käli Käli 2+4'),
+ ('Käli Käli 2-6'), ('Käli Käli 2-6');
+INSERT INTO t1 SELECT * FROM t1;
+
+CREATE TABLE t2 (
+  a CHAR(13) DEFAULT '',
+  INDEX(a)
+) ENGINE=SequoiaDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+INSERT INTO t2 VALUES
+ ('Kali Kali 2-4'), ('Kali Kali 2-4'),
+ ('Kali Kali 2+4'), ('Kali Kali 2+4'),
+ ('Kali Kali 2-6'), ('Kali Kali 2-6');
+INSERT INTO t2 SELECT * FROM t2;
+
+SELECT a FROM t1 WHERE a LIKE 'Käli Käli 2+4';
+SELECT a FROM t2 WHERE a LIKE 'Kali Kali 2+4';
+
 #EXPLAIN SELECT a FROM t1 WHERE a LIKE 'Käli Käli 2+4';
 #EXPLAIN SELECT a FROM t1 WHERE a = 'Käli Käli 2+4';
 #EXPLAIN SELECT a FROM t2 WHERE a LIKE 'Kali Kali 2+4';
 #EXPLAIN SELECT a FROM t2 WHERE a = 'Kali Kali 2+4';
-#
-#DROP TABLE t1,t2;
+
+DROP TABLE t1,t2;
 
 #Bug #SEQUOIADBMAINSTREAM-3593
-#CREATE TABLE t1 (
-#  a char(255) DEFAULT '', 
-#  KEY(a(10))
-#) ENGINE=SequoiaDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-#INSERT INTO t1 VALUES ('Käli Käli 2-4');
-#SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
-#INSERT INTO t1 VALUES ('Käli Käli 2-4');
-#SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
-#DROP TABLE t1;
+CREATE TABLE t1 (
+  a char(255) DEFAULT '', 
+  KEY(a(10))
+) ENGINE=SequoiaDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO t1 VALUES ('Käli Käli 2-4');
+SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
+INSERT INTO t1 VALUES ('Käli Käli 2-4');
+SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
+DROP TABLE t1;
 
 CREATE TABLE t1 (
   a char(255) DEFAULT ''
@@ -1181,8 +1181,8 @@ INSERT INTO t1 VALUES ('Käli Käli 2-4');
 INSERT INTO t1 VALUES ('Käli Käli 2-4');
 SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
 #Bug #SEQUOIADBMAINSTREAM-3593
-#ALTER TABLE t1 ADD KEY (a(10));
-#SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
+ALTER TABLE t1 ADD KEY (a(10));
+SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
 DROP TABLE t1;
 
 #
@@ -1193,30 +1193,30 @@ DROP TABLE t1;
 SET NAMES latin2;
 
 #Bug #SEQUOIADBMAINSTREAM-3593
-#CREATE TABLE t1 (
-#  id int(11) NOT NULL default '0',
-#  tid int(11) NOT NULL default '0',
-#  val text NOT NULL,
-#  INDEX idx(tid, val(10))
-#) ENGINE=SequoiaDB DEFAULT CHARSET=utf8mb4;
-#
-#INSERT INTO t1 VALUES
-#  (40988,72,'VOLN� ADSL'),(41009,72,'VOLN� ADSL'),
-#  (41032,72,'VOLN� ADSL'),(41038,72,'VOLN� ADSL'),
-#  (41063,72,'VOLN� ADSL'),(41537,72,'VOLN� ADSL Office'),
-#  (42141,72,'VOLN� ADSL'),(42565,72,'VOLN� ADSL Combi'),
-#  (42749,72,'VOLN� ADSL'),(44205,72,'VOLN� ADSL');
-#
-#SELECT * FROM t1 WHERE tid=72 and val LIKE 'VOLNY ADSL'; 
-#SELECT * FROM t1 WHERE tid=72 and val LIKE 'VOLN� ADSL'; 
-#SELECT * FROM t1 WHERE tid=72 and val LIKE '%VOLN� ADSL'; 
-#
-#ALTER TABLE t1 DROP KEY idx;
-#ALTER TABLE t1 ADD KEY idx (tid,val(11));
-#
-#SELECT * FROM t1 WHERE tid=72 and val LIKE 'VOLN� ADSL'; 
-#
-#DROP TABLE t1;
+CREATE TABLE t1 (
+  id int(11) NOT NULL default '0',
+  tid int(11) NOT NULL default '0',
+  val text NOT NULL,
+  INDEX idx(tid, val(10))
+) ENGINE=SequoiaDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO t1 VALUES
+  (40988,72,'VOLN� ADSL'),(41009,72,'VOLN� ADSL'),
+  (41032,72,'VOLN� ADSL'),(41038,72,'VOLN� ADSL'),
+  (41063,72,'VOLN� ADSL'),(41537,72,'VOLN� ADSL Office'),
+  (42141,72,'VOLN� ADSL'),(42565,72,'VOLN� ADSL Combi'),
+  (42749,72,'VOLN� ADSL'),(44205,72,'VOLN� ADSL');
+
+SELECT * FROM t1 WHERE tid=72 and val LIKE 'VOLNY ADSL'; 
+SELECT * FROM t1 WHERE tid=72 and val LIKE 'VOLN� ADSL'; 
+SELECT * FROM t1 WHERE tid=72 and val LIKE '%VOLN� ADSL'; 
+
+ALTER TABLE t1 DROP KEY idx;
+ALTER TABLE t1 ADD KEY idx (tid,val(11));
+
+SELECT * FROM t1 WHERE tid=72 and val LIKE 'VOLN� ADSL'; 
+
+DROP TABLE t1;
 
 #
 # Bug 20709: problem with utf8mb4 fields in temporary tables

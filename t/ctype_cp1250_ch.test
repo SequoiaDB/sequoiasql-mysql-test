@@ -33,14 +33,14 @@ DROP TABLE t1;
 # Bug#9759 Empty result with 'LIKE' and cp1250_czech_cs
 #
 #Bug #SEQUOIADBMAINSTREAM-3593
-#CREATE TABLE t1 (
-#  popisek varchar(30) collate cp1250_general_ci NOT NULL default '',
-# PRIMARY KEY  (`popisek`)
-#);
-#INSERT INTO t1 VALUES ('2005-01-1');
-#SELECT * FROM t1 WHERE popisek = '2005-01-1';
-#SELECT * FROM t1 WHERE popisek LIKE '2005-01-1';
-#drop table t1;
+CREATE TABLE t1 (
+  popisek varchar(30) collate cp1250_general_ci NOT NULL default '',
+ PRIMARY KEY  (`popisek`)
+);
+INSERT INTO t1 VALUES ('2005-01-1');
+SELECT * FROM t1 WHERE popisek = '2005-01-1';
+SELECT * FROM t1 WHERE popisek LIKE '2005-01-1';
+drop table t1;
 
 #
 # Bug#13347: empty result from query with like and cp1250 charset

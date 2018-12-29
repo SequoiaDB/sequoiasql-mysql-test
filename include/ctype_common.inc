@@ -24,16 +24,16 @@ SET collation_server= @test_collation;
 #
 # Bug 1883: LIKE did not work in some cases with a key.
 #
-#Bug #SEQUOIADBMAINSTREAM-3593, select with like will return wrong results when exists index in varchar
-#--disable_warnings
-#CREATE TABLE t1 (c CHAR(10), KEY(c));
-#--enable_warnings
-## check the column was created with the expected charset/collation
-#--replace_result select,insert,update,references ""
-#SHOW FULL COLUMNS FROM t1;
-#INSERT INTO t1 VALUES ('aaa'),('aaaa'),('aaaaa');
-#SELECT c as want3results FROM t1 WHERE c LIKE 'aaa%';
-#DROP TABLE t1;
+#Bug #SEQUOIADBMAINSTREAM-3593
+--disable_warnings
+CREATE TABLE t1 (c CHAR(10), KEY(c));
+--enable_warnings
+# check the column was created with the expected charset/collation
+--replace_result select,insert,update,references ""
+SHOW FULL COLUMNS FROM t1;
+INSERT INTO t1 VALUES ('aaa'),('aaaa'),('aaaaa');
+SELECT c as want3results FROM t1 WHERE c LIKE 'aaa%';
+DROP TABLE t1;
 
 #
 # Bug 6643 incorrect response with partial utf8 index
