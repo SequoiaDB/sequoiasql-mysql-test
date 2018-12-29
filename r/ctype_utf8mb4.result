@@ -1206,6 +1206,42 @@ select s1 as after_delete_bin from t1 where s1 like 'ペテ%';
 after_delete_bin
 ペテルグル
 drop table t1;
+set names utf8mb4;
+create table t1 (a varchar(30) not null primary key)
+engine=sequoiadb  default character set utf8mb4 collate utf8mb4_general_ci;
+insert into t1 values ('あいうえおかきくけこさしすせそ');
+insert into t1 values ('さしすせそかきくけこあいうえお');
+select a as gci1 from t1 where a like 'さしすせそかきくけこあいうえお%';
+gci1
+さしすせそかきくけこあいうえお
+select a as gci2 from t1 where a like 'あいうえおかきくけこさしすせそ';
+gci2
+あいうえおかきくけこさしすせそ
+drop table t1;
+set names utf8mb4;
+create table t1 (a varchar(30) not null primary key)
+engine=sequoiadb default character set utf8mb4 collate utf8mb4_unicode_ci;
+insert into t1 values ('あいうえおかきくけこさしすせそ');
+insert into t1 values ('さしすせそかきくけこあいうえお');
+select a as uci1 from t1 where a like 'さしすせそかきくけこあいうえお%';
+uci1
+さしすせそかきくけこあいうえお
+select a as uci2 from t1 where a like 'あいうえおかきくけこさしすせそ';
+uci2
+あいうえおかきくけこさしすせそ
+drop table t1;
+set names utf8mb4;
+create table t1 (a varchar(30) not null primary key)
+engine=sequoiadb default character set utf8mb4 collate utf8mb4_bin;
+insert into t1 values ('あいうえおかきくけこさしすせそ');
+insert into t1 values ('さしすせそかきくけこあいうえお');
+select a as bin1 from t1 where a like 'さしすせそかきくけこあいうえお%';
+bin1
+さしすせそかきくけこあいうえお
+select a as bin2 from t1 where a like 'あいうえおかきくけこさしすせそ';
+bin2
+あいうえおかきくけこさしすせそ
+drop table t1;
 SET NAMES utf8mb4;
 CREATE TABLE t1 (id int PRIMARY KEY,
 a varchar(16) collate utf8mb4_unicode_ci NOT NULL default '',
@@ -1246,6 +1282,44 @@ id	a
 6	bbbbbb
 11	bbbbbb
 DROP TABLE t1;
+SET NAMES utf8mb4;
+CREATE TABLE t1 (
+a CHAR(13) DEFAULT '',
+INDEX(a)
+) ENGINE=SequoiaDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO t1 VALUES 
+('Käli Käli 2-4'), ('Käli Käli 2-4'),
+('Käli Käli 2+4'), ('Käli Käli 2+4'),
+('Käli Käli 2-6'), ('Käli Käli 2-6');
+INSERT INTO t1 SELECT * FROM t1;
+CREATE TABLE t2 (
+a CHAR(13) DEFAULT '',
+INDEX(a)
+) ENGINE=SequoiaDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+INSERT INTO t2 VALUES
+('Kali Kali 2-4'), ('Kali Kali 2-4'),
+('Kali Kali 2+4'), ('Kali Kali 2+4'),
+('Kali Kali 2-6'), ('Kali Kali 2-6');
+INSERT INTO t2 SELECT * FROM t2;
+SELECT a FROM t1 WHERE a LIKE 'Käli Käli 2+4';
+a
+SELECT a FROM t2 WHERE a LIKE 'Kali Kali 2+4';
+a
+DROP TABLE t1,t2;
+CREATE TABLE t1 (
+a char(255) DEFAULT '', 
+KEY(a(10))
+) ENGINE=SequoiaDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO t1 VALUES ('Käli Käli 2-4');
+SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
+a
+Käli Käli 2-4
+INSERT INTO t1 VALUES ('Käli Käli 2-4');
+SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
+a
+Käli Käli 2-4
+Käli Käli 2-4
+DROP TABLE t1;
 CREATE TABLE t1 (
 a char(255) DEFAULT ''
 ) ENGINE=SequoiaDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1255,8 +1329,60 @@ SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
 a
 Käli Käli 2-4
 Käli Käli 2-4
+ALTER TABLE t1 ADD KEY (a(10));
+SELECT * FROM t1 WHERE a LIKE 'Käli Käli 2%';
+a
+Käli Käli 2-4
+Käli Käli 2-4
 DROP TABLE t1;
 SET NAMES latin2;
+CREATE TABLE t1 (
+id int(11) NOT NULL default '0',
+tid int(11) NOT NULL default '0',
+val text NOT NULL,
+INDEX idx(tid, val(10))
+) ENGINE=SequoiaDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO t1 VALUES
+(40988,72,'VOLN� ADSL'),(41009,72,'VOLN� ADSL'),
+(41032,72,'VOLN� ADSL'),(41038,72,'VOLN� ADSL'),
+(41063,72,'VOLN� ADSL'),(41537,72,'VOLN� ADSL Office'),
+(42141,72,'VOLN� ADSL'),(42565,72,'VOLN� ADSL Combi'),
+(42749,72,'VOLN� ADSL'),(44205,72,'VOLN� ADSL');
+SELECT * FROM t1 WHERE tid=72 and val LIKE 'VOLNY ADSL';
+id	tid	val
+SELECT * FROM t1 WHERE tid=72 and val LIKE 'VOLN� ADSL';
+id	tid	val
+40988	72	VOLN� ADSL
+41009	72	VOLN� ADSL
+41032	72	VOLN� ADSL
+41038	72	VOLN� ADSL
+41063	72	VOLN� ADSL
+42141	72	VOLN� ADSL
+42749	72	VOLN� ADSL
+44205	72	VOLN� ADSL
+SELECT * FROM t1 WHERE tid=72 and val LIKE '%VOLN� ADSL';
+id	tid	val
+40988	72	VOLN� ADSL
+41009	72	VOLN� ADSL
+41032	72	VOLN� ADSL
+41038	72	VOLN� ADSL
+41063	72	VOLN� ADSL
+42141	72	VOLN� ADSL
+42749	72	VOLN� ADSL
+44205	72	VOLN� ADSL
+ALTER TABLE t1 DROP KEY idx;
+ALTER TABLE t1 ADD KEY idx (tid,val(11));
+SELECT * FROM t1 WHERE tid=72 and val LIKE 'VOLN� ADSL';
+id	tid	val
+40988	72	VOLN� ADSL
+41009	72	VOLN� ADSL
+41032	72	VOLN� ADSL
+41038	72	VOLN� ADSL
+41063	72	VOLN� ADSL
+42141	72	VOLN� ADSL
+42749	72	VOLN� ADSL
+44205	72	VOLN� ADSL
+DROP TABLE t1;
 create table t1(a char(200) collate utf8mb4_unicode_ci NOT NULL default '')
 default charset=utf8mb4 collate=utf8mb4_unicode_ci;
 insert into t1 values (unhex('65')), (unhex('C3A9')), (unhex('65'));

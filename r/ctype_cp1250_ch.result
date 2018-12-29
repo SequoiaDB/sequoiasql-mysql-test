@@ -11,6 +11,17 @@ SET @safe_character_set_client= @@character_set_client;
 SET @safe_character_set_results= @@character_set_results;
 SET character_set_server= @test_character_set;
 SET collation_server= @test_collation;
+CREATE TABLE t1 (c CHAR(10), KEY(c));
+SHOW FULL COLUMNS FROM t1;
+Field	Type	Collation	Null	Key	Default	Extra	Privileges	Comment
+c	char(10)	cp1250_general_ci	YES	MUL	NULL			
+INSERT INTO t1 VALUES ('aaa'),('aaaa'),('aaaaa');
+SELECT c as want3results FROM t1 WHERE c LIKE 'aaa%';
+want3results
+aaa
+aaaa
+aaaaa
+DROP TABLE t1;
 CREATE TABLE t1 (c1 varchar(15), KEY c1 (c1(2)));
 SHOW FULL COLUMNS FROM t1;
 Field	Type	Collation	Null	Key	Default	Extra	Privileges	Comment
@@ -89,6 +100,17 @@ SET @safe_character_set_client= @@character_set_client;
 SET @safe_character_set_results= @@character_set_results;
 SET character_set_server= @test_character_set;
 SET collation_server= @test_collation;
+CREATE TABLE t1 (c CHAR(10), KEY(c));
+SHOW FULL COLUMNS FROM t1;
+Field	Type	Collation	Null	Key	Default	Extra	Privileges	Comment
+c	char(10)	cp1250_czech_cs	YES	MUL	NULL			
+INSERT INTO t1 VALUES ('aaa'),('aaaa'),('aaaaa');
+SELECT c as want3results FROM t1 WHERE c LIKE 'aaa%';
+want3results
+aaa
+aaaa
+aaaaa
+DROP TABLE t1;
 CREATE TABLE t1 (c1 varchar(15), KEY c1 (c1(2)));
 SHOW FULL COLUMNS FROM t1;
 Field	Type	Collation	Null	Key	Default	Extra	Privileges	Comment
@@ -165,6 +187,18 @@ SELECT a, length(a), a='', a=' ', a='  ' FROM t1;
 a	length(a)	a=''	a=' '	a='  '
 	0	1	1	1
 DROP TABLE t1;
+CREATE TABLE t1 (
+popisek varchar(30) collate cp1250_general_ci NOT NULL default '',
+PRIMARY KEY  (`popisek`)
+);
+INSERT INTO t1 VALUES ('2005-01-1');
+SELECT * FROM t1 WHERE popisek = '2005-01-1';
+popisek
+2005-01-1
+SELECT * FROM t1 WHERE popisek LIKE '2005-01-1';
+popisek
+2005-01-1
+drop table t1;
 set names cp1250;
 create table t1 (a varchar(15) collate cp1250_czech_cs NOT NULL, primary key(a));
 insert into t1 values("abcdefghá");

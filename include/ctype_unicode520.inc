@@ -151,17 +151,17 @@ FROM t1 ORDER BY c, BINARY c;
 # Also check that LIKE is case insensitive for supplementary characters
 #
 #Bug #SEQUOIADBMAINSTREAM-3593
-#INSERT INTO t1 VALUES ('a');
-#INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0xFFFF));
-#INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0x10FFFF));
-#INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0x10400));
-#SELECT hex(c), hex(weight_string(c)) FROM t1 WHERE c LIKE 'a%' ORDER BY c;
-#SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10400 ORDER BY c, BINARY c;
-#SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10428 ORDER BY c, BINARY c;
-#ALTER TABLE t1 ADD KEY(c);
+INSERT INTO t1 VALUES ('a');
+INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0xFFFF));
+INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0x10FFFF));
+INSERT INTO t1 VALUES (concat(_utf32 0x61, _utf32 0x10400));
+SELECT hex(c), hex(weight_string(c)) FROM t1 WHERE c LIKE 'a%' ORDER BY c;
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10400 ORDER BY c, BINARY c;
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10428 ORDER BY c, BINARY c;
+ALTER TABLE t1 ADD KEY(c);
 #EXPLAIN SELECT hex(c) FROM t1 WHERE c LIKE 'a%' ORDER BY c;
-#SELECT hex(c), hex(weight_string(c)) FROM t1 WHERE c LIKE 'a%' ORDER BY c;
-#SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10400 ORDER BY c, BINARY c;
-#SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10428 ORDER BY c, BINARY c;
+SELECT hex(c), hex(weight_string(c)) FROM t1 WHERE c LIKE 'a%' ORDER BY c;
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10400 ORDER BY c, BINARY c;
+SELECT hex(c), hex(weight_string(c)), c FROM t1 WHERE c LIKE _utf32 0x10428 ORDER BY c, BINARY c;
 
 DROP TABLE t1;
