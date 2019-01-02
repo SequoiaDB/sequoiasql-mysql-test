@@ -167,9 +167,7 @@ sub fix_socket {
 sub fix_tmpdir {
   my ($self, $config, $group_name, $group)= @_;
   my $dir= $self->{ARGS}->{tmpdir};
-  #modify tmpdir for sequoiadb engine by zhaoyu
-  #return "$dir/$group_name";
-  return "$dir";
+  return "$dir/$group_name";
 }
 
 sub fix_log_error {
