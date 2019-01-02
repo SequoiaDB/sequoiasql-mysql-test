@@ -1,0 +1,642 @@
+#check basic query to sequoiadb
+#Case 13098#Case 13099#Case 13100#Case 13101#Case 13102#Case 13103#Case 13104#Case 13105
+--source include/have_sequoiadb.inc
+
+--disable_warnINgs
+DROP TABLE IF EXISTS t1, t2;
+--enable_warnINgs
+
+#
+# INSERT INTO ... SELECT
+#
+CREATE TABLE t1 (a TINYINT UNSIGNED NOT NULL, b INT UNSIGNED NOT NULL);
+CREATE TABLE t2 (a TINYINT UNSIGNED NOT NULL, b INT UNSIGNED NOT NULL);
+INSERT INTO t1 (a,b) VALUES (1,36),(8,11),(3,5),(6,9),(4,10),(9,1),(2,12),(7,18),(5,2),(10,0);
+INSERT INTO t2 (a,b) VALUES (102,6),(99,5),(87,22),(79,9),(85,7),(101,5),(80,14),(100,1),(97,29),(98,19);
+INSERT INTO t1 ( a, b ) SELECT MAX(a), MAX(b) FROM t2;
+INSERT INTO t2 ( a, b ) SELECT MIN(a), MIN(b) FROM t1;
+INSERT INTO t1 SELECT t2.a,t2.b FROM t2;
+INSERT INTO t2 SELECT t1.a,t1.b FROM t1;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+UPDATE t1 SET b = 3 WHERE b>5;
+UPDATE t2 SET b = 2 WHERE b>=0;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+DELETE FROM t1 WHERE a > 3;
+DELETE FROM t2 WHERE a >= 0;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+# CREATE INDEX
+CREATE INDEX a ON t1(a);
+CREATE INDEX b ON t1(b);
+CREATE INDEX a ON t2(a);
+CREATE INDEX b ON t2(b);
+INSERT INTO t1 (a,b) VALUES (1,36),(8,11),(3,5),(6,9),(4,10),(9,1),(2,12),(7,18),(5,2),(10,0);
+INSERT INTO t2 (a,b) VALUES (102,6),(99,5),(87,22),(79,9),(85,7),(101,5),(80,14),(100,1),(97,29),(98,19);
+INSERT INTO t1 ( a, b ) SELECT MAX(a), MAX(b) FROM t2;
+INSERT INTO t2 ( a, b ) SELECT MIN(a), MIN(b) FROM t1;
+INSERT INTO t1 SELECT t2.a,t2.b FROM t2;
+INSERT INTO t2 SELECT t1.a,t1.b FROM t1;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+UPDATE t1 SET b = 3 WHERE b>5;
+UPDATE t2 SET b = 2 WHERE b>=0;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+DELETE FROM t1 WHERE a > 3;
+DELETE FROM t2 WHERE a >= 0;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+DROP TABLE t1,t2;
+
+#
+# UPDATE/DELETE WITH WHERE + ORDER BY + LIMIT
+#
+CREATE TABLE t1 (a INT, b VARCHAR(10));
+INSERT INTO t1 VALUES (2,'abcd1e'),(5,'abcd2e'),(11,'helloworld'),(3,'1234567'),(10,'ccccc'),(12,'string'),(9,'word'),(8,'xxyyzz'),(1,'ABCD'),(6,'abcd'),(15,'ABCD1e'),(4,'ABCD2e');
+# UPDATE
+UPDATE t1 SET b = "updateb1" WHERE b = "abcd1e";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb2" WHERE b <=> "abcd2e";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb3" WHERE b < "abcd" ORDER BY b DESC;
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb4" WHERE b <= "ccccc";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb5" WHERE b > "word";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb6" WHERE b >= "updateb4" ORDER BY b LIMIT 2;
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb7" WHERE b BETWEEN "updateb1" AND "updateb4" ORDER BY a DESC LIMIT 4;
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb8" WHERE b IN ("word", "updateb5", "updateb6", "string");
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb9" WHERE b NOT IN ("updateb7", "helloworld");
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb10" WHERE b LIKE "updateb7%";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb11" WHERE b REGEXP "updateb1";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb12" WHERE b != "updateb11";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb13" WHERE b IS NULL;
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb14" WHERE b IS NOT NULL;
+--sorted_result
+SELECT * FROM t1;
+# DELETE
+DELETE FROM t1;
+INSERT INTO t1 VALUES (2,'abcd1e'),(5,'abcd2e'),(11,'helloworld'),(3,'1234567'),(10,'ccccc'),(12,'string'),(9,'word'),(8,'xxyyzz'),(1,'ABCD'),(6,'abcd'),(15,'ABCD1e'),(4,'ABCD2e'),(14,"test1"),(18,"abcde"),(15,"abcdef"),(13,"bcd"),(21,"bcde"),(17,"acdef");
+DELETE FROM t1 WHERE b = "abcd1e";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b <=> "abcd2e";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b < "ABCD1e";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b <= "abcd" ORDER BY b DESC LIMIT 2;
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b > "word";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b >= "word";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b BETWEEN "ccccc" AND "helloworld" ORDER BY b LIMIT 2;
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b LIKE "abcde%" ORDER BY a DESC LIMIT 1;
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b REGEXP "str";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b IN ("bcd", "acdef");
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1  WHERE b != "test1";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b IS NOT NULL;
+--sorted_result
+SELECT * FROM t1;
+# CREATE INDEX
+CREATE INDEX a ON t1(a);
+CREATE INDEX b ON t1(b(5));
+INSERT INTO t1 VALUES (2,'abcd1e'),(5,'abcd2e'),(11,'helloworld'),(3,'1234567'),(10,'ccccc'),(12,'string'),(9,'word'),(8,'xxyyzz'),(1,'ABCD'),(6,'abcd'),(15,'ABCD1e'),(4,'ABCD2e');
+# UPDATE
+UPDATE t1 SET b = "updateb1" WHERE b = "abcd1e";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb2" WHERE b <=> "abcd2e";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb3" WHERE b < "abcd" ORDER BY b DESC;
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb4" WHERE b <= "ccccc";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb5" WHERE b > "word";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb6" WHERE b >= "UPDATEb4" ORDER BY b LIMIT 2;
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb7" WHERE b BETWEEN "updateb1" AND "updateb4" ORDER BY a DESC LIMIT 4;
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb8" WHERE b IN ("word", "updateb5", "updateb6", "string");
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb9" WHERE b NOT IN ("updateb7", "helloworld");
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb10" WHERE b LIKE "updateb7%";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb11" WHERE b REGEXP "updateb1";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb12" WHERE b != "updateb11";
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb13" WHERE b IS NULL;
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = "updateb14" WHERE b IS NOT NULL;
+--sorted_result
+SELECT * FROM t1;
+# DELETE
+DELETE FROM t1;
+INSERT INTO t1 VALUES (2,'abcd1e'),(5,'abcd2e'),(11,'helloworld'),(3,'1234567'),(10,'ccccc'),(12,'string'),(9,'word'),(8,'xxyyzz'),(1,'ABCD'),(6,'abcd'),(15,'ABCD1e'),(4,'ABCD2e'),(14,"test1"),(18,"abcde"),(15,"abcdef"),(13,"bcd"),(21,"bcde"),(17,"acdef");
+DELETE FROM t1 WHERE b = "abcd1e";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b <=> "abcd2e";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b < "ABCD1e";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b <= "abcd" ORDER BY b DESC LIMIT 2;
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b > "word";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b >= "word";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b BETWEEN "ccccc" AND "helloworld" ORDER BY b LIMIT 2;
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b LIKE "abcde%" ORDER BY a DESC LIMIT 1;
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b REGEXP "str";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b IN ("bcd", "acdef");
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1  WHERE b != "test1";
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b IS NOT NULL;
+--sorted_result
+SELECT * FROM t1;
+DROP TABLE t1;
+
+#
+# MULTI UPDATE/MULTI DELETE
+#
+CREATE TABLE t1(pk INT, a MEDIUMINT, b SMALLINT, PRIMARY KEY (pk));
+CREATE TABLE t2(pk INT, a MEDIUMINT, b SMALLINT, PRIMARY KEY (pk));
+INSERT INTO t1 VALUES (1,1,1),(13,14,2),(11,8,3),(7,21,14),(5,5,6),(9,13,5),(2,9,4),(16,7,9),(10,28,3),(21,21,21),(8,8,8),(19,8,3);
+INSERT INTO t2 VALUES (1,1,1),(6,11,2),(8,13,3),(5,21,14),(7,5,6),(15,17,5),(14,8,4),(21,7,9),(17,21,3),(12,14,21),(10,8,8),(2,8,3);
+# UPDATE
+UPDATE t1 AS A, t2 AS B SET A.a = -1, B.b = -1 WHERE A.a = 9 AND B.b = 3;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+UPDATE t1 AS A, t2 AS B SET A.a = -2, B.b = -2 WHERE A.a > 13 AND B.b <= 5;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+UPDATE t1 AS A, t2 AS B SET A.a = -3, B.b = -3 WHERE A.a < 6 AND B.b >= 11;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+UPDATE t1 AS A, t2 AS B SET A.a = -4, B.b = -4 WHERE A.a BETWEEN 6 AND 12;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+# DELETE
+DELETE FROM t1;
+DELETE FROM t2;
+INSERT INTO t1 VALUES (1,1,1),(13,14,2),(11,8,3),(7,21,14),(5,5,6),(9,13,5),(2,9,4),(16,7,9),(10,28,3),(21,21,21),(8,8,8),(19,8,3);
+INSERT INTO t2 VALUES (1,1,1),(6,11,2),(8,13,3),(5,21,14),(7,5,6),(15,17,5),(14,8,4),(21,7,9),(17,21,3),(12,14,21),(10,8,8),(2,8,3);
+DELETE t1.*, t2.* FROM t1,t2 WHERE t1.a = t2.b AND t1.b > 10;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+DELETE t1.*, t2.* FROM t1,t2 WHERE t1.a < t2.b AND t1.a >= 11 AND t2.b <= 15;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+# CREATE INDEX
+CREATE INDEX a ON t1(a);
+CREATE INDEX b ON t1(b);
+CREATE INDEX a ON t2(a);
+CREATE INDEX b ON t2(b);
+DELETE FROM t1;
+DELETE FROM t2;
+INSERT INTO t1 VALUES (1,1,1),(13,14,2),(11,8,3),(7,21,14),(5,5,6),(9,13,5),(2,9,4),(16,7,9),(10,28,3),(21,21,21),(8,8,8),(19,8,3);
+INSERT INTO t2 VALUES (1,1,1),(6,11,2),(8,13,3),(5,21,14),(7,5,6),(15,17,5),(14,8,4),(21,7,9),(17,21,3),(12,14,21),(10,8,8),(2,8,3);
+# UPDATE
+UPDATE t1 AS A, t2 AS B SET A.a = -1, B.b = -1 WHERE A.a = 9 AND B.b = 3;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+UPDATE t1 AS A, t2 AS B SET A.a = -2, B.b = -2 WHERE A.a > 13 AND B.b <= 5;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+UPDATE t1 AS A, t2 AS B SET A.a = -3, B.b = -3 WHERE A.a < 6 AND B.b >= 11;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+UPDATE t1 AS A, t2 AS B SET A.a = -4, B.b = -4 WHERE A.a BETWEEN 6 AND 12;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+# DELETE
+DELETE FROM t1;
+DELETE FROM t2;
+INSERT INTO t1 VALUES (1,1,1),(13,14,2),(11,8,3),(7,21,14),(5,5,6),(9,13,5),(2,9,4),(16,7,9),(10,28,3),(21,21,21),(8,8,8),(19,8,3);
+INSERT INTO t2 VALUES (1,1,1),(6,11,2),(8,13,3),(5,21,14),(7,5,6),(15,17,5),(14,8,4),(21,7,9),(17,21,3),(12,14,21),(10,8,8),(2,8,3);
+DELETE t1.*, t2.* FROM t1,t2 WHERE t1.a = t2.b AND t1.b > 10;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+DELETE t1.*, t2.* FROM t1,t2 WHERE t1.a < t2.b AND t1.a >= 11 AND t2.b <= 15;
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+SELECT * FROM t2;
+DROP TABLE t1,t2;
+
+#
+# TRUNCATE TABLE 
+#
+CREATE TABLE t1(a BINARY(127));
+INSERT INTO t1 VALUES ("a"),("a "),("abcdefg"),("ABCD"),("hello"),(" HELLO"),(" string ");
+--sorted_result
+SELECT * FROM t1;
+TRUNCATE TABLE t1;
+--sorted_result
+SELECT * FROM t1;
+DROP TABLE t1;
+
+#
+# QUERY WITH WHERE + BASIC CONDITION + AND + OR + NOT + IN + LIKE + REGEX
+#
+CREATE TABLE t1 (a INT, b TEXT, c char(16));
+INSERT INTO t1 VALUES (2,'abcd1e', 'testc1'),(5,'abcd2e','testc2'),(11,'helloworld','helloworld'),(3,'1234567','1234567'),(10,'ccccc','testc3'),(12,'string','string'),(9,'word','testc4'),(8,'xxyyzz','xxyyzz'),(1,'ABCD','ABCD'),(6,'abcd','testc5'),(15,'ABCD1e','testc6'),(4,'ABCD2e','ABCD2e'),(14,"11111","11111"),(7,"22222","22222"),(21,NULL,NULL);
+--sorted_result
+SELECT * FROM t1 WHERE b = "abcd1e";
+--sorted_result
+SELECT a,b FROM t1 WHERE b <=> "abcd2e";
+SELECT a,b,c FROM t1 WHERE b < "abcd" ORDER BY b DESC;
+--sorted_result
+SELECT * FROM t1 WHERE b <= "ccccc";
+--sorted_result
+SELECT * FROM t1 WHERE b > "abcde";
+SELECT * FROM t1 WHERE b >= "ABCD1e" ORDER BY b LIMIT 7;
+SELECT a FROM t1 WHERE b BETWEEN "abcd1e" AND "xxyyzz" ORDER BY a DESC LIMIT 7;
+--sorted_result
+SELECT b FROM t1 WHERE b IN ("word", "ABCD", "ABCD2e", "string", "helloworld", "11111", "1234567");
+--sorted_result
+SELECT c FROM t1 WHERE b NOT IN ("abcd", "22222", "11111");
+--sorted_result
+SELECT * FROM t1 WHERE b LIKE "abc%";
+--sorted_result
+SELECT * FROM t1 WHERE b REGEXP "1";
+--sorted_result
+SELECT * FROM t1 WHERE b != "abcd2e";
+--sorted_result
+SELECT * FROM t1 WHERE b <> "ABCD";
+--sorted_result
+SELECT b,c FROM t1 WHERE b = c;
+--sorted_result
+SELECT a FROM t1 WHERE b IS NULL;
+--sorted_result
+SELECT * FROM t1 WHERE b > "abcd1e" AND c <= "testc4";
+--sorted_result
+SELECT * FROM t1 WHERE b < "string" AND c >= "testc1";
+--sorted_result
+SELECT * FROM t1 WHERE b <= "string" OR c > "testc5";
+--sorted_result
+SELECT * FROM t1 WHERE b > "abcdefg" OR c < "testc11";
+--sorted_result
+SELECT * FROM t1 WHERE NOT b <= "abcd"; 
+--sorted_result
+SELECT * FROM t1 WHERE NOT b > "11111" OR c < "testc3";
+# CREATE INDEX
+CREATE INDEX b ON t1(b(3));
+--sorted_result
+SELECT * FROM t1 WHERE b = "abcd1e";
+--sorted_result
+SELECT a,b FROM t1 WHERE b <=> "abcd2e";
+SELECT a,b,c FROM t1 WHERE b < "abcd" ORDER BY b DESC;
+--sorted_result
+SELECT * FROM t1 WHERE b <= "ccccc";
+--sorted_result
+SELECT * FROM t1 WHERE b > "abcde";
+SELECT * FROM t1 WHERE b >= "ABCD1e" ORDER BY b LIMIT 7;
+SELECT a FROM t1 WHERE b BETWEEN "abcd1e" AND "xxyyzz" ORDER BY a DESC LIMIT 7;
+--sorted_result
+SELECT b FROM t1 WHERE b IN ("word", "ABCD", "ABCD2e", "string", "helloworld", "11111", "1234567");
+--sorted_result
+SELECT c FROM t1 WHERE b NOT IN ("abcd", "22222", "11111");
+--sorted_result
+SELECT * FROM t1 WHERE b LIKE "abc%";
+--sorted_result
+SELECT * FROM t1 WHERE b REGEXP "1";
+--sorted_result
+SELECT * FROM t1 WHERE b != "abcd2e";
+--sorted_result
+SELECT * FROM t1 WHERE b <> "ABCD";
+SELECT b,c FROM t1 WHERE b = c;
+--sorted_result
+SELECT a FROM t1 WHERE b IS NULL;
+--sorted_result
+SELECT * FROM t1 WHERE b > "abcd1e" AND c <= "testc4";
+--sorted_result
+SELECT * FROM t1 WHERE b < "string" AND c >= "testc1";
+--sorted_result
+SELECT * FROM t1 WHERE b <= "string" OR c > "testc5";
+--sorted_result
+SELECT * FROM t1 WHERE b > "abcdefg" OR c < "testc11";
+--sorted_result
+SELECT * FROM t1 WHERE NOT b <= "abcd";
+--sorted_result
+SELECT * FROM t1 WHERE NOT b > "11111" OR c < "testc3";
+DROP TABLE t1;
+
+#
+# QUERY WITH GROUP BY
+#
+# Bug #SEQUOIASQLMAINSTREAM-156
+CREATE TABLE t1(a char(16), b text) DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+INSERT INTO t1 VALUES ("hello", "hello");
+INSERT INTO t1 VALUES ("HELLO", "HELLO");
+INSERT INTO t1 VALUES ("hello ", "hello ");
+INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
+INSERT INTO t1 VALUES (" hello", " hello");
+INSERT INTO t1 VALUES (" HELLO", " HELLO");
+INSERT INTO t1 VALUES (" hello ", " hello ");
+INSERT INTO t1 VALUES (" HELLO ", " HELLO ");
+INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
+INSERT INTO t1 VALUES ("hello ", "hello ");
+INSERT INTO t1 VALUES ("hello", "hello");
+INSERT INTO t1 VALUES ("HELLO", "HELLO");
+INSERT INTO t1 VALUES ("hello1", "hello1");
+INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
+INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
+INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
+INSERT INTO t1 VALUES (" hello1", " hello1");
+INSERT INTO t1 VALUES (" HELLO1", " HELLO1");
+INSERT INTO t1 VALUES (" hello1 ", " hello1 ");
+INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ");
+INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
+INSERT INTO t1 VALUES ("hello1", "hello1");
+INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
+INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a;
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+--sorted_result
+SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
+# CREATE INDEX
+CREATE INDEX a ON t1(a);
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a;
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+--sorted_result
+SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
+DROP TABLE t1;
+
+# Bug #SEQUOIASQLMAINSTREAM-156
+CREATE TABLE t1(a varchar(16), b set("hello","hello1"," hello", " hello1", " HELLO"," HELLO1","HELLO","HELLO1")) DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+INSERT INTO t1 VALUES ("hello", "hello");
+INSERT INTO t1 VALUES ("HELLO", "HELLO");
+INSERT INTO t1 VALUES ("hello ", "hello ");
+INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
+INSERT INTO t1 VALUES (" hello", " hello");
+INSERT INTO t1 VALUES (" HELLO", " HELLO");
+INSERT INTO t1 VALUES (" hello ", " hello ");
+INSERT INTO t1 VALUES (" HELLO ", " HELLO ");
+INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
+INSERT INTO t1 VALUES ("hello ", "hello ");
+INSERT INTO t1 VALUES ("hello", "hello");
+INSERT INTO t1 VALUES ("HELLO", "HELLO");
+INSERT INTO t1 VALUES ("hello1", "hello1");
+INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
+INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
+INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
+INSERT INTO t1 VALUES (" hello1", " hello1");
+INSERT INTO t1 VALUES (" HELLO1", " HELLO1");
+INSERT INTO t1 VALUES (" hello1 ", " hello1 ");
+INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ");
+INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
+INSERT INTO t1 VALUES ("hello1", "hello1");
+INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
+INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a;
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+--sorted_result
+SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
+# CREATE INDEX 
+CREATE INDEX a ON t1(a);
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a;
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+--sorted_result
+SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
+DROP TABLE t1;
+
+# Bug #SEQUOIASQLMAINSTREAM-156
+CREATE TABLE t1(a tinytext, b mediumtext, c text, d longtext) DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+INSERT INTO t1 VALUES ("hello", "hello", "hello", "hello");
+INSERT INTO t1 VALUES ("HELLO", "HELLO", "HELLO", "HELLO");
+INSERT INTO t1 VALUES ("hello ", "hello ", "hello ", "hello ");
+INSERT INTO t1 VALUES ("HELLO ", "HELLO ", "HELLO ", "HELLO ");
+INSERT INTO t1 VALUES (" hello", " hello", " hello", " hello");
+INSERT INTO t1 VALUES (" HELLO", " HELLO", " HELLO", " HELLO");
+INSERT INTO t1 VALUES (" hello ", " hello ", " hello ", " hello ");
+INSERT INTO t1 VALUES (" HELLO ", " HELLO ", " HELLO ", " HELLO ");
+INSERT INTO t1 VALUES ("HELLO ", "HELLO ", "HELLO ", "HELLO ");
+INSERT INTO t1 VALUES ("hello ", "hello ", "hello ", "hello ");
+INSERT INTO t1 VALUES ("hello", "hello", "hello", "hello");
+INSERT INTO t1 VALUES ("HELLO", "HELLO", "HELLO", "HELLO");
+INSERT INTO t1 VALUES ("hello1", "hello1", "hello1", "hello1");
+INSERT INTO t1 VALUES ("HELLO1", "HELLO1", "HELLO1", "HELLO1");
+INSERT INTO t1 VALUES ("hello1 ", "hello1 ", "hello1 ", "hello1 ");
+INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ");
+INSERT INTO t1 VALUES (" hello1", " hello1", " hello1", " hello1");
+INSERT INTO t1 VALUES (" HELLO1", " HELLO1", " HELLO1", " HELLO1");
+INSERT INTO t1 VALUES (" hello1 ", " hello1 ", " hello1 ", " hello1 ");
+INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ", " HELLO1 ", " HELLO1 ");
+INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ");
+INSERT INTO t1 VALUES ("hello1", "hello1", "hello1", "hello1");
+INSERT INTO t1 VALUES ("hello1 ", "hello1 ", "hello1 ", "hello1 ");
+INSERT INTO t1 VALUES ("HELLO1", "HELLO1", "HELLO1", "HELLO1");
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a;
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+--sorted_result
+SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = "HELLO";
+--sorted_result
+SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = "hello1 ";
+--sorted_result
+SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = "HELLO1 ";
+--sorted_result
+SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = " hello";
+--sorted_result
+SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = " HELLO";
+--sorted_result
+SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = " hello1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+--sorted_result
+SELECT c, d, COUNT(*) FROM t1 GROUP BY c, d HAVING c = d;
+# CREATE INDEX 
+CREATE INDEX a ON t1(a(16));
+CREATE INDEX b ON t1(b(16));
+CREATE INDEX c ON t1(c(16));
+CREATE INDEX d ON t1(d(16));
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a;
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+--sorted_result
+SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = "HELLO";
+--sorted_result
+SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = "hello1 ";
+--sorted_result
+SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = "HELLO1 ";
+--sorted_result
+SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = " hello";
+--sorted_result
+SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = " HELLO";
+--sorted_result
+SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = " hello1 ";
+--sorted_result
+SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+--sorted_result
+SELECT c, d, COUNT(*) FROM t1 GROUP BY c,d HAVING c = d;
+DROP TABLE t1;
