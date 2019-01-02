@@ -133,6 +133,7 @@ drop table t1;
 #
 # Test of CREATE ... SELECT with indexes
 #
+# Bug #SEQUOIASQLMAINSTREAM-113
 # NOW SequoiaDB not support auto_increment
 #create table t1 (a int auto_increment not null primary key, B CHAR(20));
 #insert into t1 (b) values ("hello"),("my"),("world");
