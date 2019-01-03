@@ -1691,14 +1691,14 @@ a	b	c
 9	word	testc4
 SELECT b,c FROM t1 WHERE b = c;
 b	c
+11111	11111
+1234567	1234567
+22222	22222
+ABCD	ABCD
+ABCD2e	ABCD2e
 helloworld	helloworld
 string	string
 xxyyzz	xxyyzz
-11111	11111
-1234567	1234567
-ABCD	ABCD
-ABCD2e	ABCD2e
-22222	22222
 SELECT a FROM t1 WHERE b IS NULL;
 a
 21
@@ -1910,7 +1910,7 @@ a	COUNT(*)
  HELLO	2
  HELLO1 	2
  hello 	2
- hello1	2
+ hello1 	2
 HELLO	4
 HELLO1	4
 hello 	4
@@ -1935,7 +1935,7 @@ a	COUNT(*)
  HELLO	2
 SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
 a	COUNT(*)
- hello1	2
+ hello1 	2
 SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
 a	COUNT(*)
  HELLO1 	2
@@ -1944,7 +1944,7 @@ a	b	COUNT(*)
  HELLO	 HELLO	2
  HELLO1 	 HELLO1	2
  hello 	 hello	2
- hello1	 hello1	2
+ hello1 	 hello1	2
 HELLO	HELLO	4
 HELLO1	HELLO1	4
 hello 	hello	4
@@ -1955,7 +1955,7 @@ a	COUNT(*)
  HELLO	2
  HELLO1 	2
  hello 	2
- hello1	2
+ hello1 	2
 HELLO	4
 HELLO1	4
 hello 	4
@@ -1980,7 +1980,7 @@ a	COUNT(*)
  HELLO	2
 SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
 a	COUNT(*)
- hello1	2
+ hello1 	2
 SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
 a	COUNT(*)
  HELLO1 	2
@@ -1989,7 +1989,7 @@ a	b	COUNT(*)
  HELLO	 HELLO	2
  HELLO1 	 HELLO1	2
  hello 	 hello	2
- hello1	 hello1	2
+ hello1 	 hello1	2
 HELLO	HELLO	4
 HELLO1	HELLO1	4
 hello 	hello	4
@@ -2025,7 +2025,7 @@ a	COUNT(*)
  HELLO	2
  HELLO1 	2
  hello 	2
- hello1	2
+ hello1 	2
 HELLO	4
 HELLO1	4
 hello 	4
@@ -2050,7 +2050,7 @@ c	COUNT(*)
  HELLO	2
 SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = " hello1 ";
 b	COUNT(*)
- hello1	2
+ hello1 	2
 SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
 a	COUNT(*)
  HELLO1 	2
@@ -2059,7 +2059,7 @@ c	d	COUNT(*)
  HELLO	 HELLO	2
  HELLO1 	 HELLO1 	2
  hello 	 hello 	2
- hello1	 hello1	2
+ hello1 	 hello1 	2
 HELLO	HELLO	4
 HELLO1	HELLO1	4
 hello 	hello 	4
@@ -2073,7 +2073,7 @@ a	COUNT(*)
  HELLO	2
  HELLO1 	2
  hello 	2
- hello1	2
+ hello1 	2
 HELLO	4
 HELLO1	4
 hello 	4
@@ -2098,7 +2098,7 @@ c	COUNT(*)
  HELLO	2
 SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = " hello1 ";
 b	COUNT(*)
- hello1	2
+ hello1 	2
 SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
 a	COUNT(*)
  HELLO1 	2
@@ -2107,7 +2107,7 @@ c	d	COUNT(*)
  HELLO	 HELLO	2
  HELLO1 	 HELLO1 	2
  hello 	 hello 	2
- hello1	 hello1	2
+ hello1 	 hello1 	2
 HELLO	HELLO	4
 HELLO1	HELLO1	4
 hello 	hello 	4

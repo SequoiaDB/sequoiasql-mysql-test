@@ -2,9 +2,9 @@
 #Case 13098#Case 13099#Case 13100#Case 13101#Case 13102#Case 13103#Case 13104#Case 13105
 --source include/have_sequoiadb.inc
 
---disable_warnINgs
+--disable_warnings
 DROP TABLE IF EXISTS t1, t2;
---enable_warnINgs
+--enable_warnings
 
 #
 # INSERT INTO ... SELECT
@@ -408,6 +408,7 @@ SELECT * FROM t1 WHERE b REGEXP "1";
 SELECT * FROM t1 WHERE b != "abcd2e";
 --sorted_result
 SELECT * FROM t1 WHERE b <> "ABCD";
+--sorted_result
 SELECT b,c FROM t1 WHERE b = c;
 --sorted_result
 SELECT a FROM t1 WHERE b IS NULL;
@@ -640,3 +641,5 @@ SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
 --sorted_result
 SELECT c, d, COUNT(*) FROM t1 GROUP BY c,d HAVING c = d;
 DROP TABLE t1;
+
+--source include/uninstall_sequoiadb.inc
