@@ -1,6 +1,6 @@
 #update condition optimized for sequoiadb
-#Case 16900#Case 19601#Case 19602#Case 19603#Case 19604#Case 19605#Case 19606#Case 19607#Case 19608#Case 19609#Case 19610
-#Case 19611#Case 19612#Case 19613#Case 19614#Case 19615#Case 19616
+#Case 16900#Case 16901#Case 16902#Case 16903#Case 16904#Case 16905#Case 16906#Case 16907#Case 16908#Case 16909#Case 16910
+#Case 16911#Case 16912#Case 16913#Case 16914#Case 16915#Case 16916
 --source include/have_sequoiadb.inc
 
 --disable_warnings
