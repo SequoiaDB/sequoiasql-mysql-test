@@ -3735,6 +3735,14 @@ INSERT INTO tt(j) VALUES (JSON_ARRAY(REPEAT('abc', 100)));
 UPDATE tt SET j = JSON_ARRAY(j,j,j,j);
 SET GLOBAL net_buffer_length = 1024;
 SET GLOBAL max_allowed_packet = 1024;
+SELECT REPEAT(j, 2), COUNT(*) FROM tt GROUP BY j, i WITH ROLLUP;
+REPEAT(j, 2)	COUNT(*)
+NULL	1
+NULL	1
+NULL	1
+Warnings:
+Warning	1235	This version of MySQL doesn't yet support 'sorting of non-scalar JSON values'
+Warning	1301	Result of j() was larger than max_allowed_packet (1024) - truncated
 SET GLOBAL max_allowed_packet = default;
 SET GLOBAL net_buffer_length = default;
 DROP TABLE tt;
