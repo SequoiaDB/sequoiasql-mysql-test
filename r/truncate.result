@@ -36,6 +36,15 @@ drop table t1;
 # Bug#20667 - Truncate table fails for a write locked table
 #
 CREATE TABLE t1 (c1 INT);
+LOCK TABLE t1 WRITE;
+INSERT INTO t1 VALUES (1);
+SELECT * FROM t1;
+c1
+1
+TRUNCATE TABLE t1;
+SELECT * FROM t1;
+c1
+UNLOCK TABLES;
 LOCK TABLE t1 READ;
 TRUNCATE TABLE t1;
 ERROR HY000: Table 't1' was locked with a READ lock and can't be updated
