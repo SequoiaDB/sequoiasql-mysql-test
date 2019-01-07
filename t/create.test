@@ -355,13 +355,11 @@ lock tables t1 read;
 --error ER_TABLE_NOT_LOCKED
 create table t3 like t1;
 # OTOH creating of temporary table should be OK
-# NOW SequoiaDB not support create temporary like
-#create temporary table t3 like t1;
-#drop temporary table t3;
+create temporary table t3 like t1;
+drop temporary table t3;
 # Source table should be locked
-# NOW not support create temporary like
-#--error ER_TABLE_NOT_LOCKED
-#create temporary table t3 like t2;
+--error ER_TABLE_NOT_LOCKED
+create temporary table t3 like t2;
 unlock tables;
 drop tables t1, t2;
 
@@ -1933,79 +1931,7 @@ CREATE TABLE t2 AS SELECT CONCAT(s1) FROM t1;
 SHOW CREATE TABLE t2;
 DROP TABLE t1, t2;
 
---echo #
---echo # BUG 27516741 - MYSQL SERVER DOES NOT WRITE INNODB ROW_TYPE
---echo #                TO .FRM FILE WHEN DEFAULT USED
-
---echo # Set up.
-SET @saved_innodb_default_row_format= @@global.innodb_default_row_format;
-SET @saved_show_create_table_verbosity= @@session.show_create_table_verbosity;
-
---echo # Current InnoDB default row format and 'show_create_table_verbosity'
---echo # values respectively.
-SELECT @@global.innodb_default_row_format;
-SELECT @@session.show_create_table_verbosity;
-
-CREATE TABLE t1(fld1 INT) ENGINE= SequoiaDB;
-CREATE TABLE t2(fld1 INT) ENGINE= SequoiaDB, ROW_FORMAT= DEFAULT;
-SET GLOBAL innodb_default_row_format= 'COMPACT';
-CREATE TABLE t3(fld1 INT) ENGINE= SequoiaDB;
-CREATE TABLE t4(fl1 INT) ENGINE= SequoiaDB, ROW_FORMAT= COMPRESSED;
-
---echo # Test without show_create_table_verbosity enabled.
---echo # Row format used is not displayed for all tables
---echo # except t4 where it is explicitly specified.
-SHOW CREATE TABLE t1;
-SHOW CREATE TABLE t2;
-SHOW CREATE TABLE t3;
-SHOW CREATE TABLE t4;
-
---echo # Test with show_create_table_verbosity enabled.
---echo # Row format used is displayed for all tables.
-SET SESSION show_create_table_verbosity= ON;
-SHOW CREATE TABLE t1;
-SHOW CREATE TABLE t2;
-SHOW CREATE TABLE t3;
-SHOW CREATE TABLE t4;
-
-SET GLOBAL innodb_default_row_format= 'DYNAMIC';
-SET SESSION show_create_table_verbosity= OFF;
-
-#Bug #SEQUOIASQLMAINSTREAM-119
---echo # Test with corresponding temporary tables.
-CREATE TEMPORARY TABLE t1(fld1 INT) ENGINE= SequoiaDB;
-CREATE TEMPORARY TABLE t2(fld1 INT) ENGINE= SequoiaDB, ROW_FORMAT= DEFAULT;
-SET GLOBAL innodb_default_row_format= 'COMPACT';
-CREATE TEMPORARY TABLE t3(fld1 INT) ENGINE= SequoiaDB;
-CREATE TEMPORARY TABLE t4(fl1 INT) ENGINE= SequoiaDB, ROW_FORMAT= COMPRESSED;
-
---echo # Test without show_create_table_verbosity enabled.
---echo # Row format used is not displayed for all tables
---echo # except t4 where it is explicitly specified.
-SHOW CREATE TABLE t1;
-SHOW CREATE TABLE t2;
-SHOW CREATE TABLE t3;
-SHOW CREATE TABLE t4;
-
---echo # Test with show_create_table_verbosity enabled.
---echo # Row format used is displayed for all tables.
-SET SESSION show_create_table_verbosity= ON;
-SHOW CREATE TABLE t1;
-SHOW CREATE TABLE t2;
-SHOW CREATE TABLE t3;
-SHOW CREATE TABLE t4;
-
---echo # Clean up.
-DROP TABLE t1, t2, t3, t4;
-DROP TABLE t1, t2, t3, t4;
-SET GLOBAL innodb_default_row_format= @saved_innodb_default_row_format;
-SET SESSION show_create_table_verbosity= @saved_show_create_table_verbosity;
-
 # DROP DATABASE
 DROP DATABASE test_create;
 
 --source include/uninstall_sequoiadb.inc
-
-#
-#end of (Case #15395,text
-#
