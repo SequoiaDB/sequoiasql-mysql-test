@@ -311,6 +311,10 @@ create table t2 (j int);
 lock tables t1 read;
 create table t3 like t1;
 ERROR HY000: Table 't3' was not locked with LOCK TABLES
+create temporary table t3 like t1;
+drop temporary table t3;
+create temporary table t3 like t2;
+ERROR HY000: Table 't2' was not locked with LOCK TABLES
 unlock tables;
 drop tables t1, t2;
 SET SESSION default_storage_engine="sequoiadb";

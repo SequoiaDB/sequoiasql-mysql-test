@@ -355,13 +355,11 @@ lock tables t1 read;
 --error ER_TABLE_NOT_LOCKED
 create table t3 like t1;
 # OTOH creating of temporary table should be OK
-# NOW SequoiaDB not support create temporary like
-#create temporary table t3 like t1;
-#drop temporary table t3;
+create temporary table t3 like t1;
+drop temporary table t3;
 # Source table should be locked
-# NOW not support create temporary like
-#--error ER_TABLE_NOT_LOCKED
-#create temporary table t3 like t2;
+--error ER_TABLE_NOT_LOCKED
+create temporary table t3 like t2;
 unlock tables;
 drop tables t1, t2;
 
