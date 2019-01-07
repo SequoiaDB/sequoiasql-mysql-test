@@ -1451,10 +1451,10 @@ insert into t3 (a) values (1)|
 create procedure h_ee()
 deterministic
 begin
-declare continue handler for 1062 -- ER_DUP_ENTRY
+declare continue handler for 1022 -- ER_DUP_ENTRY
 select 'Outer (bad)' as 'h_ee';
 begin
-declare continue handler for 1062 -- ER_DUP_ENTRY
+declare continue handler for 1022 -- ER_DUP_ENTRY
 select 'Inner (good)' as 'h_ee';
 insert into t3 values (1);
 end;
@@ -1462,7 +1462,7 @@ end|
 create procedure h_es()
 deterministic
 begin
-declare continue handler for 1062 -- ER_DUP_ENTRY
+declare continue handler for 1022 -- ER_DUP_ENTRY
 select 'Outer (bad)' as 'h_es';
 begin
 -- integrity constraint violation
@@ -1499,7 +1499,7 @@ end|
 create procedure h_ex()
 deterministic
 begin
-declare continue handler for 1062 -- ER_DUP_ENTRY
+declare continue handler for 1022 -- ER_DUP_ENTRY
 select 'Outer (bad)' as 'h_ex';
 begin
 declare continue handler for sqlexception
@@ -1514,7 +1514,7 @@ begin
 declare continue handler for sqlstate '23000' 
 select 'Outer (bad)' as 'h_se';
 begin
-declare continue handler for 1062 -- ER_DUP_ENTRY
+declare continue handler for 1022 -- ER_DUP_ENTRY
 select 'Inner (good)' as 'h_se';
 insert into t3 values (1);
 end;
@@ -1654,7 +1654,7 @@ begin
 declare continue handler for sqlexception
 select 'Outer (bad)' as 'h_xe';
 begin
-declare continue handler for 1062 -- ER_DUP_ENTRY
+declare continue handler for 1022 -- ER_DUP_ENTRY
 select 'Inner (good)' as 'h_xe';
 insert into t3 values (1);
 end;
@@ -1682,17 +1682,35 @@ select 'Inner (good)' as 'h_xx';
 insert into t3 values (1);
 end;
 end|
+call h_ee()|
+h_ee
+Inner (good)
+call h_es()|
+h_es
+Inner (good)
 call h_en()|
 h_en
 Inner (good)
 call h_ew()|
 h_ew
 Inner (good)
+call h_ex()|
+h_ex
+Inner (good)
+call h_se()|
+h_se
+Inner (good)
+call h_ss()|
+h_ss
+Inner (good)
 call h_sn()|
 h_sn
 Inner (good)
 call h_sw()|
 h_sw
+Inner (good)
+call h_sx()|
+h_sx
 Inner (good)
 call h_ne()|
 h_ne
@@ -1711,6 +1729,15 @@ h_ws
 Inner (good)
 call h_ww()|
 h_ww
+Inner (good)
+call h_xe()|
+h_xe
+Inner (good)
+call h_xs()|
+h_xs
+Inner (good)
+call h_xx()|
+h_xx
 Inner (good)
 drop table t3|
 drop procedure h_ee|
@@ -2454,6 +2481,53 @@ select @x|
 NULL
 delete from t1|
 drop procedure bug4941|
+drop procedure if exists bug4905|
+create table t3 (s1 int,primary key (s1))|
+drop procedure if exists bug4905|
+create procedure bug4905()
+begin
+declare v int;
+declare continue handler for sqlstate '23000' set v = 5;
+insert into t3 values (1);
+end|
+call bug4905()|
+select row_count()|
+row_count()
+1
+call bug4905()|
+select row_count()|
+row_count()
+0
+call bug4905()|
+select row_count()|
+row_count()
+0
+select * from t3|
+s1
+1
+drop procedure bug4905|
+drop table t3|
+drop procedure if exists bug6029|
+drop procedure if exists bug6029|
+create procedure bug6029()
+begin
+declare exit handler for 1136  select '1136';
+declare exit handler for sqlstate '23000'  select 'sqlstate 23000';
+declare continue handler for sqlexception  select 'sqlexception';
+insert into t3 values (1);
+insert into t3 values (1,2);
+end|
+create table t3 (s1 int, primary key (s1))|
+insert into t3 values (1)|
+call bug6029()|
+sqlstate 23000
+sqlstate 23000
+delete from t3|
+call bug6029()|
+1136
+1136
+drop procedure bug6029|
+drop table t3|
 drop procedure if exists bug8540|
 create procedure bug8540()
 begin
@@ -2661,6 +2735,70 @@ a
 3.2
 drop procedure bug8937|
 delete from t1|
+drop procedure if exists bug6900|
+drop procedure if exists bug9074|
+drop procedure if exists bug6900_9074|
+create table t3 (w char unique, x char)|
+insert into t3 values ('a', 'b')|
+create procedure bug6900()
+begin
+declare exit handler for sqlexception select '1';
+begin
+declare exit handler for sqlexception select '2';
+insert into t3 values ('x', 'y', 'z');
+end;
+end|
+create procedure bug9074()
+begin
+declare x1, x2, x3, x4, x5, x6 int default 0;
+begin    
+declare continue handler for sqlstate '23000' set x5 = 1;      
+insert into t3 values ('a', 'b');      
+set x6 = 1;      
+end;
+begin1_label:
+begin
+declare continue handler for sqlstate '23000' set x1 = 1;      
+insert into t3 values ('a', 'b');      
+set x2 = 1;      
+begin2_label:
+begin  
+declare exit handler for sqlstate '23000' set x3 = 1;         
+set x4= 1;         
+insert into t3 values ('a','b');
+set x4= 0;
+end begin2_label;
+end begin1_label;
+select x1, x2, x3, x4, x5, x6;
+end|
+create procedure bug6900_9074(z int)
+begin
+declare exit handler for sqlstate '23000' select '23000';
+begin
+declare exit handler for sqlexception select 'sqlexception';
+if z = 1 then
+insert into t3 values ('a', 'b');
+else
+insert into t3 values ('x', 'y', 'z');
+end if;
+end;
+end|
+call bug6900()|
+2
+2
+call bug9074()|
+x1	x2	x3	x4	x5	x6
+1	1	1	1	1	1
+call bug6900_9074(0)|
+sqlexception
+sqlexception
+call bug6900_9074(1)|
+sqlexception
+sqlexception
+drop procedure bug6900|
+drop procedure bug9074|
+drop procedure bug6900_9074|
+drop table t3|
 drop procedure if exists avg|
 create procedure avg ()
 begin
@@ -3347,6 +3485,60 @@ bug131333()
 NULL
 drop procedure bug131333|
 drop function bug131333|
+drop function if exists bug12379|
+drop procedure if exists bug12379_1|
+drop procedure if exists bug12379_2|
+drop procedure if exists bug12379_3|
+drop table if exists t3|
+create table t3 (c1 char(1) primary key not null)|
+create function bug12379()
+returns integer
+begin
+insert into t3 values('X');
+insert into t3 values('X');
+return 0;
+end|
+create procedure bug12379_1()
+begin
+declare exit handler for sqlexception select 42;
+select bug12379();
+END|
+create procedure bug12379_2()
+begin
+declare exit handler for sqlexception begin end;
+select bug12379();
+end|
+create procedure bug12379_3()
+begin
+select bug12379();
+end|
+select bug12379()|
+ERROR 23000: Can't write; duplicate key in table 't3'
+select 1|
+1
+1
+call bug12379_1()|
+bug12379()
+42
+42
+select 2|
+2
+2
+call bug12379_2()|
+bug12379()
+select 3|
+3
+3
+call bug12379_3()|
+ERROR 23000: Can't write; duplicate key in table 't3'
+select 4|
+4
+4
+drop function bug12379|
+drop procedure bug12379_1|
+drop procedure bug12379_2|
+drop procedure bug12379_3|
+drop table t3|
 drop procedure if exists bug13124|
 create procedure bug13124()
 begin
@@ -3371,6 +3563,40 @@ call bug12979_2()|
 internal_var
 NULL
 drop procedure bug12979_2|
+drop table if exists t3|
+drop procedure if exists bug6127|
+create table t3 (s1 int unique)|
+set @sm=@@sql_mode|
+set sql_mode='traditional'|
+Warnings:
+Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
+create procedure bug6127()
+begin
+declare continue handler for sqlstate '23000'
+    begin
+declare continue handler for sqlstate '22003'
+        insert into t3 values (0);
+insert into t3 values (1000000000000000);
+end;
+insert into t3 values (1);
+insert into t3 values (1);
+end|
+call bug6127()|
+select * from t3|
+s1
+1
+0
+call bug6127()|
+ERROR 23000: Can't write; duplicate key in table 't3'
+select * from t3|
+s1
+1
+0
+set sql_mode=@sm|
+Warnings:
+Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
+drop table t3|
+drop procedure bug6127|
 drop procedure if exists bug12589_1|
 drop procedure if exists bug12589_2|
 drop procedure if exists bug12589_3|
@@ -3417,6 +3643,74 @@ tm1	CREATE TEMPORARY TABLE `tm1` (
 drop procedure bug12589_1|
 drop procedure bug12589_2|
 drop procedure bug12589_3|
+drop table if exists t3|
+drop procedure if exists bug7049_1|
+drop procedure if exists bug7049_2|
+drop procedure if exists bug7049_3|
+drop procedure if exists bug7049_4|
+drop function if exists bug7049_1|
+drop function if exists bug7049_2|
+create table t3 ( x int unique )|
+create procedure bug7049_1()
+begin
+insert into t3 values (42);
+insert into t3 values (42);
+end|
+create procedure bug7049_2()
+begin
+declare exit handler for sqlexception
+select 'Caught it' as 'Result';
+call bug7049_1();
+select 'Missed it' as 'Result';
+end|
+create procedure bug7049_3()
+call bug7049_1()|
+create procedure bug7049_4()
+begin
+declare exit handler for sqlexception
+select 'Caught it' as 'Result';
+call bug7049_3();
+select 'Missed it' as 'Result';
+end|
+create function bug7049_1()
+returns int
+begin
+insert into t3 values (42);
+insert into t3 values (42);
+return 42;
+end|
+create function bug7049_2()
+returns int
+begin
+declare x int default 0;
+declare continue handler for sqlexception
+set x = 1;
+set x = bug7049_1();
+return x;
+end|
+call bug7049_2()|
+Result
+Caught it
+select * from t3|
+x
+42
+delete from t3|
+call bug7049_4()|
+Result
+Caught it
+select * from t3|
+x
+42
+select bug7049_2()|
+bug7049_2()
+1
+drop table t3|
+drop procedure bug7049_1|
+drop procedure bug7049_2|
+drop procedure bug7049_3|
+drop procedure bug7049_4|
+drop function bug7049_1|
+drop function bug7049_2|
 drop function if exists bug13941|
 drop procedure if exists bug13941|
 create function bug13941(p_input_str text)
@@ -3538,6 +3832,20 @@ call bug14845()|
 a
 0
 drop procedure bug14845|
+drop procedure if exists bug13549_1|
+drop procedure if exists bug13549_2|
+CREATE PROCEDURE `bug13549_2`()
+begin
+call bug13549_1();
+end|
+CREATE PROCEDURE `bug13549_1`()
+begin
+declare done int default 0;
+set done= not done;
+end|
+CALL bug13549_2()|
+drop procedure bug13549_2|
+drop procedure bug13549_1|
 drop function if exists bug10100f|
 drop procedure if exists bug10100p|
 drop procedure if exists bug10100t|
@@ -3714,6 +4022,24 @@ drop procedure bug10100pv|
 drop procedure bug10100pd|
 drop procedure bug10100pc|
 drop view v1|
+drop procedure if exists bug13729|
+drop table if exists t3|
+create table t3 (s1 int, primary key (s1))|
+insert into t3 values (1),(2)|
+create procedure bug13729()
+begin
+declare continue handler for sqlexception select 55;
+update t3 set s1 = 1;
+end|
+call bug13729()|
+55
+55
+select * from t3|
+s1
+1
+2
+drop procedure bug13729|
+drop table t3|
 drop procedure if exists bug14643_1|
 drop procedure if exists bug14643_2|
 create procedure bug14643_1()
@@ -4046,6 +4372,25 @@ drop procedure bug15231_3|
 drop procedure bug15231_4|
 drop procedure bug15231_5|
 drop procedure bug15231_6|
+drop procedure if exists bug15011|
+create table t3 (c1 int primary key)|
+insert into t3 values (1)|
+create procedure bug15011()
+deterministic
+begin
+declare continue handler for 1022
+select 'Outer' as 'Handler';
+begin
+declare continue handler for 1022
+select 'Inner' as 'Handler';
+insert into t3 values (1);
+end;
+end|
+call bug15011()|
+Handler
+Inner
+drop procedure bug15011|
+drop table t3|
 drop procedure if exists bug17476|
 create table t3 ( d date )|
 insert into t3 values
@@ -5053,6 +5398,171 @@ func_8407_b()
 1500
 drop function func_8407_a|
 drop function func_8407_b|
+drop table if exists table_26503|
+drop procedure if exists proc_26503_ok_1|
+drop procedure if exists proc_26503_ok_2|
+drop procedure if exists proc_26503_ok_3|
+drop procedure if exists proc_26503_ok_4|
+create table table_26503(a int unique)|
+create procedure proc_26503_ok_1(v int)
+begin
+declare i int default 5;
+declare continue handler for sqlexception
+begin
+select 'caught something';
+retry:
+while i > 0 do
+begin
+set i = i - 1;
+select 'looping', i;
+iterate retry;
+select 'dead code';
+end;
+end while retry;
+select 'leaving handler';
+end;
+select 'do something';
+insert into table_26503 values (v);
+select 'do something again';
+insert into table_26503 values (v);
+end|
+create procedure proc_26503_ok_2(v int)
+begin
+declare i int default 5;
+declare continue handler for sqlexception
+begin
+select 'caught something';
+retry:
+while i > 0 do
+begin
+set i = i - 1;
+select 'looping', i;
+leave retry;
+select 'dead code';
+end;
+end while;
+select 'leaving handler';
+end;
+select 'do something';
+insert into table_26503 values (v);
+select 'do something again';
+insert into table_26503 values (v);
+end|
+create procedure proc_26503_ok_3(v int)
+begin
+declare i int default 5;
+retry:
+begin
+declare continue handler for sqlexception
+begin
+select 'caught something';
+retry:
+while i > 0 do
+begin
+set i = i - 1;
+select 'looping', i;
+iterate retry;
+select 'dead code';
+end;
+end while retry;
+select 'leaving handler';
+end;
+select 'do something';
+insert into table_26503 values (v);
+select 'do something again';
+insert into table_26503 values (v);
+end;
+end|
+create procedure proc_26503_ok_4(v int)
+begin
+declare i int default 5;
+retry:
+begin
+declare continue handler for sqlexception
+begin
+select 'caught something';
+retry:
+while i > 0 do
+begin
+set i = i - 1;
+select 'looping', i;
+leave retry;
+select 'dead code';
+end;
+end while;
+select 'leaving handler';
+end;
+select 'do something';
+insert into table_26503 values (v);
+select 'do something again';
+insert into table_26503 values (v);
+end;
+end|
+call proc_26503_ok_1(1)|
+do something
+do something
+do something again
+do something again
+caught something
+caught something
+looping	i
+looping	4
+looping	i
+looping	3
+looping	i
+looping	2
+looping	i
+looping	1
+looping	i
+looping	0
+leaving handler
+leaving handler
+call proc_26503_ok_2(2)|
+do something
+do something
+do something again
+do something again
+caught something
+caught something
+looping	i
+looping	4
+leaving handler
+leaving handler
+call proc_26503_ok_3(3)|
+do something
+do something
+do something again
+do something again
+caught something
+caught something
+looping	i
+looping	4
+looping	i
+looping	3
+looping	i
+looping	2
+looping	i
+looping	1
+looping	i
+looping	0
+leaving handler
+leaving handler
+call proc_26503_ok_4(4)|
+do something
+do something
+do something again
+do something again
+caught something
+caught something
+looping	i
+looping	4
+leaving handler
+leaving handler
+drop table table_26503|
+drop procedure proc_26503_ok_1|
+drop procedure proc_26503_ok_2|
+drop procedure proc_26503_ok_3|
+drop procedure proc_26503_ok_4|
 DROP FUNCTION IF EXISTS bug25373|
 CREATE FUNCTION bug25373(p1 INTEGER) RETURNS INTEGER
 LANGUAGE SQL DETERMINISTIC
@@ -5904,6 +6414,22 @@ CALL p1();
 CALL p1();
 DROP PROCEDURE p1;
 DROP TABLE t1;
+CREATE TABLE t1 ( f1 integer, primary key (f1));
+CREATE TABLE t2 LIKE t1;
+CREATE TEMPORARY TABLE t3 LIKE t1;
+CREATE PROCEDURE p1 () BEGIN SELECT f1 FROM t3 AS A WHERE A.f1 IN ( SELECT f1 FROM t3 ) ;
+END|
+CALL p1;
+ERROR HY000: Can't reopen table: 'A'
+CREATE VIEW t3 AS SELECT f1 FROM t2 A WHERE A.f1 IN ( SELECT f1 FROM t2 );
+DROP TABLE t3;
+CALL p1;
+f1
+CALL p1;
+f1
+DROP PROCEDURE p1;
+DROP TABLE t1, t2;
+DROP VIEW t3;
 #
 # Bug #46629: Item_in_subselect::val_int(): Assertion `0' 
 # on subquery inside a SP
