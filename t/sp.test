@@ -1661,11 +1661,11 @@ insert into t3 (a) values (1)|
 create procedure h_ee()
     deterministic
 begin
-  declare continue handler for 1062 -- ER_DUP_ENTRY
+  declare continue handler for 1022 -- ER_DUP_ENTRY
     select 'Outer (bad)' as 'h_ee';
 
   begin
-    declare continue handler for 1062 -- ER_DUP_ENTRY
+    declare continue handler for 1022 -- ER_DUP_ENTRY
         select 'Inner (good)' as 'h_ee';
 
     insert into t3 values (1);
@@ -1675,7 +1675,7 @@ end|
 create procedure h_es()
     deterministic
 begin
-  declare continue handler for 1062 -- ER_DUP_ENTRY
+  declare continue handler for 1022 -- ER_DUP_ENTRY
     select 'Outer (bad)' as 'h_es';
 
   begin
@@ -1721,7 +1721,7 @@ end|
 create procedure h_ex()
     deterministic
 begin
-  declare continue handler for 1062 -- ER_DUP_ENTRY
+  declare continue handler for 1022 -- ER_DUP_ENTRY
     select 'Outer (bad)' as 'h_ex';
 
   begin
@@ -1740,7 +1740,7 @@ begin
     select 'Outer (bad)' as 'h_se';
 
   begin
-    declare continue handler for 1062 -- ER_DUP_ENTRY
+    declare continue handler for 1022 -- ER_DUP_ENTRY
       select 'Inner (good)' as 'h_se';
 
     insert into t3 values (1);
@@ -1913,7 +1913,7 @@ begin
     select 'Outer (bad)' as 'h_xe';
 
   begin
-    declare continue handler for 1062 -- ER_DUP_ENTRY
+    declare continue handler for 1022 -- ER_DUP_ENTRY
       select 'Inner (good)' as 'h_xe';
 
     insert into t3 values (1);
@@ -1950,25 +1950,25 @@ begin
 end|
 
 #Bug #SEQUOIASQLMAINSTREAM-143
-#call h_ee()|
-#call h_es()|
+call h_ee()|
+call h_es()|
 call h_en()|
 call h_ew()|
-#call h_ex()|
-#call h_se()|
-#call h_ss()|
+call h_ex()|
+call h_se()|
+call h_ss()|
 call h_sn()|
 call h_sw()|
-#call h_sx()|
+call h_sx()|
 call h_ne()|
 call h_ns()|
 call h_nn()|
 call h_we()|
 call h_ws()|
 call h_ww()|
-#call h_xe()|
-#call h_xs()|
-#call h_xx()|
+call h_xe()|
+call h_xs()|
+call h_xx()|
 
 drop table t3|
 drop procedure h_ee|
@@ -2988,31 +2988,31 @@ drop procedure bug4941|
 # BUG#4905: Stored procedure doesn't clear for "Rows affected"
 #
 #Bug #SEQUOIASQLMAINSTREAM-143
-#--disable_warnings ONCE
-#drop procedure if exists bug4905|
-#
-#create table t3 (s1 int,primary key (s1))|
-#
-#--disable_warnings ONCE
-#drop procedure if exists bug4905|
-#create procedure bug4905()
-#begin
-#  declare v int;
-#  declare continue handler for sqlstate '23000' set v = 5;
-#
-#  insert into t3 values (1);
-#end|
-#
-#call bug4905()|
-#select row_count()|
-#call bug4905()|
-#select row_count()|
-#call bug4905()|
-#select row_count()|
-#select * from t3|
+--disable_warnings ONCE
+drop procedure if exists bug4905|
 
-#drop procedure bug4905|
-#drop table t3|
+create table t3 (s1 int,primary key (s1))|
+
+--disable_warnings ONCE
+drop procedure if exists bug4905|
+create procedure bug4905()
+begin
+  declare v int;
+  declare continue handler for sqlstate '23000' set v = 5;
+
+  insert into t3 values (1);
+end|
+
+call bug4905()|
+select row_count()|
+call bug4905()|
+select row_count()|
+call bug4905()|
+select row_count()|
+select * from t3|
+
+drop procedure bug4905|
+drop table t3|
 
 #
 # BUG#6022: Stored procedure shutdown problem with self-calling function.
@@ -3041,29 +3041,29 @@ drop function bug6022|
 # BUG#6029: Stored procedure specific handlers should have priority
 #
 #Bug #SEQUOIASQLMAINSTREAM-143
-#--disable_warnings ONCE
-#drop procedure if exists bug6029|
-#
-#--disable_warnings ONCE
-#drop procedure if exists bug6029|
-#create procedure bug6029()
-#begin
-#  declare exit handler for 1136  select '1136';
-#  declare exit handler for sqlstate '23000'  select 'sqlstate 23000';
-#  declare continue handler for sqlexception  select 'sqlexception';
-#
-#  insert into t3 values (1);
-#  insert into t3 values (1,2);
-#end|
-# 
-#create table t3 (s1 int, primary key (s1))|
-#insert into t3 values (1)|
-#call bug6029()|
-#delete from t3|
-#call bug6029()|
-#
-#drop procedure bug6029|
-#drop table t3|
+--disable_warnings ONCE
+drop procedure if exists bug6029|
+
+--disable_warnings ONCE
+drop procedure if exists bug6029|
+create procedure bug6029()
+begin
+  declare exit handler for 1136  select '1136';
+  declare exit handler for sqlstate '23000'  select 'sqlstate 23000';
+  declare continue handler for sqlexception  select 'sqlexception';
+
+  insert into t3 values (1);
+  insert into t3 values (1,2);
+end|
+ 
+create table t3 (s1 int, primary key (s1))|
+insert into t3 values (1)|
+call bug6029()|
+delete from t3|
+call bug6029()|
+
+drop procedure bug6029|
+drop table t3|
 
 #
 # BUG#8540: Local variable overrides an alias
@@ -3374,81 +3374,81 @@ delete from t1|
 #                        properly applied
 #
 #Bug #SEQUOIASQLMAINSTREAM-143
-#--disable_warnings
-#drop procedure if exists bug6900|
-#drop procedure if exists bug9074|
-#drop procedure if exists bug6900_9074|
-#--enable_warnings
-#
-#create table t3 (w char unique, x char)|
-#insert into t3 values ('a', 'b')|
-#
-#create procedure bug6900()
-#begin
-#  declare exit handler for sqlexception select '1';
-#
-#  begin
-#    declare exit handler for sqlexception select '2';
-#
-#    insert into t3 values ('x', 'y', 'z');
-#  end;
-#end|
-#
-#create procedure bug9074()
-#begin
-#  declare x1, x2, x3, x4, x5, x6 int default 0;
-#
-#  begin    
-#    declare continue handler for sqlstate '23000' set x5 = 1;      
-#
-#    insert into t3 values ('a', 'b');      
-#    set x6 = 1;      
-#  end;
-#
-# begin1_label:
-#  begin
-#    declare continue handler for sqlstate '23000' set x1 = 1;      
-#
-#    insert into t3 values ('a', 'b');      
-#    set x2 = 1;      
-#				
-#   begin2_label:
-#    begin  
-#      declare exit handler for sqlstate '23000' set x3 = 1;         
-#
-#      set x4= 1;         
-#      insert into t3 values ('a','b');
-#      set x4= 0;
-#    end begin2_label;
-#  end begin1_label;
-#
-#  select x1, x2, x3, x4, x5, x6;
-#end|
-#
-#create procedure bug6900_9074(z int)
-#begin
-#  declare exit handler for sqlstate '23000' select '23000';
-#
-#  begin
-#    declare exit handler for sqlexception select 'sqlexception';
-#
-#    if z = 1 then
-#      insert into t3 values ('a', 'b');
-#    else
-#      insert into t3 values ('x', 'y', 'z');
-#    end if;
-#  end;
-#end|
-#
-#call bug6900()|
-#call bug9074()|
-#call bug6900_9074(0)|
-#call bug6900_9074(1)|
-#
-#drop procedure bug6900|
-#drop procedure bug9074|
-#drop procedure bug6900_9074|
-#drop table t3|
+--disable_warnings
+drop procedure if exists bug6900|
+drop procedure if exists bug9074|
+drop procedure if exists bug6900_9074|
+--enable_warnings
+
+create table t3 (w char unique, x char)|
+insert into t3 values ('a', 'b')|
+
+create procedure bug6900()
+begin
+  declare exit handler for sqlexception select '1';
+
+  begin
+    declare exit handler for sqlexception select '2';
+
+    insert into t3 values ('x', 'y', 'z');
+  end;
+end|
+
+create procedure bug9074()
+begin
+  declare x1, x2, x3, x4, x5, x6 int default 0;
+
+  begin    
+    declare continue handler for sqlstate '23000' set x5 = 1;      
+
+    insert into t3 values ('a', 'b');      
+    set x6 = 1;      
+  end;
+
+ begin1_label:
+  begin
+    declare continue handler for sqlstate '23000' set x1 = 1;      
+
+    insert into t3 values ('a', 'b');      
+    set x2 = 1;      
+				
+   begin2_label:
+    begin  
+      declare exit handler for sqlstate '23000' set x3 = 1;         
+
+      set x4= 1;         
+      insert into t3 values ('a','b');
+      set x4= 0;
+    end begin2_label;
+  end begin1_label;
+
+  select x1, x2, x3, x4, x5, x6;
+end|
+
+create procedure bug6900_9074(z int)
+begin
+  declare exit handler for sqlstate '23000' select '23000';
+
+  begin
+    declare exit handler for sqlexception select 'sqlexception';
+
+    if z = 1 then
+      insert into t3 values ('a', 'b');
+    else
+      insert into t3 values ('x', 'y', 'z');
+    end if;
+  end;
+end|
+
+call bug6900()|
+call bug9074()|
+call bug6900_9074(0)|
+call bug6900_9074(1)|
+
+drop procedure bug6900|
+drop procedure bug9074|
+drop procedure bug6900_9074|
+drop table t3|
 
 
 #
@@ -4251,61 +4251,61 @@ drop function bug131333|
 #            strange result
 #
 #Bug #SEQUOIASQLMAINSTREAM-143
-#--disable_warnings
-#drop function if exists bug12379|
-#drop procedure if exists bug12379_1|
-#drop procedure if exists bug12379_2|
-#drop procedure if exists bug12379_3|
-#drop table if exists t3|
-#--enable_warnings
-#
-#create table t3 (c1 char(1) primary key not null)|
-#
-#create function bug12379()
-#  returns integer
-#begin
-#   insert into t3 values('X');
-#   insert into t3 values('X');
-#   return 0;
-#end|
-#
-#create procedure bug12379_1()
-#begin
-#   declare exit handler for sqlexception select 42;
-#
-#   select bug12379();
-#END|
-#create procedure bug12379_2()
-#begin
-#   declare exit handler for sqlexception begin end;
-#
-#   select bug12379();
-#end|
-#create procedure bug12379_3()
-#begin
-#   select bug12379();
-#end|
-#
-#--error ER_DUP_ENTRY
-#select bug12379()|
-#select 1|
-## statement-based binlogging will show warning which row-based won't;
-## so we hide it (this warning is already tested in rpl_stm_sp.test)
-#--disable_warnings
-#call bug12379_1()|
-#select 2|
-#call bug12379_2()|
-#--enable_warnings
-#select 3|
-#--error ER_DUP_ENTRY
-#call bug12379_3()|
-#select 4|
-#
-#drop function bug12379|
-#drop procedure bug12379_1|
-#drop procedure bug12379_2|
-#drop procedure bug12379_3|
-#drop table t3|
+--disable_warnings
+drop function if exists bug12379|
+drop procedure if exists bug12379_1|
+drop procedure if exists bug12379_2|
+drop procedure if exists bug12379_3|
+drop table if exists t3|
+--enable_warnings
+
+create table t3 (c1 char(1) primary key not null)|
+
+create function bug12379()
+  returns integer
+begin
+   insert into t3 values('X');
+   insert into t3 values('X');
+   return 0;
+end|
+
+create procedure bug12379_1()
+begin
+   declare exit handler for sqlexception select 42;
+
+   select bug12379();
+END|
+create procedure bug12379_2()
+begin
+   declare exit handler for sqlexception begin end;
+
+   select bug12379();
+end|
+create procedure bug12379_3()
+begin
+   select bug12379();
+end|
+
+--error 1022
+select bug12379()|
+select 1|
+# statement-based binlogging will show warning which row-based won't;
+# so we hide it (this warning is already tested in rpl_stm_sp.test)
+--disable_warnings
+call bug12379_1()|
+select 2|
+call bug12379_2()|
+--enable_warnings
+select 3|
+--error 1022
+call bug12379_3()|
+select 4|
+
+drop function bug12379|
+drop procedure bug12379_1|
+drop procedure bug12379_2|
+drop procedure bug12379_3|
+drop table t3|
 
 #
 # Bug #13124    Stored Procedure using SELECT INTO crashes server
@@ -4352,37 +4352,37 @@ drop procedure bug12979_2|
 # BUG#6127: Stored procedure handlers within handlers don't work
 #
 #Bug #SEQUOIASQLMAINSTREAM-143
-#--disable_warnings
-#drop table if exists t3|
-#drop procedure if exists bug6127|
-#--enable_warnings
-#create table t3 (s1 int unique)|
-#
-#set @sm=@@sql_mode|
-#set sql_mode='traditional'|
-#
-#create procedure bug6127()
-#begin
-#  declare continue handler for sqlstate '23000'
-#    begin
-#      declare continue handler for sqlstate '22003'
-#        insert into t3 values (0);
-#
-#      insert into t3 values (1000000000000000);
-#    end;
-#
-#  insert into t3 values (1);
-#  insert into t3 values (1);
-#end|
-#
-#call bug6127()|
-#select * from t3|
-#--error ER_DUP_ENTRY
-#call bug6127()|
-#select * from t3|
-#set sql_mode=@sm|
-#drop table t3|
-#drop procedure bug6127|
+--disable_warnings
+drop table if exists t3|
+drop procedure if exists bug6127|
+--enable_warnings
+create table t3 (s1 int unique)|
+
+set @sm=@@sql_mode|
+set sql_mode='traditional'|
+
+create procedure bug6127()
+begin
+  declare continue handler for sqlstate '23000'
+    begin
+      declare continue handler for sqlstate '22003'
+        insert into t3 values (0);
+
+      insert into t3 values (1000000000000000);
+    end;
+
+  insert into t3 values (1);
+  insert into t3 values (1);
+end|
+
+call bug6127()|
+select * from t3|
+--error 1022
+call bug6127()|
+select * from t3|
+set sql_mode=@sm|
+drop table t3|
+drop procedure bug6127|
 
 
 #
@@ -4443,78 +4443,78 @@ drop procedure bug12589_3|
 # BUG#7049: Stored procedure CALL errors are ignored
 #
 #Bug #SEQUOIASQLMAINSTREAM-143
-#--disable_warnings
-#drop table if exists t3|
-#drop procedure if exists bug7049_1|
-#drop procedure if exists bug7049_2|
-#drop procedure if exists bug7049_3|
-#drop procedure if exists bug7049_4|
-#drop function if exists bug7049_1|
-#drop function if exists bug7049_2|
-#--enable_warnings
-#
-#create table t3 ( x int unique )|
-#
-#create procedure bug7049_1()
-#begin
-#  insert into t3 values (42);
-#  insert into t3 values (42);
-#end|
-#
-#create procedure bug7049_2()
-#begin
-#  declare exit handler for sqlexception
-#    select 'Caught it' as 'Result';
-#
-#  call bug7049_1();
-#  select 'Missed it' as 'Result';
-#end|
-#
-#create procedure bug7049_3()
-#  call bug7049_1()|
-#
-#create procedure bug7049_4()
-#begin
-#  declare exit handler for sqlexception
-#    select 'Caught it' as 'Result';
-#
-#  call bug7049_3();
-#  select 'Missed it' as 'Result';
-#end|
-#
-#create function bug7049_1()
-#  returns int
-#begin
-#  insert into t3 values (42);
-#  insert into t3 values (42);
-#  return 42;
-#end|
-#
-#create function bug7049_2()
-#  returns int
-#begin
-#  declare x int default 0;
-#  declare continue handler for sqlexception
-#    set x = 1;
-#
-#  set x = bug7049_1();
-#  return x;
-#end|
-#
-#call bug7049_2()|
-#select * from t3|
-#delete from t3|
-#call bug7049_4()|
-#select * from t3|
-#select bug7049_2()|
-#
-#drop table t3|
-#drop procedure bug7049_1|
-#drop procedure bug7049_2|
-#drop procedure bug7049_3|
-#drop procedure bug7049_4|
-#drop function bug7049_1|
-#drop function bug7049_2|
+--disable_warnings
+drop table if exists t3|
+drop procedure if exists bug7049_1|
+drop procedure if exists bug7049_2|
+drop procedure if exists bug7049_3|
+drop procedure if exists bug7049_4|
+drop function if exists bug7049_1|
+drop function if exists bug7049_2|
+--enable_warnings
+
+create table t3 ( x int unique )|
+
+create procedure bug7049_1()
+begin
+  insert into t3 values (42);
+  insert into t3 values (42);
+end|
+
+create procedure bug7049_2()
+begin
+  declare exit handler for sqlexception
+    select 'Caught it' as 'Result';
+
+  call bug7049_1();
+  select 'Missed it' as 'Result';
+end|
+
+create procedure bug7049_3()
+  call bug7049_1()|
+
+create procedure bug7049_4()
+begin
+  declare exit handler for sqlexception
+    select 'Caught it' as 'Result';
+
+  call bug7049_3();
+  select 'Missed it' as 'Result';
+end|
+
+create function bug7049_1()
+  returns int
+begin
+  insert into t3 values (42);
+  insert into t3 values (42);
+  return 42;
+end|
+
+create function bug7049_2()
+  returns int
+begin
+  declare x int default 0;
+  declare continue handler for sqlexception
+    set x = 1;
+
+  set x = bug7049_1();
+  return x;
+end|
+
+call bug7049_2()|
+select * from t3|
+delete from t3|
+call bug7049_4()|
+select * from t3|
+select bug7049_2()|
+
+drop table t3|
+drop procedure bug7049_1|
+drop procedure bug7049_2|
+drop procedure bug7049_3|
+drop procedure bug7049_4|
+drop function bug7049_1|
+drop function bug7049_2|
 
 
 #
@@ -4676,22 +4676,22 @@ drop procedure bug14845|
 # operator.
 #
 #Bug #SEQUOIASQLMAINSTREAM-143
-#--disable_warnings
-#drop procedure if exists bug13549_1|
-#drop procedure if exists bug13549_2|
-#--enable_warnings
-#CREATE PROCEDURE `bug13549_2`()
-#begin
-#  call bug13549_1();
-#end|
-#CREATE PROCEDURE `bug13549_1`()
-#begin
-#  declare done int default 0;
-#  set done= not done;
-#end|
-#CALL bug13549_2()|
-#drop procedure bug13549_2|
-#drop procedure bug13549_1|
+--disable_warnings
+drop procedure if exists bug13549_1|
+drop procedure if exists bug13549_2|
+--enable_warnings
+CREATE PROCEDURE `bug13549_2`()
+begin
+  call bug13549_1();
+end|
+CREATE PROCEDURE `bug13549_1`()
+begin
+  declare done int default 0;
+  set done= not done;
+end|
+CALL bug13549_2()|
+drop procedure bug13549_2|
+drop procedure bug13549_1|
 
 #
 # BUG#10100: function (and stored procedure?) recursivity problem
@@ -4831,28 +4831,28 @@ drop view v1|
 # BUG#13729: Stored procedures: packet error after exception handled
 #
 #Bug #SEQUOIASQLMAINSTREAM-143
-#--disable_warnings
-#drop procedure if exists bug13729|
-#drop table if exists t3|
-#--enable_warnings
-#
-#create table t3 (s1 int, primary key (s1))|
-#
-#insert into t3 values (1),(2)|
-#
-#create procedure bug13729()
-#begin
-#  declare continue handler for sqlexception select 55;
-#
-#  update t3 set s1 = 1;
-#end|
-#
-#call bug13729()|
-## Used to cause Packets out of order
-#select * from t3|
-#
-#drop procedure bug13729|
-#drop table t3|
+--disable_warnings
+drop procedure if exists bug13729|
+drop table if exists t3|
+--enable_warnings
+
+create table t3 (s1 int, primary key (s1))|
+
+insert into t3 values (1),(2)|
+
+create procedure bug13729()
+begin
+  declare continue handler for sqlexception select 55;
+
+  update t3 set s1 = 1;
+end|
+
+call bug13729()|
+# Used to cause Packets out of order
+select * from t3|
+
+drop procedure bug13729|
+drop table t3|
 
 #
 # BUG#14643: Stored Procedure: Continuing after failed var. initialization
@@ -4901,7 +4901,7 @@ drop procedure bug14643_2|
 #
 # BUG#14304: auto_increment field incorrect set in SP
 #
-#Bug #SEQUOIASQLMAINSTREAM-143
+#Sequoiadb not support auto_increment
 #--disable_warnings
 #drop procedure if exists bug14304|
 #drop table if exists t3, t4|
@@ -5144,7 +5144,7 @@ drop procedure bug15441|
 # In UPDATE statement, just check that values() function returns NULL for
 # non- INSERT...UPDATE statements, as stated in the manual.
 
-#Bug #SEQUOIASQLMAINSTREAM-143
+#Bug #SEQUOIASQLMAINSTREAM-112
 #create procedure bug15441(county varchar(25))
 #begin
 #  declare c varchar(25) default "hello";
@@ -5333,31 +5333,31 @@ drop procedure bug15231_6|
 # BUG#15011: error handler in nested block not activated
 #
 #Bug #SEQUOIASQLMAINSTREAM-143
-#--disable_warnings ONCE
-#drop procedure if exists bug15011|
-#
-#create table t3 (c1 int primary key)|
-#
-#insert into t3 values (1)|
-#
-#create procedure bug15011()
-#  deterministic
-#begin
-#  declare continue handler for 1062
-#    select 'Outer' as 'Handler';
-#
-#  begin
-#    declare continue handler for 1062
-#      select 'Inner' as 'Handler';
-#
-#    insert into t3 values (1);
-#  end;
-#end|
-#
-#call bug15011()|
-#
-#drop procedure bug15011|
-#drop table t3|
+--disable_warnings ONCE
+drop procedure if exists bug15011|
+
+create table t3 (c1 int primary key)|
+
+insert into t3 values (1)|
+
+create procedure bug15011()
+  deterministic
+begin
+  declare continue handler for 1022
+    select 'Outer' as 'Handler';
+
+  begin
+    declare continue handler for 1022
+      select 'Inner' as 'Handler';
+
+    insert into t3 values (1);
+  end;
+end|
+
+call bug15011()|
+
+drop procedure bug15011|
+drop table t3|
 
 
 #
@@ -6703,136 +6703,136 @@ drop function func_8407_b|
 # Bug#26503 (Illegal SQL exception handler code causes the server to crash)
 #
 #Bug #SEQUOIASQLMAINSTREAM-143
-#--disable_warnings
-#drop table if exists table_26503|
-#drop procedure if exists proc_26503_ok_1|
-#drop procedure if exists proc_26503_ok_2|
-#drop procedure if exists proc_26503_ok_3|
-#drop procedure if exists proc_26503_ok_4|
-#--enable_warnings
-#
-#create table table_26503(a int unique)|
-#
-#create procedure proc_26503_ok_1(v int)
-#begin
-#  declare i int default 5;
-#
-#  declare continue handler for sqlexception
-#  begin
-#    select 'caught something';
-#    retry:
-#    while i > 0 do
-#      begin
-#        set i = i - 1;
-#        select 'looping', i;
-#        iterate retry;
-#        select 'dead code';
-#      end;
-#    end while retry;
-#    select 'leaving handler';
-#  end;
-#
-#  select 'do something';
-#  insert into table_26503 values (v);
-#  select 'do something again';
-#  insert into table_26503 values (v);
-#end|
-#
-#create procedure proc_26503_ok_2(v int)
-#begin
-#  declare i int default 5;
-#
-#  declare continue handler for sqlexception
-#  begin
-#    select 'caught something';
-#    retry:
-#    while i > 0 do
-#      begin
-#        set i = i - 1;
-#        select 'looping', i;
-#        leave retry;
-#        select 'dead code';
-#      end;
-#    end while;
-#    select 'leaving handler';
-#  end;
-#
-#  select 'do something';
-#  insert into table_26503 values (v);
-#  select 'do something again';
-#  insert into table_26503 values (v);
-#end|
-#
-### The outer retry label should not prevent using the inner label.
-#
-#create procedure proc_26503_ok_3(v int)
-#begin
-#  declare i int default 5;
-#
-#retry:
-#  begin
-#    declare continue handler for sqlexception
-#    begin
-#      select 'caught something';
-#      retry:
-#      while i > 0 do
-#        begin
-#          set i = i - 1;
-#          select 'looping', i;
-#          iterate retry;
-#          select 'dead code';
-#        end;
-#      end while retry;
-#      select 'leaving handler';
-#    end;
-#
-#    select 'do something';
-#    insert into table_26503 values (v);
-#    select 'do something again';
-#    insert into table_26503 values (v);
-#  end;
-#end|
-#
-### The outer retry label should not prevent using the inner label.
-#
-#create procedure proc_26503_ok_4(v int)
-#begin
-#  declare i int default 5;
-#
-#retry:
-#  begin
-#    declare continue handler for sqlexception
-#    begin
-#      select 'caught something';
-#      retry:
-#      while i > 0 do
-#        begin
-#          set i = i - 1;
-#          select 'looping', i;
-#          leave retry;
-#          select 'dead code';
-#        end;
-#      end while;
-#      select 'leaving handler';
-#    end;
-#
-#    select 'do something';
-#    insert into table_26503 values (v);
-#    select 'do something again';
-#    insert into table_26503 values (v);
-#  end;
-#end|
-#
-#call proc_26503_ok_1(1)|
-#call proc_26503_ok_2(2)|
-#call proc_26503_ok_3(3)|
-#call proc_26503_ok_4(4)|
-#
-#drop table table_26503|
-#drop procedure proc_26503_ok_1|
-#drop procedure proc_26503_ok_2|
-#drop procedure proc_26503_ok_3|
-#drop procedure proc_26503_ok_4|
+--disable_warnings
+drop table if exists table_26503|
+drop procedure if exists proc_26503_ok_1|
+drop procedure if exists proc_26503_ok_2|
+drop procedure if exists proc_26503_ok_3|
+drop procedure if exists proc_26503_ok_4|
+--enable_warnings
+
+create table table_26503(a int unique)|
+
+create procedure proc_26503_ok_1(v int)
+begin
+  declare i int default 5;
+
+  declare continue handler for sqlexception
+  begin
+    select 'caught something';
+    retry:
+    while i > 0 do
+      begin
+        set i = i - 1;
+        select 'looping', i;
+        iterate retry;
+        select 'dead code';
+      end;
+    end while retry;
+    select 'leaving handler';
+  end;
+
+  select 'do something';
+  insert into table_26503 values (v);
+  select 'do something again';
+  insert into table_26503 values (v);
+end|
+
+create procedure proc_26503_ok_2(v int)
+begin
+  declare i int default 5;
+
+  declare continue handler for sqlexception
+  begin
+    select 'caught something';
+    retry:
+    while i > 0 do
+      begin
+        set i = i - 1;
+        select 'looping', i;
+        leave retry;
+        select 'dead code';
+      end;
+    end while;
+    select 'leaving handler';
+  end;
+
+  select 'do something';
+  insert into table_26503 values (v);
+  select 'do something again';
+  insert into table_26503 values (v);
+end|
+
+## The outer retry label should not prevent using the inner label.
+
+create procedure proc_26503_ok_3(v int)
+begin
+  declare i int default 5;
+
+retry:
+  begin
+    declare continue handler for sqlexception
+    begin
+      select 'caught something';
+      retry:
+      while i > 0 do
+        begin
+          set i = i - 1;
+          select 'looping', i;
+          iterate retry;
+          select 'dead code';
+        end;
+      end while retry;
+      select 'leaving handler';
+    end;
+
+    select 'do something';
+    insert into table_26503 values (v);
+    select 'do something again';
+    insert into table_26503 values (v);
+  end;
+end|
+
+## The outer retry label should not prevent using the inner label.
+
+create procedure proc_26503_ok_4(v int)
+begin
+  declare i int default 5;
+
+retry:
+  begin
+    declare continue handler for sqlexception
+    begin
+      select 'caught something';
+      retry:
+      while i > 0 do
+        begin
+          set i = i - 1;
+          select 'looping', i;
+          leave retry;
+          select 'dead code';
+        end;
+      end while;
+      select 'leaving handler';
+    end;
+
+    select 'do something';
+    insert into table_26503 values (v);
+    select 'do something again';
+    insert into table_26503 values (v);
+  end;
+end|
+
+call proc_26503_ok_1(1)|
+call proc_26503_ok_2(2)|
+call proc_26503_ok_3(3)|
+call proc_26503_ok_4(4)|
+
+drop table table_26503|
+drop procedure proc_26503_ok_1|
+drop procedure proc_26503_ok_2|
+drop procedure proc_26503_ok_3|
+drop procedure proc_26503_ok_4|
 
 #
 # Bug#25373: Stored functions wasn't compared correctly which leads to a wrong
@@ -8079,22 +8079,22 @@ DROP TABLE t1;
 # Bug#47649 crash during CALL procedure
 #
 #Bug #SEQUOIASQLMAINSTREAM-143
-#CREATE TABLE t1 ( f1 integer, primary key (f1));
-#CREATE TABLE t2 LIKE t1;
-#CREATE TEMPORARY TABLE t3 LIKE t1;
-#delimiter |;
-#CREATE PROCEDURE p1 () BEGIN SELECT f1 FROM t3 AS A WHERE A.f1 IN ( SELECT f1 FROM t3 ) ;
-#END|
-#delimiter ;|
-#--error ER_CANT_REOPEN_TABLE
-#CALL p1;
-#CREATE VIEW t3 AS SELECT f1 FROM t2 A WHERE A.f1 IN ( SELECT f1 FROM t2 );
-#DROP TABLE t3;
-#CALL p1;
-#CALL p1;
-#DROP PROCEDURE p1;
-#DROP TABLE t1, t2;
-#DROP VIEW t3;
+CREATE TABLE t1 ( f1 integer, primary key (f1));
+CREATE TABLE t2 LIKE t1;
+CREATE TEMPORARY TABLE t3 LIKE t1;
+delimiter |;
+CREATE PROCEDURE p1 () BEGIN SELECT f1 FROM t3 AS A WHERE A.f1 IN ( SELECT f1 FROM t3 ) ;
+END|
+delimiter ;|
+--error ER_CANT_REOPEN_TABLE
+CALL p1;
+CREATE VIEW t3 AS SELECT f1 FROM t2 A WHERE A.f1 IN ( SELECT f1 FROM t2 );
+DROP TABLE t3;
+CALL p1;
+CALL p1;
+DROP PROCEDURE p1;
+DROP TABLE t1, t2;
+DROP VIEW t3;
 
 --echo #
 --echo # Bug #46629: Item_in_subselect::val_int(): Assertion `0' 
