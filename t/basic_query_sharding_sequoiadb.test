@@ -1,7 +1,8 @@
-#check basic query to sequoiadb
+#check basic query with sharding to sequoiadb
 #Case 13098#Case 13099#Case 13100#Case 13101#Case 13102#Case 13103#Case 13104#Case 13105
 #Case 13106#Case 13107#Case 13108#Case 13109#Case 13110#Case 13111#Case 13112#Case 13113
-#Case 13114#Case 13115#Case 13116#Case 13117
+#Case 13114#Case 13115#Case 13116#Case 13117#Case 13118#Case 13119#Case 13120#Case 13121
+#Case 13305#Case 13306#Case 15436#Case 15438
 --source include/have_sequoiadb.inc
 
 --disable_warnings
@@ -1164,5 +1165,236 @@ SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
 --sorted_result
 SELECT c, d, COUNT(*) FROM t1 GROUP BY c,d HAVING c = d;
 DROP TABLE t1;
+
+#
+# QUERY WITH ORDER BY + LIMIT + OFFSET
+#
+CREATE TABLE t1 (i INT, c CHAR(127));
+CREATE TABLE t2 (i INT);
+INSERT INTO t1 VALUES(23,'Emettre'),(2,'appel'),(1,'offres'),(14,'Liste'),(5,'aes'),(9,'des'),(3,'ajoute'),(12,'appel'),(53,'les'),(-2,'fiche'),(-99,'les'),(0,'hello'),(6,'materiel'),(19,'Axmark'),(33,'axmark'),(11,NULL);
+INSERT INTO t2 VALUES(2),(5),(12),(-99),(-1),(4),(13),(25),(9),(8),(19),(NULL);
+SELECT CONCAT(i,"-",c) AS ic FROM t1 ORDER BY ic;
+SELECT DISTINCT c,i FROM t1 ORDER BY RAND(i);
+SELECT i AS ii,c FROM t1 WHERE c LIKE "a%" ORDER BY i;
+SELECT * FROM t2 WHERE i >= 1 AND i < 20 ORDER BY i desc;
+SELECT t1.i, t1.c, t2.i FROM t1 JOIN t2 WHERE t2.i = t1.i ORDER BY t2.i, t1.c;
+SELECT c FROM t1 AS m LEFT JOIN t2 AS n ON (m.i = n.i AND n.i <= 20) ORDER BY n.i,m.c LIMIT 5 OFFSET 4;
+SELECT * FROM t1 WHERE i > 10 ORDER BY i LIMIT 4 OFFSET 1;
+(SELECT i,c FROM t1 WHERE c LIKE '%l' ORDER BY c DESC) ORDER BY i ASC;
+# CREATE INDEX
+CREATE INDEX i ON t1(i);
+CREATE INDEX c ON t1(c);
+CREATE INDEX i ON t2(i);
+SELECT CONCAT(i,"-",c) AS ic FROM t1 ORDER BY ic;
+SELECT DISTINCT c,i FROM t1 ORDER BY RAND(i);
+SELECT i AS ii,c FROM t1 WHERE c LIKE "a%" ORDER BY i;
+SELECT * FROM t2 WHERE i >= 1 AND i < 20 ORDER BY i desc;
+SELECT t1.i, t1.c, t2.i FROM t1 JOIN t2 WHERE t2.i = t1.i ORDER BY t2.i, t1.c;
+SELECT c FROM t1 AS m LEFT JOIN t2 AS n ON (m.i = n.i AND n.i <= 20) ORDER BY n.i,m.c LIMIT 5 OFFSET 4;
+SELECT * FROM t1 WHERE i > 10 ORDER BY i LIMIT 4 OFFSET 1;
+(SELECT i,c FROM t1 WHERE c LIKE '%l' ORDER BY c DESC) ORDER BY i ASC;
+DROP TABLE t1,t2;
+
+#
+# QUERY WITH MULTI_TABLES
+#
+CREATE TABLE t1 (a INT, t TEXT);
+INSERT INTO t1 VALUES(23,'Eoej'),(2,'abcd'),(1,'erd'),(14,'Liste'),(12,'appel'),(53,'les'),(-2,'fiche'),(19,'MIN'),(33,'Min'),(NULL,NULL);
+CREATE TABLE t2 (a INT);
+INSERT INTO t2 VALUES(2),(5),(12),(-99),(-1),(9),(8),(19),(NULL);
+--sorted_result
+SELECT t1.a, t1.t, t2.a FROM t1,t2;
+--sorted_result
+SELECT * FROM t1,t2 WHERE t1.a > t2.a AND t2.a < 10;
+--sorted_result
+SELECT m.a,n.a FROM t1 AS m, t2 AS n WHERE m.a <= n.a AND n.a IS NOT NULL;
+# CREATE INDEX
+CREATE INDEX a ON t1(a);
+CREATE INDEX t ON t1(t(16));
+CREATE INDEX a ON t2(a);
+--sorted_result
+SELECT t1.a, t1.t, t2.a FROM t1,t2;
+--sorted_result
+SELECT * FROM t1,t2 WHERE t1.a > t2.a AND t2.a < 10;
+--sorted_result
+SELECT m.a,n.a FROM t1 AS m, t2 AS n WHERE m.a <= n.a AND n.a IS NOT NULL;
+DROP TABLE t1,t2;
+
+#
+# SUBQUERY 
+#
+CREATE TABLE t1(a INT, b VARCHAR(64));
+CREATE TABLE t2(a INT, b CHAR(64));
+CREATE TABLE t3(a INT, b CHAR(64), c DATE);
+INSERT INTO t1 VALUES (4,'wa'),(2,'ac'),(11,'op'),(9,'djow'),(16,'oerrg'),(20,'erw'),(17,'abc'),(13,'ope'),(14,'md'),(-7,'relqw'),(NULL,NULL);
+INSERT INTO t2 VALUES (3,'fd'),(1,'ghdf'),(12,'ew'),(9,'djow'),(16,'oerrg'),(20,'erw'),(17,'abc'),(13,'ope'),(14,'md'),(9,'gfd'),(NULL,NULL);
+INSERT INTO t3 VALUES (4,'wa','1990-02-22'),(2,'ac','2190-03-22'),(11,'op','2001-11-22'),(1,'a','2006-01-22'),(16,'oo','1998-02-22'),(20,'erw','1997-07-21'),(17,'abc','1983-01-22'),(12,'ope','2005-06-22'),(14,'md','2010-12-22'),(-7,'ei','2019-01-01'),(NULL,NULL,NULL);
+--sorted_result
+SELECT (SELECT a FROM t1 WHERE t1.a = t2.a), a FROM t2;
+--sorted_result
+SELECT (SELECT a FROM t1 WHERE a = 4), (SELECT 1 UNION SELECT b LIMIT 1) FROM t2;
+--sorted_result
+(SELECT * FROM t2 WHERE t2.b = (SELECT b FROM t3 ORDER BY 1 desc LIMIT 1 OFFSET 4)) UNION (SELECT * FROM t1 WHERE t1.b = (SELECT b FROM t2 WHERE a = 17) ORDER BY a);
+--sorted_result
+SELECT * FROM t3 WHERE EXISTS (SELECT * FROM t2 WHERE t2.b = t3.b);
+--sorted_result
+SELECT * FROM t2 WHERE NOT EXISTS (SELECT * FROM t1 WHERE t2.b = t1.b);
+--sorted_result
+SELECT * FROM t3 WHERE b IN (SELECT b FROM t2);
+--sorted_result
+SELECT * FROM t1 WHERE a NOT IN (SELECT a FROM t2 WHERE a > 0);
+--sorted_result
+SELECT * FROM t1 WHERE b <> SOME (SELECT b FROM t3);
+--sorted_result
+SELECT * FROM t3 WHERE a >= ANY (SELECT b FROM t2);
+--sorted_result
+SELECT * FROM t1 WHERE b != ALL (SELECT b FROM t2 WHERE b < 'www');
+--sorted_result
+SELECT * FROM t2 WHERE 'abc' <= SOME (SELECT b FROM t2 WHERE a > 0 GROUP BY 1);
+--sorted_result
+SELECT m.a1 FROM (SELECT a AS a1, b FROM t1) AS m LEFT JOIN t2 AS n ON m.b >= 'erw' AND m.b = n.b WHERE n.b <> 'ope';
+# CREATE INDEX
+CREATE INDEX a ON t1(a);
+CREATE INDEX b ON t1(b);
+CREATE INDEX a ON t2(a);
+CREATE INDEX b ON t2(b);
+CREATE INDEX a ON t3(a);
+CREATE INDEX b ON t3(b);
+--sorted_result
+SELECT (SELECT a FROM t1 WHERE t1.a = t2.a), a FROM t2;
+--sorted_result
+SELECT (SELECT a FROM t1 WHERE a = 4), (SELECT 1 UNION SELECT b LIMIT 1) FROM t2;
+--sorted_result
+(SELECT * FROM t2 WHERE t2.b = (SELECT b FROM t3 ORDER BY 1 desc LIMIT 1 OFFSET 4)) UNION (SELECT * FROM t1 WHERE t1.b = (SELECT b FROM t2 WHERE a = 17) ORDER BY a);
+--sorted_result
+SELECT * FROM t3 WHERE EXISTS (SELECT * FROM t2 WHERE t2.b = t3.b);
+--sorted_result
+SELECT * FROM t2 WHERE NOT EXISTS (SELECT * FROM t1 WHERE t2.b = t1.b);
+--sorted_result
+SELECT * FROM t3 WHERE b IN (SELECT b FROM t2);
+--sorted_result
+SELECT * FROM t1 WHERE a NOT IN (SELECT a FROM t2 WHERE a > 0);
+--sorted_result
+SELECT * FROM t1 WHERE b <> SOME (SELECT b FROM t3);
+--sorted_result
+SELECT * FROM t3 WHERE a >= ANY (SELECT b FROM t2);
+--sorted_result
+SELECT * FROM t1 WHERE b != ALL (SELECT b FROM t2 WHERE b < 'www');
+--sorted_result
+SELECT * FROM t2 WHERE 'abc' <= SOME (SELECT b FROM t2 WHERE a > 0 GROUP BY 1);
+--sorted_result
+SELECT m.a1 FROM (SELECT a AS a1, b FROM t1) AS m LEFT JOIN t2 AS n ON m.b >= 'erw' AND m.b = n.b WHERE n.b <> 'ope';
+DROP TABLE t1,t2,t3;
+
+#
+# JOIN 
+#
+CREATE TABLE t1(a MEDIUMINT, b VARCHAR(16));
+CREATE TABLE t2(a INT, b CHAR(16));
+CREATE TABLE t3(a SMALLINT, b TEXT);
+INSERT INTO t1 VALUES (1,'home'),(3,'progss'),(11,'ger'),(2,'djow'),(13,'oerrg'),(21,'erw'),(10,'abc'),(15,'callcenter'),(16,'null'),(-5,'nele'),(NULL,NULL);
+INSERT INTO t2 VALUES (3,'fd'),(1,'home'),(13,'ger'),(9,'djow'),(16,'oerrg'),(20,'erw'),(10,'abc'),(15,'callcenter'),(14,'md'),(9,'gfd'),(NULL,NULL);
+INSERT INTO t3 VALUES (4,'wa'),(1,'home'),(11,'ger'),(1,'a'),(16,'null'),(21,'erw'),(10,'abc'),(12,'djow'),(14,'md'),(-5,'nele'),(NULL,NULL);
+--sorted_result
+SELECT * FROM (t1, t2) JOIN t3 ON (t1.a >= 20 AND t2.b < t1.b);
+--sorted_result
+SELECT * FROM t1 NATURAL JOIN t2 WHERE 1 AND (b > 'a' AND a < 15);
+--sorted_result
+SELECT * FROM t1 LEFT JOIN t2 ON (t1.a=t2.a) LEFT JOIN t3 ON (t2.b=t3.b);
+--sorted_result
+SELECT * FROM t1 NATURAL LEFT JOIN t2 NATURAL LEFT JOIN t3;
+SELECT t1.a,t2.a,t3.a FROM t2 RIGHT JOIN t3 ON (t2.a=t3.a),t1 ORDER BY t1.a,t2.a,t3.a;
+--sorted_result
+SELECT * FROM t1,t2 NATURAL RIGHT JOIN t3 ORDER BY t1.b,t2.b,t3.b;
+SELECT STRAIGHT_JOIN t1.a,t2.b FROM t1,t2 WHERE t2.b <> 'abc' AND t1.a=t2.a ORDER BY t1.a, t2.b;
+# CREATE INDEX
+CREATE INDEX a ON t1(a);
+CREATE INDEX b ON t1(b);
+CREATE INDEX a ON t2(a);
+CREATE INDEX b ON t2(b);
+CREATE INDEX a ON t3(a);
+CREATE INDEX b ON t3(b(16));
+--sorted_result
+SELECT * FROM (t1, t2) JOIN t3 ON (t1.a >= 20 AND t2.b < t1.b);
+--sorted_result
+SELECT * FROM t1 NATURAL JOIN t2 WHERE 1 AND (b > 'a' AND a < 15);
+--sorted_result
+SELECT * FROM t1 LEFT JOIN t2 ON (t1.a=t2.a) LEFT JOIN t3 ON (t2.b=t3.b);
+--sorted_result
+SELECT * FROM t1 NATURAL LEFT JOIN t2 NATURAL LEFT JOIN t3;
+SELECT t1.a,t2.a,t3.a FROM t2 RIGHT JOIN t3 ON (t2.a=t3.a),t1 ORDER BY t1.a,t2.a,t3.a;
+--sorted_result
+SELECT * FROM t1,t2 NATURAL RIGHT JOIN t3 ORDER BY t1.b,t2.b,t3.b;
+SELECT STRAIGHT_JOIN t1.a,t2.b FROM t1,t2 WHERE t2.b <> 'abc' AND t1.a=t2.a ORDER BY t1.a, t2.b;
+DROP TABLE t1,t2,t3;
+
+#
+# UPDATE/DELETE
+#
+CREATE TABLE t1(a INT, b BLOB);
+CREATE TABLE t2(a BIGINT);
+INSERT INTO t1 VALUES (2,'home'),(16,'progss'),(9,'ger'),(7,'djow'),(1,'oerrg'),(-3,'erw'),(-1,'abc'),(11,'callcenter'),(14,'null'),(6,'nele'),(NULL,NULL);
+INSERT INTO t2 VALUES (7),(2),(1),(-1),(10),(15),(13),(6),(8),(11),(4);
+UPDATE t1 SET b= (SELECT b FROM t2 WHERE t1.a = t2.a);
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+UPDATE t1 SET b=NULL WHERE b NOT LIKE 'n';
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1,t2 SET t1.b='UPDATEb2' WHERE t1.a IN (SELECT a FROM t2);
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = b + '123' WHERE 1 = (SELECT t1.a AS a1 FROM t2 WHERE t2.a > t1.a ORDER BY a LIMIT 1);
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 JOIN t2 ON t1.a=t2.a SET b = b + '456' WHERE t1.a > 1;
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b = (SELECT b FROM t2 WHERE t1.a = t2.a);
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b IS NULL AND (SELECT a FROM t2 WHERE a > 2 ORDER BY a LIMIT 1) > 1;
+--sorted_result
+SELECT * FROM t1;
+INSERT INTO t1 VALUES (2,'home'),(14,'null'),(6,'nele'),(NULL,NULL);
+--sorted_result
+SELECT * FROM t1;
+DELETE t1 FROM (SELECT SUM(a) a FROM t1) x,t1;
+--sorted_result
+SELECT * FROM t1;
+# CREATE INDEX
+CREATE INDEX a ON t1(a);
+CREATE INDEX a ON t2(a);
+INSERT INTO t1 VALUES (2,'home'),(16,'progss'),(9,'ger'),(7,'djow'),(1,'oerrg'),(-3,'erw'),(-1,'abc'),(11,'callcenter'),(14,'null'),(6,'nele'),(NULL,NULL);
+UPDATE t1 SET b= (SELECT b FROM t2 WHERE t1.a = t2.a);
+--sorted_result
+SELECT * FROM t1;
+--sorted_result
+UPDATE t1 SET b=NULL WHERE b NOT LIKE 'n';
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1,t2 SET t1.b='UPDATEb2' WHERE t1.a IN (SELECT a FROM t2);
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 SET b = b + '123' WHERE 1 = (SELECT t1.a AS a1 FROM t2 WHERE t2.a > t1.a ORDER BY a LIMIT 1);
+--sorted_result
+SELECT * FROM t1;
+UPDATE t1 JOIN t2 ON t1.a=t2.a SET b = b + '456' WHERE t1.a > 1;
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b = (SELECT b FROM t2 WHERE t1.a = t2.a);
+--sorted_result
+SELECT * FROM t1;
+DELETE FROM t1 WHERE b IS NULL AND (SELECT a FROM t2 WHERE a > 2 ORDER BY a LIMIT 1) > 1;
+--sorted_result
+SELECT * FROM t1;
+INSERT INTO t1 VALUES (2,'home'),(14,'null'),(6,'nele'),(NULL,NULL);
+--sorted_result
+SELECT * FROM t1;
+DELETE t1 FROM (SELECT SUM(a) a FROM t1) x,t1;
+--sorted_result
+SELECT * FROM t1;
+DROP TABLE t1,t2;
 
 --source include/uninstall_sequoiadb.inc

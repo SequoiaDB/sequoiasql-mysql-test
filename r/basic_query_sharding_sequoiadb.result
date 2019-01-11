@@ -3897,3 +3897,1553 @@ HELLO1	HELLO1	4
 hello 	hello 	4
 hello1	hello1	4
 DROP TABLE t1;
+CREATE TABLE t1 (i INT, c CHAR(127));
+CREATE TABLE t2 (i INT);
+INSERT INTO t1 VALUES(23,'Emettre'),(2,'appel'),(1,'offres'),(14,'Liste'),(5,'aes'),(9,'des'),(3,'ajoute'),(12,'appel'),(53,'les'),(-2,'fiche'),(-99,'les'),(0,'hello'),(6,'materiel'),(19,'Axmark'),(33,'axmark'),(11,NULL);
+INSERT INTO t2 VALUES(2),(5),(12),(-99),(-1),(4),(13),(25),(9),(8),(19),(NULL);
+SELECT CONCAT(i,"-",c) AS ic FROM t1 ORDER BY ic;
+ic
+NULL
+-2-fiche
+-99-les
+0-hello
+1-offres
+12-appel
+14-Liste
+19-Axmark
+2-appel
+23-Emettre
+3-ajoute
+33-axmark
+5-aes
+53-les
+6-materiel
+9-des
+SELECT DISTINCT c,i FROM t1 ORDER BY RAND(i);
+c	i
+hello	0
+appel	12
+les	-99
+offres	1
+aes	5
+des	9
+axmark	33
+les	53
+fiche	-2
+appel	2
+materiel	6
+Liste	14
+ajoute	3
+NULL	11
+Axmark	19
+Emettre	23
+SELECT i AS ii,c FROM t1 WHERE c LIKE "a%" ORDER BY i;
+ii	c
+2	appel
+3	ajoute
+5	aes
+12	appel
+33	axmark
+SELECT * FROM t2 WHERE i >= 1 AND i < 20 ORDER BY i desc;
+i
+19
+13
+12
+9
+8
+5
+4
+2
+SELECT t1.i, t1.c, t2.i FROM t1 JOIN t2 WHERE t2.i = t1.i ORDER BY t2.i, t1.c;
+i	c	i
+-99	les	-99
+2	appel	2
+5	aes	5
+9	des	9
+12	appel	12
+19	Axmark	19
+SELECT c FROM t1 AS m LEFT JOIN t2 AS n ON (m.i = n.i AND n.i <= 20) ORDER BY n.i,m.c LIMIT 5 OFFSET 4;
+c
+fiche
+hello
+les
+Liste
+materiel
+SELECT * FROM t1 WHERE i > 10 ORDER BY i LIMIT 4 OFFSET 1;
+i	c
+12	appel
+14	Liste
+19	Axmark
+23	Emettre
+(SELECT i,c FROM t1 WHERE c LIKE '%l' ORDER BY c DESC) ORDER BY i ASC;
+i	c
+2	appel
+6	materiel
+12	appel
+CREATE INDEX i ON t1(i);
+CREATE INDEX c ON t1(c);
+CREATE INDEX i ON t2(i);
+SELECT CONCAT(i,"-",c) AS ic FROM t1 ORDER BY ic;
+ic
+NULL
+-2-fiche
+-99-les
+0-hello
+1-offres
+12-appel
+14-Liste
+19-Axmark
+2-appel
+23-Emettre
+3-ajoute
+33-axmark
+5-aes
+53-les
+6-materiel
+9-des
+SELECT DISTINCT c,i FROM t1 ORDER BY RAND(i);
+c	i
+hello	0
+appel	12
+les	-99
+offres	1
+aes	5
+des	9
+axmark	33
+les	53
+fiche	-2
+appel	2
+materiel	6
+Liste	14
+ajoute	3
+NULL	11
+Axmark	19
+Emettre	23
+SELECT i AS ii,c FROM t1 WHERE c LIKE "a%" ORDER BY i;
+ii	c
+2	appel
+3	ajoute
+5	aes
+12	appel
+33	axmark
+SELECT * FROM t2 WHERE i >= 1 AND i < 20 ORDER BY i desc;
+i
+19
+13
+12
+9
+8
+5
+4
+2
+SELECT t1.i, t1.c, t2.i FROM t1 JOIN t2 WHERE t2.i = t1.i ORDER BY t2.i, t1.c;
+i	c	i
+-99	les	-99
+2	appel	2
+5	aes	5
+9	des	9
+12	appel	12
+19	Axmark	19
+SELECT c FROM t1 AS m LEFT JOIN t2 AS n ON (m.i = n.i AND n.i <= 20) ORDER BY n.i,m.c LIMIT 5 OFFSET 4;
+c
+fiche
+hello
+les
+Liste
+materiel
+SELECT * FROM t1 WHERE i > 10 ORDER BY i LIMIT 4 OFFSET 1;
+i	c
+12	appel
+14	Liste
+19	Axmark
+23	Emettre
+(SELECT i,c FROM t1 WHERE c LIKE '%l' ORDER BY c DESC) ORDER BY i ASC;
+i	c
+2	appel
+6	materiel
+12	appel
+DROP TABLE t1,t2;
+CREATE TABLE t1 (a INT, t TEXT);
+INSERT INTO t1 VALUES(23,'Eoej'),(2,'abcd'),(1,'erd'),(14,'Liste'),(12,'appel'),(53,'les'),(-2,'fiche'),(19,'MIN'),(33,'Min'),(NULL,NULL);
+CREATE TABLE t2 (a INT);
+INSERT INTO t2 VALUES(2),(5),(12),(-99),(-1),(9),(8),(19),(NULL);
+SELECT t1.a, t1.t, t2.a FROM t1,t2;
+a	t	a
+-2	fiche	-1
+-2	fiche	-99
+-2	fiche	12
+-2	fiche	19
+-2	fiche	2
+-2	fiche	5
+-2	fiche	8
+-2	fiche	9
+-2	fiche	NULL
+1	erd	-1
+1	erd	-99
+1	erd	12
+1	erd	19
+1	erd	2
+1	erd	5
+1	erd	8
+1	erd	9
+1	erd	NULL
+12	appel	-1
+12	appel	-99
+12	appel	12
+12	appel	19
+12	appel	2
+12	appel	5
+12	appel	8
+12	appel	9
+12	appel	NULL
+14	Liste	-1
+14	Liste	-99
+14	Liste	12
+14	Liste	19
+14	Liste	2
+14	Liste	5
+14	Liste	8
+14	Liste	9
+14	Liste	NULL
+19	MIN	-1
+19	MIN	-99
+19	MIN	12
+19	MIN	19
+19	MIN	2
+19	MIN	5
+19	MIN	8
+19	MIN	9
+19	MIN	NULL
+2	abcd	-1
+2	abcd	-99
+2	abcd	12
+2	abcd	19
+2	abcd	2
+2	abcd	5
+2	abcd	8
+2	abcd	9
+2	abcd	NULL
+23	Eoej	-1
+23	Eoej	-99
+23	Eoej	12
+23	Eoej	19
+23	Eoej	2
+23	Eoej	5
+23	Eoej	8
+23	Eoej	9
+23	Eoej	NULL
+33	Min	-1
+33	Min	-99
+33	Min	12
+33	Min	19
+33	Min	2
+33	Min	5
+33	Min	8
+33	Min	9
+33	Min	NULL
+53	les	-1
+53	les	-99
+53	les	12
+53	les	19
+53	les	2
+53	les	5
+53	les	8
+53	les	9
+53	les	NULL
+NULL	NULL	-1
+NULL	NULL	-99
+NULL	NULL	12
+NULL	NULL	19
+NULL	NULL	2
+NULL	NULL	5
+NULL	NULL	8
+NULL	NULL	9
+NULL	NULL	NULL
+SELECT * FROM t1,t2 WHERE t1.a > t2.a AND t2.a < 10;
+a	t	a
+-2	fiche	-99
+1	erd	-1
+1	erd	-99
+12	appel	-1
+12	appel	-99
+12	appel	2
+12	appel	5
+12	appel	8
+12	appel	9
+14	Liste	-1
+14	Liste	-99
+14	Liste	2
+14	Liste	5
+14	Liste	8
+14	Liste	9
+19	MIN	-1
+19	MIN	-99
+19	MIN	2
+19	MIN	5
+19	MIN	8
+19	MIN	9
+2	abcd	-1
+2	abcd	-99
+23	Eoej	-1
+23	Eoej	-99
+23	Eoej	2
+23	Eoej	5
+23	Eoej	8
+23	Eoej	9
+33	Min	-1
+33	Min	-99
+33	Min	2
+33	Min	5
+33	Min	8
+33	Min	9
+53	les	-1
+53	les	-99
+53	les	2
+53	les	5
+53	les	8
+53	les	9
+SELECT m.a,n.a FROM t1 AS m, t2 AS n WHERE m.a <= n.a AND n.a IS NOT NULL;
+a	a
+-2	-1
+-2	12
+-2	19
+-2	2
+-2	5
+-2	8
+-2	9
+1	12
+1	19
+1	2
+1	5
+1	8
+1	9
+12	12
+12	19
+14	19
+19	19
+2	12
+2	19
+2	2
+2	5
+2	8
+2	9
+CREATE INDEX a ON t1(a);
+CREATE INDEX t ON t1(t(16));
+CREATE INDEX a ON t2(a);
+SELECT t1.a, t1.t, t2.a FROM t1,t2;
+a	t	a
+-2	fiche	-1
+-2	fiche	-99
+-2	fiche	12
+-2	fiche	19
+-2	fiche	2
+-2	fiche	5
+-2	fiche	8
+-2	fiche	9
+-2	fiche	NULL
+1	erd	-1
+1	erd	-99
+1	erd	12
+1	erd	19
+1	erd	2
+1	erd	5
+1	erd	8
+1	erd	9
+1	erd	NULL
+12	appel	-1
+12	appel	-99
+12	appel	12
+12	appel	19
+12	appel	2
+12	appel	5
+12	appel	8
+12	appel	9
+12	appel	NULL
+14	Liste	-1
+14	Liste	-99
+14	Liste	12
+14	Liste	19
+14	Liste	2
+14	Liste	5
+14	Liste	8
+14	Liste	9
+14	Liste	NULL
+19	MIN	-1
+19	MIN	-99
+19	MIN	12
+19	MIN	19
+19	MIN	2
+19	MIN	5
+19	MIN	8
+19	MIN	9
+19	MIN	NULL
+2	abcd	-1
+2	abcd	-99
+2	abcd	12
+2	abcd	19
+2	abcd	2
+2	abcd	5
+2	abcd	8
+2	abcd	9
+2	abcd	NULL
+23	Eoej	-1
+23	Eoej	-99
+23	Eoej	12
+23	Eoej	19
+23	Eoej	2
+23	Eoej	5
+23	Eoej	8
+23	Eoej	9
+23	Eoej	NULL
+33	Min	-1
+33	Min	-99
+33	Min	12
+33	Min	19
+33	Min	2
+33	Min	5
+33	Min	8
+33	Min	9
+33	Min	NULL
+53	les	-1
+53	les	-99
+53	les	12
+53	les	19
+53	les	2
+53	les	5
+53	les	8
+53	les	9
+53	les	NULL
+NULL	NULL	-1
+NULL	NULL	-99
+NULL	NULL	12
+NULL	NULL	19
+NULL	NULL	2
+NULL	NULL	5
+NULL	NULL	8
+NULL	NULL	9
+NULL	NULL	NULL
+SELECT * FROM t1,t2 WHERE t1.a > t2.a AND t2.a < 10;
+a	t	a
+-2	fiche	-99
+1	erd	-1
+1	erd	-99
+12	appel	-1
+12	appel	-99
+12	appel	2
+12	appel	5
+12	appel	8
+12	appel	9
+14	Liste	-1
+14	Liste	-99
+14	Liste	2
+14	Liste	5
+14	Liste	8
+14	Liste	9
+19	MIN	-1
+19	MIN	-99
+19	MIN	2
+19	MIN	5
+19	MIN	8
+19	MIN	9
+2	abcd	-1
+2	abcd	-99
+23	Eoej	-1
+23	Eoej	-99
+23	Eoej	2
+23	Eoej	5
+23	Eoej	8
+23	Eoej	9
+33	Min	-1
+33	Min	-99
+33	Min	2
+33	Min	5
+33	Min	8
+33	Min	9
+53	les	-1
+53	les	-99
+53	les	2
+53	les	5
+53	les	8
+53	les	9
+SELECT m.a,n.a FROM t1 AS m, t2 AS n WHERE m.a <= n.a AND n.a IS NOT NULL;
+a	a
+-2	-1
+-2	12
+-2	19
+-2	2
+-2	5
+-2	8
+-2	9
+1	12
+1	19
+1	2
+1	5
+1	8
+1	9
+12	12
+12	19
+14	19
+19	19
+2	12
+2	19
+2	2
+2	5
+2	8
+2	9
+DROP TABLE t1,t2;
+CREATE TABLE t1(a INT, b VARCHAR(64));
+CREATE TABLE t2(a INT, b CHAR(64));
+CREATE TABLE t3(a INT, b CHAR(64), c DATE);
+INSERT INTO t1 VALUES (4,'wa'),(2,'ac'),(11,'op'),(9,'djow'),(16,'oerrg'),(20,'erw'),(17,'abc'),(13,'ope'),(14,'md'),(-7,'relqw'),(NULL,NULL);
+INSERT INTO t2 VALUES (3,'fd'),(1,'ghdf'),(12,'ew'),(9,'djow'),(16,'oerrg'),(20,'erw'),(17,'abc'),(13,'ope'),(14,'md'),(9,'gfd'),(NULL,NULL);
+INSERT INTO t3 VALUES (4,'wa','1990-02-22'),(2,'ac','2190-03-22'),(11,'op','2001-11-22'),(1,'a','2006-01-22'),(16,'oo','1998-02-22'),(20,'erw','1997-07-21'),(17,'abc','1983-01-22'),(12,'ope','2005-06-22'),(14,'md','2010-12-22'),(-7,'ei','2019-01-01'),(NULL,NULL,NULL);
+SELECT (SELECT a FROM t1 WHERE t1.a = t2.a), a FROM t2;
+(SELECT a FROM t1 WHERE t1.a = t2.a)	a
+13	13
+14	14
+16	16
+17	17
+20	20
+9	9
+9	9
+NULL	1
+NULL	12
+NULL	3
+NULL	NULL
+SELECT (SELECT a FROM t1 WHERE a = 4), (SELECT 1 UNION SELECT b LIMIT 1) FROM t2;
+(SELECT a FROM t1 WHERE a = 4)	(SELECT 1 UNION SELECT b LIMIT 1)
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+(SELECT * FROM t2 WHERE t2.b = (SELECT b FROM t3 ORDER BY 1 desc LIMIT 1 OFFSET 4)) UNION (SELECT * FROM t1 WHERE t1.b = (SELECT b FROM t2 WHERE a = 17) ORDER BY a);
+a	b
+14	md
+17	abc
+SELECT * FROM t3 WHERE EXISTS (SELECT * FROM t2 WHERE t2.b = t3.b);
+a	b	c
+12	ope	2005-06-22
+14	md	2010-12-22
+17	abc	1983-01-22
+20	erw	1997-07-21
+SELECT * FROM t2 WHERE NOT EXISTS (SELECT * FROM t1 WHERE t2.b = t1.b);
+a	b
+1	ghdf
+12	ew
+3	fd
+9	gfd
+NULL	NULL
+SELECT * FROM t3 WHERE b IN (SELECT b FROM t2);
+a	b	c
+12	ope	2005-06-22
+14	md	2010-12-22
+17	abc	1983-01-22
+20	erw	1997-07-21
+SELECT * FROM t1 WHERE a NOT IN (SELECT a FROM t2 WHERE a > 0);
+a	b
+-7	relqw
+11	op
+2	ac
+4	wa
+SELECT * FROM t1 WHERE b <> SOME (SELECT b FROM t3);
+a	b
+-7	relqw
+11	op
+13	ope
+14	md
+16	oerrg
+17	abc
+2	ac
+20	erw
+4	wa
+9	djow
+SELECT * FROM t3 WHERE a >= ANY (SELECT b FROM t2);
+a	b	c
+1	a	2006-01-22
+11	op	2001-11-22
+12	ope	2005-06-22
+14	md	2010-12-22
+16	oo	1998-02-22
+17	abc	1983-01-22
+2	ac	2190-03-22
+20	erw	1997-07-21
+4	wa	1990-02-22
+SELECT * FROM t1 WHERE b != ALL (SELECT b FROM t2 WHERE b < 'www');
+a	b
+-7	relqw
+11	op
+2	ac
+4	wa
+SELECT * FROM t2 WHERE 'abc' <= SOME (SELECT b FROM t2 WHERE a > 0 GROUP BY 1);
+a	b
+1	ghdf
+12	ew
+13	ope
+14	md
+16	oerrg
+17	abc
+20	erw
+3	fd
+9	djow
+9	gfd
+NULL	NULL
+SELECT m.a1 FROM (SELECT a AS a1, b FROM t1) AS m LEFT JOIN t2 AS n ON m.b >= 'erw' AND m.b = n.b WHERE n.b <> 'ope';
+a1
+14
+16
+20
+CREATE INDEX a ON t1(a);
+CREATE INDEX b ON t1(b);
+CREATE INDEX a ON t2(a);
+CREATE INDEX b ON t2(b);
+CREATE INDEX a ON t3(a);
+CREATE INDEX b ON t3(b);
+SELECT (SELECT a FROM t1 WHERE t1.a = t2.a), a FROM t2;
+(SELECT a FROM t1 WHERE t1.a = t2.a)	a
+13	13
+14	14
+16	16
+17	17
+20	20
+9	9
+9	9
+NULL	1
+NULL	12
+NULL	3
+NULL	NULL
+SELECT (SELECT a FROM t1 WHERE a = 4), (SELECT 1 UNION SELECT b LIMIT 1) FROM t2;
+(SELECT a FROM t1 WHERE a = 4)	(SELECT 1 UNION SELECT b LIMIT 1)
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+4	1
+(SELECT * FROM t2 WHERE t2.b = (SELECT b FROM t3 ORDER BY 1 desc LIMIT 1 OFFSET 4)) UNION (SELECT * FROM t1 WHERE t1.b = (SELECT b FROM t2 WHERE a = 17) ORDER BY a);
+a	b
+14	md
+17	abc
+SELECT * FROM t3 WHERE EXISTS (SELECT * FROM t2 WHERE t2.b = t3.b);
+a	b	c
+12	ope	2005-06-22
+14	md	2010-12-22
+17	abc	1983-01-22
+20	erw	1997-07-21
+SELECT * FROM t2 WHERE NOT EXISTS (SELECT * FROM t1 WHERE t2.b = t1.b);
+a	b
+1	ghdf
+12	ew
+3	fd
+9	gfd
+NULL	NULL
+SELECT * FROM t3 WHERE b IN (SELECT b FROM t2);
+a	b	c
+12	ope	2005-06-22
+14	md	2010-12-22
+17	abc	1983-01-22
+20	erw	1997-07-21
+SELECT * FROM t1 WHERE a NOT IN (SELECT a FROM t2 WHERE a > 0);
+a	b
+-7	relqw
+11	op
+2	ac
+4	wa
+SELECT * FROM t1 WHERE b <> SOME (SELECT b FROM t3);
+a	b
+-7	relqw
+11	op
+13	ope
+14	md
+16	oerrg
+17	abc
+2	ac
+20	erw
+4	wa
+9	djow
+SELECT * FROM t3 WHERE a >= ANY (SELECT b FROM t2);
+a	b	c
+1	a	2006-01-22
+11	op	2001-11-22
+12	ope	2005-06-22
+14	md	2010-12-22
+16	oo	1998-02-22
+17	abc	1983-01-22
+2	ac	2190-03-22
+20	erw	1997-07-21
+4	wa	1990-02-22
+SELECT * FROM t1 WHERE b != ALL (SELECT b FROM t2 WHERE b < 'www');
+a	b
+-7	relqw
+11	op
+2	ac
+4	wa
+SELECT * FROM t2 WHERE 'abc' <= SOME (SELECT b FROM t2 WHERE a > 0 GROUP BY 1);
+a	b
+1	ghdf
+12	ew
+13	ope
+14	md
+16	oerrg
+17	abc
+20	erw
+3	fd
+9	djow
+9	gfd
+NULL	NULL
+SELECT m.a1 FROM (SELECT a AS a1, b FROM t1) AS m LEFT JOIN t2 AS n ON m.b >= 'erw' AND m.b = n.b WHERE n.b <> 'ope';
+a1
+14
+16
+20
+DROP TABLE t1,t2,t3;
+CREATE TABLE t1(a MEDIUMINT, b VARCHAR(16));
+CREATE TABLE t2(a INT, b CHAR(16));
+CREATE TABLE t3(a SMALLINT, b TEXT);
+INSERT INTO t1 VALUES (1,'home'),(3,'progss'),(11,'ger'),(2,'djow'),(13,'oerrg'),(21,'erw'),(10,'abc'),(15,'callcenter'),(16,'null'),(-5,'nele'),(NULL,NULL);
+INSERT INTO t2 VALUES (3,'fd'),(1,'home'),(13,'ger'),(9,'djow'),(16,'oerrg'),(20,'erw'),(10,'abc'),(15,'callcenter'),(14,'md'),(9,'gfd'),(NULL,NULL);
+INSERT INTO t3 VALUES (4,'wa'),(1,'home'),(11,'ger'),(1,'a'),(16,'null'),(21,'erw'),(10,'abc'),(12,'djow'),(14,'md'),(-5,'nele'),(NULL,NULL);
+SELECT * FROM (t1, t2) JOIN t3 ON (t1.a >= 20 AND t2.b < t1.b);
+a	b	a	b	a	b
+21	erw	10	abc	-5	nele
+21	erw	10	abc	1	a
+21	erw	10	abc	1	home
+21	erw	10	abc	10	abc
+21	erw	10	abc	11	ger
+21	erw	10	abc	12	djow
+21	erw	10	abc	14	md
+21	erw	10	abc	16	null
+21	erw	10	abc	21	erw
+21	erw	10	abc	4	wa
+21	erw	10	abc	NULL	NULL
+21	erw	15	callcenter	-5	nele
+21	erw	15	callcenter	1	a
+21	erw	15	callcenter	1	home
+21	erw	15	callcenter	10	abc
+21	erw	15	callcenter	11	ger
+21	erw	15	callcenter	12	djow
+21	erw	15	callcenter	14	md
+21	erw	15	callcenter	16	null
+21	erw	15	callcenter	21	erw
+21	erw	15	callcenter	4	wa
+21	erw	15	callcenter	NULL	NULL
+21	erw	9	djow	-5	nele
+21	erw	9	djow	1	a
+21	erw	9	djow	1	home
+21	erw	9	djow	10	abc
+21	erw	9	djow	11	ger
+21	erw	9	djow	12	djow
+21	erw	9	djow	14	md
+21	erw	9	djow	16	null
+21	erw	9	djow	21	erw
+21	erw	9	djow	4	wa
+21	erw	9	djow	NULL	NULL
+SELECT * FROM t1 NATURAL JOIN t2 WHERE 1 AND (b > 'a' AND a < 15);
+a	b
+1	home
+10	abc
+SELECT * FROM t1 LEFT JOIN t2 ON (t1.a=t2.a) LEFT JOIN t3 ON (t2.b=t3.b);
+a	b	a	b	a	b
+-5	nele	NULL	NULL	NULL	NULL
+1	home	1	home	1	home
+10	abc	10	abc	10	abc
+11	ger	NULL	NULL	NULL	NULL
+13	oerrg	13	ger	11	ger
+15	callcenter	15	callcenter	NULL	NULL
+16	null	16	oerrg	NULL	NULL
+2	djow	NULL	NULL	NULL	NULL
+21	erw	NULL	NULL	NULL	NULL
+3	progss	3	fd	NULL	NULL
+NULL	NULL	NULL	NULL	NULL	NULL
+SELECT * FROM t1 NATURAL LEFT JOIN t2 NATURAL LEFT JOIN t3;
+a	b
+-5	nele
+1	home
+10	abc
+11	ger
+13	oerrg
+15	callcenter
+16	null
+2	djow
+21	erw
+3	progss
+NULL	NULL
+SELECT t1.a,t2.a,t3.a FROM t2 RIGHT JOIN t3 ON (t2.a=t3.a),t1 ORDER BY t1.a,t2.a,t3.a;
+a	a	a
+NULL	NULL	NULL
+NULL	NULL	-5
+NULL	NULL	4
+NULL	NULL	11
+NULL	NULL	12
+NULL	NULL	21
+NULL	1	1
+NULL	1	1
+NULL	10	10
+NULL	14	14
+NULL	16	16
+-5	NULL	NULL
+-5	NULL	-5
+-5	NULL	4
+-5	NULL	11
+-5	NULL	12
+-5	NULL	21
+-5	1	1
+-5	1	1
+-5	10	10
+-5	14	14
+-5	16	16
+1	NULL	NULL
+1	NULL	-5
+1	NULL	4
+1	NULL	11
+1	NULL	12
+1	NULL	21
+1	1	1
+1	1	1
+1	10	10
+1	14	14
+1	16	16
+2	NULL	NULL
+2	NULL	-5
+2	NULL	4
+2	NULL	11
+2	NULL	12
+2	NULL	21
+2	1	1
+2	1	1
+2	10	10
+2	14	14
+2	16	16
+3	NULL	NULL
+3	NULL	-5
+3	NULL	4
+3	NULL	11
+3	NULL	12
+3	NULL	21
+3	1	1
+3	1	1
+3	10	10
+3	14	14
+3	16	16
+10	NULL	NULL
+10	NULL	-5
+10	NULL	4
+10	NULL	11
+10	NULL	12
+10	NULL	21
+10	1	1
+10	1	1
+10	10	10
+10	14	14
+10	16	16
+11	NULL	NULL
+11	NULL	-5
+11	NULL	4
+11	NULL	11
+11	NULL	12
+11	NULL	21
+11	1	1
+11	1	1
+11	10	10
+11	14	14
+11	16	16
+13	NULL	NULL
+13	NULL	-5
+13	NULL	4
+13	NULL	11
+13	NULL	12
+13	NULL	21
+13	1	1
+13	1	1
+13	10	10
+13	14	14
+13	16	16
+15	NULL	NULL
+15	NULL	-5
+15	NULL	4
+15	NULL	11
+15	NULL	12
+15	NULL	21
+15	1	1
+15	1	1
+15	10	10
+15	14	14
+15	16	16
+16	NULL	NULL
+16	NULL	-5
+16	NULL	4
+16	NULL	11
+16	NULL	12
+16	NULL	21
+16	1	1
+16	1	1
+16	10	10
+16	14	14
+16	16	16
+21	NULL	NULL
+21	NULL	-5
+21	NULL	4
+21	NULL	11
+21	NULL	12
+21	NULL	21
+21	1	1
+21	1	1
+21	10	10
+21	14	14
+21	16	16
+SELECT * FROM t1,t2 NATURAL RIGHT JOIN t3 ORDER BY t1.b,t2.b,t3.b;
+a	b	a	b
+-5	nele	-5	nele
+-5	nele	1	a
+-5	nele	1	home
+-5	nele	10	abc
+-5	nele	11	ger
+-5	nele	12	djow
+-5	nele	14	md
+-5	nele	16	null
+-5	nele	21	erw
+-5	nele	4	wa
+-5	nele	NULL	NULL
+1	home	-5	nele
+1	home	1	a
+1	home	1	home
+1	home	10	abc
+1	home	11	ger
+1	home	12	djow
+1	home	14	md
+1	home	16	null
+1	home	21	erw
+1	home	4	wa
+1	home	NULL	NULL
+10	abc	-5	nele
+10	abc	1	a
+10	abc	1	home
+10	abc	10	abc
+10	abc	11	ger
+10	abc	12	djow
+10	abc	14	md
+10	abc	16	null
+10	abc	21	erw
+10	abc	4	wa
+10	abc	NULL	NULL
+11	ger	-5	nele
+11	ger	1	a
+11	ger	1	home
+11	ger	10	abc
+11	ger	11	ger
+11	ger	12	djow
+11	ger	14	md
+11	ger	16	null
+11	ger	21	erw
+11	ger	4	wa
+11	ger	NULL	NULL
+13	oerrg	-5	nele
+13	oerrg	1	a
+13	oerrg	1	home
+13	oerrg	10	abc
+13	oerrg	11	ger
+13	oerrg	12	djow
+13	oerrg	14	md
+13	oerrg	16	null
+13	oerrg	21	erw
+13	oerrg	4	wa
+13	oerrg	NULL	NULL
+15	callcenter	-5	nele
+15	callcenter	1	a
+15	callcenter	1	home
+15	callcenter	10	abc
+15	callcenter	11	ger
+15	callcenter	12	djow
+15	callcenter	14	md
+15	callcenter	16	null
+15	callcenter	21	erw
+15	callcenter	4	wa
+15	callcenter	NULL	NULL
+16	null	-5	nele
+16	null	1	a
+16	null	1	home
+16	null	10	abc
+16	null	11	ger
+16	null	12	djow
+16	null	14	md
+16	null	16	null
+16	null	21	erw
+16	null	4	wa
+16	null	NULL	NULL
+2	djow	-5	nele
+2	djow	1	a
+2	djow	1	home
+2	djow	10	abc
+2	djow	11	ger
+2	djow	12	djow
+2	djow	14	md
+2	djow	16	null
+2	djow	21	erw
+2	djow	4	wa
+2	djow	NULL	NULL
+21	erw	-5	nele
+21	erw	1	a
+21	erw	1	home
+21	erw	10	abc
+21	erw	11	ger
+21	erw	12	djow
+21	erw	14	md
+21	erw	16	null
+21	erw	21	erw
+21	erw	4	wa
+21	erw	NULL	NULL
+3	progss	-5	nele
+3	progss	1	a
+3	progss	1	home
+3	progss	10	abc
+3	progss	11	ger
+3	progss	12	djow
+3	progss	14	md
+3	progss	16	null
+3	progss	21	erw
+3	progss	4	wa
+3	progss	NULL	NULL
+NULL	NULL	-5	nele
+NULL	NULL	1	a
+NULL	NULL	1	home
+NULL	NULL	10	abc
+NULL	NULL	11	ger
+NULL	NULL	12	djow
+NULL	NULL	14	md
+NULL	NULL	16	null
+NULL	NULL	21	erw
+NULL	NULL	4	wa
+NULL	NULL	NULL	NULL
+SELECT STRAIGHT_JOIN t1.a,t2.b FROM t1,t2 WHERE t2.b <> 'abc' AND t1.a=t2.a ORDER BY t1.a, t2.b;
+a	b
+1	home
+3	fd
+13	ger
+15	callcenter
+16	oerrg
+CREATE INDEX a ON t1(a);
+CREATE INDEX b ON t1(b);
+CREATE INDEX a ON t2(a);
+CREATE INDEX b ON t2(b);
+CREATE INDEX a ON t3(a);
+CREATE INDEX b ON t3(b(16));
+SELECT * FROM (t1, t2) JOIN t3 ON (t1.a >= 20 AND t2.b < t1.b);
+a	b	a	b	a	b
+21	erw	10	abc	-5	nele
+21	erw	10	abc	1	a
+21	erw	10	abc	1	home
+21	erw	10	abc	10	abc
+21	erw	10	abc	11	ger
+21	erw	10	abc	12	djow
+21	erw	10	abc	14	md
+21	erw	10	abc	16	null
+21	erw	10	abc	21	erw
+21	erw	10	abc	4	wa
+21	erw	10	abc	NULL	NULL
+21	erw	15	callcenter	-5	nele
+21	erw	15	callcenter	1	a
+21	erw	15	callcenter	1	home
+21	erw	15	callcenter	10	abc
+21	erw	15	callcenter	11	ger
+21	erw	15	callcenter	12	djow
+21	erw	15	callcenter	14	md
+21	erw	15	callcenter	16	null
+21	erw	15	callcenter	21	erw
+21	erw	15	callcenter	4	wa
+21	erw	15	callcenter	NULL	NULL
+21	erw	9	djow	-5	nele
+21	erw	9	djow	1	a
+21	erw	9	djow	1	home
+21	erw	9	djow	10	abc
+21	erw	9	djow	11	ger
+21	erw	9	djow	12	djow
+21	erw	9	djow	14	md
+21	erw	9	djow	16	null
+21	erw	9	djow	21	erw
+21	erw	9	djow	4	wa
+21	erw	9	djow	NULL	NULL
+SELECT * FROM t1 NATURAL JOIN t2 WHERE 1 AND (b > 'a' AND a < 15);
+a	b
+1	home
+10	abc
+SELECT * FROM t1 LEFT JOIN t2 ON (t1.a=t2.a) LEFT JOIN t3 ON (t2.b=t3.b);
+a	b	a	b	a	b
+-5	nele	NULL	NULL	NULL	NULL
+1	home	1	home	1	home
+10	abc	10	abc	10	abc
+11	ger	NULL	NULL	NULL	NULL
+13	oerrg	13	ger	11	ger
+15	callcenter	15	callcenter	NULL	NULL
+16	null	16	oerrg	NULL	NULL
+2	djow	NULL	NULL	NULL	NULL
+21	erw	NULL	NULL	NULL	NULL
+3	progss	3	fd	NULL	NULL
+NULL	NULL	NULL	NULL	NULL	NULL
+SELECT * FROM t1 NATURAL LEFT JOIN t2 NATURAL LEFT JOIN t3;
+a	b
+-5	nele
+1	home
+10	abc
+11	ger
+13	oerrg
+15	callcenter
+16	null
+2	djow
+21	erw
+3	progss
+NULL	NULL
+SELECT t1.a,t2.a,t3.a FROM t2 RIGHT JOIN t3 ON (t2.a=t3.a),t1 ORDER BY t1.a,t2.a,t3.a;
+a	a	a
+NULL	NULL	NULL
+NULL	NULL	-5
+NULL	NULL	4
+NULL	NULL	11
+NULL	NULL	12
+NULL	NULL	21
+NULL	1	1
+NULL	1	1
+NULL	10	10
+NULL	14	14
+NULL	16	16
+-5	NULL	NULL
+-5	NULL	-5
+-5	NULL	4
+-5	NULL	11
+-5	NULL	12
+-5	NULL	21
+-5	1	1
+-5	1	1
+-5	10	10
+-5	14	14
+-5	16	16
+1	NULL	NULL
+1	NULL	-5
+1	NULL	4
+1	NULL	11
+1	NULL	12
+1	NULL	21
+1	1	1
+1	1	1
+1	10	10
+1	14	14
+1	16	16
+2	NULL	NULL
+2	NULL	-5
+2	NULL	4
+2	NULL	11
+2	NULL	12
+2	NULL	21
+2	1	1
+2	1	1
+2	10	10
+2	14	14
+2	16	16
+3	NULL	NULL
+3	NULL	-5
+3	NULL	4
+3	NULL	11
+3	NULL	12
+3	NULL	21
+3	1	1
+3	1	1
+3	10	10
+3	14	14
+3	16	16
+10	NULL	NULL
+10	NULL	-5
+10	NULL	4
+10	NULL	11
+10	NULL	12
+10	NULL	21
+10	1	1
+10	1	1
+10	10	10
+10	14	14
+10	16	16
+11	NULL	NULL
+11	NULL	-5
+11	NULL	4
+11	NULL	11
+11	NULL	12
+11	NULL	21
+11	1	1
+11	1	1
+11	10	10
+11	14	14
+11	16	16
+13	NULL	NULL
+13	NULL	-5
+13	NULL	4
+13	NULL	11
+13	NULL	12
+13	NULL	21
+13	1	1
+13	1	1
+13	10	10
+13	14	14
+13	16	16
+15	NULL	NULL
+15	NULL	-5
+15	NULL	4
+15	NULL	11
+15	NULL	12
+15	NULL	21
+15	1	1
+15	1	1
+15	10	10
+15	14	14
+15	16	16
+16	NULL	NULL
+16	NULL	-5
+16	NULL	4
+16	NULL	11
+16	NULL	12
+16	NULL	21
+16	1	1
+16	1	1
+16	10	10
+16	14	14
+16	16	16
+21	NULL	NULL
+21	NULL	-5
+21	NULL	4
+21	NULL	11
+21	NULL	12
+21	NULL	21
+21	1	1
+21	1	1
+21	10	10
+21	14	14
+21	16	16
+SELECT * FROM t1,t2 NATURAL RIGHT JOIN t3 ORDER BY t1.b,t2.b,t3.b;
+a	b	a	b
+-5	nele	-5	nele
+-5	nele	1	a
+-5	nele	1	home
+-5	nele	10	abc
+-5	nele	11	ger
+-5	nele	12	djow
+-5	nele	14	md
+-5	nele	16	null
+-5	nele	21	erw
+-5	nele	4	wa
+-5	nele	NULL	NULL
+1	home	-5	nele
+1	home	1	a
+1	home	1	home
+1	home	10	abc
+1	home	11	ger
+1	home	12	djow
+1	home	14	md
+1	home	16	null
+1	home	21	erw
+1	home	4	wa
+1	home	NULL	NULL
+10	abc	-5	nele
+10	abc	1	a
+10	abc	1	home
+10	abc	10	abc
+10	abc	11	ger
+10	abc	12	djow
+10	abc	14	md
+10	abc	16	null
+10	abc	21	erw
+10	abc	4	wa
+10	abc	NULL	NULL
+11	ger	-5	nele
+11	ger	1	a
+11	ger	1	home
+11	ger	10	abc
+11	ger	11	ger
+11	ger	12	djow
+11	ger	14	md
+11	ger	16	null
+11	ger	21	erw
+11	ger	4	wa
+11	ger	NULL	NULL
+13	oerrg	-5	nele
+13	oerrg	1	a
+13	oerrg	1	home
+13	oerrg	10	abc
+13	oerrg	11	ger
+13	oerrg	12	djow
+13	oerrg	14	md
+13	oerrg	16	null
+13	oerrg	21	erw
+13	oerrg	4	wa
+13	oerrg	NULL	NULL
+15	callcenter	-5	nele
+15	callcenter	1	a
+15	callcenter	1	home
+15	callcenter	10	abc
+15	callcenter	11	ger
+15	callcenter	12	djow
+15	callcenter	14	md
+15	callcenter	16	null
+15	callcenter	21	erw
+15	callcenter	4	wa
+15	callcenter	NULL	NULL
+16	null	-5	nele
+16	null	1	a
+16	null	1	home
+16	null	10	abc
+16	null	11	ger
+16	null	12	djow
+16	null	14	md
+16	null	16	null
+16	null	21	erw
+16	null	4	wa
+16	null	NULL	NULL
+2	djow	-5	nele
+2	djow	1	a
+2	djow	1	home
+2	djow	10	abc
+2	djow	11	ger
+2	djow	12	djow
+2	djow	14	md
+2	djow	16	null
+2	djow	21	erw
+2	djow	4	wa
+2	djow	NULL	NULL
+21	erw	-5	nele
+21	erw	1	a
+21	erw	1	home
+21	erw	10	abc
+21	erw	11	ger
+21	erw	12	djow
+21	erw	14	md
+21	erw	16	null
+21	erw	21	erw
+21	erw	4	wa
+21	erw	NULL	NULL
+3	progss	-5	nele
+3	progss	1	a
+3	progss	1	home
+3	progss	10	abc
+3	progss	11	ger
+3	progss	12	djow
+3	progss	14	md
+3	progss	16	null
+3	progss	21	erw
+3	progss	4	wa
+3	progss	NULL	NULL
+NULL	NULL	-5	nele
+NULL	NULL	1	a
+NULL	NULL	1	home
+NULL	NULL	10	abc
+NULL	NULL	11	ger
+NULL	NULL	12	djow
+NULL	NULL	14	md
+NULL	NULL	16	null
+NULL	NULL	21	erw
+NULL	NULL	4	wa
+NULL	NULL	NULL	NULL
+SELECT STRAIGHT_JOIN t1.a,t2.b FROM t1,t2 WHERE t2.b <> 'abc' AND t1.a=t2.a ORDER BY t1.a, t2.b;
+a	b
+1	home
+3	fd
+13	ger
+15	callcenter
+16	oerrg
+DROP TABLE t1,t2,t3;
+CREATE TABLE t1(a INT, b BLOB);
+CREATE TABLE t2(a BIGINT);
+INSERT INTO t1 VALUES (2,'home'),(16,'progss'),(9,'ger'),(7,'djow'),(1,'oerrg'),(-3,'erw'),(-1,'abc'),(11,'callcenter'),(14,'null'),(6,'nele'),(NULL,NULL);
+INSERT INTO t2 VALUES (7),(2),(1),(-1),(10),(15),(13),(6),(8),(11),(4);
+UPDATE t1 SET b= (SELECT b FROM t2 WHERE t1.a = t2.a);
+SELECT * FROM t1;
+a	b
+-1	abc
+-3	NULL
+1	oerrg
+11	callcenter
+14	NULL
+16	NULL
+2	home
+6	nele
+7	djow
+9	NULL
+NULL	NULL
+UPDATE t1 SET b=NULL WHERE b NOT LIKE 'n';
+SELECT * FROM t1;
+a	b
+-1	NULL
+-3	NULL
+1	NULL
+11	NULL
+14	NULL
+16	NULL
+2	NULL
+6	NULL
+7	NULL
+9	NULL
+NULL	NULL
+UPDATE t1,t2 SET t1.b='UPDATEb2' WHERE t1.a IN (SELECT a FROM t2);
+SELECT * FROM t1;
+a	b
+-1	UPDATEb2
+-3	NULL
+1	UPDATEb2
+11	UPDATEb2
+14	NULL
+16	NULL
+2	UPDATEb2
+6	UPDATEb2
+7	UPDATEb2
+9	NULL
+NULL	NULL
+UPDATE t1 SET b = b + '123' WHERE 1 = (SELECT t1.a AS a1 FROM t2 WHERE t2.a > t1.a ORDER BY a LIMIT 1);
+SELECT * FROM t1;
+a	b
+-1	UPDATEb2
+-3	NULL
+1	123
+11	UPDATEb2
+14	NULL
+16	NULL
+2	UPDATEb2
+6	UPDATEb2
+7	UPDATEb2
+9	NULL
+NULL	NULL
+UPDATE t1 JOIN t2 ON t1.a=t2.a SET b = b + '456' WHERE t1.a > 1;
+SELECT * FROM t1;
+a	b
+-1	UPDATEb2
+-3	NULL
+1	123
+11	456
+14	NULL
+16	NULL
+2	456
+6	456
+7	456
+9	NULL
+NULL	NULL
+DELETE FROM t1 WHERE b = (SELECT b FROM t2 WHERE t1.a = t2.a);
+SELECT * FROM t1;
+a	b
+-3	NULL
+14	NULL
+16	NULL
+9	NULL
+NULL	NULL
+DELETE FROM t1 WHERE b IS NULL AND (SELECT a FROM t2 WHERE a > 2 ORDER BY a LIMIT 1) > 1;
+SELECT * FROM t1;
+a	b
+INSERT INTO t1 VALUES (2,'home'),(14,'null'),(6,'nele'),(NULL,NULL);
+SELECT * FROM t1;
+a	b
+14	null
+2	home
+6	nele
+NULL	NULL
+DELETE t1 FROM (SELECT SUM(a) a FROM t1) x,t1;
+SELECT * FROM t1;
+a	b
+CREATE INDEX a ON t1(a);
+CREATE INDEX a ON t2(a);
+INSERT INTO t1 VALUES (2,'home'),(16,'progss'),(9,'ger'),(7,'djow'),(1,'oerrg'),(-3,'erw'),(-1,'abc'),(11,'callcenter'),(14,'null'),(6,'nele'),(NULL,NULL);
+UPDATE t1 SET b= (SELECT b FROM t2 WHERE t1.a = t2.a);
+SELECT * FROM t1;
+a	b
+-1	abc
+-3	NULL
+1	oerrg
+11	callcenter
+14	NULL
+16	NULL
+2	home
+6	nele
+7	djow
+9	NULL
+NULL	NULL
+UPDATE t1 SET b=NULL WHERE b NOT LIKE 'n';
+SELECT * FROM t1;
+a	b
+-1	NULL
+-3	NULL
+1	NULL
+11	NULL
+14	NULL
+16	NULL
+2	NULL
+6	NULL
+7	NULL
+9	NULL
+NULL	NULL
+UPDATE t1,t2 SET t1.b='UPDATEb2' WHERE t1.a IN (SELECT a FROM t2);
+SELECT * FROM t1;
+a	b
+-1	UPDATEb2
+-3	NULL
+1	UPDATEb2
+11	UPDATEb2
+14	NULL
+16	NULL
+2	UPDATEb2
+6	UPDATEb2
+7	UPDATEb2
+9	NULL
+NULL	NULL
+UPDATE t1 SET b = b + '123' WHERE 1 = (SELECT t1.a AS a1 FROM t2 WHERE t2.a > t1.a ORDER BY a LIMIT 1);
+SELECT * FROM t1;
+a	b
+-1	UPDATEb2
+-3	NULL
+1	123
+11	UPDATEb2
+14	NULL
+16	NULL
+2	UPDATEb2
+6	UPDATEb2
+7	UPDATEb2
+9	NULL
+NULL	NULL
+UPDATE t1 JOIN t2 ON t1.a=t2.a SET b = b + '456' WHERE t1.a > 1;
+SELECT * FROM t1;
+a	b
+-1	UPDATEb2
+-3	NULL
+1	123
+11	456
+14	NULL
+16	NULL
+2	456
+6	456
+7	456
+9	NULL
+NULL	NULL
+DELETE FROM t1 WHERE b = (SELECT b FROM t2 WHERE t1.a = t2.a);
+SELECT * FROM t1;
+a	b
+-3	NULL
+14	NULL
+16	NULL
+9	NULL
+NULL	NULL
+DELETE FROM t1 WHERE b IS NULL AND (SELECT a FROM t2 WHERE a > 2 ORDER BY a LIMIT 1) > 1;
+SELECT * FROM t1;
+a	b
+INSERT INTO t1 VALUES (2,'home'),(14,'null'),(6,'nele'),(NULL,NULL);
+SELECT * FROM t1;
+a	b
+14	null
+2	home
+6	nele
+NULL	NULL
+DELETE t1 FROM (SELECT SUM(a) a FROM t1) x,t1;
+SELECT * FROM t1;
+a	b
+DROP TABLE t1,t2;
