@@ -34,6 +34,9 @@ insert into t1 values ('a'), ('a\\b');
 select * from t1 where a like 'a\\%' escape '#';
 a
 a\b
+select * from t1 where a like 'a\\%' escape '#' and a like 'a\\\\b';
+a
+a\b
 prepare stmt1 from 'select * from t1 where a like \'a\\%\' escape ?';
 set @esc='#';
 execute stmt1 using @esc;
