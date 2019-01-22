@@ -1,6 +1,7 @@
 #check optimizational query with like to sequoiadb
 #Case 17270#Case 17271#Case 17272#Case 17282#Case 17283#Case 17284#Case 17285
 #Case 17273#Case 17274#Case 17275#Case 17286#Case 17287#Case 17288#Case 17289
+#Case 17387#Case 17388#Case 17389#Case 17390
 --source include/have_sequoiadb.inc
 
 --disable_warnings
