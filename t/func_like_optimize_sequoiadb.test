@@ -769,8 +769,8 @@ SELECT * FROM t1 WHERE d LIKE "\12";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "\u1";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE b LIKE "%^a_c%";
+--sorted_result
+SELECT * FROM t1 WHERE b LIKE "%^a_c%";
 --sorted_result
 SELECT * FROM t1 WHERE c LIKE "a\\\%";
 --sorted_result
@@ -897,8 +897,8 @@ SELECT * FROM t1 WHERE d LIKE "\12";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "\u1";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE b LIKE "%^a_c%";
+--sorted_result
+SELECT * FROM t1 WHERE b LIKE "%^a_c%";
 --sorted_result
 SELECT * FROM t1 WHERE c LIKE "a\\\%";
 --sorted_result
@@ -1025,8 +1025,8 @@ SELECT * FROM t1 WHERE b LIKE "\12";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "\u1";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE b LIKE "%^a_c%";
+--sorted_result
+SELECT * FROM t1 WHERE b LIKE "%^a_c%";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "a\\\%";
 --sorted_result
@@ -1151,8 +1151,8 @@ SELECT * FROM t1 WHERE b LIKE "\12";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "\u1";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE b LIKE "%^a_c%";
+--sorted_result
+SELECT * FROM t1 WHERE b LIKE "%^a_c%";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "a\\\%";
 --sorted_result
@@ -1238,7 +1238,7 @@ SELECT * FROM t1 WHERE a LIKE "\1" ORDER BY a;
 SELECT * FROM t1 WHERE b LIKE "\12" ORDER BY b;
 SELECT * FROM t1 WHERE a LIKE "\u1" ORDER BY a;
 # SEQUOIASQLMAINSTREAM-223
-#SELECT * FROM t1 WHERE b LIKE "%^a_c%" ORDER BY b;
+SELECT * FROM t1 WHERE b LIKE "%^a_c%" ORDER BY b;
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ORDER BY a;
 SELECT * FROM t1 WHERE b LIKE "a_$_" ORDER BY b;
 SELECT * FROM t1 WHERE a LIKE "a_*%" ORDER BY a;
@@ -1346,8 +1346,8 @@ SELECT * FROM t1 WHERE d LIKE "\12";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "\u1";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE b LIKE "%^a_c%";
+--sorted_result
+SELECT * FROM t1 WHERE b LIKE "%^a_c%";
 --sorted_result
 SELECT * FROM t1 WHERE c LIKE "a\\\%";
 --sorted_result
@@ -1458,8 +1458,8 @@ SELECT * FROM t1 WHERE b LIKE "\x12" ESCAPE "\x";
 --sorted_result
 SELECT * FROM t1 WHERE c LIKE "\u1" ESCAPE "\u";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE d LIKE "%^a_c%" ESCAPE "^";
+--sorted_result
+SELECT * FROM t1 WHERE d LIKE "%^a_c%" ESCAPE "^";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ESCAPE "\\";
 --sorted_result
@@ -1473,8 +1473,8 @@ SELECT * FROM t1 WHERE c LIKE "%+bc_" ESCAPE "+";
 --sorted_result
 SELECT * FROM t1 WHERE c LIKE "ab+%" ESCAPE "0";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE d LIKE "a_?cd%" ESCAPE "?";
+--sorted_result
+SELECT * FROM t1 WHERE d LIKE "a_?cd%" ESCAPE "?";
 --sorted_result
 SELECT * FROM t1 WHERE d LIKE "a_?cd%" ESCAPE "0";
 --sorted_result
@@ -1554,8 +1554,8 @@ SELECT * FROM t1 WHERE b LIKE "\x12" ESCAPE "\x";
 --sorted_result
 SELECT * FROM t1 WHERE c LIKE "\u1" ESCAPE "\u";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE d LIKE "%^a_c%" ESCAPE "^";
+--sorted_result
+SELECT * FROM t1 WHERE d LIKE "%^a_c%" ESCAPE "^";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ESCAPE "\\";
 --sorted_result
@@ -1569,8 +1569,8 @@ SELECT * FROM t1 WHERE c LIKE "%+bc_" ESCAPE "+";
 --sorted_result
 SELECT * FROM t1 WHERE c LIKE "ab+%" ESCAPE "0";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE d LIKE "a_?cd%" ESCAPE "?";
+--sorted_result
+SELECT * FROM t1 WHERE d LIKE "a_?cd%" ESCAPE "?";
 --sorted_result
 SELECT * FROM t1 WHERE d LIKE "a_?cd%" ESCAPE "0";
 --sorted_result
@@ -1649,8 +1649,8 @@ SELECT * FROM t1 WHERE a LIKE "\x12" ESCAPE "\x";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "\u1" ESCAPE "\u";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE a LIKE "%^a_c%" ESCAPE "^";
+--sorted_result
+SELECT * FROM t1 WHERE a LIKE "%^a_c%" ESCAPE "^";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ESCAPE "\\";
 --sorted_result
@@ -1664,8 +1664,8 @@ SELECT * FROM t1 WHERE a LIKE "%+bc_" ESCAPE "+";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "ab+%" ESCAPE "0";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE a LIKE "a_?cd%" ESCAPE "?";
+--sorted_result
+SELECT * FROM t1 WHERE a LIKE "a_?cd%" ESCAPE "?";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "a_?cd%" ESCAPE "0";
 --sorted_result
@@ -1739,8 +1739,8 @@ SELECT * FROM t1 WHERE b LIKE "\x12" ESCAPE "\x";
 --sorted_result
 SELECT * FROM t1 WHERE b LIKE "\u1" ESCAPE "\u";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE b LIKE "%^a_c%" ESCAPE "^";
+--sorted_result
+SELECT * FROM t1 WHERE b LIKE "%^a_c%" ESCAPE "^";
 --sorted_result
 SELECT * FROM t1 WHERE b LIKE "a\\\%" ESCAPE "\\";
 --sorted_result
@@ -1748,8 +1748,8 @@ SELECT * FROM t1 WHERE b LIKE "a_$1" ESCAPE "$";
 --sorted_result
 SELECT * FROM t1 WHERE b LIKE "%+bc_" ESCAPE "+";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE b LIKE "a_?cd%" ESCAPE "?";
+--sorted_result
+SELECT * FROM t1 WHERE b LIKE "a_?cd%" ESCAPE "?";
 --sorted_result
 SELECT * FROM t1 WHERE b LIKE "a_{1,%" ESCAPE "{";
 --sorted_result
@@ -1820,8 +1820,8 @@ SELECT * FROM t1 WHERE a LIKE "\x12" ESCAPE "\x";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "\u1" ESCAPE "\u";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE a LIKE "%^a_c%" ESCAPE "^";
+--sorted_result
+SELECT * FROM t1 WHERE a LIKE "%^a_c%" ESCAPE "^";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ESCAPE "\\";
 --sorted_result
@@ -1835,8 +1835,8 @@ SELECT * FROM t1 WHERE a LIKE "%+bc_" ESCAPE "+";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "ab+%" ESCAPE "0"; 
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE a LIKE "a_?cd%" ESCAPE "?"; 
+--sorted_result
+SELECT * FROM t1 WHERE a LIKE "a_?cd%" ESCAPE "?"; 
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "a_?cd%" ESCAPE "0"; 
 --sorted_result
@@ -1910,8 +1910,8 @@ SELECT * FROM t1 WHERE b LIKE "\x12" ESCAPE "\x";
 --sorted_result
 SELECT * FROM t1 WHERE b LIKE "\u1" ESCAPE "\u";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE b LIKE "%^a_c%" ESCAPE "^";
+--sorted_result
+SELECT * FROM t1 WHERE b LIKE "%^a_c%" ESCAPE "^";
 --sorted_result
 SELECT * FROM t1 WHERE b LIKE "a\\\%" ESCAPE "\\";
 --sorted_result
@@ -1919,8 +1919,8 @@ SELECT * FROM t1 WHERE b LIKE "a_$1" ESCAPE "$";
 --sorted_result
 SELECT * FROM t1 WHERE b LIKE "%+bc_" ESCAPE "+";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE b LIKE "a_?cd%" ESCAPE "?";
+--sorted_result
+SELECT * FROM t1 WHERE b LIKE "a_?cd%" ESCAPE "?";
 --sorted_result
 SELECT * FROM t1 WHERE b LIKE "a_{1,%" ESCAPE "{";
 --sorted_result
@@ -1962,7 +1962,7 @@ SELECT * FROM t1 WHERE a LIKE "\wa" ESCAPE "\w" ORDER BY a;
 SELECT * FROM t1 WHERE a LIKE "\x12" ESCAPE "\x" ORDER BY a;
 SELECT * FROM t1 WHERE a LIKE "\u1" ESCAPE "\u" ORDER BY a;
 # SEQUOIASQLMAINSTREAM-223
-#SELECT * FROM t1 WHERE a LIKE "%^a_c%" ESCAPE "^" ORDER BY a;
+SELECT * FROM t1 WHERE a LIKE "%^a_c%" ESCAPE "^" ORDER BY a;
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ESCAPE "\\" ORDER BY a;
 SELECT * FROM t1 WHERE a LIKE "a\\%" ESCAPE "0" ORDER BY a; 
 SELECT * FROM t1 WHERE a LIKE "a_$1" ESCAPE "$" ORDER BY a; 
@@ -2007,7 +2007,7 @@ SELECT * FROM t1 WHERE b LIKE "\wa" ESCAPE "\w" ORDER BY b;
 SELECT * FROM t1 WHERE b LIKE "\x12" ESCAPE "\x" ORDER BY b;
 SELECT * FROM t1 WHERE b LIKE "\u1" ESCAPE "\u" ORDER BY b;
 # SEQUOIASQLMAINSTREAM-223
-#SELECT * FROM t1 WHERE b LIKE "%^a_c%" ESCAPE "^" ORDER BY b;
+SELECT * FROM t1 WHERE b LIKE "%^a_c%" ESCAPE "^" ORDER BY b;
 SELECT * FROM t1 WHERE b LIKE "a\\\%" ESCAPE "\\" ORDER BY b;
 SELECT * FROM t1 WHERE b LIKE "a_$1" ESCAPE "$" ORDER BY b;
 SELECT * FROM t1 WHERE b LIKE "%+bc_" ESCAPE "+" ORDER BY b;
@@ -2082,8 +2082,8 @@ SELECT * FROM t1 WHERE b LIKE "\x12" ESCAPE "\x";
 --sorted_result
 SELECT * FROM t1 WHERE c LIKE "\u1" ESCAPE "\u";
 # SEQUOIASQLMAINSTREAM-223
-#--sorted_result
-#SELECT * FROM t1 WHERE d LIKE "%^a_c%" ESCAPE "^";
+--sorted_result
+SELECT * FROM t1 WHERE d LIKE "%^a_c%" ESCAPE "^";
 --sorted_result
 SELECT * FROM t1 WHERE a LIKE "a\\%" ESCAPE "0";
 --sorted_result
