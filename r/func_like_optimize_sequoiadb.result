@@ -1473,6 +1473,9 @@ a	b	c	d
 SELECT * FROM t1 WHERE a LIKE "\u1";
 a	b	c	d
 u1	u1	u1	u1
+SELECT * FROM t1 WHERE b LIKE "%^a_c%";
+a	b	c	d
+^abc	^abc	^abc	^abc
 SELECT * FROM t1 WHERE c LIKE "a\\\%";
 a	b	c	d
 a\bc	a\bc	a\bc	a\bc
@@ -1688,6 +1691,9 @@ a	b	c	d
 SELECT * FROM t1 WHERE a LIKE "\u1";
 a	b	c	d
 u1	u1	u1	u1
+SELECT * FROM t1 WHERE b LIKE "%^a_c%";
+a	b	c	d
+^abc	^abc	^abc	^abc
 SELECT * FROM t1 WHERE c LIKE "a\\\%";
 a	b	c	d
 a\bc	a\bc	a\bc	a\bc
@@ -1900,6 +1906,9 @@ a	b
 SELECT * FROM t1 WHERE a LIKE "\u1";
 a	b
 u1	u1
+SELECT * FROM t1 WHERE b LIKE "%^a_c%";
+a	b
+^abc	^abc
 SELECT * FROM t1 WHERE a LIKE "a\\\%";
 a	b
 a\bc	a\bc
@@ -2109,6 +2118,9 @@ a	b
 SELECT * FROM t1 WHERE a LIKE "\u1";
 a	b
 u1	u1
+SELECT * FROM t1 WHERE b LIKE "%^a_c%";
+a	b
+^abc	^abc
 SELECT * FROM t1 WHERE a LIKE "a\\\%";
 a	b
 a\bc	a\bc
@@ -2296,6 +2308,9 @@ a	b
 12                              	12
 SELECT * FROM t1 WHERE a LIKE "\u1" ORDER BY a;
 a	b
+SELECT * FROM t1 WHERE b LIKE "%^a_c%" ORDER BY b;
+a	b
+^abc                            	^abc
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ORDER BY a;
 a	b
 a\bc                            	a\bc
@@ -2502,6 +2517,9 @@ a	b	c	d
 SELECT * FROM t1 WHERE a LIKE "\u1";
 a	b	c	d
 u1	u1	u1	u1
+SELECT * FROM t1 WHERE b LIKE "%^a_c%";
+a	b	c	d
+^abc	^abc	^abc	^abc
 SELECT * FROM t1 WHERE c LIKE "a\\\%";
 a	b	c	d
 a\bc	a\bc	a\bc	a\bc
@@ -2695,6 +2713,51 @@ SELECT * FROM t1 WHERE c LIKE "\u1" ESCAPE "\u";
 a	b	c	d
 1	1	1	1
 1	1	1	1
+SELECT * FROM t1 WHERE d LIKE "%^a_c%" ESCAPE "^";
+a	b	c	d
+
+	abc		abc		abc		abc
+abc	abc	abc	abc
+$abc	$abc	$abc	$abc
+*abc	*abc	*abc	*abc
++abc	+abc	+abc	+abc
+.abc	.abc	.abc	.abc
+1abc	1abc	1abc	1abc
+?abc	?abc	?abc	?abc
+Dabc	Dabc	Dabc	Dabc
+Sabc	Sabc	Sabc	Sabc
+W1abc	W1abc	W1abc	W1abc
+\abc	\abc	\abc	\abc
+]e
+]e	abcd[.
+]e	abcd[.
+]e	abcd[.
+^abc	^abc	^abc	^abc
+abc
+abc	
+abc	
+abc	
+abc	abc	abc	abc
+abc	abc	abc	abc
+abc(.)123	abc(.)123	abc(.)123	abc(.)123
+abc(?!d|e|f)	abc(?!d|e|f)	abc(?!d|e|f)	abc(?!d|e|f)
+abc(de)f	abc(de)f	abc(de)f	abc(de)f
+abc1	abc1	abc1	abc1
+abc123	abc123	abc123	abc123
+abc456	abc456	abc456	abc456
+abc456	abc456	abc456	abc456
+abcBdef	abcBdef	abcBdef	abcBdef
+abc[edf]	abc[edf]	abc[edf]	abc[edf]
+abcd	abcd	abcd	abcd
+abcd1	abcd1	abcd1	abcd1
+abcd[.
+abcde	abcde	abcde	abcde
+abcde1	abcde1	abcde1	abcde1
+abcdef	abcdef	abcdef	abcdef
+fabcd	fabcd	fabcd	fabcd
+sabc	sabc	sabc	sabc
+vabc	vabc	vabc	vabc
+wabc	wabc	wabc	wabc
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ESCAPE "\\";
 a	b	c	d
 a\bc	a\bc	a\bc	a\bc
@@ -2721,6 +2784,18 @@ SELECT * FROM t1 WHERE c LIKE "ab+%" ESCAPE "0";
 a	b	c	d
 ab+c	ab+c	ab+c	ab+c
 ab+cde	ab+cde	ab+cde	ab+cde
+SELECT * FROM t1 WHERE d LIKE "a_?cd%" ESCAPE "?";
+a	b	c	d
+]e
+]e	abcd[.
+]e	abcd[.
+]e	abcd[.
+abcd	abcd	abcd	abcd
+abcd1	abcd1	abcd1	abcd1
+abcd[.
+abcde	abcde	abcde	abcde
+abcde1	abcde1	abcde1	abcde1
+abcdef	abcdef	abcdef	abcdef
 SELECT * FROM t1 WHERE d LIKE "a_?cd%" ESCAPE "0";
 a	b	c	d
 ab?cde	ab?cde	ab?cde	ab?cde
@@ -2851,6 +2926,51 @@ SELECT * FROM t1 WHERE c LIKE "\u1" ESCAPE "\u";
 a	b	c	d
 1	1	1	1
 1	1	1	1
+SELECT * FROM t1 WHERE d LIKE "%^a_c%" ESCAPE "^";
+a	b	c	d
+
+	abc		abc		abc		abc
+abc	abc	abc	abc
+$abc	$abc	$abc	$abc
+*abc	*abc	*abc	*abc
++abc	+abc	+abc	+abc
+.abc	.abc	.abc	.abc
+1abc	1abc	1abc	1abc
+?abc	?abc	?abc	?abc
+Dabc	Dabc	Dabc	Dabc
+Sabc	Sabc	Sabc	Sabc
+W1abc	W1abc	W1abc	W1abc
+\abc	\abc	\abc	\abc
+]e
+]e	abcd[.
+]e	abcd[.
+]e	abcd[.
+^abc	^abc	^abc	^abc
+abc
+abc	
+abc	
+abc	
+abc	abc	abc	abc
+abc	abc	abc	abc
+abc(.)123	abc(.)123	abc(.)123	abc(.)123
+abc(?!d|e|f)	abc(?!d|e|f)	abc(?!d|e|f)	abc(?!d|e|f)
+abc(de)f	abc(de)f	abc(de)f	abc(de)f
+abc1	abc1	abc1	abc1
+abc123	abc123	abc123	abc123
+abc456	abc456	abc456	abc456
+abc456	abc456	abc456	abc456
+abcBdef	abcBdef	abcBdef	abcBdef
+abc[edf]	abc[edf]	abc[edf]	abc[edf]
+abcd	abcd	abcd	abcd
+abcd1	abcd1	abcd1	abcd1
+abcd[.
+abcde	abcde	abcde	abcde
+abcde1	abcde1	abcde1	abcde1
+abcdef	abcdef	abcdef	abcdef
+fabcd	fabcd	fabcd	fabcd
+sabc	sabc	sabc	sabc
+vabc	vabc	vabc	vabc
+wabc	wabc	wabc	wabc
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ESCAPE "\\";
 a	b	c	d
 a\bc	a\bc	a\bc	a\bc
@@ -2877,6 +2997,18 @@ SELECT * FROM t1 WHERE c LIKE "ab+%" ESCAPE "0";
 a	b	c	d
 ab+c	ab+c	ab+c	ab+c
 ab+cde	ab+cde	ab+cde	ab+cde
+SELECT * FROM t1 WHERE d LIKE "a_?cd%" ESCAPE "?";
+a	b	c	d
+]e
+]e	abcd[.
+]e	abcd[.
+]e	abcd[.
+abcd	abcd	abcd	abcd
+abcd1	abcd1	abcd1	abcd1
+abcd[.
+abcde	abcde	abcde	abcde
+abcde1	abcde1	abcde1	abcde1
+abcdef	abcdef	abcdef	abcdef
 SELECT * FROM t1 WHERE d LIKE "a_?cd%" ESCAPE "0";
 a	b	c	d
 ab?cde	ab?cde	ab?cde	ab?cde
@@ -3006,6 +3138,47 @@ SELECT * FROM t1 WHERE a LIKE "\u1" ESCAPE "\u";
 a	b
 1	1
 1	1
+SELECT * FROM t1 WHERE a LIKE "%^a_c%" ESCAPE "^";
+a	b
+
+	abc		abc
+abc	abc
+$abc	$abc
+*abc	*abc
++abc	+abc
+.abc	.abc
+1abc	1abc
+?abc	?abc
+Dabc	Dabc
+Sabc	Sabc
+W1abc	W1abc
+\abc	\abc
+]e
+]e	abcd[.
+^abc	^abc
+abc
+abc	
+abc	abc
+abc	abc
+abc(.)123	abc(.)123
+abc(?!d|e|f)	abc(?!d|e|f)
+abc(de)f	abc(de)f
+abc1	abc1
+abc123	abc123
+abc456	abc456
+abc456	abc456
+abcBdef	abcBdef
+abc[edf]	abc[edf]
+abcd	abcd
+abcd1	abcd1
+abcd[.
+abcde	abcde
+abcde1	abcde1
+abcdef	abcdef
+fabcd	fabcd
+sabc	sabc
+vabc	vabc
+wabc	wabc
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ESCAPE "\\";
 a	b
 a\bc	a\bc
@@ -3032,6 +3205,16 @@ SELECT * FROM t1 WHERE a LIKE "ab+%" ESCAPE "0";
 a	b
 ab+c	ab+c
 ab+cde	ab+cde
+SELECT * FROM t1 WHERE a LIKE "a_?cd%" ESCAPE "?";
+a	b
+]e
+]e	abcd[.
+abcd	abcd
+abcd1	abcd1
+abcd[.
+abcde	abcde
+abcde1	abcde1
+abcdef	abcdef
 SELECT * FROM t1 WHERE a LIKE "a_?cd%" ESCAPE "0";
 a	b
 ab?cde	ab?cde
@@ -3158,6 +3341,47 @@ SELECT * FROM t1 WHERE b LIKE "\u1" ESCAPE "\u";
 a	b
 1	1
 1	1
+SELECT * FROM t1 WHERE b LIKE "%^a_c%" ESCAPE "^";
+a	b
+
+	abc		abc
+abc	abc
+$abc	$abc
+*abc	*abc
++abc	+abc
+.abc	.abc
+1abc	1abc
+?abc	?abc
+Dabc	Dabc
+Sabc	Sabc
+W1abc	W1abc
+\abc	\abc
+]e
+]e	abcd[.
+^abc	^abc
+abc
+abc	
+abc	abc
+abc	abc
+abc(.)123	abc(.)123
+abc(?!d|e|f)	abc(?!d|e|f)
+abc(de)f	abc(de)f
+abc1	abc1
+abc123	abc123
+abc456	abc456
+abc456	abc456
+abcBdef	abcBdef
+abc[edf]	abc[edf]
+abcd	abcd
+abcd1	abcd1
+abcd[.
+abcde	abcde
+abcde1	abcde1
+abcdef	abcdef
+fabcd	fabcd
+sabc	sabc
+vabc	vabc
+wabc	wabc
 SELECT * FROM t1 WHERE b LIKE "a\\\%" ESCAPE "\\";
 a	b
 a\bc	a\bc
@@ -3171,6 +3395,16 @@ a[bc]	a[bc]
 abc1	abc1
 abcd	abcd
 fabcd	fabcd
+SELECT * FROM t1 WHERE b LIKE "a_?cd%" ESCAPE "?";
+a	b
+]e
+]e	abcd[.
+abcd	abcd
+abcd1	abcd1
+abcd[.
+abcde	abcde
+abcde1	abcde1
+abcdef	abcdef
 SELECT * FROM t1 WHERE b LIKE "a_{1,%" ESCAPE "{";
 a	b
 a{1,2}bd	a{1,2}bd
@@ -3290,6 +3524,47 @@ SELECT * FROM t1 WHERE a LIKE "\u1" ESCAPE "\u";
 a	b
 1	1
 1	1
+SELECT * FROM t1 WHERE a LIKE "%^a_c%" ESCAPE "^";
+a	b
+
+	abc		abc
+abc	abc
+$abc	$abc
+*abc	*abc
++abc	+abc
+.abc	.abc
+1abc	1abc
+?abc	?abc
+Dabc	Dabc
+Sabc	Sabc
+W1abc	W1abc
+\abc	\abc
+]e
+]e	abcd[.
+^abc	^abc
+abc
+abc	
+abc	abc
+abc	abc
+abc(.)123	abc(.)123
+abc(?!d|e|f)	abc(?!d|e|f)
+abc(de)f	abc(de)f
+abc1	abc1
+abc123	abc123
+abc456	abc456
+abc456	abc456
+abcBdef	abcBdef
+abc[edf]	abc[edf]
+abcd	abcd
+abcd1	abcd1
+abcd[.
+abcde	abcde
+abcde1	abcde1
+abcdef	abcdef
+fabcd	fabcd
+sabc	sabc
+vabc	vabc
+wabc	wabc
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ESCAPE "\\";
 a	b
 a\bc	a\bc
@@ -3316,6 +3591,16 @@ SELECT * FROM t1 WHERE a LIKE "ab+%" ESCAPE "0";
 a	b
 ab+c	ab+c
 ab+cde	ab+cde
+SELECT * FROM t1 WHERE a LIKE "a_?cd%" ESCAPE "?";
+a	b
+]e
+]e	abcd[.
+abcd	abcd
+abcd1	abcd1
+abcd[.
+abcde	abcde
+abcde1	abcde1
+abcdef	abcdef
 SELECT * FROM t1 WHERE a LIKE "a_?cd%" ESCAPE "0";
 a	b
 ab?cde	ab?cde
@@ -3442,6 +3727,47 @@ SELECT * FROM t1 WHERE b LIKE "\u1" ESCAPE "\u";
 a	b
 1	1
 1	1
+SELECT * FROM t1 WHERE b LIKE "%^a_c%" ESCAPE "^";
+a	b
+
+	abc		abc
+abc	abc
+$abc	$abc
+*abc	*abc
++abc	+abc
+.abc	.abc
+1abc	1abc
+?abc	?abc
+Dabc	Dabc
+Sabc	Sabc
+W1abc	W1abc
+\abc	\abc
+]e
+]e	abcd[.
+^abc	^abc
+abc
+abc	
+abc	abc
+abc	abc
+abc(.)123	abc(.)123
+abc(?!d|e|f)	abc(?!d|e|f)
+abc(de)f	abc(de)f
+abc1	abc1
+abc123	abc123
+abc456	abc456
+abc456	abc456
+abcBdef	abcBdef
+abc[edf]	abc[edf]
+abcd	abcd
+abcd1	abcd1
+abcd[.
+abcde	abcde
+abcde1	abcde1
+abcdef	abcdef
+fabcd	fabcd
+sabc	sabc
+vabc	vabc
+wabc	wabc
 SELECT * FROM t1 WHERE b LIKE "a\\\%" ESCAPE "\\";
 a	b
 a\bc	a\bc
@@ -3455,6 +3781,16 @@ a[bc]	a[bc]
 abc1	abc1
 abcd	abcd
 fabcd	fabcd
+SELECT * FROM t1 WHERE b LIKE "a_?cd%" ESCAPE "?";
+a	b
+]e
+]e	abcd[.
+abcd	abcd
+abcd1	abcd1
+abcd[.
+abcde	abcde
+abcde1	abcde1
+abcdef	abcdef
 SELECT * FROM t1 WHERE b LIKE "a_{1,%" ESCAPE "{";
 a	b
 a{1,2}bd	a{1,2}bd
@@ -3528,6 +3864,47 @@ SELECT * FROM t1 WHERE a LIKE "\x12" ESCAPE "\x" ORDER BY a;
 a	b
 SELECT * FROM t1 WHERE a LIKE "\u1" ESCAPE "\u" ORDER BY a;
 a	b
+SELECT * FROM t1 WHERE a LIKE "%^a_c%" ESCAPE "^" ORDER BY a;
+a	b
+	abc                            		abc
+
+abc                            	
+abc
+abc                            	abc
+$abc                            	$abc
+*abc                            	*abc
++abc                            	+abc
+.abc                            	.abc
+1abc                            	1abc
+?abc                            	?abc
+Dabc                            	Dabc
+Sabc                            	Sabc
+W1abc                           	W1abc
+\abc                            	\abc
+^abc                            	^abc
+abc                             	abc
+abc                             	abc
+abc(.)123                       	abc(.)123
+abc(?!d|e|f)                    	abc(?!d|e|f)
+abc(de)f                        	abc(de)f
+abc1                            	abc1
+abc123                          	abc123
+abc456                          	abc456
+abc456                          	abc456
+abcBdef                         	abcBdef
+abc[edf]                        	abc[edf]
+abcd                            	abcd
+abcd1                           	abcd1
+abcd[.
+]e                       	abcd[.
+]e
+abcde                           	abcde
+abcde1                          	abcde1
+abcdef                          	abcdef
+fabcd                           	fabcd
+sabc                            	sabc
+vabc                            	vabc
+wabc                            	wabc
 SELECT * FROM t1 WHERE a LIKE "a\\\%" ESCAPE "\\" ORDER BY a;
 a	b
 a\bc                            	a\bc
@@ -3685,6 +4062,47 @@ SELECT * FROM t1 WHERE b LIKE "\u1" ESCAPE "\u" ORDER BY b;
 a	b
 1                               	1
 1                               	1
+SELECT * FROM t1 WHERE b LIKE "%^a_c%" ESCAPE "^" ORDER BY b;
+a	b
+	abc                            		abc
+
+abc                            	
+abc
+abc                            	abc
+$abc                            	$abc
+*abc                            	*abc
++abc                            	+abc
+.abc                            	.abc
+1abc                            	1abc
+?abc                            	?abc
+Dabc                            	Dabc
+Sabc                            	Sabc
+W1abc                           	W1abc
+\abc                            	\abc
+^abc                            	^abc
+abc                             	abc
+abc                             	abc
+abc(.)123                       	abc(.)123
+abc(?!d|e|f)                    	abc(?!d|e|f)
+abc(de)f                        	abc(de)f
+abc1                            	abc1
+abc123                          	abc123
+abc456                          	abc456
+abc456                          	abc456
+abcBdef                         	abcBdef
+abc[edf]                        	abc[edf]
+abcd                            	abcd
+abcd1                           	abcd1
+abcd[.
+]e                       	abcd[.
+]e
+abcde                           	abcde
+abcde1                          	abcde1
+abcdef                          	abcdef
+fabcd                           	fabcd
+sabc                            	sabc
+vabc                            	vabc
+wabc                            	wabc
 SELECT * FROM t1 WHERE b LIKE "a\\\%" ESCAPE "\\" ORDER BY b;
 a	b
 a\bc                            	a\bc
@@ -3828,6 +4246,51 @@ SELECT * FROM t1 WHERE c LIKE "\u1" ESCAPE "\u";
 a	b	c	d
 1	1	1	1
 1	1	1	1
+SELECT * FROM t1 WHERE d LIKE "%^a_c%" ESCAPE "^";
+a	b	c	d
+
+	abc		abc		abc		abc
+abc	abc	abc	abc
+$abc	$abc	$abc	$abc
+*abc	*abc	*abc	*abc
++abc	+abc	+abc	+abc
+.abc	.abc	.abc	.abc
+1abc	1abc	1abc	1abc
+?abc	?abc	?abc	?abc
+Dabc	Dabc	Dabc	Dabc
+Sabc	Sabc	Sabc	Sabc
+W1abc	W1abc	W1abc	W1abc
+\abc	\abc	\abc	\abc
+]e
+]e	abcd[.
+]e	abcd[.
+]e	abcd[.
+^abc	^abc	^abc	^abc
+abc
+abc	
+abc	
+abc	
+abc	abc	abc	abc
+abc	abc	abc	abc
+abc(.)123	abc(.)123	abc(.)123	abc(.)123
+abc(?!d|e|f)	abc(?!d|e|f)	abc(?!d|e|f)	abc(?!d|e|f)
+abc(de)f	abc(de)f	abc(de)f	abc(de)f
+abc1	abc1	abc1	abc1
+abc123	abc123	abc123	abc123
+abc456	abc456	abc456	abc456
+abc456	abc456	abc456	abc456
+abcBdef	abcBdef	abcBdef	abcBdef
+abc[edf]	abc[edf]	abc[edf]	abc[edf]
+abcd	abcd	abcd	abcd
+abcd1	abcd1	abcd1	abcd1
+abcd[.
+abcde	abcde	abcde	abcde
+abcde1	abcde1	abcde1	abcde1
+abcdef	abcdef	abcdef	abcdef
+fabcd	fabcd	fabcd	fabcd
+sabc	sabc	sabc	sabc
+vabc	vabc	vabc	vabc
+wabc	wabc	wabc	wabc
 SELECT * FROM t1 WHERE a LIKE "a\\%" ESCAPE "0";
 a	b	c	d
 a\bc	a\bc	a\bc	a\bc
