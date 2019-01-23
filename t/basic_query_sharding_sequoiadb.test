@@ -954,217 +954,220 @@ SELECT SUBSTRING(a,1,10), LENGTH(a), GROUP_CONCAT(b) FROM t3 GROUP BY a;
 SET sql_mode = default;
 DROP TABLE t1,t2,t3;
 # Bug #SEQUOIASQLMAINSTREAM-156
-CREATE TABLE t1(a char(16), b text) DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
-INSERT INTO t1 VALUES ("hello", "hello");
-INSERT INTO t1 VALUES ("HELLO", "HELLO");
-INSERT INTO t1 VALUES ("hello ", "hello ");
-INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
-INSERT INTO t1 VALUES (" hello", " hello");
-INSERT INTO t1 VALUES (" HELLO", " HELLO");
-INSERT INTO t1 VALUES (" hello ", " hello ");
-INSERT INTO t1 VALUES (" HELLO ", " HELLO ");
-INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
-INSERT INTO t1 VALUES ("hello ", "hello ");
-INSERT INTO t1 VALUES ("hello", "hello");
-INSERT INTO t1 VALUES ("HELLO", "HELLO");
-INSERT INTO t1 VALUES ("hello1", "hello1");
-INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
-INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
-INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
-INSERT INTO t1 VALUES (" hello1", " hello1");
-INSERT INTO t1 VALUES (" HELLO1", " HELLO1");
-INSERT INTO t1 VALUES (" hello1 ", " hello1 ");
-INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ");
-INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
-INSERT INTO t1 VALUES ("hello1", "hello1");
-INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
-INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a;
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
---sorted_result
-SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
-# CREATE INDEX
-CREATE INDEX a ON t1(a);
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a;
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
---sorted_result
-SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
-DROP TABLE t1;
+# Bug #SEQUOIASQLMAINSTREAM-221
+#CREATE TABLE t1(a char(16), b text) DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+#INSERT INTO t1 VALUES ("hello", "hello");
+#INSERT INTO t1 VALUES ("HELLO", "HELLO");
+#INSERT INTO t1 VALUES ("hello ", "hello ");
+#INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
+#INSERT INTO t1 VALUES (" hello", " hello");
+#INSERT INTO t1 VALUES (" HELLO", " HELLO");
+#INSERT INTO t1 VALUES (" hello ", " hello ");
+#INSERT INTO t1 VALUES (" HELLO ", " HELLO ");
+#INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
+#INSERT INTO t1 VALUES ("hello ", "hello ");
+#INSERT INTO t1 VALUES ("hello", "hello");
+#INSERT INTO t1 VALUES ("HELLO", "HELLO");
+#INSERT INTO t1 VALUES ("hello1", "hello1");
+#INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
+#INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
+#INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
+#INSERT INTO t1 VALUES (" hello1", " hello1");
+#INSERT INTO t1 VALUES (" HELLO1", " HELLO1");
+#INSERT INTO t1 VALUES (" hello1 ", " hello1 ");
+#INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ");
+#INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
+#INSERT INTO t1 VALUES ("hello1", "hello1");
+#INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
+#INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a;
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+#--sorted_result
+#SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
+## CREATE INDEX
+#CREATE INDEX a ON t1(a);
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a;
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+#--sorted_result
+#SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
+#DROP TABLE t1;
 
 # Bug #SEQUOIASQLMAINSTREAM-156
-CREATE TABLE t1(a varchar(16), b set("hello","hello1"," hello", " hello1", " HELLO"," HELLO1","HELLO","HELLO1")) DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
-INSERT INTO t1 VALUES ("hello", "hello");
-INSERT INTO t1 VALUES ("HELLO", "HELLO");
-INSERT INTO t1 VALUES ("hello ", "hello ");
-INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
-INSERT INTO t1 VALUES (" hello", " hello");
-INSERT INTO t1 VALUES (" HELLO", " HELLO");
-INSERT INTO t1 VALUES (" hello ", " hello ");
-INSERT INTO t1 VALUES (" HELLO ", " HELLO ");
-INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
-INSERT INTO t1 VALUES ("hello ", "hello ");
-INSERT INTO t1 VALUES ("hello", "hello");
-INSERT INTO t1 VALUES ("HELLO", "HELLO");
-INSERT INTO t1 VALUES ("hello1", "hello1");
-INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
-INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
-INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
-INSERT INTO t1 VALUES (" hello1", " hello1");
-INSERT INTO t1 VALUES (" HELLO1", " HELLO1");
-INSERT INTO t1 VALUES (" hello1 ", " hello1 ");
-INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ");
-INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
-INSERT INTO t1 VALUES ("hello1", "hello1");
-INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
-INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a;
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
---sorted_result
-SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
-# CREATE INDEX 
-CREATE INDEX a ON t1(a);
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a;
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
---sorted_result
-SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
-DROP TABLE t1;
+# Bug #SEQUOIASQLMAINSTREAM-221
+#CREATE TABLE t1(a varchar(16), b set("hello","hello1"," hello", " hello1", " HELLO"," HELLO1","HELLO","HELLO1")) DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+#INSERT INTO t1 VALUES ("hello", "hello");
+#INSERT INTO t1 VALUES ("HELLO", "HELLO");
+#INSERT INTO t1 VALUES ("hello ", "hello ");
+#INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
+#INSERT INTO t1 VALUES (" hello", " hello");
+#INSERT INTO t1 VALUES (" HELLO", " HELLO");
+#INSERT INTO t1 VALUES (" hello ", " hello ");
+#INSERT INTO t1 VALUES (" HELLO ", " HELLO ");
+#INSERT INTO t1 VALUES ("HELLO ", "HELLO ");
+#INSERT INTO t1 VALUES ("hello ", "hello ");
+#INSERT INTO t1 VALUES ("hello", "hello");
+#INSERT INTO t1 VALUES ("HELLO", "HELLO");
+#INSERT INTO t1 VALUES ("hello1", "hello1");
+#INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
+#INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
+#INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
+#INSERT INTO t1 VALUES (" hello1", " hello1");
+#INSERT INTO t1 VALUES (" HELLO1", " HELLO1");
+#INSERT INTO t1 VALUES (" hello1 ", " hello1 ");
+#INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ");
+#INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ");
+#INSERT INTO t1 VALUES ("hello1", "hello1");
+#INSERT INTO t1 VALUES ("hello1 ", "hello1 ");
+#INSERT INTO t1 VALUES ("HELLO1", "HELLO1");
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a;
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+#--sorted_result
+#SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
+## CREATE INDEX 
+#CREATE INDEX a ON t1(a);
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a;
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "HELLO1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " hello1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+#--sorted_result
+#SELECT a, b, COUNT(*) FROM t1 GROUP BY a,b HAVING a = b;
+#DROP TABLE t1;
 
 # Bug #SEQUOIASQLMAINSTREAM-156
-CREATE TABLE t1(a tinytext, b mediumtext, c text, d longtext) DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
-INSERT INTO t1 VALUES ("hello", "hello", "hello", "hello");
-INSERT INTO t1 VALUES ("HELLO", "HELLO", "HELLO", "HELLO");
-INSERT INTO t1 VALUES ("hello ", "hello ", "hello ", "hello ");
-INSERT INTO t1 VALUES ("HELLO ", "HELLO ", "HELLO ", "HELLO ");
-INSERT INTO t1 VALUES (" hello", " hello", " hello", " hello");
-INSERT INTO t1 VALUES (" HELLO", " HELLO", " HELLO", " HELLO");
-INSERT INTO t1 VALUES (" hello ", " hello ", " hello ", " hello ");
-INSERT INTO t1 VALUES (" HELLO ", " HELLO ", " HELLO ", " HELLO ");
-INSERT INTO t1 VALUES ("HELLO ", "HELLO ", "HELLO ", "HELLO ");
-INSERT INTO t1 VALUES ("hello ", "hello ", "hello ", "hello ");
-INSERT INTO t1 VALUES ("hello", "hello", "hello", "hello");
-INSERT INTO t1 VALUES ("HELLO", "HELLO", "HELLO", "HELLO");
-INSERT INTO t1 VALUES ("hello1", "hello1", "hello1", "hello1");
-INSERT INTO t1 VALUES ("HELLO1", "HELLO1", "HELLO1", "HELLO1");
-INSERT INTO t1 VALUES ("hello1 ", "hello1 ", "hello1 ", "hello1 ");
-INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ");
-INSERT INTO t1 VALUES (" hello1", " hello1", " hello1", " hello1");
-INSERT INTO t1 VALUES (" HELLO1", " HELLO1", " HELLO1", " HELLO1");
-INSERT INTO t1 VALUES (" hello1 ", " hello1 ", " hello1 ", " hello1 ");
-INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ", " HELLO1 ", " HELLO1 ");
-INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ");
-INSERT INTO t1 VALUES ("hello1", "hello1", "hello1", "hello1");
-INSERT INTO t1 VALUES ("hello1 ", "hello1 ", "hello1 ", "hello1 ");
-INSERT INTO t1 VALUES ("HELLO1", "HELLO1", "HELLO1", "HELLO1");
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a;
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
---sorted_result
-SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = "HELLO";
---sorted_result
-SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = "hello1 ";
---sorted_result
-SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = "HELLO1 ";
---sorted_result
-SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = " hello";
---sorted_result
-SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = " HELLO";
---sorted_result
-SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = " hello1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
---sorted_result
-SELECT c, d, COUNT(*) FROM t1 GROUP BY c, d HAVING c = d;
-# CREATE INDEX 
-CREATE INDEX a ON t1(a(16));
-CREATE INDEX b ON t1(b(16));
-CREATE INDEX c ON t1(c(16));
-CREATE INDEX d ON t1(d(16));
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a;
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
---sorted_result
-SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = "HELLO";
---sorted_result
-SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = "hello1 ";
---sorted_result
-SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = "HELLO1 ";
---sorted_result
-SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = " hello";
---sorted_result
-SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = " HELLO";
---sorted_result
-SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = " hello1 ";
---sorted_result
-SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
---sorted_result
-SELECT c, d, COUNT(*) FROM t1 GROUP BY c,d HAVING c = d;
-DROP TABLE t1;
+# Bug #SEQUOIASQLMAINSTREAM-221
+#CREATE TABLE t1(a tinytext, b mediumtext, c text, d longtext) DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+#INSERT INTO t1 VALUES ("hello", "hello", "hello", "hello");
+#INSERT INTO t1 VALUES ("HELLO", "HELLO", "HELLO", "HELLO");
+#INSERT INTO t1 VALUES ("hello ", "hello ", "hello ", "hello ");
+#INSERT INTO t1 VALUES ("HELLO ", "HELLO ", "HELLO ", "HELLO ");
+#INSERT INTO t1 VALUES (" hello", " hello", " hello", " hello");
+#INSERT INTO t1 VALUES (" HELLO", " HELLO", " HELLO", " HELLO");
+#INSERT INTO t1 VALUES (" hello ", " hello ", " hello ", " hello ");
+#INSERT INTO t1 VALUES (" HELLO ", " HELLO ", " HELLO ", " HELLO ");
+#INSERT INTO t1 VALUES ("HELLO ", "HELLO ", "HELLO ", "HELLO ");
+#INSERT INTO t1 VALUES ("hello ", "hello ", "hello ", "hello ");
+#INSERT INTO t1 VALUES ("hello", "hello", "hello", "hello");
+#INSERT INTO t1 VALUES ("HELLO", "HELLO", "HELLO", "HELLO");
+#INSERT INTO t1 VALUES ("hello1", "hello1", "hello1", "hello1");
+#INSERT INTO t1 VALUES ("HELLO1", "HELLO1", "HELLO1", "HELLO1");
+#INSERT INTO t1 VALUES ("hello1 ", "hello1 ", "hello1 ", "hello1 ");
+#INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ");
+#INSERT INTO t1 VALUES (" hello1", " hello1", " hello1", " hello1");
+#INSERT INTO t1 VALUES (" HELLO1", " HELLO1", " HELLO1", " HELLO1");
+#INSERT INTO t1 VALUES (" hello1 ", " hello1 ", " hello1 ", " hello1 ");
+#INSERT INTO t1 VALUES (" HELLO1 ", " HELLO1 ", " HELLO1 ", " HELLO1 ");
+#INSERT INTO t1 VALUES ("HELLO1 ", "HELLO1 ", "HELLO1 ", "HELLO1 ");
+#INSERT INTO t1 VALUES ("hello1", "hello1", "hello1", "hello1");
+#INSERT INTO t1 VALUES ("hello1 ", "hello1 ", "hello1 ", "hello1 ");
+#INSERT INTO t1 VALUES ("HELLO1", "HELLO1", "HELLO1", "HELLO1");
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a;
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+#--sorted_result
+#SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = "HELLO";
+#--sorted_result
+#SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = "hello1 ";
+#--sorted_result
+#SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = "HELLO1 ";
+#--sorted_result
+#SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = " hello";
+#--sorted_result
+#SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = " HELLO";
+#--sorted_result
+#SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = " hello1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+#--sorted_result
+#SELECT c, d, COUNT(*) FROM t1 GROUP BY c, d HAVING c = d;
+## CREATE INDEX 
+#CREATE INDEX a ON t1(a(16));
+#CREATE INDEX b ON t1(b(16));
+#CREATE INDEX c ON t1(c(16));
+#CREATE INDEX d ON t1(d(16));
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a;
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = "hello";
+#--sorted_result
+#SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = "HELLO";
+#--sorted_result
+#SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = "hello1 ";
+#--sorted_result
+#SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = "HELLO1 ";
+#--sorted_result
+#SELECT d, COUNT(*) FROM t1 GROUP BY d HAVING d = " hello";
+#--sorted_result
+#SELECT c, COUNT(*) FROM t1 GROUP BY c HAVING c = " HELLO";
+#--sorted_result
+#SELECT b, COUNT(*) FROM t1 GROUP BY b HAVING b = " hello1 ";
+#--sorted_result
+#SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a = " HELLO1 ";
+#--sorted_result
+#SELECT c, d, COUNT(*) FROM t1 GROUP BY c,d HAVING c = d;
+#DROP TABLE t1;
 
 #
 # QUERY WITH ORDER BY + LIMIT + OFFSET
