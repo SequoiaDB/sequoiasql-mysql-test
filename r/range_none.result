@@ -1417,6 +1417,12 @@ INSERT INTO t2 VALUES ('2001-01-01 11:22:33');
 
 # range/ref access cannot be used for this query
 
+SELECT * FROM t2 WHERE b=CAST('2001-01-01' AS DATE);
+b
+2001-01-01
+2001.01.01
+2001#01#01
+2001-01-01 00:00:00
 
 # range/ref access cannot be used for any of the queries below.
 # See BUG#13814468 about 'Range checked for each record'
