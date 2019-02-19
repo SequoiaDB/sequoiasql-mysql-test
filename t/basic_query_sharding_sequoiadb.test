@@ -335,10 +335,8 @@ DROP TABLE t1,t2;
 #
 CREATE TABLE t1(a BINARY(127));
 INSERT INTO t1 VALUES ("a"),("a "),("abcdefg"),("ABCD"),("hello"),(" HELLO"),(" string ");
---sorted_result
-SELECT * FROM t1;
+SELECT * FROM t1 ORDER BY a;
 TRUNCATE TABLE t1;
---sorted_result
 SELECT * FROM t1;
 DROP TABLE t1;
 
@@ -868,8 +866,7 @@ SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a > 20;
 SELECT b, SUM(a) FROM t1 GROUP BY b,a DESC;
 --sorted_result
 SELECT a, MIN(b),e, COUNT(DISTINCT c) FROM t1 GROUP BY a,b,c,e HAVING a > b + c;
---sorted_result
-SELECT BINARY d FROM t1 GROUP BY d;
+SELECT BINARY d FROM t1 GROUP BY d ORDER BY d;
 --sorted_result
 SELECT GROUP_CONCAT(DISTINCT d) AS dd FROM t1 GROUP BY d HAVING dd LIKE "%";
 --sorted_result
@@ -919,8 +916,7 @@ SELECT a, COUNT(*) FROM t1 GROUP BY a HAVING a > 20;
 SELECT b, SUM(a) FROM t1 GROUP BY b,a DESC;
 --sorted_result
 SELECT a, MIN(b),e, COUNT(DISTINCT c) FROM t1 GROUP BY a,b,c,e HAVING a > b + c;
---sorted_result
-SELECT BINARY d FROM t1 GROUP BY d;
+SELECT BINARY d FROM t1 GROUP BY d ORDER BY d;
 --sorted_result
 SELECT GROUP_CONCAT(DISTINCT d) AS dd FROM t1 GROUP BY d HAVING dd LIKE "%";
 --sorted_result
