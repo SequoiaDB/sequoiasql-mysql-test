@@ -765,7 +765,6 @@ a	b	c
 4294967294	-1	2001-01-03
 922337203685477807	-13	2001-01-11
 Warning	1292	Truncated incorrect time value: '-839:59:59.0000'
-Warning	1292	Truncated incorrect time value: '-839:59:59.0000'
 Warnings:
 a	3	2000-01-01
 a1	1	2001-01-01
@@ -1538,7 +1537,6 @@ a	b	c
 2147483647	2	2001-01-02
 4294967294	-1	2001-01-03
 922337203685477807	-13	2001-01-11
-Warning	1292	Truncated incorrect time value: '-839:59:59.0000'
 Warning	1292	Truncated incorrect time value: '-839:59:59.0000'
 Warnings:
 a	3	2000-01-01

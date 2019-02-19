@@ -1388,9 +1388,15 @@ pk	a	b
 DROP TABLE t1,t2;
 CREATE TABLE t1(a BINARY(127));
 INSERT INTO t1 VALUES ("a"),("a "),("abcdefg"),("ABCD"),("hello"),(" HELLO"),(" string ");
-SELECT * FROM t1;
+SELECT * FROM t1 ORDER BY a;
 a
-a
+ HELLO                                                                                                                         
+ string                                                                                                                        
+ABCD                                                                                                                           
+a                                                                                                                              
+a                                                                                                                              
+abcdefg                                                                                                                        
+hello                                                                                                                          
 TRUNCATE TABLE t1;
 SELECT * FROM t1;
 a
@@ -3140,10 +3146,10 @@ Warning	1292	Truncated incorrect DOUBLE value: 'hello                           
 Warning	1292	Truncated incorrect DOUBLE value: 'yew                                                             '
 Warning	1292	Truncated incorrect DOUBLE value: 'yew                                                             '
 Warnings:
-SELECT BINARY d FROM t1 GROUP BY d;
+SELECT BINARY d FROM t1 GROUP BY d ORDER BY d;
 BINARY d
-111
 NULL
+111
 aaa
 bb1
 bow
@@ -3372,10 +3378,10 @@ Warning	1292	Truncated incorrect DOUBLE value: 'hello                           
 Warning	1292	Truncated incorrect DOUBLE value: 'yew                                                             '
 Warning	1292	Truncated incorrect DOUBLE value: 'yew                                                             '
 Warnings:
-SELECT BINARY d FROM t1 GROUP BY d;
+SELECT BINARY d FROM t1 GROUP BY d ORDER BY d;
 BINARY d
-111
 NULL
+111
 aaa
 bb1
 bow
