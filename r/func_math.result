@@ -894,16 +894,15 @@ SET sql_mode='NO_AUTO_CREATE_USER';
 DELETE FROM t1 WHERE a <=> ln(0);
 Warnings:
 Warning	3020	Invalid argument for logarithm
+Warning	3020	Invalid argument for logarithm
+Warning	3020	Invalid argument for logarithm
+Warning	3020	Invalid argument for logarithm
+Warning	3020	Invalid argument for logarithm
+Warning	3020	Invalid argument for logarithm
+Warning	3020	Invalid argument for logarithm
+Warning	3020	Invalid argument for logarithm
 SELECT * FROM t1 ORDER BY a;
 a
-NULL
-NULL
-NULL
-NULL
-NULL
-NULL
-NULL
-NULL
 DROP TABLE t1;
 SET sql_mode=default;
 #
