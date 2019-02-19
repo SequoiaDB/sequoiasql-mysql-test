@@ -2136,8 +2136,6 @@ SELECT 1 FROM t WHERE a<=>time('-t');
 1
 Warnings:
 Warning	1292	Truncated incorrect time value: '-t'
-Warning	1292	Truncated incorrect time value: '-t'
-Warning	1292	Truncated incorrect time value: '-t'
 DROP TABLE t;
 #
 # Bug#22839915 UNINTIALIZED VALUE IN DECIMAL_ROUND
