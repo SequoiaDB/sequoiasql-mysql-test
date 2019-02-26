@@ -2973,7 +2973,7 @@ let $query= SELECT i FROM t2 WHERE vc = CAST('"abc"' AS JSON);
 #eval EXPLAIN $query;
 
 #Bug #SEQUOIASQLMAINSTREAM-194
-#eval $query;
+eval $query;
 --echo # Create an index on the VARCHAR column and verify that it is not used.
 --echo # Used to return 2 instead of 1.
 CREATE INDEX t2_idx ON t2(vc);
@@ -2981,7 +2981,7 @@ CREATE INDEX t2_idx ON t2(vc);
 #eval EXPLAIN $query;
 
 #Bug #SEQUOIASQLMAINSTREAM-194
-#eval $query;
+eval $query;
 DROP INDEX t2_idx ON t2;
 --echo # Create a unique index on the VARCHAR column and verify that it is not
 --echo # used. Used to return an empty result.
@@ -2990,7 +2990,7 @@ CREATE UNIQUE INDEX t2_idx ON t2(vc);
 #eval EXPLAIN $query;
 
 #Bug #SEQUOIASQLMAINSTREAM-194
-#eval $query;
+eval $query;
 DROP TABLE t1, t2;
 
 # test that expanded escape sequences are not truncated
