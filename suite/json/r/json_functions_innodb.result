@@ -4791,13 +4791,22 @@ j	i	j	i
 CREATE TABLE t2(i INT, vc VARCHAR(10))
 ENGINE=SequoiaDB CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin';
 INSERT INTO t2 VALUES (1, 'abc'), (2, '"abc"');
+SELECT i FROM t2 WHERE vc = CAST('"abc"' AS JSON);
+i
+1
 # Create an index on the VARCHAR column and verify that it is not used.
 # Used to return 2 instead of 1.
 CREATE INDEX t2_idx ON t2(vc);
+SELECT i FROM t2 WHERE vc = CAST('"abc"' AS JSON);
+i
+1
 DROP INDEX t2_idx ON t2;
 # Create a unique index on the VARCHAR column and verify that it is not
 # used. Used to return an empty result.
 CREATE UNIQUE INDEX t2_idx ON t2(vc);
+SELECT i FROM t2 WHERE vc = CAST('"abc"' AS JSON);
+i
+1
 DROP TABLE t1, t2;
 create table t_varchar( a varchar(3) );
 insert into t_varchar values ( json_unquote( '"\\u0000\\u0001\\u0002"' ) );
