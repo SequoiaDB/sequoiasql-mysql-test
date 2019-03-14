@@ -254,6 +254,7 @@ DROP TABLE t1;
 
 CREATE TABLE t1 ( a int not null, b int not null, INDEX ab(a,b) );
 INSERT INTO t1 VALUES (47,1), (70,1), (15,1), (15, 4);
+--sorted_result
 SELECT * FROM t1
 WHERE
 (
