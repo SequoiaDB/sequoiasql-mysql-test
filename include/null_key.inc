@@ -231,8 +231,8 @@ INSERT INTO t4 SELECT * FROM t3;
 INSERT INTO t3 SELECT * FROM t4;
 INSERT INTO t3 VALUES (2), (3);
 
-#Sequoiadb Not Support Analyze
-#ANALYZE table t1, t2, t3;
+--replace_column 1 x
+ANALYZE table t1, t2, t3;
 
 SELECT COUNT(*) FROM t3;
 

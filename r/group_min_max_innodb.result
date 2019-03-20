@@ -216,6 +216,9 @@ PRIMARY KEY(id),
 INDEX c1_c2_idx(c1, c2));
 INSERT INTO t1 (id, c1, c2) VALUES (1,1,1), (2,2,2), (10,10,1), (11,10,8),
 (12,10,1), (13,10,2);
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 SET optimizer_trace="enabled=on";
 SELECT DISTINCT c1
 FROM t1
@@ -276,6 +279,9 @@ INSERT INTO t1(pk, c1, c2) VALUES (1,1,1),(2,2,2),(3,3,3),(4,5,4);
 SET @a:=5;
 INSERT IGNORE INTo t1(pk, c1, c2)
 SELECT (@a:=@a+1),@a,@a FROM t1, t1 t2,t1 t3, t1 t4;
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 SELECT * FROM t1 WHERE pk = 1 OR pk = 231;
 pk	c1	c2
 1	1	1

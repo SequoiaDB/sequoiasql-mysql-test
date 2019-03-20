@@ -943,6 +943,9 @@ INSERT INTO t1 SELECT a + 16,b FROM t1;
 INSERT INTO t1 SELECT a + 32,b FROM t1;
 INSERT INTO t1 SELECT a + 64,b FROM t1;
 INSERT INTO t1 SELECT a + 128,b FROM t1 limit 16;
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 FLUSH STATUS;
 SELECT a FROM t1 IGNORE INDEX FOR GROUP BY (PRIMARY,i2) GROUP BY a;
 SHOW SESSION STATUS LIKE 'Sort_scan%';
@@ -1954,6 +1957,9 @@ KEY (b,a)
 );
 INSERT INTO t1 VALUES (1,NULL),(0,'a'),(1,NULL),(0,'a');
 INSERT INTO t1 VALUES (1,'a'),(0,'a'),(1,'a'),(0,'a');
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 
 SELECT SQL_BUFFER_RESULT MIN(a), b FROM t1 WHERE t1.b = 'a' GROUP BY b;
 MIN(a)	b

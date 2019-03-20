@@ -637,6 +637,9 @@ c int NOT NULL DEFAULT '0',
 INDEX idx1(b,c), INDEX idx2(c));
 INSERT INTO t1(id) VALUES (1), (2), (3), (4), (5), (6), (7), (8);
 INSERT INTO t1(b,c) VALUES (3,4), (3,4);
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 SELECT * FROM t1 WHERE b<=3 AND 3<=c;
 id	b	c
 0	3	4
@@ -1332,6 +1335,9 @@ INSERT INTO t1
 VALUES (2,3),(2,3),(2,3),(2,3),(2,3),(2,3),(2,3),(2,3),(2,3),(2,3);
 INSERT INTO t1 SELECT 3, 4 FROM t1 WHERE a = 2 AND b = 3;
 INSERT INTO t1 SELECT 4, 1 FROM t1 WHERE a = 2 AND b = 3;
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 INSERT INTO t1 VALUES (1, 2);
 INSERT INTO t1 SELECT a, b FROM t1 WHERE a=1 AND b=2;
 INSERT INTO t1 SELECT a, b FROM t1 WHERE a=1 AND b=2;
@@ -1358,6 +1364,9 @@ VALUES (2,3,3),(2,3,3),(2,3,3),(2,3,3),(2,3,3),
 (2,3,3),(2,3,3),(2,3,3),(2,3,3),(2,3,3);
 INSERT INTO t2 SELECT 3, 4, 4 FROM t2 WHERE a = 2 AND b = 3;
 INSERT INTO t2 SELECT 4, 1, 1 FROM t2 WHERE a = 2 AND b = 3;
+ANALYZE TABLE t2;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 INSERT INTO t2 VALUES (1, 2, 2);
 INSERT INTO t2 SELECT a, b, c FROM t2 WHERE a=1 AND b=2;
 INSERT INTO t2 SELECT a, b, c FROM t2 WHERE a=1 AND b=2;
@@ -1481,6 +1490,9 @@ KEY (a)
 ) ENGINE = sequoiadb;
 SELECT DISTINCT a FROM t1 WHERE (a, b) IN ((0, 0), (1, 1));
 a
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 DROP TABLE t1;
 #
 # Bug#17755540 VALGRIND ERROR WHEN SETTING UP ROW COMPARATORS
@@ -1490,6 +1502,9 @@ INSERT INTO t2 VALUES (2, 2, 2, 2), (3, 3, 3, 3), (4, 4, 4, 4), (5, 5, 5, 5),
 (6, 6, 6, 6), (7, 7, 7, 7), (8, 8, 8, 8), (9, 9, 9, 9);
 INSERT INTO t2 SELECT * FROM t2;
 INSERT INTO t2 VALUES (0, 0, 0, 0), (1, 1, 1, 1);
+ANALYZE TABLE t2;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 SELECT a, b FROM t2 WHERE (a, b) IN ((0, 0), (1, 1));
 a	b
 0	0
@@ -1682,6 +1697,9 @@ INSERT INTO t1 VALUES (1, 1, 1), (1, 1, 2), (1, 1, 3),
 (1, 1, 4), (1, 1, 5);
 INSERT INTO t1 SELECT c1, 2, c3 FROM t1;
 INSERT INTO t1 SELECT c1, 3, c3 FROM t1 WHERE c2 = 1;
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 SELECT COUNT(*) FROM t1;
 COUNT(*)
 15

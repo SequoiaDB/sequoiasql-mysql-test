@@ -55,6 +55,10 @@ CREATE TABLE t2 (c1 INT NOT NULL, c2 VARCHAR(200) NOT NULL,
 UNIQUE KEY idx1 (c1));
 INSERT INTO t1 VALUES (1, 'a'), (2, 'b'), (3, 'c'), (4, 'd');
 INSERT INTO t2 VALUES (11, 'a'), (12, 'b'), (3, 'c'), (14, 'd');
+ANALYZE TABLE t1, t2;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
+x	analyze	status	OK
 SET SESSION sql_safe_updates=1;
 SET RANGE_OPTIMIZER_MAX_MEM_SIZE= 1;
 DELETE FROM t1 WHERE c1 IN (1,22);

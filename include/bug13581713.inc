@@ -3,7 +3,8 @@
 --source include/turn_off_only_full_group_by.inc
 
 insert into t1 values(100,1,2),(200,1,1),(300,2,1),(400,2,2);
-#analyze table t1;
+--replace_column 1 x
+analyze table t1;
 
 eval select distinct b from $source order by c;
 eval select distinct min(b) from $source group by a order by min(c);
@@ -14,7 +15,8 @@ eval select distinct min(b) from $source group by a order by min(c);
 --echo Insert rows in different order:
 delete from t1;
 insert into t1 values(200,1,1),(100,1,2),(400,2,2),(300,2,1);
-#analyze table t1;
+--replace_column 1 x
+analyze table t1;
 
 --echo And get a different order. Query is executed like this:
 --echo - First, DISTINCT, using a tmp MEMORY table with a unique

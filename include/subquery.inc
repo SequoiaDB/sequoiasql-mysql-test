@@ -6023,13 +6023,13 @@ CREATE TABLE t0 (
 );
 INSERT INTO t0 VALUES (7);
 
-#-- disable_query_log
-#-- disable_result_log
-#ANALYZE TABLE t0;
-#ANALYZE TABLE t1;
-#ANALYZE TABLE t2;
-#-- enable_result_log
-#-- enable_query_log
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t0;
+ANALYZE TABLE t1;
+ANALYZE TABLE t2;
+-- enable_result_log
+-- enable_query_log
 
 SELECT col_varchar_nokey
 FROM t1
@@ -6457,7 +6457,8 @@ DROP TABLE t1;
 
 CREATE TABLE t1 (a INT);
 INSERT INTO t1 VALUES(1),(2);
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 # 3 clauses which should block the replacement with an equality:
 let $query=
 SELECT 1 as col FROM t1 WHERE a IN (SELECT a FROM DUAL WHERE 0);

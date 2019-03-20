@@ -2202,6 +2202,19 @@ bug3132('Bob')
 Hello, Bob!
 Hello, Judy!
 drop function bug3132|
+drop procedure if exists bug3843|
+create procedure bug3843()
+analyze table t1|
+call bug3843()|
+Table	Op	Msg_type	Msg_text
+test_sp.t1	analyze	status	OK
+call bug3843()|
+Table	Op	Msg_type	Msg_text
+test_sp.t1	analyze	status	OK
+select 1+2|
+1+2
+3
+drop procedure bug3843|
 create table t3 ( s1 char(10) )|
 insert into t3 values ('a'), ('b')|
 drop procedure if exists bug3368|

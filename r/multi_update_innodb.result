@@ -82,6 +82,10 @@ CREATE TABLE t1(c1 INT) ENGINE=SEQUOIADB;
 INSERT INTO t1 VALUES (0),(0),(1);
 CREATE TABLE t2(b INT) ENGINE=SEQUOIADB;
 INSERT INTO t2 VALUES(0),(0);
+ANALYZE TABLE t1,t2;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
+x	analyze	status	OK
 SET @old_buf_result=@@sql_buffer_result;
 SET sql_buffer_result=ON;
 UPDATE t1,t2 SET t2.b=0;

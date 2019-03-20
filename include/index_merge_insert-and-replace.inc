@@ -20,7 +20,8 @@ while ($i)
   dec $i;
 }
 
-#ANALYZE TABLE t2;
+--replace_column 1 x
+ANALYZE TABLE t2;
 
 # intersect optimization technique test cases for non-selects 
 # are in a separate file(index_merge_intersect_dml.inc) 

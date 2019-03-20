@@ -190,6 +190,9 @@ ERROR HY000: Incorrect arguments to ESCAPE
 CREATE TABLE t2(x int, y varchar(100)) ENGINE=SequoiaDB;
 CREATE INDEX idx ON t2(y);
 INSERT INTO t2 VALUES (1, 'abcd'), (2, 'ab%cde');
+ANALYZE TABLE t2;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 SELECT * FROM t2 WHERE y LIKE 'abc%%' ESCAPE (SELECT 'c' FROM t1) ORDER BY y;
 x	y
 2	ab%cde

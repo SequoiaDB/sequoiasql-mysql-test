@@ -109,7 +109,8 @@ CREATE TABLE t2 (c1 INT NOT NULL, c2 VARCHAR(200) NOT NULL,
                  UNIQUE KEY idx1 (c1));
 INSERT INTO t1 VALUES (1, 'a'), (2, 'b'), (3, 'c'), (4, 'd');
 INSERT INTO t2 VALUES (11, 'a'), (12, 'b'), (3, 'c'), (14, 'd');
-#ANALYZE TABLE t1, t2;
+--replace_column 1 x
+ANALYZE TABLE t1, t2;
 
 SET SESSION sql_safe_updates=1;
 

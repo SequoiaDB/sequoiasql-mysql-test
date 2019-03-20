@@ -4290,12 +4290,12 @@ WHERE outr.col_varchar_key IN (SELECT innr.col_varchar_key
   AND outr.col_varchar_nokey < 't'
 ORDER BY outr.col_varchar_key, outr.pk;
 
-#-- disable_query_log
-#-- disable_result_log
-#ANALYZE TABLE t1;
-#ANALYZE TABLE t2;
-#-- enable_result_log
-#-- enable_query_log
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+ANALYZE TABLE t2;
+-- enable_result_log
+-- enable_query_log
 
 #eval EXPLAIN $query;
 eval $query;
@@ -4388,12 +4388,12 @@ CREATE TABLE t2 (
 
 INSERT INTO t2 VALUES ('v'), ('y'), ('j'), ('c'), ('d'), ('r');
 
-#-- disable_query_log
-#-- disable_result_log
-#ANALYZE TABLE t1;
-#ANALYZE TABLE t2;
-#-- enable_result_log
-#-- enable_query_log
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+ANALYZE TABLE t2;
+-- enable_result_log
+-- enable_query_log
 
 let $query=
 SELECT col_varchar_key
@@ -4468,15 +4468,15 @@ CREATE TABLE t3 (
 
 INSERT INTO t3 VALUES (10);
 
-#-- disable_query_log
-#-- disable_result_log
-#ANALYZE TABLE t1;
-#ANALYZE TABLE t2;
-#ANALYZE TABLE t3;
-#ANALYZE TABLE grandparent1;
-#$ANALYZE TABLE parent1;
-#-- enable_result_log
-#-- enable_query_log
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+ANALYZE TABLE t2;
+ANALYZE TABLE t3;
+ANALYZE TABLE grandparent1;
+ANALYZE TABLE parent1;
+-- enable_result_log
+-- enable_query_log
 
 let $query=
 SELECT *
@@ -4789,12 +4789,12 @@ eval CREATE TABLE t2
   $query
 ;
 
-#-- disable_query_log
-#-- disable_result_log
-#ANALYZE TABLE t1;
-#ANALYZE TABLE t2;
-#-- enable_result_log
-#-- enable_query_log
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+ANALYZE TABLE t2;
+-- enable_result_log
+-- enable_query_log
 
 #eval EXPLAIN SELECT *
 #FROM t2
@@ -5174,12 +5174,12 @@ INSERT INTO t2 VALUES
  (13,4,'b','b'), (14,4,'x','x'), (15,7,'g','g'), (16,4,'p','p'),
  (17,1,'q','q'), (18,9,'w','w'), (19,4,'d','d'), (20,8,'e','e');
 
-#-- disable_query_log
-#-- disable_result_log
-#ANALYZE TABLE t1;
-#ANALYZE TABLE t2;
-#-- enable_result_log
-#-- enable_query_log
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+ANALYZE TABLE t2;
+-- enable_result_log
+-- enable_query_log
 
 let $query=
 SELECT ot1.col_int_key AS field1
@@ -5224,12 +5224,12 @@ INSERT INTO t2 VALUES
  (3,'d'), (8,'s'), (1,'r'), (8,'m'), (8,'b'), (5,'x'), (7,'g'), (5,'p'),
  (1,'q'), (6,'w'), (2,'d'), (9,'e');
 
-#-- disable_query_log
-#-- disable_result_log
-#ANALYZE TABLE t1;
-#ANALYZE TABLE t2;
-#-- enable_result_log
-#-- enable_query_log
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+ANALYZE TABLE t2;
+-- enable_result_log
+-- enable_query_log
 
 let $query=
 SELECT col_varchar_nokey
@@ -5463,7 +5463,11 @@ CREATE TABLE t2 (
 
 INSERT INTO t2 VALUES (7,'2003-08-21 00:00:00','b','b');
 
-#ANALYZE TABLE t1, t2;
+--disable_query_log
+--disable_result_log
+ANALYZE TABLE t1, t2;
+--enable_query_log
+--enable_result_log
 
 SET @old_depth=@@optimizer_search_depth;
 SET optimizer_search_depth=4;
@@ -5574,13 +5578,13 @@ FROM t2 AS table1
     )
 ;
 
-#--disable_query_log
-#--disable_result_log
-#NALYZE TABLE t1;
-#ANALYZE TABLE t2;
-#ANALYZE TABLE t3;
-#--enable_result_log
-#--enable_query_log
+--disable_query_log
+--disable_result_log
+ANALYZE TABLE t1;
+ANALYZE TABLE t2;
+ANALYZE TABLE t3;
+--enable_result_log
+--enable_query_log
 
 --replace_result 20.00 25.00
 #eval EXPLAIN $query;
@@ -6239,13 +6243,13 @@ INSERT INTO t3 VALUES ('21:22:34'), ('10:50:38'), ('00:21:38'),
 ('03:53:16'), ('09:16:38'), ('15:37:26'), ('00:00:00'), ('05:03:03'),
 ('02:59:24'), ('00:01:58');
 
-#-- disable_query_log
-#-- disable_result_log
-#ANALYZE TABLE t1;
-#ANALYZE TABLE t2;
-#ANALYZE TABLE t3;
-#-- enable_result_log
-#-- enable_query_log
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+ANALYZE TABLE t2;
+ANALYZE TABLE t3;
+-- enable_result_log
+-- enable_query_log
 
 let $query=
 SELECT outr.col_int_nokey
@@ -6601,7 +6605,11 @@ CREATE TABLE t2 (
 
 INSERT INTO t2 VALUES (10,'l'),(11,'p');
 
-#ANALYZE TABLE t1,t2;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1,t2;
+-- enable_query_log
+-- enable_result_log
 
 let $query=
 SELECT 1
@@ -6641,7 +6649,12 @@ DROP TABLE t1;
 
 CREATE TABLE t(X INT) ENGINE=Sequoiadb;
 INSERT INTO t VALUES (1);
-#ANALYZE TABLE t;
+
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t;
+-- enable_query_log
+-- enable_result_log
 
 let $query=SELECT 1 FROM t WHERE (1 IN (SELECT 1 FROM t)) IN (SELECT 1 FROM t);
 #eval EXPLAIN $query;
@@ -6679,7 +6692,11 @@ CREATE TABLE t3 (
 
 INSERT INTO t3 VALUES (10,'v'),(11,'s');
 
-#ANALYZE TABLE t1, t2, t3;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1, t2, t3;
+-- enable_query_log
+-- enable_result_log
 
 let $query=
 SELECT *
@@ -6701,7 +6718,12 @@ DROP TABLE t1,t2,t3;
 
 CREATE TABLE t1(x INT) ENGINE=Sequoiadb;
 INSERT INTO t1 VALUES (1);
-#ANALYZE TABLE t1;
+
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+-- enable_query_log
+-- enable_result_log
 
 let $query=SELECT 1 FROM t1 WHERE EXISTS(SELECT 1) IN (SELECT 1 FROM t1);
 #eval EXPLAIN $query;
@@ -6760,7 +6782,11 @@ INSERT INTO t3 VALUES (1, 'c'),(2, 'c'),(3, 'q'),(4, 'g'),(5, 'e'),(6, 'l'),
 (7, NULL),(8, 'v'),(9, 'c'),(10, 'u'),(11, 'x'),(12, 'x'),(13, 'x'),(14, 'l'),
 (15, 'e'),(16, 's'),(17, 'k'),(18, 'm'),(19, 'x'),(20, 's');
 
-#ANALYZE TABLE t1,t2,t3;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1,t2,t3;
+-- enable_query_log
+-- enable_result_log
 
 let $query1=
 SELECT r1.col_date_key
@@ -6932,8 +6958,11 @@ INSERT INTO t4 VALUES
 (1368719360),
 (1922236416);
 
-#Sequoiadb not support analyze
-#ANALYZE TABLE t1, t2, t3, t4;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1, t2, t3, t4;
+-- enable_query_log
+-- enable_result_log
 
 let $query=
 SELECT *
@@ -7041,7 +7070,11 @@ INSERT INTO t4 VALUES
 (1, "A"), (2, "B"), (3, "C"), (4, "D"), (5, "E"),
 (6, "F"), (7, "G"), (8, "H"), (9, "I");
 
-#ANALYZE TABLE t1,t2,t3,t4;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1,t2,t3,t4;
+-- enable_query_log
+-- enable_result_log
 
 #EXPLAIN SELECT name FROM t2, t1
 #WHERE t1.uid IN (SELECT t4.uid FROM t4, t3 WHERE t3.uid=1 AND t4.uid=t3.fid)
@@ -7180,8 +7213,12 @@ WHERE t1.a IN (SELECT t2.a
                                              FROM t AS t3
                                              WHERE t3.b=1));
 
-#Sequoiadb not support analyze
-#ANALYZE TABLE t;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t;
+-- enable_query_log
+-- enable_result_log
+
 #eval EXPLAIN extended $query;
 eval $query;
 
