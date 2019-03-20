@@ -12,7 +12,8 @@ DROP TABLE IF EXISTS t2;
 
 CREATE TABLE t2 LIKE t1;
 INSERT INTO t2 SELECT * FROM t1;
-#ANALYZE TABLE t2;
+--replace_column 1 x
+ANALYZE TABLE t2;
 
 #1. UPDATE statements with various combinations of comparison operators
 

@@ -572,6 +572,9 @@ INSERT INTO t1 VALUES ('g','g');
 INSERT INTO t1 VALUES ('h','h');
 INSERT INTO t1 VALUES ('i','i');
 INSERT INTO t1 VALUES ('j','j');
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 DROP TABLE t1;
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
 Warnings:

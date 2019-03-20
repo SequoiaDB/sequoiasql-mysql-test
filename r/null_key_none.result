@@ -148,6 +148,11 @@ INSERT INTO t3 SELECT * FROM t4;
 INSERT INTO t4 SELECT * FROM t3;
 INSERT INTO t3 SELECT * FROM t4;
 INSERT INTO t3 VALUES (2), (3);
+ANALYZE table t1, t2, t3;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
+x	analyze	status	OK
+x	analyze	status	OK
 SELECT COUNT(*) FROM t3;
 COUNT(*)
 15972

@@ -184,6 +184,11 @@ insert into t4 select * from t3;
 insert into t3 select * from t4;
 insert into t4 select * from t3;
 insert into t3 select * from t4;
+ANALYZE TABLE t1,t2,t3;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
+x	analyze	status	OK
+x	analyze	status	OK
 flush status;
 select distinct t1.a from t1,t3 where t1.a=t3.a;
 a
@@ -822,8 +827,14 @@ DROP TABLE t1,t2,t3;
 create table t1(a int, b int, c int) engine=SequoiaDB;
 create table t2(a int, b int, c int) engine=SequoiaDB;
 insert into t2 values();
+analyze table t2;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 # Test when selecting from base table
 insert into t1 values(100,1,2),(200,1,1),(300,2,1),(400,2,2);
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 select distinct b from t1 order by c;
 b
 2
@@ -835,6 +846,9 @@ min(b)
 Insert rows in different order:
 delete from t1;
 insert into t1 values(200,1,1),(100,1,2),(400,2,2),(300,2,1);
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 And get a different order. Query is executed like this:
 - First, DISTINCT, using a tmp MEMORY table with a unique
 index, thus if two rows have the same 'b' but a different 'c',
@@ -1022,6 +1036,9 @@ truncate table t1;
 # Test when selecting from view
 create view v1 as select t1.* from t1 left join t2 on 1;
 insert into t1 values(100,1,2),(200,1,1),(300,2,1),(400,2,2);
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 select distinct b from v1 order by c;
 b
 2
@@ -1033,6 +1050,9 @@ min(b)
 Insert rows in different order:
 delete from t1;
 insert into t1 values(200,1,1),(100,1,2),(400,2,2),(300,2,1);
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 And get a different order. Query is executed like this:
 - First, DISTINCT, using a tmp MEMORY table with a unique
 index, thus if two rows have the same 'b' but a different 'c',
@@ -1221,6 +1241,9 @@ drop view v1;
 # Test when selecting from view, again
 create view v1 as select t1.a*2 as a, t1.b*2 as b, t1.c*2 as c from t1;
 insert into t1 values(100,1,2),(200,1,1),(300,2,1),(400,2,2);
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 select distinct b from v1 order by c;
 b
 4
@@ -1232,6 +1255,9 @@ min(b)
 Insert rows in different order:
 delete from t1;
 insert into t1 values(200,1,1),(100,1,2),(400,2,2),(300,2,1);
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 And get a different order. Query is executed like this:
 - First, DISTINCT, using a tmp MEMORY table with a unique
 index, thus if two rows have the same 'b' but a different 'c',
@@ -1419,6 +1445,9 @@ truncate table t1;
 drop view v1;
 # Test when selecting from derived table
 insert into t1 values(100,1,2),(200,1,1),(300,2,1),(400,2,2);
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 select distinct b from (SELECT t1.* FROM t1 left join t2 on 1) AS derived order by c;
 b
 2
@@ -1430,6 +1459,9 @@ min(b)
 Insert rows in different order:
 delete from t1;
 insert into t1 values(200,1,1),(100,1,2),(400,2,2),(300,2,1);
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 And get a different order. Query is executed like this:
 - First, DISTINCT, using a tmp MEMORY table with a unique
 index, thus if two rows have the same 'b' but a different 'c',

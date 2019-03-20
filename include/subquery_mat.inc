@@ -1530,7 +1530,8 @@ INSERT INTO t1 SELECT CONCAT((@num:=@num+1), @str) FROM t1;
 INSERT INTO t1 SELECT CONCAT((@num:=@num+1), @str) FROM t1;
 SELECT COUNT(*) FROM t1;
 
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 
 let $query=
 SELECT COUNT(*)
@@ -1566,7 +1567,8 @@ set @@max_heap_table_size= @save_heap_size;
 CREATE TABLE t1(a INT) ENGINE=Sequoiadb;
 INSERT INTO t1 VALUES(1);
 CREATE TABLE t2 LIKE t1;
-#ANALYZE TABLE t1,t2;
+--replace_column 1 x
+ANALYZE TABLE t1,t2;
 
 let $query=
 SELECT (SELECT 1,2 FROM t2) NOT IN (SELECT 1,2 FROM t1) FROM t1;

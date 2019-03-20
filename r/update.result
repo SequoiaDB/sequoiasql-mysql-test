@@ -105,6 +105,10 @@ insert into t1 values ( 1, 'abcd1e');
 insert into t1 values ( 2, 'abcd2e');
 insert into t2 values ( 1, 'abcd1e');
 insert into t2 values ( 2, 'abcd2e');
+analyze table t1,t2;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
+x	analyze	status	OK
 update t1, t2 set t1.a = t2.a where t2.b = t1.b;
 show warnings;
 Level	Code	Message
@@ -387,6 +391,9 @@ a	b	c	d
 5	5	3	1
 INSERT INTO t1 (a,b,c,d) VALUES (1, 1, 1, 4), (2, 2, 2, 5), (2, 3, 4, 7),
 (3, 3, 3, 9), (4, 4, 4, 0), (5, 5, 5, 1), (5, 6, 7, 3), (5, 7, 9, 9);
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 UPDATE t1 SET c = 82 ORDER BY a ASC LIMIT 1;
 SELECT * FROM t1;
 a	b	c	d
@@ -457,6 +464,9 @@ INSERT INTO t1 (a,b,c,d) VALUES (1, 1, 1, 4), (2, 2, 2, 5), (2, 3, 4, 7),
 (3, 3, 3, 9), (4, 4, 4, 0), (5, 5, 5, 1), (5, 6, 7, 3), (5, 7, 9, 9);
 INSERT INTO t1 (a,b,c,d) VALUES (1, 1, 1, 4), (2, 2, 2, 5), (2, 3, 4, 7),
 (3, 3, 3, 9), (4, 4, 4, 0), (5, 5, 5, 1), (5, 6, 7, 3), (5, 7, 9, 9);
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 UPDATE t1 SET c = 82 ORDER BY a ASC LIMIT 2;
 SELECT * FROM t1;
 a	b	c	d

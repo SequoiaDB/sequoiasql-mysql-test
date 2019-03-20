@@ -846,11 +846,11 @@ insert into t4 values
   (201, 'cc'), (601, 'cccccc'), (301, 'ccc'), (501, 'ccccc'),
   (202, 'cc'), (602, 'cccccc'), (302, 'ccc'), (502, 'ccccc');
 
-#--disable_result_log
-#--disable_warnings
-#analyze table t2,t3,t4;
-#--enable_warnings
-#--enable_result_log
+--disable_result_log
+--disable_warnings
+analyze table t2,t3,t4;
+--enable_warnings
+--enable_result_log
 
 #explain 
 #select t1.a, t1.b, t1.c, t1.d, t2.e, t3.f, t4.g from t1,t2,t3,t4
@@ -1305,9 +1305,9 @@ CREATE TABLE t2 (c1 text, c2 text);
 INSERT INTO t2 VALUES('tt', 'uu');
 INSERT INTO t2 VALUES('zzzz', 'xxxxxxxxx');
 
-#--disable_result_log
-#ANALYZE TABLE t1,t2;
-#--enable_result_log
+--disable_result_log
+ANALYZE TABLE t1,t2;
+--enable_result_log
 
 SELECT t1.*, t2.*, LENGTH(t2.c1), LENGTH(t2.c2) FROM t1,t2
   WHERE t1.c2=LENGTH(t2.c2) and t1.c1=LENGTH(t2.c1);
@@ -1821,12 +1821,12 @@ CREATE TABLE t2 (
 
 INSERT INTO t2 VALUES ('2003-08-21 00:00:00','b');
 
-#-- disable_query_log
-#-- disable_result_log
-#ANALYZE TABLE t1;
-#ANALYZE TABLE t2;
-#-- enable_query_log
-#-- enable_result_log
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+ANALYZE TABLE t2;
+-- enable_query_log
+-- enable_result_log
 
 # need to force the index, or it picks BNL for t2 (lower cost),
 # whereas we want to test BKA

@@ -783,7 +783,8 @@ DELIMITER ;|
 CREATE TABLE t1 (t INT, u INT, KEY(t));
 INSERT INTO t1 VALUES(10, 10), (11, 11), (12, 12), (12, 13),(14, 15), (15, 16),
                      (16, 17), (17, 18);
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 SELECT t, next_seq_value() r FROM t1 FORCE INDEX(t)
        GROUP BY t HAVING r = 1  ORDER BY t1.u;
 
@@ -804,7 +805,8 @@ DEALLOCATE PREPARE stmt;
 # the functions.
 INSERT INTO t1 SELECT * FROM t1;
 ALTER TABLE t1 ADD KEY(t, u);
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 # Bug #SEQUOIADBMAIN-3586
 SELECT next_seq_value() r, MIN(u) FROM t1 GROUP BY t HAVING r = 1;
 
@@ -821,7 +823,8 @@ DROP TABLE series;
 
 CREATE TABLE t1 (t TEXT NOT NULL, u TEXT);
 INSERT INTO t1 VALUES('2', '1'), ('3', '1'), ('4', '1');
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 SELECT * FROM t1 WHERE (t, u) in (SELECT a.t,  COUNT(DISTINCT a.u)
                                                        FROM t1 a, t1 b
                                                        GROUP BY a.t);

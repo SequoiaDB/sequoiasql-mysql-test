@@ -2598,18 +2598,17 @@ drop function bug3132|
 #
 # BUG#3843
 #
-#Sequoiadb not support analyze
-#--disable_warnings ONCE
-#drop procedure if exists bug3843|
-#create procedure bug3843()
-#  analyze table t1|
-#
+--disable_warnings ONCE
+drop procedure if exists bug3843|
+create procedure bug3843()
+  analyze table t1|
+
 ## Testing for packets out of order
-#call bug3843()|
-#call bug3843()|
-#select 1+2|
-#
-#drop procedure bug3843|
+call bug3843()|
+call bug3843()|
+select 1+2|
+
+drop procedure bug3843|
 
 #
 # BUG#3368
@@ -5046,7 +5045,6 @@ drop procedure bug5967|
 #
 #drop procedure bug13012|
 
-##Sequoiadb not support analyze
 #create view v1 as select * from t1|
 #create procedure bug13012()
 #BEGIN

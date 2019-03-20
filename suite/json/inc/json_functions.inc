@@ -87,7 +87,11 @@ CREATE TABLE t2(i int, j json);
 CREATE INDEX t2_i ON t2(i);
 INSERT INTO t2 values (1, CAST(1 AS JSON));
 INSERT INTO t2 values (1, CAST('"1"' AS JSON));
-#ANALYZE TABLE t2;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t2;
+-- enable_query_log
+-- enable_result_log
 let $query=SELECT * FROM t2 where i = j;
 #eval EXPLAIN $query;
 
@@ -2436,7 +2440,11 @@ CREATE TABLE t1(j JSON);
 CREATE TABLE t2(j JSON);
 INSERT INTO t1 VALUES ('[1]'), ('[2]'), ('[3]'), ('[4]');
 INSERT INTO t2 VALUES ('[1]');
-#ANALYZE TABLE t1, t2;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1, t2;
+-- enable_query_log
+-- enable_result_log
 let $query=
 UPDATE t1, t2 SET t1.j = JSON_INSERT(t2.j, '\$[1]', t2.j) WHERE t1.j=t2.j;
 #eval EXPLAIN $query;
@@ -2449,7 +2457,11 @@ DROP TABLE t1, t2;
 --echo #               ON EXPLAIN SELECT JSON
 --echo #
 create table t (pk int primary key, col_json json);
-#ANALYZE TABLE t;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t;
+-- enable_query_log
+-- enable_result_log
 #explain SELECT col_json FROM t WHERE pk = 1;
 drop table t;
 
@@ -2943,7 +2955,11 @@ SELECT JSON_CONTAINS('[1, 2, [4,5] ]', '[111111111111111111]');
 CREATE TABLE t1(j JSON, i INT);
 INSERT INTO t1 VALUES
 ('0', 0), ('1', 1), ('1.0', 2), ('[1,2,3]', 3), ('{}', 4), ('"abc"', 5);
-#ANALYZE TABLE t1;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+-- enable_query_log
+-- enable_result_log
 let $query1=SELECT * FROM t1 WHERE j > i ORDER BY i;
 let $query2=SELECT * FROM t1 AS a, t1 AS b WHERE a.j > b.i ORDER BY b.i, a.i;
 #eval EXPLAIN $query1;
@@ -2954,7 +2970,11 @@ eval $query1;
 eval $query2;
 --echo # Create an index on the INT column and verify that it is not used.
 CREATE INDEX t1_idx ON t1(i);
-#ANALYZE TABLE t1;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+-- enable_query_log
+-- enable_result_log
 #eval EXPLAIN $query1;
 #eval EXPLAIN $query2;
 
@@ -2964,7 +2984,11 @@ eval $query2;
 CREATE TABLE t2(i INT, vc VARCHAR(10))
 ENGINE=SequoiaDB CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin';
 INSERT INTO t2 VALUES (1, 'abc'), (2, '"abc"');
-#ANALYZE TABLE t2;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t2;
+-- enable_query_log
+-- enable_result_log
 let $query= SELECT i FROM t2 WHERE vc = CAST('"abc"' AS JSON);
 #eval EXPLAIN $query;
 
@@ -2973,7 +2997,11 @@ eval $query;
 --echo # Create an index on the VARCHAR column and verify that it is not used.
 --echo # Used to return 2 instead of 1.
 CREATE INDEX t2_idx ON t2(vc);
-#ANALYZE TABLE t2;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t2;
+-- enable_query_log
+-- enable_result_log
 #eval EXPLAIN $query;
 
 #Bug #SEQUOIASQLMAINSTREAM-194
@@ -2982,7 +3010,11 @@ DROP INDEX t2_idx ON t2;
 --echo # Create a unique index on the VARCHAR column and verify that it is not
 --echo # used. Used to return an empty result.
 CREATE UNIQUE INDEX t2_idx ON t2(vc);
-#ANALYZE TABLE t2;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t2;
+-- enable_query_log
+-- enable_result_log
 #eval EXPLAIN $query;
 
 #Bug #SEQUOIASQLMAINSTREAM-194
@@ -3256,7 +3288,11 @@ INSERT INTO t1 VALUES
   (4,'{"a":11, "b":3}'),
   (5,'{"a":33, "b":1}'),
   (6,'{"a":22,"b":2}');
-#ANALYZE TABLE t1;
+-- disable_query_log
+-- disable_result_log
+ANALYZE TABLE t1;
+-- enable_query_log
+-- enable_result_log
 
 SELECT f1->"$.a" FROM t1 order by autopk;
 #EXPLAIN SELECT f1->"$.a" FROM t1 order by autopk;

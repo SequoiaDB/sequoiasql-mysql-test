@@ -93,7 +93,8 @@ insert into t3 select * from t4;
 insert into t4 select * from t3;
 insert into t3 select * from t4;
 
-#ANALYZE TABLE t1,t2,t3;
+--replace_column 1 x
+ANALYZE TABLE t1,t2,t3;
 
 #explain select distinct t1.a from t1,t3 where t1.a=t3.a;
 
@@ -822,7 +823,8 @@ DROP TABLE t1,t2,t3;
 create table t1(a int, b int, c int) engine=SequoiaDB;
 create table t2(a int, b int, c int) engine=SequoiaDB;
 insert into t2 values();
-#analyze table t2;
+--replace_column 1 x
+analyze table t2;
 
 --echo # Test when selecting from base table
 let $source=t1;

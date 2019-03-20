@@ -65,7 +65,8 @@ delete from t1 where a+0=1 limit 2;
 #
 # Test MAX_SEEKS_FOR_KEY
 #
-#analyze table t1;
+--replace_column 1 x
+analyze table t1;
 #insert into t1 values (null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a");
 #explain select STRAIGHT_JOIN * from t1,t1 as t2 where t1.b=t2.b;
 #set MAX_SEEKS_FOR_KEY=1;

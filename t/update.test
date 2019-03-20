@@ -210,8 +210,8 @@ insert into t1 values ( 2, 'abcd2e');
 insert into t2 values ( 1, 'abcd1e');
 insert into t2 values ( 2, 'abcd2e');
 
-#Sequoiadb not support analyze
-#analyze table t1,t2;
+--replace_column 1 x
+analyze table t1,t2;
 update t1, t2 set t1.a = t2.a where t2.b = t1.b;
 show warnings;
 drop table t1, t2;
@@ -679,7 +679,8 @@ SELECT * FROM t1;
 INSERT INTO t1 (a,b,c,d) VALUES (1, 1, 1, 4), (2, 2, 2, 5), (2, 3, 4, 7),
 (3, 3, 3, 9), (4, 4, 4, 0), (5, 5, 5, 1), (5, 6, 7, 3), (5, 7, 9, 9);
 
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 
 # Updating part of index, should still use the index for the order by (no file
 # sort)
@@ -708,7 +709,8 @@ INSERT INTO t1 (a,b,c,d) VALUES (1, 1, 1, 4), (2, 2, 2, 5), (2, 3, 4, 7),
 INSERT INTO t1 (a,b,c,d) VALUES (1, 1, 1, 4), (2, 2, 2, 5), (2, 3, 4, 7),
 (3, 3, 3, 9), (4, 4, 4, 0), (5, 5, 5, 1), (5, 6, 7, 3), (5, 7, 9, 9);
 
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 
 # Updating part of index, should still use the index for the order by (no file
 # sort)

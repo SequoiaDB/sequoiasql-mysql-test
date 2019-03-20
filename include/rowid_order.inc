@@ -38,8 +38,7 @@ insert into t1 values (-5, 1, 1),
   (10, 1, 1);
 -- disable_query_log
 -- disable_result_log
-#Sequoiadb not support analyze
-#analyze table t1;
+analyze table t1;
 -- enable_result_log
 -- enable_query_log
 #Sequoiadb not support explain

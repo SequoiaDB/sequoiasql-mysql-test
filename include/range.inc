@@ -180,11 +180,11 @@ drop table t1;
 #
 # BETWEEN problems
 #
-#Sequoiadb not support analyze and explain
-#create table t1 (x int, y int, index(x), index(y));
-#insert into t1 (x) values (1),(2),(3),(4),(5),(6),(7),(8),(9);
-#update t1 set y=x;
-#analyze table t1;
+create table t1 (x int, y int, index(x), index(y));
+insert into t1 (x) values (1),(2),(3),(4),(5),(6),(7),(8),(9);
+update t1 set y=x;
+--replace_column 1 x
+analyze table t1;
 ## between with only one end fixed
 #explain select * from t1, t1 t2 where t1.y = 8 and t2.x between 7 and t1.y+0;
 #explain select * from t1, t1 t2 where t1.y = 8 and t2.x >= 7 and t2.x <= t1.y+0;
@@ -197,7 +197,7 @@ drop table t1;
 ## testing IN
 #explain select count(*) from t1 where x in (1);
 #explain select count(*) from t1 where x in (1,2);
-#drop table t1;
+drop table t1;
 
 #
 # bug #1172: "Force index" option caused server crash
@@ -914,7 +914,8 @@ INSERT INTO t1(id) VALUES (1), (2), (3), (4), (5), (6), (7), (8);
 
 INSERT INTO t1(b,c) VALUES (3,4), (3,4);
 
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 
 SELECT * FROM t1 WHERE b<=3 AND 3<=c;
 SELECT * FROM t1 WHERE 3 BETWEEN b AND c;
@@ -1538,7 +1539,8 @@ INSERT INTO t1
 VALUES (2,3),(2,3),(2,3),(2,3),(2,3),(2,3),(2,3),(2,3),(2,3),(2,3);
 INSERT INTO t1 SELECT 3, 4 FROM t1 WHERE a = 2 AND b = 3;
 INSERT INTO t1 SELECT 4, 1 FROM t1 WHERE a = 2 AND b = 3;
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 INSERT INTO t1 VALUES (1, 2);
 INSERT INTO t1 SELECT a, b FROM t1 WHERE a=1 AND b=2; # 2
 INSERT INTO t1 SELECT a, b FROM t1 WHERE a=1 AND b=2; # 4
@@ -1568,7 +1570,8 @@ VALUES (2,3,3),(2,3,3),(2,3,3),(2,3,3),(2,3,3),
        (2,3,3),(2,3,3),(2,3,3),(2,3,3),(2,3,3);
 INSERT INTO t2 SELECT 3, 4, 4 FROM t2 WHERE a = 2 AND b = 3;
 INSERT INTO t2 SELECT 4, 1, 1 FROM t2 WHERE a = 2 AND b = 3;
-#ANALYZE TABLE t2;
+--replace_column 1 x
+ANALYZE TABLE t2;
 INSERT INTO t2 VALUES (1, 2, 2);
 INSERT INTO t2 SELECT a, b, c FROM t2 WHERE a=1 AND b=2; # 2
 INSERT INTO t2 SELECT a, b, c FROM t2 WHERE a=1 AND b=2; # 4
@@ -2041,7 +2044,8 @@ SELECT DISTINCT a FROM t1 WHERE (a, b) IN ((0, 0), (1, 1));
 
 #INSERT INTO t1 VALUES (0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6),
 #  (7, 7), (8, 8), (9, 9);
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 
 #CREATE TABLE t2 (
 #  a INT,
@@ -2081,7 +2085,8 @@ INSERT INTO t2 SELECT * FROM t2;
 
 INSERT INTO t2 VALUES (0, 0, 0, 0), (1, 1, 1, 1);
 
-#ANALYZE TABLE t2;
+--replace_column 1 x
+ANALYZE TABLE t2;
 
 SELECT a, b FROM t2 WHERE (a, b) IN ((0, 0), (1, 1));
 DROP TABLE t2;
@@ -2289,7 +2294,8 @@ INSERT INTO t1 VALUES (1, 1, 1), (1, 1, 2), (1, 1, 3),
 INSERT INTO t1 SELECT c1, 2, c3 FROM t1;
 INSERT INTO t1 SELECT c1, 3, c3 FROM t1 WHERE c2 = 1;
 
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 
 SELECT COUNT(*) FROM t1;
 

@@ -105,8 +105,8 @@ CREATE TABLE t1(c1 INT) ENGINE=SEQUOIADB;
 INSERT INTO t1 VALUES (0),(0),(1);
 CREATE TABLE t2(b INT) ENGINE=SEQUOIADB;
 INSERT INTO t2 VALUES(0),(0);
-#ANALYZE TABLE t1,t2;
-
+--replace_column 1 x
+ANALYZE TABLE t1,t2;
 let $query=UPDATE t1,t2 SET t2.b=0;
 # No tmp table should be used
 #eval EXPLAIN $query;

@@ -2973,7 +2973,8 @@ create table t1 (a int);
 insert into t1 values (0),(1),(2),(3),(4),(5),(6),(7),(8),(9);
 create table t2 (a int, b int, c int, e int, primary key(a,b,c));
 insert into t2 select A.a, B.a, C.a, C.a from t1 A, t1 B, t1 C;
-#analyze table t2;
+--replace_column 1 x
+analyze table t2;
 select 'In next EXPLAIN, B.rows must be exactly 10:' Z;
 
 #explain select * from t2 a, t2 b where a.a=5 and a.b=5 and a.c<5
@@ -3294,12 +3295,14 @@ DROP TABLE t1;
 #
 CREATE TABLE t1 (a INT, ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, KEY ts(ts));
 INSERT INTO t1 VALUES (30,"2006-01-03 23:00:00"), (31,"2006-01-03 23:00:00");
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 
 CREATE TABLE t2 (a INT, dt1 DATETIME, dt2 DATETIME, PRIMARY KEY (a));
 INSERT INTO t2 VALUES (30, "2006-01-01 00:00:00", "2999-12-31 00:00:00");
 INSERT INTO t2 SELECT a+1,dt1,dt2 FROM t2;
-#ANALYZE TABLE t2;
+--replace_column 1 x
+ANALYZE TABLE t2;
 
 #EXPLAIN
 #SELECT * FROM t1 LEFT JOIN t2 ON (t1.a=t2.a) WHERE t1.a=30

@@ -16,6 +16,9 @@ INDEX i4(key4),
 INDEX i5(key5),
 INDEX i6(key6)
 );
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 DROP TABLE IF EXISTS t2;
 CREATE TABLE t2 LIKE t1;
 INSERT INTO t2 VALUES (rand()*6, rand()*6, rand()*6, rand()*6,
@@ -38,6 +41,9 @@ INSERT INTO t2 VALUES (rand()*6, rand()*6, rand()*6, rand()*6,
 rand()*6, rand()*6, rand()*6, rand()*6);
 INSERT INTO t2 VALUES (rand()*6, rand()*6, rand()*6, rand()*6,
 rand()*6, rand()*6, rand()*6, rand()*6);
+ANALYZE TABLE t2;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 SELECT COUNT(*) FROM t2;
 COUNT(*)
 10
@@ -144,6 +150,9 @@ INDEX i6(key6,key5),
 INDEX i7(key7,key8),
 INDEX i8(key8,key7)
 );
+ANALYZE TABLE t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 DROP TABLE IF EXISTS t2;
 CREATE TABLE t2 LIKE t1;
 INSERT INTO t2 VALUES (rand()*6, rand()*6, rand()*6, rand()*6,
@@ -166,6 +175,9 @@ INSERT INTO t2 VALUES (rand()*6, rand()*6, rand()*6, rand()*6,
 rand()*6, rand()*6, rand()*6, rand()*6);
 INSERT INTO t2 VALUES (rand()*6, rand()*6, rand()*6, rand()*6,
 rand()*6, rand()*6, rand()*6, rand()*6);
+ANALYZE TABLE t2;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 SELECT COUNT(*) FROM t2;
 COUNT(*)
 10

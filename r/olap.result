@@ -86,6 +86,9 @@ TV	2	2000	200
 TV	2	NULL	200
 TV	NULL	NULL	600
 NULL	NULL	NULL	7785
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 select product, country_id , sum(profit) from t1 group by product desc, country_id with rollup;
 product	country_id	sum(profit)
 TV	1	400

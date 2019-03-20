@@ -70,6 +70,7 @@ while($i)
 
 # To analyze and store the key distribution of the table.
 
-#ANALYZE TABLE t1;
+--replace_column 1 x
+ANALYZE TABLE t1;
 
  

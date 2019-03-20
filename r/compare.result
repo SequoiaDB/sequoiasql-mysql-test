@@ -1,6 +1,9 @@
 drop table if exists t1;
 CREATE TABLE t1 (id CHAR(12) not null, PRIMARY KEY (id));
 insert into t1 values ('000000000001'),('000000000002');
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 select * from t1 where id=000000000001;
 id
 000000000001
@@ -55,6 +58,9 @@ CONCAT(b,c)	CONCAT(b,c) = '0101'
 0102	0
 0101	1
 0202	0
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 SELECT b,c FROM t1 WHERE b = 1 AND CONCAT(b,c) = '0101';
 b	c
 01	01
@@ -67,6 +73,12 @@ FROM t2 ORDER BY a;
 a	x
 1	1
 2	0
+analyze table t1;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
+analyze table t2;
+Table	Op	Msg_type	Msg_text
+x	analyze	status	OK
 DROP TABLE t1,t2;
 SET sql_mode = 'NO_ENGINE_SUBSTITUTION';
 Warnings:
