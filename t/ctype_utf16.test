@@ -687,26 +687,29 @@ show create table t1;
 drop table t1;
 SET sql_mode = default;
 #
-# Testing that maximim possible key length is 1000 bytes for SequoiaDB
+# Testing that maximim possible key length is 3072 bytes for SequoiaDB
 #
 #Bug #SEQUOIADBMAINSTREAM-3564
-create table t1 (a varchar(250) character set utf16 primary key) engine=SequoiaDB;
+# SEQUOIASQLMAINSTREAM-253
+create table t1 (a varchar(768) character set utf16 primary key) engine=SequoiaDB;
 show create table t1;
 drop table t1;
 --error ER_TOO_LONG_KEY
-create table t1 (a varchar(251) character set utf16 primary key) engine=SequoiaDB;
+create table t1 (a varchar(769) character set utf16 primary key) engine=SequoiaDB;
 
 #
-# Testing that maximim possible key length is 1000 bytes for SequoiaDB
+# Testing that maximim possible key length is 3072 bytes for SequoiaDB
 #
 #Minimized the varchar length for SequoiaDB so that it does not throw max keylength exceeded error
 #Bug #SEQUOIADBMAINSTREAM-3564
-create table t1 (a varchar(250) character set utf16 primary key);
+# SEQUOIASQLMAINSTREAM-253
+create table t1 (a varchar(768) character set utf16 primary key);
 show create table t1;
 drop table t1;
+# SequoiaDB not support innodb_large_prefix
 set GLOBAL innodb_large_prefix=OFF;
 --error ER_TOO_LONG_KEY
-create table t1 (a varchar(251) character set utf16 primary key);
+create table t1 (a varchar(769) character set utf16 primary key);
 set GLOBAL innodb_large_prefix=default;
 
 #

@@ -805,29 +805,29 @@ t1	CREATE TABLE `t1` (
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
 drop table t1;
 SET sql_mode = default;
-create table t1 (a varchar(250) character set utf16 primary key) engine=SequoiaDB;
+create table t1 (a varchar(768) character set utf16 primary key) engine=SequoiaDB;
 show create table t1;
 Table	Create Table
 t1	CREATE TABLE `t1` (
-  `a` varchar(250) CHARACTER SET utf16 NOT NULL,
+  `a` varchar(768) CHARACTER SET utf16 NOT NULL,
   PRIMARY KEY (`a`)
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
 drop table t1;
-create table t1 (a varchar(251) character set utf16 primary key) engine=SequoiaDB;
-ERROR 42000: Specified key was too long; max key length is 1000 bytes
-create table t1 (a varchar(250) character set utf16 primary key);
+create table t1 (a varchar(769) character set utf16 primary key) engine=SequoiaDB;
+ERROR 42000: Specified key was too long; max key length is 3072 bytes
+create table t1 (a varchar(768) character set utf16 primary key);
 show create table t1;
 Table	Create Table
 t1	CREATE TABLE `t1` (
-  `a` varchar(250) CHARACTER SET utf16 NOT NULL,
+  `a` varchar(768) CHARACTER SET utf16 NOT NULL,
   PRIMARY KEY (`a`)
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
 drop table t1;
 set GLOBAL innodb_large_prefix=OFF;
 Warnings:
 Warning	131	Using innodb_large_prefix is deprecated and the parameter may be removed in future releases. See http://dev.mysql.com/doc/refman/5.7/en/innodb-file-format.html
-create table t1 (a varchar(251) character set utf16 primary key);
-ERROR 42000: Specified key was too long; max key length is 1000 bytes
+create table t1 (a varchar(769) character set utf16 primary key);
+ERROR 42000: Specified key was too long; max key length is 3072 bytes
 set GLOBAL innodb_large_prefix=default;
 Warnings:
 Warning	131	Using innodb_large_prefix is deprecated and the parameter may be removed in future releases. See http://dev.mysql.com/doc/refman/5.7/en/innodb-file-format.html
