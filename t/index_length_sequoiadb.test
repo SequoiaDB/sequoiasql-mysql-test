@@ -1,5 +1,5 @@
 #Check index length 
-#Case 15395#Case 14871#Case 14706
+#Case 14871#Case 14706
 -- source include/have_sequoiadb.inc
 
 --disable_warnings
@@ -7,17 +7,16 @@ DROP TABLE IF EXISTS t1;
 --enable_warnings
 
 #CHAR
-create table t1(a char(255))default charset =utf8;
+create table t1(a char(255), primary key(a))default charset =utf8;
 insert into t1 values(repeat('a',255));
 insert into t1 values('a');
 insert into t1 values('aaa');
+select * from t1 where a = 'aaa';
+alter table t1 drop primary key;
 create index a on t1(a);
 select * from t1 where a = 'aaa';
 drop index a on t1;
-create index a on t1(a);
-insert into t1 values(repeat('a',255));
-insert into t1 values('a');
-insert into t1 values('aaa');
+alter table t1 add unique (`a`);
 select * from t1 where a = 'aaa';
 drop table t1;
 
