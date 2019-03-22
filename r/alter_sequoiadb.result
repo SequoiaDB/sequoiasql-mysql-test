@@ -350,7 +350,23 @@ t1	CREATE TABLE `t1` (
   `b` char(16) DEFAULT NULL,
   KEY `b` (`b`) USING BTREE
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
-alter table t1 drop index b, add index ab(b,a) using btree;
+alter table t1 drop index b,add index b(a) using hash;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `a` int(11) DEFAULT NULL,
+  `b` char(16) DEFAULT NULL,
+  KEY `b` (`a`) USING HASH
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+alter table t1 drop index b,add index b_new(a) using hash;
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `a` int(11) DEFAULT NULL,
+  `b` char(16) DEFAULT NULL,
+  KEY `b_new` (`a`) USING HASH
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+alter table t1 drop index b_new, add index ab(b,a) using btree;
 show create table t1;
 Table	Create Table
 t1	CREATE TABLE `t1` (
