@@ -1,5 +1,6 @@
 #Check table options
 #Case 18020#Case 18021#Case 18022#Case 18023#Case 18024#Case 18025#Case 18026#Case 18027#Case 18028
+#Case 18038#Case 18039#Case 18040#Case 18041#Case 18042
 
 --source include/have_sequoiadb.inc
 create database test_alter;
@@ -105,6 +106,80 @@ alter table t1 comment "alter comment" MIN_ROWS 10 MAX_ROWS 100;
 select * from t1;
 
 drop table if exists t1,t2;
-drop database test_alter;
 
+# alter primary key for not partition table
+create table t1(a char(255) default null);
+insert into t1 values ('a'),('1'),('c'),(NULL);
+alter table t1 add primary key(a);
+show create table t1;
+alter table t1 drop primary key, add primary key(a);
+select * from t1 where a > '';
+show create table t1;
+--error 1048
+insert into t1 values (NULL);
+alter table t1 drop primary key;
+show create table t1;
+drop table t1;
+
+# alter unique key for not partition table
+create table t1(a char(255) default null);
+insert into t1 values ('a'),('c'),(NULL),(NULL),(NULL);
+alter table t1 add unique index a(a);
+show create table t1;
+select * from t1 where a > '';
+alter table t1 drop index a;
+show create table t1;
+drop table t1;
+
+# alter primary and unique key for partition table
+create table t1(a char(255), b bigint, primary key(a));
+show create table t1;
+--error 1048
+insert into t1 values (NULL, 1);
+insert into t1 values ('a', 2),('1', 3),('c', 4);
+--error 1030
+alter table t1 drop primary key, add primary key(b);
+show create table t1;
+alter table t1 drop primary key, add primary key(b,a);
+show create table t1;
+select * from t1 where a > '' and b >= 1;
+alter table t1 drop primary key;
+--error 1030
+alter table t1 add unique index b(b);
+alter table t1 add unique index b(b,a);
+show create table t1;
+select * from t1 where a > '' and b >= 1;
+alter table t1 drop index b;
+show create table t1;
+drop table t1;
+
+# rename index
+create table t1(a varchar(16), index a(a));
+insert into t1 values ('a'),('c'),('n'),(NULL);
+--error 138
+alter table t1 rename index a to a_new, algorithm=inplace;
+show create table t1;
+alter table t1 rename index a to a_new, algorithm=copy;
+show create table t1;
+select * from t1 where a > '';
+drop table t1;
+
+# not support fulltext and spatial index 
+create table t1(a int);
+--error 1214
+alter table t1 add fulltext index a(a);
+--error 1464
+alter table t1 add spatial index a(a);
+drop table t1;
+
+# alter index attribute
+create table t1(a int, b char(16), index a(a));
+alter table t1 drop index a, add index a(a) using hash;
+show create table t1;
+alter table t1 drop index a, add index b(b) using btree;
+show create table t1;
+alter table t1 drop index b, add index ab(b,a) using btree;
+show create table t1;
+drop table t1;
+drop database test_alter;
 --source include/uninstall_sequoiadb.inc
