@@ -54,12 +54,12 @@ delete from t1 where a+0=1 limit 2;
 #insert into t1 values (null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a"),(null,"a");
 #--error 1104
 #SELECT * from t1 order by a;
-#SET SQL_BIG_SELECTS=1;
+SET SQL_BIG_SELECTS=1;
 #SELECT * from t1 order by a;
 #SET MAX_JOIN_SIZE=2;
 #--error 1104
 #SELECT * from t1;
-#SET MAX_JOIN_SIZE=DEFAULT;
+SET MAX_JOIN_SIZE=DEFAULT;
 #SELECT * from t1;
 
 #
