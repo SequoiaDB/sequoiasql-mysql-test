@@ -333,13 +333,14 @@ ERROR HY000: The used table type doesn't support FULLTEXT indexes
 alter table t1 add spatial index a(a);
 ERROR HY000: The used table type doesn't support SPATIAL indexes
 drop table t1;
-create table t1(a int, b char(16), index a(a));
+create table t1(a int, b char(16), c float, index a(a));
 alter table t1 drop index a, add index a(a) using hash;
 show create table t1;
 Table	Create Table
 t1	CREATE TABLE `t1` (
   `a` int(11) DEFAULT NULL,
   `b` char(16) DEFAULT NULL,
+  `c` float DEFAULT NULL,
   KEY `a` (`a`) USING HASH
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
 alter table t1 drop index a, add index b(b) using btree;
@@ -348,6 +349,7 @@ Table	Create Table
 t1	CREATE TABLE `t1` (
   `a` int(11) DEFAULT NULL,
   `b` char(16) DEFAULT NULL,
+  `c` float DEFAULT NULL,
   KEY `b` (`b`) USING BTREE
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
 alter table t1 drop index b,add index b(a) using hash;
@@ -356,6 +358,7 @@ Table	Create Table
 t1	CREATE TABLE `t1` (
   `a` int(11) DEFAULT NULL,
   `b` char(16) DEFAULT NULL,
+  `c` float DEFAULT NULL,
   KEY `b` (`a`) USING HASH
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
 alter table t1 drop index b,add index b_new(a) using hash;
@@ -364,6 +367,7 @@ Table	Create Table
 t1	CREATE TABLE `t1` (
   `a` int(11) DEFAULT NULL,
   `b` char(16) DEFAULT NULL,
+  `c` float DEFAULT NULL,
   KEY `b_new` (`a`) USING HASH
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
 alter table t1 drop index b_new, add index ab(b,a) using btree;
@@ -372,7 +376,32 @@ Table	Create Table
 t1	CREATE TABLE `t1` (
   `a` int(11) DEFAULT NULL,
   `b` char(16) DEFAULT NULL,
+  `c` float DEFAULT NULL,
   KEY `ab` (`b`,`a`) USING BTREE
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+alter table t1 drop index ab, add index ab(a,b), add index b(b);
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `a` int(11) DEFAULT NULL,
+  `b` char(16) DEFAULT NULL,
+  `c` float DEFAULT NULL,
+  KEY `ab` (`a`,`b`),
+  KEY `b` (`b`)
+) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
+alter table t1 drop index ab;
+alter table t1 drop index b;
+alter table t1 add index a(a), add index b(b), add index c(c), add index abc(a,b,c);
+show create table t1;
+Table	Create Table
+t1	CREATE TABLE `t1` (
+  `a` int(11) DEFAULT NULL,
+  `b` char(16) DEFAULT NULL,
+  `c` float DEFAULT NULL,
+  KEY `a` (`a`),
+  KEY `b` (`b`),
+  KEY `c` (`c`),
+  KEY `abc` (`a`,`b`,`c`)
 ) ENGINE=SEQUOIADB DEFAULT CHARSET=latin1
 drop table t1;
 drop database test_alter;

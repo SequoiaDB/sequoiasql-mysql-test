@@ -173,7 +173,7 @@ alter table t1 add spatial index a(a);
 drop table t1;
 
 # alter index attribute
-create table t1(a int, b char(16), index a(a));
+create table t1(a int, b char(16), c float, index a(a));
 alter table t1 drop index a, add index a(a) using hash;
 show create table t1;
 alter table t1 drop index a, add index b(b) using btree;
@@ -183,6 +183,12 @@ show create table t1;
 alter table t1 drop index b,add index b_new(a) using hash;
 show create table t1;
 alter table t1 drop index b_new, add index ab(b,a) using btree;
+show create table t1;
+alter table t1 drop index ab, add index ab(a,b), add index b(b);
+show create table t1;
+alter table t1 drop index ab;
+alter table t1 drop index b;
+alter table t1 add index a(a), add index b(b), add index c(c), add index abc(a,b,c);
 show create table t1;
 drop table t1;
 drop database test_alter;
