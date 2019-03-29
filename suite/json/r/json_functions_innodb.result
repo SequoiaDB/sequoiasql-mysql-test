@@ -2469,6 +2469,58 @@ insert into t_doc select id, cast(se as json) from dt;
 insert into t_doc select id, jso from dt;
 insert into t_doc select id, jsa from dt;
 insert into t_doc select * from t_doc;
+select distinct( doc ) a from t_doc order by a;
+a
+3.10
+3.20
+4.10
+4.20
+126
+127
+254
+255
+32766
+32767
+65534
+65535
+8388606
+8388607
+16777214
+16777215
+2147483646
+2147483647
+4294967294
+4294967295
+9223372036854775806
+9223372036854775807
+18446744073709551614
+18446744073709551615
+"a"
+"a,b"
+"a,c"
+"b"
+{"a": 1, "b": 2}
+{"a": 1, "b": 3}
+[1, 2]
+[1, 3]
+"2013-11-25"
+"2014-11-25"
+"17:00:59.000000"
+"18:00:59.000000"
+"2013-11-25 17:00:00.000000"
+"2013-11-25 18:00:00.000000"
+"2014-11-25 17:00:00.000000"
+"2014-11-25 18:00:00.000000"
+"base64:type13:MTk5OA=="
+"base64:type13:MTk5OQ=="
+"base64:type16:ABU="
+"base64:type16:ABc="
+"base64:type252:MTAwMDFhYmNkZg=="
+"base64:type252:MTAxMDFhYmNkZQ=="
+"base64:type254:MTAwMDFhYmNkZQ=="
+"base64:type254:MTAxMDFhYmNkZg=="
+Warnings:
+Warning	1235	This version of MySQL doesn't yet support 'sorting of non-scalar JSON values'
 select count( distinct doc ) from t_doc;
 count( distinct doc )
 48
@@ -2539,6 +2591,12 @@ insert into t_doc select id, cast(n as json) from ndt;
 insert into t_doc select id, cast(f as json) from ndt;
 insert into t_doc select id, cast(d as json) from ndt;
 insert into t_doc select * from t_doc;
+select distinct( doc ) a from t_doc order by a;
+a
+1
+2
+"2013-11-25 18:00:00.000000"
+"2014-11-25 18:00:00.000000"
 select count( distinct doc ) from t_doc;
 count( distinct doc )
 4
