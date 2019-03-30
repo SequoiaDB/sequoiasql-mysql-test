@@ -1668,7 +1668,7 @@ field1	field2
 20	20
 SHOW SESSION STATUS LIKE 'Sort_scan%';
 Variable_name	Value
-Sort_scan	1
+Sort_scan	0
 CREATE VIEW v1 AS SELECT * FROM t1;
 SELECT SQL_BIG_RESULT col1 AS field1, col1 AS field2
 FROM v1 
