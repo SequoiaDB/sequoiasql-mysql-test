@@ -300,7 +300,7 @@ s
 100.00
 0.00
 -0.00
--0.00
+0.00
 0.00
 select sum(b) s from t1 group by a having s <> 0;
 s
@@ -313,12 +313,12 @@ s
 0.00
 0.00
 -0.00
--0.00
+0.00
 0.00
 select sum(b) s from t1 group by a having s <=> 0 order by s;
 s
 -0.00
--0.00
+0.00
 0.00
 0.00
 0.00

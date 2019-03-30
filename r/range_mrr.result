@@ -585,8 +585,8 @@ CREATE TABLE t1 (name varchar(15) NOT NULL, KEY idx(name));
 INSERT INTO t1 VALUES ('Betty'), ('Anna');
 SELECT * FROM t1;
 name
-Betty
 Anna
+Betty
 DELETE FROM t1 WHERE name NOT LIKE 'A%a';
 SELECT * FROM t1;
 name
@@ -1436,10 +1436,10 @@ INSERT INTO t2 VALUES ('2001-01-01 11:22:33');
 
 SELECT * FROM t2 WHERE b=CAST('2001-01-01' AS DATE);
 b
-2001-01-01
-2001.01.01
 2001#01#01
+2001-01-01
 2001-01-01 00:00:00
+2001.01.01
 
 # range/ref access cannot be used for any of the queries below.
 # See BUG#13814468 about 'Range checked for each record'

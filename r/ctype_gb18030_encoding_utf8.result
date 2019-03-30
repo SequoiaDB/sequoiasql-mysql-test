@@ -173,11 +173,11 @@ CREATE TABLE `表二` (e ENUM('口', '日', '目', '田', '晶'), INDEX(e)) DEFA
 INSERT INTO `表二` VALUES('田'), ('日'), ('目'), ('晶'), ('口');
 SELECT * FROM `表二`;
 e
-田
-日
-目
-晶
 口
+日
+晶
+田
+目
 ALTER TABLE `表二` ADD c CHAR(1) NOT NULL FIRST;
 SHOW CREATE TABLE `表二`;
 Table	Create Table

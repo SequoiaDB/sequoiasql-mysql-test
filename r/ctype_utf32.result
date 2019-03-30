@@ -558,8 +558,8 @@ insert into t1 values (0x803d);
 insert into t1 values (0x005b);
 select hex(a) from t1;
 hex(a)
-0000803D
 0000005B
+0000803D
 drop table t1;
 create table t1 (utext varchar(20) character set utf32);
 insert into t1 values ("lily");

@@ -3597,14 +3597,14 @@ end|
 call bug6127()|
 select * from t3|
 s1
-1
 0
+1
 call bug6127()|
 ERROR 23000: Can't write; duplicate key in table 't3'
 select * from t3|
 s1
-1
 0
+1
 set sql_mode=@sm|
 Warnings:
 Warning	3090	Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.
