@@ -7,8 +7,8 @@ insert into t1 values ("ö");
 insert into t2 select * from t1;
 select * from t1 order by name;
 name
-å
 ä
+å
 ö
 select concat("*",name,"*") from t1 order by 1;
 concat("*",name,"*")

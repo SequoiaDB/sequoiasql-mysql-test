@@ -1693,7 +1693,7 @@ insert into t_doc select * from t_doc;
 #The results depend on the order of evaluation of rows
 
 #Bug #SEQUOIASQLMAINSTREAM-196
-#select distinct( doc ) a from t_doc order by a;
+select distinct( doc ) a from t_doc order by a;
 select count( distinct doc ) from t_doc;
 select bucket, count( distinct doc ) from t_doc group by bucket;
 
@@ -1773,7 +1773,7 @@ insert into t_doc select id, cast(d as json) from ndt;
 insert into t_doc select * from t_doc;
 
 # The results depend on the order of evaluation of rows
-#select distinct( doc ) a from t_doc order by a;
+select distinct( doc ) a from t_doc order by a;
 select count( distinct doc ) from t_doc;
 select bucket, count( distinct doc ) from t_doc group by bucket;
 
