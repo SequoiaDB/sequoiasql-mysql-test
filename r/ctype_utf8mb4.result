@@ -1126,8 +1126,8 @@ insert into t1 values (_utf8mb4 0xe880bd);
 insert into t1 values (_utf8mb4 0x5b);
 select hex(a) from t1;
 hex(a)
-E880BD
 5B
+E880BD
 drop table t1;
 SET sql_mode = default;
 set names 'latin1';

@@ -465,8 +465,8 @@ Warning	1292	Truncated incorrect DOUBLE value: 'b'
 create index t1f1_idx on t1(f1);
 select f1 from t1 where f1 in ('a',1);
 f1
-a
 1
+a
 Warnings:
 Warning	1292	Truncated incorrect DOUBLE value: 'b'
 select f1 from t1 where f1 in ('a','b');

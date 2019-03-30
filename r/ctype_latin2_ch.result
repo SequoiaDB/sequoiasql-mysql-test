@@ -163,20 +163,20 @@ Z
 CREATE INDEX i1 ON t1 (s1);
 SELECT * FROM t1 GROUP BY s1;
 s1
-x
 X
-y
 Y
-z
 Z
+x
+y
+z
 SELECT * FROM t1 ORDER BY s1;
 s1
-x
 X
-y
 Y
-z
 Z
+x
+y
+z
 DROP TABLE t1;
 SET NAMES latin2;
 CREATE TABLE t2(colours SET('red','blue','yellow'))CHARACTER SET latin2 COLLATE
