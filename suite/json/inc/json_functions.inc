@@ -3229,10 +3229,10 @@ from t group by b into @uninitialized_21602361;
 # second time around the path is invalid
 
 #Bug #SEQUOIASQLMAINSTREAM-193
-#set @initialized_21602361 = '$';
-#--error ER_INVALID_JSON_PATH
-#select json_length('{}',@initialized_21602361)
-#from t group by b into @initialized_21602361;
+set @initialized_21602361 = '$';
+--error ER_INVALID_JSON_PATH
+select json_length('{}',@initialized_21602361)
+from t group by b into @initialized_21602361;
 
 # invalid path
 set @error_value_21602361 = '$[';
