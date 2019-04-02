@@ -435,8 +435,8 @@ DELETE t1, t2, t3 FROM t1, t2, t3;
 ERROR 42S02: Table 'test_delete.no_such_table' doesn't exist
 SELECT * FROM t1;
 a
-2
 1
+2
 SELECT * FROM t2;
 a
 1
@@ -458,12 +458,12 @@ DELETE t1, t2, t3 FROM t1, t2, t3;
 ERROR 42S02: Table 'test_delete.no_such_table' doesn't exist
 SELECT * FROM t1;
 a
-2
 1
+2
 SELECT * FROM t2;
 a
-2
 1
+2
 SELECT * FROM t3;
 a
 1
