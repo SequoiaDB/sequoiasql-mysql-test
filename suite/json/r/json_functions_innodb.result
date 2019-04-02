@@ -5117,6 +5117,10 @@ insert into t values(1),(2);
 select json_length('{}',@uninitialized_21602361)
 from t group by b into @uninitialized_21602361;
 ERROR 42000: Result consisted of more than one row
+set @initialized_21602361 = '$';
+select json_length('{}',@initialized_21602361)
+from t group by b into @initialized_21602361;
+ERROR 42000: Invalid JSON path expression. The error is around character position 1.
 set @error_value_21602361 = '$[';
 select json_length('{}',@error_value_21602361)
 from t group by b into @error_value_21602361;
