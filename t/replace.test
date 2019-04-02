@@ -39,7 +39,6 @@ insert into t1 values (126,"first"),(63, "middle"),(0,"last");
 
 --error 1022
 insert into t1 values (0,"error");
---error 1022
 replace into t1 values (0,"error");
 
 #Bug #SEQUOIADBMAINSTREAM-3573

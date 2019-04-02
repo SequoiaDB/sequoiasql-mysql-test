@@ -23,7 +23,6 @@ insert into t1 values('a');
 insert into t1 values('aaa');
 create index a on t1(a(3072));
 insert into t1 values(repeat('a',987));
-ERROR HY000: Got error 40039 from storage engine
 select * from t1 where a = 'aaa';
 a
 aaa
@@ -31,7 +30,6 @@ drop index a on t1;
 create index a on t1(a(3072));
 insert into t1 values(repeat('a',986));
 insert into t1 values(repeat('a',987));
-ERROR HY000: Got error 40039 from storage engine
 insert into t1 values('a');
 insert into t1 values('aaa');
 select * from t1 where a = 'aaa';
@@ -47,7 +45,6 @@ insert into t1 values('a');
 insert into t1 values('aaa');
 create index a on t1(a(3072));
 insert into t1 values(repeat('a',987));
-ERROR HY000: Got error 40039 from storage engine
 select * from t1 where a = 'aaa';
 a
 aaa
@@ -55,7 +52,6 @@ drop index a on t1;
 create index a on t1(a(3072));
 insert into t1 values(repeat('a',986));
 insert into t1 values(repeat('a',987));
-ERROR HY000: Got error 40039 from storage engine
 insert into t1 values('a');
 insert into t1 values('aaa');
 select * from t1 where a = 'aaa';

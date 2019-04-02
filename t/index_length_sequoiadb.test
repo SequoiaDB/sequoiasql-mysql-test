@@ -27,14 +27,12 @@ insert into t1 values('a');
 insert into t1 values('aaa');
 create index a on t1(a(3072));
 
---error 1030
 insert into t1 values(repeat('a',987));
 select * from t1 where a = 'aaa';
 drop index a on t1;
 create index a on t1(a(3072));
 insert into t1 values(repeat('a',986));
 
---error 1030
 insert into t1 values(repeat('a',987));
 insert into t1 values('a');
 insert into t1 values('aaa');
@@ -51,14 +49,12 @@ insert into t1 values('a');
 insert into t1 values('aaa');
 create index a on t1(a(3072));
 
---error 1030
 insert into t1 values(repeat('a',987));
 select * from t1 where a = 'aaa';
 drop index a on t1;
 create index a on t1(a(3072));
 insert into t1 values(repeat('a',986));
 
---error 1030
 insert into t1 values(repeat('a',987));
 insert into t1 values('a');
 insert into t1 values('aaa');
