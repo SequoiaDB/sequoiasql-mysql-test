@@ -18,45 +18,39 @@ a
 aaa
 drop table t1;
 create table t1(a varchar(65500));
-insert into t1 values(repeat('a',986));
+insert into t1 values(repeat('a',4083));
 insert into t1 values('a');
 insert into t1 values('aaa');
 create index a on t1(a(3072));
-insert into t1 values(repeat('a',987));
+insert into t1 values(repeat('a',4083));
+insert into t1 values(repeat('a',4084));
+ERROR HY000: Got error 40039 from storage engine
 select * from t1 where a = 'aaa';
 a
 aaa
 drop index a on t1;
-create index a on t1(a(3072));
-insert into t1 values(repeat('a',986));
-insert into t1 values(repeat('a',987));
-insert into t1 values('a');
-insert into t1 values('aaa');
+insert into t1 values(repeat('a',4084));
 select * from t1 where a = 'aaa';
 a
-aaa
 aaa
 create index a on t1(a(3073));
 ERROR 42000: Specified key was too long; max key length is 3072 bytes
 drop table t1;
 create table t1(a text);
-insert into t1 values(repeat('a',986));
+insert into t1 values(repeat('a',4083));
 insert into t1 values('a');
 insert into t1 values('aaa');
 create index a on t1(a(3072));
-insert into t1 values(repeat('a',987));
+insert into t1 values(repeat('a',4083));
+insert into t1 values(repeat('a',4084));
+ERROR HY000: Got error 40039 from storage engine
 select * from t1 where a = 'aaa';
 a
 aaa
 drop index a on t1;
-create index a on t1(a(3072));
-insert into t1 values(repeat('a',986));
-insert into t1 values(repeat('a',987));
-insert into t1 values('a');
-insert into t1 values('aaa');
+insert into t1 values(repeat('a',4084));
 select * from t1 where a = 'aaa';
 a
-aaa
 aaa
 create index a on t1(a(3073));
 ERROR 42000: Specified key was too long; max key length is 3072 bytes
